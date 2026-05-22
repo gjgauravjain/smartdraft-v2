@@ -2,9 +2,9 @@
 
 import Link from 'next/link';
 import { useHomeWizard } from './use-home-wizard';
-import { ArrowRight, Shield, Zap, Layers, TrendingUp, Users, FileText } from 'lucide-react';
+import { ArrowRight, TrendingUp, Users, FileText } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
 function LoadingState() {
   return (
@@ -78,9 +78,6 @@ function HeroSection({ onGetStarted }: { onGetStarted: () => void }) {
         <div className="space-y-4 max-w-3xl">
           <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl">
             Smart Draft Analysis
-            <span className="block bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
-              Powered by AI
-            </span>
           </h1>
           <p className="text-muted-foreground text-lg sm:text-xl max-w-2xl mx-auto">
             Advanced analytics and real-time insights to help you make better draft decisions. 
@@ -104,81 +101,6 @@ function HeroSection({ onGetStarted }: { onGetStarted: () => void }) {
   );
 }
 
-function FeaturesSection() {
-  const features = [
-    {
-      icon: Shield,
-      title: 'Secure Authentication',
-      description: 'Enterprise-grade security with Auth0 to protect your data and ensure safe access.',
-    },
-    {
-      icon: Zap,
-      title: 'Lightning Fast',
-      description: 'Built on Next.js 14 with optimized performance for seamless user experience.',
-    },
-    {
-      icon: Layers,
-      title: 'Smart State Management',
-      description: 'Efficient state handling with Zustand and persistent storage for reliability.',
-    },
-  ];
-
-  return (
-    <section className="container px-4 py-12 md:py-24 bg-muted/50">
-      <div className="space-y-12">
-        <div className="text-center space-y-4">
-          <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-            Why Choose GTX Smart Draft?
-          </h2>
-          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            Cutting-edge technology meets intuitive design to deliver the best draft analysis platform.
-          </p>
-        </div>
-
-        <div className="grid gap-8 md:grid-cols-3">
-          {features.map((feature, index) => {
-            const Icon = feature.icon;
-            return (
-              <Card key={index} className="border-2 hover:border-indigo-600 transition-colors">
-                <CardHeader>
-                  <Icon className="h-12 w-12 mb-4 text-indigo-600" />
-                  <CardTitle className="text-xl">{feature.title}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <CardDescription className="text-base">
-                    {feature.description}
-                  </CardDescription>
-                </CardContent>
-              </Card>
-            );
-          })}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function StatsSection() {
-  const stats = [
-    { value: '10K+', label: 'Active Users' },
-    { value: '500K+', label: 'Drafts Analyzed' },
-    { value: '99.9%', label: 'Uptime' },
-    { value: '24/7', label: 'Support' },
-  ];
-
-  return (
-    <section className="container px-4 py-12 md:py-24">
-      <div className="grid gap-8 md:grid-cols-4">
-        {stats.map((stat, index) => (
-          <div key={index} className="flex flex-col items-center text-center space-y-2">
-            <div className="text-4xl font-bold text-indigo-600">{stat.value}</div>
-            <div className="text-muted-foreground">{stat.label}</div>
-          </div>
-        ))}
-      </div>
-    </section>
-  );
-}
 
 export function HomeContent() {
   const { isAuthenticated, isLoading, user, handleGetStarted } = useHomeWizard();
@@ -197,10 +119,8 @@ export function HomeContent() {
   }
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col justify-center items-center">
       <HeroSection onGetStarted={handleGetStarted} />
-      <FeaturesSection />
-      <StatsSection />
     </div>
   );
 }

@@ -33,6 +33,8 @@
   --color-muted: var(--muted);
   --color-secondary-foreground: var(--secondary-foreground);
   --color-secondary: var(--secondary);
+  --color-tertiary-foreground: var(--tertiary-foreground);
+  --color-tertiary: var(--tertiary);
   --color-primary-foreground: var(--primary-foreground);
   --color-primary: var(--primary);
   --color-popover-foreground: var(--popover-foreground);
@@ -49,136 +51,146 @@
 }
 
 /*
+  LIGHT MODE PALETTE
   Primary brand color: #7D003B
   Converted to oklch: oklch(0.318 0.148 358)   ← deep burgundy/maroon
 
-  Light mode palette strategy:
-  - Background: near-white with a very faint warm tint
-  - Card/Popover: pure white
+  Light mode strategy:
+  - Background: clean white/near-white
+  - Card/Popover: pure white with subtle shadow
   - Primary: the brand burgundy
-  - Secondary: a soft blush/mauve (low-chroma version of primary hue)
-  - Accent: a slightly more saturated blush for hover states
-  - Muted: warm light gray
-  - Destructive: shifted a bit redder, still on-brand
-  - Border/Input: warm cool gray
-  - Chart: burgundy → mauve → rose → warm gray → dark
+  - Secondary: very light blush (almost white)
+  - Accent: light mauve for interactive states
+  - Muted: cool grays
+  - Border/Input: light gray with no color tint
+  - Text: dark gray/near-black for readability
 
-  Dark mode palette strategy:
-  - Background: very dark warm-tinted near-black (not pure #000)
-  - Card: slightly lighter warm dark
-  - Primary: a lighter, more luminous version of the brand burgundy
+  DARK MODE PALETTE
+  - Background: very dark (not pure black) with warm undertone
+  - Card: slightly lighter dark surface
+  - Primary: lighter, luminous version of burgundy (pops on dark)
   - Secondary: dark burgundy-tinted surface
-  - Accent: same as secondary (common dark-mode pattern)
-  - Muted: dark burgundy-gray surface
-  - Sidebar: a rich dark burgundy-tinted panel
+  - Accent: medium burgundy
+  - Muted: medium-dark grays
+  - Sidebar: rich dark burgundy panel
+  - Text: near-white for contrast
 */
 
 :root {
-  /* Surfaces */
-  --background: oklch(0.985 0.005 358); /* near-white, faint rose tint */
-  --foreground: oklch(0.145 0.015 358); /* near-black, slight warm */
+  /* LIGHT MODE SURFACES */
+  --background: oklch(0.995 0.001 0);      /* pure near-white */
+  --foreground: oklch(0.12 0.01 250);      /* dark slate gray */
 
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0.015 358);
+  --card: oklch(1 0 0);                     /* pure white */
+  --card-foreground: oklch(0.12 0.01 250);
 
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0.015 358);
+  --popover-foreground: oklch(0.12 0.01 250);
 
-  /* Primary — brand burgundy #7D003B → oklch(0.318 0.148 358) */
-  --primary: oklch(0.318 0.148 358);
-  --primary-foreground: oklch(0.985 0.005 358); /* near-white */
+  /* Primary — brand burgundy rgb(163, 0, 70) / #a30046 */
+  --primary: rgb(163, 0, 70);
+  --primary-foreground: oklch(1 0 0);      /* white text on burgundy */
 
-  /* Secondary — soft blush, same hue, low chroma */
-  --secondary: oklch(0.945 0.02 358);
-  --secondary-foreground: oklch(0.318 0.148 358);
+  /* Secondary — very light, almost white blush */
+  --secondary: oklch(0.975 0.008 358);
+  --secondary-foreground: rgb(163, 0, 70);
 
-  /* Muted — warm light gray */
-  --muted: oklch(0.955 0.008 358);
-  --muted-foreground: oklch(0.52 0.03 358);
+  /* Muted — light neutral grays */
+  --muted: oklch(0.92 0.005 0);
+  --muted-foreground: oklch(0.55 0.015 250);
 
-  /* Accent — slightly more saturated blush for hover */
-  --accent: oklch(0.935 0.03 358);
-  --accent-foreground: oklch(0.318 0.148 358);
+  /* Accent — soft mauve for hover/interactive states */
+  --accent: oklch(0.92 0.015 340);
+  --accent-foreground: rgb(163, 0, 70);
 
-  /* Destructive — brighter red, still on-brand hue */
+   /* Tertiary — deep navy, rarely used */
+  --tertiary: oklch(0.2 0.06 240);
+  --tertiary-foreground: oklch(1 0 0);
+
+  /* Destructive — warm red */
   --destructive: oklch(0.577 0.245 27.325);
 
   /* Border / Input / Ring */
-  --border: oklch(0.9 0.015 358);
-  --input: oklch(0.9 0.015 358);
-  --ring: oklch(0.318 0.148 358); /* brand color ring */
+  --border: oklch(0.88 0.01 0);             /* light neutral border */
+  --input: oklch(0.92 0.005 0);
+  --ring: rgb(163, 0, 70);                  /* burgundy ring on focus */
 
-  /* Charts — burgundy family spread */
-  --chart-1: oklch(0.318 0.148 358); /* brand burgundy */
-  --chart-2: oklch(0.46 0.12 358); /* dusty rose */
-  --chart-3: oklch(0.6 0.08 358); /* muted pink */
-  --chart-4: oklch(0.72 0.045 358); /* blush */
-  --chart-5: oklch(0.2 0.06 358); /* deep wine */
+  /* Charts — burgundy to mauve spectrum */
+  --chart-1: rgb(163, 0, 70);              /* brand burgundy */
+  --chart-2: rgb(200, 50, 100);            /* dusty rose */
+  --chart-3: oklch(0.6 0.08 358);          /* muted pink */
+  --chart-4: oklch(0.72 0.045 358);        /* blush */
+  --chart-5: oklch(0.2 0.06 358);          /* deep wine */
 
   --radius: 0.625rem;
 
-  /* Sidebar */
-  --sidebar: oklch(0.975 0.01 358);
-  --sidebar-foreground: oklch(0.145 0.015 358);
-  --sidebar-primary: oklch(0.318 0.148 358);
-  --sidebar-primary-foreground: oklch(0.985 0.005 358);
-  --sidebar-accent: oklch(0.935 0.03 358);
-  --sidebar-accent-foreground: oklch(0.318 0.148 358);
-  --sidebar-border: oklch(0.9 0.015 358);
-  --sidebar-ring: oklch(0.318 0.148 358);
+  /* Sidebar — light sidebar for light mode */
+  --sidebar: oklch(0.98 0.002 0);
+  --sidebar-header: oklch(0.3 0.06 259.57);
+  --sidebar-foreground: oklch(0.12 0.01 250);
+  --sidebar-primary: rgb(163, 0, 70);
+  --sidebar-primary-foreground: oklch(1 0 0);
+  --sidebar-accent: oklch(0.92 0.015 340);
+  --sidebar-accent-foreground: rgb(163, 0, 70);
+  --sidebar-border: oklch(0.88 0.01 0);
+  --sidebar-ring: oklch(0.46 0.18 6.94);
 }
 
 .dark {
-  /* Surfaces — warm dark, not pure black */
-  --background: oklch(0.13 0.02 358);
-  --foreground: oklch(0.96 0.008 358);
+  /* DARK MODE SURFACES — #0a0f1a background */
+  --background: #0a0f1a;                   /* dark navy background */
+  --foreground: oklch(0.96 0.008 358);     /* near-white */
 
-  --card: oklch(0.185 0.025 358);
+  --card: #0f1623;                         /* slightly lighter navy */
   --card-foreground: oklch(0.96 0.008 358);
 
-  --popover: oklch(0.185 0.025 358);
+  --popover: #0f1623;
   --popover-foreground: oklch(0.96 0.008 358);
 
-  /* Primary — lighter/more luminous in dark mode so it pops on dark bg */
-  --primary: oklch(0.72 0.14 358); /* rose-pink, on-brand hue */
-  --primary-foreground: oklch(0.13 0.02 358); /* dark bg for contrast */
+  /* Primary — brighter version of rgb(163, 0, 70) to pop on dark background */
+  --primary: oklch(0.46 0.18 6.94);            /* bright pink-magenta version */
+  --primary-foreground: #0a0f1a;           /* dark text on bright button */
 
   /* Secondary — dark burgundy tinted surface */
   --secondary: oklch(0.24 0.04 358);
   --secondary-foreground: oklch(0.96 0.008 358);
 
-  /* Muted */
+  /* Muted — dark grays */
   --muted: oklch(0.24 0.03 358);
   --muted-foreground: oklch(0.64 0.04 358);
 
-  /* Accent */
+  /* Accent — medium burgundy */
   --accent: oklch(0.26 0.045 358);
   --accent-foreground: oklch(0.96 0.008 358);
+
+  --tertiary: oklch(0.2 0.06 240);
+  --tertiary-foreground: oklch(0.96 0.008 358);
 
   /* Destructive */
   --destructive: oklch(0.704 0.191 22.216);
 
   /* Border / Input / Ring */
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 14%);
-  --ring: oklch(0.72 0.14 358);
+  --border: oklch(0.3 0.03 263.94);
+  --input: #0f1623;
+  --ring: oklch(0.46 0.18 6.94);
 
-  /* Charts — same hue, spread from light to dark */
-  --chart-1: oklch(0.72 0.14 358); /* light rose */
-  --chart-2: oklch(0.56 0.13 358); /* mid rose */
-  --chart-3: oklch(0.42 0.13 358); /* dusty burgundy */
-  --chart-4: oklch(0.318 0.12 358); /* brand */
-  --chart-5: oklch(0.22 0.06 358); /* deep wine */
+  /* Charts — same hue, light to dark */
+  --chart-1: oklch(0.46 0.18 6.94);            /* light rose */
+  --chart-2: oklch(0.55 0.18 6.94);           /* mid rose */
+  --chart-3: oklch(0.50 0.18 6.94);            /* dusty burgundy */
+  --chart-4: oklch(0.46 0.18 6.94);              /* brand */
+  --chart-5: oklch(0.22 0.06 358);         /* deep wine */
 
-  /* Sidebar — rich dark burgundy panel */
-  --sidebar: oklch(0.175 0.03 358);
+  /* Sidebar — matches dark background #0a0f1a */
+  --sidebar: #0a0f1a;
+  --sidebar-secondary: oklch(0.3 0.06 259.57);
   --sidebar-foreground: oklch(0.96 0.008 358);
-  --sidebar-primary: oklch(0.72 0.14 358);
-  --sidebar-primary-foreground: oklch(0.13 0.02 358);
-  --sidebar-accent: oklch(0.26 0.045 358);
+  --sidebar-primary: oklch(0.46 0.18 6.94);
+  --sidebar-primary-foreground: #0a0f1a;
+  --sidebar-accent: oklch(0.46 0.18 6.94);              /* subtle navy-blue accent */
   --sidebar-accent-foreground: oklch(0.96 0.008 358);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.72 0.14 358);
+  --sidebar-border: oklch(0.3 0.03 263.94);              /* navy-blue borders */
+  --sidebar-ring: oklch(0.46 0.18 6.94);
 }
 
 @layer base {

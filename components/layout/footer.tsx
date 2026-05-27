@@ -11,8 +11,8 @@ export function Footer() {
       <div className="container px-4 py-8 md:py-12">
         <div className="grid gap-8 md:grid-cols-4">
           <div className="space-y-4">
-            <div className="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
-              GTX
+            <div className="text-2xl font-bold ">
+              Smart Draft
             </div>
             <p className="text-sm text-muted-foreground">
               Smart Draft Analysis Platform
@@ -110,7 +110,7 @@ export function Footer() {
         </div>
 
         <div className="mt-8 pt-8 border-t text-center text-sm text-muted-foreground">
-          <p>© {currentYear} GTX Smart Draft. All rights reserved.</p>
+          <p>© {currentYear} Smart Draft. All rights reserved.</p>
         </div>
       </div>
     </footer>

@@ -1,9 +1,9 @@
 
-export const BASE_URL = process.env.REACT_APP_BASE_API_URL || '';
-export const AUTH0_DOMAIN = process.env.REACT_APP_AUTH0_DOMAIN || '';
-export const AUTH0_CLIENT_ID = process.env.REACT_APP_CLIENT_ID || '';
-export const AUTH0_HOST = process.env.REACT_APP_HOST || '';
-export const AUTH0_AUDIENCE = process.env.REACT_APP_AUTH0_AUDIENCE;
+export const BASE_URL = process.env.NEXT_PUBLIC_BASE_API_URL || '';
+export const AUTH0_DOMAIN = process.env.NEXT_PUBLIC_AUTH0_DOMAIN || '';
+export const AUTH0_CLIENT_ID = process.env.NEXT_PUBLIC_AUTH0_CLIENT_ID || '';
+export const AUTH0_HOST = process.env.NEXT_PUBLIC_HOST || '';
+export const AUTH0_AUDIENCE = process.env.NEXT_PUBLIC_AUTH0_AUDIENCE || '';
 
 export const loginApiUrl = `${BASE_URL}/Auth/`;
 export const getFlagApiUrl = `Get-Flags/`;

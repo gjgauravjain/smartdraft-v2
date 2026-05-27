@@ -36,13 +36,6 @@ export function Header() {
 
       {isAuthenticated ? (
         <>
-          {user?.picture && (
-            <img
-              src={user.picture}
-              alt="Profile"
-              className="w-8 h-8 rounded-full"
-            />
-          )}
           <Button
             variant="outline"
             size="sm"

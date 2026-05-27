@@ -80,9 +80,9 @@ export function AppSidebar() {
         </div>
       </SidebarHeader>
 
-      <SidebarContent className="px-0">
+      <SidebarContent className="px-0 gap-0!">
         {menuSections.map((section) => (
-          <SidebarGroup key={section.id} className="py-4 px-0">
+          <SidebarGroup key={section.id} className="py-0! mt-2 px-0">
             {section.menuLabel && (
               <SidebarGroupLabel className="px-4 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
                 {section.menuLabel}

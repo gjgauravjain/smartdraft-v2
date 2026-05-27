@@ -1,10 +1,15 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { useHomeWizard } from './use-home-wizard';
-import { ArrowRight, TrendingUp, Users, FileText } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import Link from "next/link";
+import { useHomeWizard } from "./use-home-wizard";
+import { ArrowRight, TrendingUp, Users, FileText } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
 function LoadingState() {
   return (
@@ -15,7 +20,13 @@ function LoadingState() {
   );
 }
 
-function AuthenticatedView({ userName, userEmail }: { userName?: string; userEmail?: string }) {
+function AuthenticatedView({
+  userName,
+  userEmail,
+}: {
+  userName?: string;
+  userEmail?: string;
+}) {
   return (
     <section className="container px-4 py-12 md:py-24">
       <div className="flex flex-col items-center text-center space-y-8">
@@ -23,9 +34,7 @@ function AuthenticatedView({ userName, userEmail }: { userName?: string; userEma
           <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl">
             Welcome back, {userName}!
           </h1>
-          <p className="text-muted-foreground text-lg">
-            {userEmail}
-          </p>
+          <p className="text-muted-foreground text-lg">{userEmail}</p>
         </div>
 
         <Link href="/dashboard">
@@ -80,8 +89,9 @@ function HeroSection({ onGetStarted }: { onGetStarted: () => void }) {
             Smart Draft Analysis
           </h1>
           <p className="text-muted-foreground text-lg sm:text-xl max-w-2xl mx-auto">
-            Advanced analytics and real-time insights to help you make better draft decisions. 
-            Optimize your strategy with data-driven recommendations.
+            Advanced analytics and real-time insights to help you make better
+            draft decisions. Optimize your strategy with data-driven
+            recommendations.
           </p>
         </div>
 
@@ -101,21 +111,16 @@ function HeroSection({ onGetStarted }: { onGetStarted: () => void }) {
   );
 }
 
-
 export function HomeContent() {
-  const { isAuthenticated, isLoading, user, handleGetStarted } = useHomeWizard();
+  const { isAuthenticated, isLoading, user, handleGetStarted } =
+    useHomeWizard();
 
   if (isLoading) {
     return <LoadingState />;
   }
 
   if (isAuthenticated) {
-    return (
-      <AuthenticatedView
-        userName={user?.name}
-        userEmail={user?.email}
-      />
-    );
+    return <AuthenticatedView userName={user?.name} userEmail={user?.email} />;
   }
 
   return (

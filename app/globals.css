@@ -50,32 +50,6 @@
   --radius-4xl: calc(var(--radius) * 2.6);
 }
 
-/*
-  LIGHT MODE PALETTE
-  Primary brand color: #7D003B
-  Converted to oklch: oklch(0.318 0.148 358)   ← deep burgundy/maroon
-
-  Light mode strategy:
-  - Background: clean white/near-white
-  - Card/Popover: pure white with subtle shadow
-  - Primary: the brand burgundy
-  - Secondary: very light blush (almost white)
-  - Accent: light mauve for interactive states
-  - Muted: cool grays
-  - Border/Input: light gray with no color tint
-  - Text: dark gray/near-black for readability
-
-  DARK MODE PALETTE
-  - Background: very dark (not pure black) with warm undertone
-  - Card: slightly lighter dark surface
-  - Primary: lighter, luminous version of burgundy (pops on dark)
-  - Secondary: dark burgundy-tinted surface
-  - Accent: medium burgundy
-  - Muted: medium-dark grays
-  - Sidebar: rich dark burgundy panel
-  - Text: near-white for contrast
-*/
-
 :root {
   /* LIGHT MODE SURFACES */
   --background: oklch(0.995 0.001 0);      /* pure near-white */

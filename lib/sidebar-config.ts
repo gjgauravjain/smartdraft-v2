@@ -38,7 +38,7 @@ export function getSideMenuOptions(isStaff: boolean = false, sidebarBadges: Reco
   return [
     {
       menuLabel: '',
-      hide: false,
+      hide: true,
       id: 'home',
       subMenu: [
         {
@@ -59,7 +59,7 @@ export function getSideMenuOptions(isStaff: boolean = false, sidebarBadges: Reco
           label: 'Draft Summary',
           toShow: true,
           icon: LayoutDashboard,
-          url: routeUrl.draftSummary,
+          url: routeUrl.dashboard,
         },
         {
           id: 'draft_pick',

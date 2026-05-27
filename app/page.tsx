@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { Header } from '@/components/layout/header';
-import { Footer } from '@/components/layout/footer';
-import { HomeContent } from '../components/home/home-content';
+import { Header } from "@/components/layout/header";
+import { Footer } from "@/components/layout/footer";
+import { HomeContent } from "../components/home/home-content";
 
 export default function Home() {
   return (

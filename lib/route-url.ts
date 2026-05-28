@@ -1,5 +1,6 @@
 export const routeUrl = {
   dashboard: '/dashboard',
+  draftSummary: '/draft-summary',
   draftPick: '/draftpick',
   tradeAnalysis: '/trade-analysis',
   draftBoard: '/draftboard',

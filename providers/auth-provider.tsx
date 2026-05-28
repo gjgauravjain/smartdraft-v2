@@ -1,5 +1,6 @@
 'use client';
 
+import { AUTH0_AUDIENCE, AUTH0_CLIENT_ID, AUTH0_DOMAIN, AUTH0_HOST } from '@/lib/api-constant';
 import { Auth0Provider } from '@auth0/auth0-react';
 import { useRouter } from 'next/navigation';
 import { ReactNode } from 'react';
@@ -11,9 +12,8 @@ interface Auth0ProviderWrapperProps {
 export function Auth0ProviderWrapper({ children }: Auth0ProviderWrapperProps) {
   const router = useRouter();
 
-  const domain = process.env.NEXT_PUBLIC_AUTH0_DOMAIN || '';
-  const clientId = process.env.NEXT_PUBLIC_AUTH0_CLIENT_ID || '';
-  const redirectUri = typeof window !== 'undefined' ? window.location.origin : '';
+  const domain = AUTH0_DOMAIN;
+  const clientId = AUTH0_CLIENT_ID;
 
   const onRedirectCallback = (appState?: any) => {
     router.push(appState?.returnTo || '/dashboard');
@@ -29,10 +29,10 @@ export function Auth0ProviderWrapper({ children }: Auth0ProviderWrapperProps) {
       domain={domain}
       clientId={clientId}
       authorizationParams={{
-        redirect_uri: redirectUri,
+        redirect_uri: AUTH0_HOST,
+        audience: AUTH0_AUDIENCE,
       }}
       onRedirectCallback={onRedirectCallback}
-      cacheLocation="localstorage"
     >
       {children}
     </Auth0Provider>

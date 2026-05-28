@@ -23,6 +23,7 @@ export interface SubMenuItem {
   toShow: boolean;
   icon: React.ElementType;
   url: string;
+  badge?: string;
 }
 
 export interface MenuSection {
@@ -30,9 +31,10 @@ export interface MenuSection {
   menuLabel: string;
   hide?: boolean;
   subMenu: SubMenuItem[];
+  badge?: string;
 }
 
-export function getSideMenuOptions(isStaff: boolean = false): MenuSection[] {
+export function getSideMenuOptions(isStaff: boolean = false, sidebarBadges: Record<string, string> = {}): MenuSection[] {
   return [
     {
       menuLabel: '',
@@ -79,6 +81,7 @@ export function getSideMenuOptions(isStaff: boolean = false): MenuSection[] {
           toShow: true,
           icon: TrendingUp,
           url: routeUrl.tradeAnalysis,
+          badge: sidebarBadges['tradeOffers'], // Example of using dynamic badge
         },
         {
           id: 'scenario_planner',

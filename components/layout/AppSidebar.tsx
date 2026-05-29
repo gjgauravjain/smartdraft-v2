@@ -65,7 +65,7 @@ export function AppSidebar() {
                   className={cn(
                     "cursor-pointer",
                     team.id === selectedTeam?.id &&
-                      "bg-dropdown-primary text-white hover:bg-dropdown-primary-foreground",
+                      "bg-accent/60",
                   )}
                 >
                   <img

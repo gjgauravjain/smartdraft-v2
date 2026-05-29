@@ -115,7 +115,7 @@ export function AppSidebar() {
                             {item.label}
                           </span>
                           {item.badge && (
-                            <div className="w-6 h-6 rounded-full bg-destructive text-primary-foreground text-xs font-bold flex items-center justify-center flex-shrink-0">
+                            <div className="w-6 h-6 rounded-full bg-destructive text-primary-foreground text-xs font-bold flex items-center justify-center shrink-0">
                               {item.badge}
                             </div>
                           )}

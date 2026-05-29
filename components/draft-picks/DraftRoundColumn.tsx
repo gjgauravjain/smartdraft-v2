@@ -65,14 +65,14 @@ export function DraftRoundColumn({
         <button
           type="button"
           onClick={onToggleCollapse}
-          className="flex flex-1 items-center justify-center px-2 py-4 text-muted-foreground transition-colors hover:text-foreground"
+          className="flex flex-1 items-end justify-center px-2 py-4 text-muted-foreground transition-colors hover:text-foreground"
         >
           <span className="[writing-mode:vertical-rl] rotate-180 text-sm font-bold tracking-wide">
-            {title}
-          </span>
-          <span className="mt-3 [writing-mode:vertical-rl] rotate-180 text-xs font-semibold">
+            {title} <span className="mt-3 [writing-mode:vertical-rl] rotate-180 text-xs font-semibold">
             {picks.length} picks
           </span>
+          </span>
+          
         </button>
       </section>
     );
@@ -148,7 +148,7 @@ export function DraftRoundColumn({
                 )}
               >
                 <span className="font-bold text-xs text-foreground">
-                  {pick.overallPick}
+                  {pick.overallPick} <span className="text-muted-foreground">({pick.clubPickNumber})</span> 
                 </span>
                 <div className="flex min-w-0 items-center gap-2">
                   {pick.image ? (

@@ -1,6 +1,7 @@
 import { DraftPicksTabs } from "./DraftsPickTab";
 import { DraftPicksToolbar } from "./DraftPickToolbar";
 import CurrentYearDraftPick from "./CurrentYearDraftPick";
+import NextYearDraftPick from "./NextYearDraftPick";
 import { useDraftPicks } from "./useDraftPicks";
 import { draftTabOption } from "./util";
 
@@ -41,6 +42,13 @@ const DraftPicks = () => {
       {activeTab === "current" && (
         <CurrentYearDraftPick
           data={draftData?.draftCurrentYear}
+          selectedTeamId={selectedTeam}
+          showAll={isAll}
+        />
+      )}
+      {activeTab === "next" && (
+        <NextYearDraftPick
+          data={draftData?.draftNextYear}
           selectedTeamId={selectedTeam}
           showAll={isAll}
         />

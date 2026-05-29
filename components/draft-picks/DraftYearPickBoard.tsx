@@ -26,6 +26,7 @@ interface DraftYearPickBoardProps {
   userTeamId?: number | string;
   hoveredTeamId?: number | string | null;
   defaultCollapsedRoundIds?: Array<keyof DraftYearType>;
+  visibleRoundIds?: Array<keyof DraftYearType>;
 }
 
 const filterPicks = ({
@@ -51,6 +52,7 @@ export function DraftYearPickBoard({
   userTeamId,
   hoveredTeamId,
   defaultCollapsedRoundIds = ["rd5List", "rd6List"],
+  visibleRoundIds,
 }: DraftYearPickBoardProps) {
   const [collapsedRoundIds, setCollapsedRoundIds] = useState<
     Array<keyof DraftYearType>
@@ -67,7 +69,9 @@ export function DraftYearPickBoard({
   return (
     <div className="w-full overflow-x-auto bg-background p-4">
       <div className="flex min-w-max gap-4">
-        {DRAFT_ROUNDS.map((round) => {
+        {DRAFT_ROUNDS.filter(
+          (round) => !visibleRoundIds || visibleRoundIds.includes(round.id),
+        ).map((round) => {
           const picks = filterPicks({
             picks: data?.[round.id] ?? [],
             selectedTeamId,

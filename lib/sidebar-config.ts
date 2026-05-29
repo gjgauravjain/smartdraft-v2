@@ -12,7 +12,6 @@ import {
   ListChecks,
   BarChart3,
   FileSignature,
-  Settings,
   Shield,
 } from 'lucide-react';
 import { routeUrl } from './route-url';

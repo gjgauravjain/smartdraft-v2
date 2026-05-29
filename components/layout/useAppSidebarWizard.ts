@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo } from "react";
 import { usePathname } from "next/navigation";
 import { getSideMenuOptions } from "@/lib/sidebar-config";
-import { useAuth, useStore } from "@/store/useStore";
+import { useStore } from "@/store/useStore";
 import { useGetTeams } from "@/app/api/react-query/common";
 
 export function useAppSidebarWizard() {
@@ -12,9 +12,9 @@ export function useAppSidebarWizard() {
     useStore();
   const { user } = useStore();
 
-  const [sidebarBadges, setSidebarBadges] = useState<Record<string, string>>({
+  const sidebarBadges = useMemo<Record<string, string>>(() => ({
     tradeOffers: "3",
-  });
+  }), []);
 
   const { data } = useGetTeams();
 
@@ -31,25 +31,30 @@ export function useAppSidebarWizard() {
     }
   }, [data, user]);
 
-  const menuSections = getSideMenuOptions(!user?.isStaff, sidebarBadges);
+  const menuSections = useMemo(
+    () =>
+      getSideMenuOptions(!!user?.isStaff, sidebarBadges)
+        .map((section) => ({
+          ...section,
+          subMenu: section.subMenu.filter((item) => item.toShow === true),
+        }))
+        .filter((section) => !section.hide && section.subMenu.length > 0),
+    [sidebarBadges, user?.isStaff],
+  );
 
   const isActiveLink = (url: string) => {
     return pathname === url;
-  };
-
-  const getVisibleSections = () => {
-    return menuSections.filter((section) => !section.hide);
   };
 
   const getVisibleMenuItems = (sectionId: string) => {
     const section = menuSections.find((s) => s.id === sectionId);
     if (!section) return [];
 
-    return section.subMenu.filter((item) => item.toShow);
+    return section.subMenu;
   };
 
   return {
-    menuSections: getVisibleSections(),
+    menuSections,
     isActiveLink,
     getVisibleMenuItems,
     setSelectedTeam,

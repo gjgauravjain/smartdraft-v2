@@ -14,7 +14,7 @@ import {
   SidebarHeader,
   SidebarFooter,
 } from "@/components/ui/sidebar";
-import { ChevronDown, ChevronLeft, ChevronRight, Settings } from "lucide-react";
+import { ChevronDown, ChevronLeft, Settings } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,

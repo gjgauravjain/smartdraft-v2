@@ -6,6 +6,7 @@ import { DraftYearList } from "@/app/api/type/draftpicks";
 import { Button } from "@/components/ui/button";
 import { Chip } from "@/components/ui/Chip";
 import { cn } from "@/lib/utils";
+import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 
 interface DraftRoundColumnProps {
   title: string;
@@ -140,7 +141,7 @@ export function DraftRoundColumn({
               <div
                 key={`${pick.draftRound}-${pick.overallPick}-${pick.id}`}
                 className={cn(
-                  "grid grid-cols-[2.75rem_5.5rem_minmax(0,1fr)] items-center border-b border-border/70 px-[12px] py-[7px] text-xs transition-colors",
+                  "grid grid-cols-[2.75rem_5.5rem_minmax(0,1fr)] items-center border-b border-border/70 px-3 py-1.75 text-xs transition-colors",
                   belongsToUserTeam && "bg-primary/10",
                   isHoveredTeam && "bg-accent text-accent-foreground",
                   dimForHover && "opacity-40",
@@ -162,9 +163,16 @@ export function DraftRoundColumn({
                   <span className="truncate font-bold text-xs text-foreground">
                     {pick.currentOwnerShort}
                   </span>
-                  {hasOwnerNote ? (
-                    <Info className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
-                  ) : null}
+                  {hasOwnerNote && (
+                    <Tooltip>
+                      <TooltipTrigger>
+                        <Info className="h-3.5 w-3.5 shrink-0 cursor-pointer" />
+                      </TooltipTrigger>
+                      <TooltipContent className="max-w-xs text-white">
+                        {pick.reason}
+                      </TooltipContent>
+                    </Tooltip>
+                  )}
                 </div>
                 <div className="min-w-0 text-right">
                   {hasPlayer ? (

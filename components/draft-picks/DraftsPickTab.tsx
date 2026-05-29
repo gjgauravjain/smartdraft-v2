@@ -1,5 +1,6 @@
 "use client";
 
+import { TabOptionType } from "@/app/api/type/common";
 import { cn } from "@/lib/utils";
 
 export interface DraftTab {
@@ -7,21 +8,12 @@ export interface DraftTab {
   label: string;
 }
 
-export const DEFAULT_DRAFT_TABS: DraftTab[] = [
-  { id: "2026", label: "2026 Draft Picks" },
-  { id: "2027", label: "2027 Draft Picks" },
-  { id: "2028", label: "2028 Draft Picks" },
-  { id: "order", label: "Order of Entry" },
-  { id: "full", label: "Full Draft List" },
-  { id: "assets", label: "Draft Assets" },
-];
-
 function TabItem({
   tab,
   active,
   onClick,
 }: {
-  tab: DraftTab;
+  tab: TabOptionType;
   active: boolean;
   onClick: () => void;
 }) {
@@ -44,26 +36,26 @@ function TabItem({
 }
 
 export interface DraftPicksTabsProps {
-  tabs?: DraftTab[];
+  tabs?: TabOptionType[];
   activeTabId?: string;
   onTabChange?: (id: string) => void;
 }
 
 export function DraftPicksTabs({
-  tabs = DEFAULT_DRAFT_TABS,
+  tabs = [],
   activeTabId,
   onTabChange,
 }: DraftPicksTabsProps) {
-  const active = activeTabId ?? tabs[0]?.id;
+  const active = activeTabId ?? tabs[0]?.value;
 
   return (
     <div className="scrollbar-none flex items-center gap-6 overflow-x-auto border-t border-border bg-background px-4">
-      {tabs.map((tab) => (
+      {tabs.filter((item) => !item.toHide).map((tab) => (
         <TabItem
-          key={tab.id}
+          key={tab.value}
           tab={tab}
-          active={tab.id === active}
-          onClick={() => onTabChange?.(tab.id)}
+          active={tab.value === active}
+          onClick={() => onTabChange?.(tab.value)}
         />
       ))}
     </div>

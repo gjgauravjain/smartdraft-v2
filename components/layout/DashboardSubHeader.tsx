@@ -1,12 +1,12 @@
 "use client";
 
-import { ProjectType } from "@/app/api/react-query/projects";
 import { DraftLabel } from "@/components/layout/dashboard-sub-header/DraftLabel";
 import { ProjectDropdown } from "@/components/layout/dashboard-sub-header/ProjectDropdown";
 import { TalentOrderDropdown } from "@/components/layout/dashboard-sub-header/TalentOrderDropdown";
 import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
 import { Plus } from "lucide-react";
+import { ProjectType } from "@/app/api/type/projects";
 
 interface DashboardSubHeaderProps {
   projects?: ProjectType[];

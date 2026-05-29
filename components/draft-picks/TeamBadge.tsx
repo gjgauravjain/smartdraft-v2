@@ -1,4 +1,4 @@
-import { TeamType } from "@/app/api/react-query/common";
+import { TeamType } from "@/app/api/type/common";
 import { cn } from "@/lib/utils";
 
 export const TeamBadge = ({

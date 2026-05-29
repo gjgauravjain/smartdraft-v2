@@ -1,6 +1,6 @@
 "use client";
 
-import { ProjectType } from "@/app/api/react-query/projects";
+import { ProjectType } from "@/app/api/type/projects";
 import { SearchableDropdown } from "@/components/ui/searchable-dropdown";
 
 interface ProjectDropdownProps {

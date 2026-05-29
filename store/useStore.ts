@@ -1,5 +1,5 @@
-import { TeamType, UserDetailsType } from "@/app/api/react-query/common";
-import { ProjectType } from "@/app/api/react-query/projects";
+import { TeamType, UserDetailsType } from "@/app/api/type/common";
+import { ProjectType } from "@/app/api/type/projects";
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import { useShallow } from "zustand/react/shallow";

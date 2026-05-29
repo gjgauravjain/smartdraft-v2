@@ -3,8 +3,8 @@
 import { Search } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
-import { TeamType } from "@/app/api/react-query/common";
 import { TeamBadge } from "./TeamBadge";
+import { TabOptionType, TeamType } from "@/app/api/type/common";
 
 export interface DraftPicksToolbarProps {
   teams?: TeamType[];

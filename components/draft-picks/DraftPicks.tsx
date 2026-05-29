@@ -1,9 +1,21 @@
 import { DraftPicksTabs } from "./DraftsPickTab";
 import { DraftPicksToolbar } from "./DraftPickToolbar";
 import { useDraftPicks } from "./useDraftPicks";
+import { draftTabOption } from "./util";
 
 const DraftPicks = () => {
-  const {activeTab, selectedTeam, teams, setSelectedTeam, compensation, setCompensation, setActiveTab, isAll, setIsAll} = useDraftPicks()
+  const {
+    activeTab,
+    selectedTeam,
+    teams,
+    setSelectedTeam,
+    compensation,
+    setCompensation,
+    setActiveTab,
+    isAll,
+    setIsAll,
+    draftPicksData,
+  } = useDraftPicks();
   return (
     <div className="w-full border-b border-white/10">
       {/* Row 1 – toolbar */}
@@ -15,14 +27,13 @@ const DraftPicks = () => {
         onApplyCompensation={setCompensation}
         isAll={isAll}
         onToggleAll={setIsAll}
-
+        
       />
 
       {/* Row 2 – tabs */}
-      <DraftPicksTabs
-        activeTabId={activeTab}
-        onTabChange={setActiveTab}
-      />
+      <DraftPicksTabs 
+      tabs={[...(draftPicksData?.draftTab || []), ...draftTabOption]}
+      activeTabId={activeTab} onTabChange={setActiveTab} />
     </div>
   );
 };

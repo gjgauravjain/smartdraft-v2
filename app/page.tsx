@@ -1,7 +1,6 @@
 "use client";
 
-import { Header } from "@/components/layout/header";
-import { Footer } from "@/components/layout/footer";
+import { Header } from "@/components/layout/Header";
 import { HomeContent } from "../components/home/home-content";
 
 export default function Home() {
@@ -16,7 +15,6 @@ export default function Home() {
       <main className="flex-1">
         <HomeContent />
       </main>
-      <Footer />
     </div>
   );
 }

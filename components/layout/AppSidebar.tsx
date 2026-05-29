@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useAppSidebarWizard } from "./use-app-sidebar-wizard";
+import { useAppSidebarWizard } from "./useAppSidebarWizard";
 import {
   Sidebar,
   SidebarContent,
@@ -64,7 +64,8 @@ export function AppSidebar() {
                   onClick={() => setSelectedTeam(team)}
                   className={cn(
                     "cursor-pointer",
-                    team.id === selectedTeam?.id && "bg-sidebar-accent",
+                    team.id === selectedTeam?.id &&
+                      "bg-dropdown-primary text-white hover:bg-dropdown-primary-foreground",
                   )}
                 >
                   <img

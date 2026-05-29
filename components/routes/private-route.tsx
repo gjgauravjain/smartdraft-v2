@@ -1,44 +1,13 @@
 'use client';
 
 import { useAuth0 } from '@auth0/auth0-react';
-import { useRouter, usePathname } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { useEffect, ReactNode } from 'react';
-import { DashboardLayout } from '@/components/layout/dashboard-layout';
+import { DashboardLayout } from '../layout/DashboardLayout';
 
 interface PrivateRouteProps {
   children: ReactNode;
   fallback?: ReactNode;
-}
-
-/**
- * Generate breadcrumbs from pathname
- */
-function generateBreadcrumbs(pathname: string): Array<{ label: string; href?: string }> {
-  const paths = pathname.split('/').filter(Boolean);
-  
-  const breadcrumbs: Array<{ label: string; href?: string }> = [
-    { label: 'Home', href: '/dashboard' },
-  ];
-
-  let currentPath = '';
-  paths.forEach((path, index) => {
-    currentPath += `/${path}`;
-    
-    // Format the path name (e.g., "player-database" -> "Player Database")
-    const label = path
-      .split('-')
-      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(' ');
-    
-    // Last item should not have href (current page)
-    if (index === paths.length - 1) {
-      breadcrumbs.push({ label, href: undefined });
-    } else {
-      breadcrumbs.push({ label, href: currentPath });
-    }
-  });
-
-  return breadcrumbs;
 }
 
 /**
@@ -79,12 +48,9 @@ export function PrivateRoute({ children, fallback }: PrivateRouteProps) {
     return null;
   }
 
-  // Generate breadcrumbs from current pathname
-  const breadcrumbs = generateBreadcrumbs(pathname);
-
   // User is authenticated, render children wrapped in DashboardLayout
   return (
-    <DashboardLayout breadcrumbs={breadcrumbs}>
+    <DashboardLayout>
       {children}
     </DashboardLayout>
   );

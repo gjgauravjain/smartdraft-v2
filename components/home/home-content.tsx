@@ -96,7 +96,7 @@ function HeroSection({ onGetStarted }: { onGetStarted: () => void }) {
         </div>
 
         <div className="flex flex-col sm:flex-row gap-4">
-          <Button size="lg" onClick={onGetStarted} className="gap-2">
+          <Button size="lg" onClick={onGetStarted} className="gap-2 dark:text-white!">
             Get Started
             <ArrowRight className="h-4 w-4" />
           </Button>

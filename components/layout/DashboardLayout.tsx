@@ -27,10 +27,10 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
           <div className="sticky top-0 z-40">
             {/* Row 1 – global search + notifications + quick links */}
             <div className="flex items-center gap-2 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-              {(!isSideBarOpen || isMobile) && (
-                <SidebarTrigger className="ml-2 cursor-pointer shrink-0" />
-              )}
-              <DashboardHeader />
+              
+              <DashboardHeader 
+              sidebarOpen={isSideBarOpen || isMobile}
+              />
             </div>
 
             {/* Row 2 – contextual subheader (optional) */}

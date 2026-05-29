@@ -18,6 +18,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useTheme } from "@/hooks/use-theme";
+import { SidebarTrigger } from "../ui/sidebar";
 
 function NotificationBell({ count = 0 }: { count?: number }) {
   return (
@@ -52,11 +53,17 @@ function QuickLinks() {
   );
 }
 
-export function DashboardHeader() {
+type DashboardHeaderProps = {
+    sidebarOpen?: boolean;
+}
+export function DashboardHeader({sidebarOpen}: DashboardHeaderProps) {
   const { isDarkMode, toggleTheme } = useTheme();
   return (
     <header className="sticky w-full top-0 z-40 flex h-14 shrink-0 items-center justify-between gap-4 border-b bg-background px-4">
-      <div className="flex-1">
+      <div className="flex-1 flex items-center gap-4">
+        {(!sidebarOpen ) && (
+                <SidebarTrigger className="ml-2 cursor-pointer shrink-0" />
+              )}
         <div className="flex h-9 w-full max-w-120 items-center gap-2 rounded-md border border-input bg-background px-3 text-sm text-muted-foreground transition-colors hover:border-ring focus-within:border-ring">
           <Search className="h-3.5 w-3.5 shrink-0" />
           <input

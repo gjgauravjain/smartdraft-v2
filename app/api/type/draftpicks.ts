@@ -301,6 +301,7 @@ export type DraftYearList = {
   clubPickNumber: string;
   currentOwnerShort: string;
   pointPlayer: string;
+  reason?: string;
 };
 
 export type DraftYearType = {

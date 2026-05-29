@@ -5,10 +5,14 @@ export const TeamBadge = ({
   team,
   selected,
   onClick,
+  onHovered,
+  onHoverLeave,
 }: {
   team: TeamType;
   selected: boolean;
   onClick: () => void;
+  onHovered?: () => void;
+  onHoverLeave?: () => void;
 }) => {
   return (
     <button
@@ -19,6 +23,8 @@ export const TeamBadge = ({
         "hover:scale-110 hover:brightness-110",
         selected && "ring-2 ring-offset-2  ring-primary scale-110",
       )}
+      onMouseEnter={onHovered}
+      onMouseLeave={onHoverLeave}
     >
       <img
         src={team.image}

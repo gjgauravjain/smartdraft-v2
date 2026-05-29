@@ -21,7 +21,7 @@ interface AppState {
   currentProject: string;
   currentOrganisation: string;
   selectedFlag: string;
-  hoveredTeamId: string;
+  hoveredTeamId: string | null;
   selectedTransactionModal: string;
   uploadCsvTransactionTypeModal: UploadCsvTransactionType | null;
   isSideBarOpen: boolean;
@@ -29,13 +29,13 @@ interface AppState {
   setCurrentProject: (projectId: string) => void;
   setCurrentOrganisation: (orgId: string) => void;
   setSelectedFlag: (flagId: string) => void;
-  setHoveredTeamId: (teamId: string) => void;
+  setHoveredTeamId: (teamId: string | null) => void;
   setSelectedTransactionModal: (modalId: string) => void;
   setUploadCsvTransactionTypeModal: (
     type: UploadCsvTransactionType | null,
   ) => void;
   setIsSideBarOpen: (isOpen: boolean) => void;
-  setSelectedTeam: (team: TeamType) => void;
+  setSelectedTeam: (team: TeamType | null) => void;
   selectedProject: ProjectType | null;
   setSelectedProject: (project: ProjectType | null) => void;
 }
@@ -57,7 +57,7 @@ export const useStore = create<Store>()(
           currentProject: "",
           currentOrganisation: "",
           selectedFlag: "",
-          hoveredTeamId: "",
+          hoveredTeamId: null,
           selectedTransactionModal: "",
           uploadCsvTransactionTypeModal: null,
           isSideBarOpen: true,

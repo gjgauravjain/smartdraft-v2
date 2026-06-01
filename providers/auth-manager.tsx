@@ -1,7 +1,13 @@
 "use client";
 
 import { useAuth0 } from "@auth0/auth0-react";
-import { useCallback, useEffect, ReactNode } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  ReactNode,
+} from "react";
 import { useAuth, useStore } from "@/store/useStore";
 import { setApiAccessToken } from "@/lib/api-client";
 import { useGetUserDetails } from "@/app/api/react-query/common";
@@ -9,6 +15,16 @@ import { useGetUserDetails } from "@/app/api/react-query/common";
 interface AuthManagerProps {
   children: ReactNode;
 }
+
+type AuthContextType = {
+  getAccessToken: (refreshToken?: boolean) => Promise<void>;
+  logoutUser: () => void;
+};
+
+const AuthContext = createContext<AuthContextType>({
+  getAccessToken: async () => {},
+  logoutUser: () => {},
+});
 
 declare global {
   interface Window {
@@ -18,12 +34,7 @@ declare global {
 }
 
 export function AuthManager({ children }: AuthManagerProps) {
-  const {
-    isAuthenticated,
-    getAccessTokenSilently,
-    logout,
-    user: auth0User,
-  } = useAuth0();
+  const { isAuthenticated, getAccessTokenSilently, logout } = useAuth0();
   const { accessToken, setAccessToken, setUser, clearAuth } = useAuth();
   const setCurrentProject = useStore((state) => state.setCurrentProject);
   const { data: userDetails } = useGetUserDetails();
@@ -76,7 +87,12 @@ export function AuthManager({ children }: AuthManagerProps) {
   }, [getToken, logoutUser]);
 
   return (
-    <>
+    <AuthContext.Provider
+      value={{
+        getAccessToken: getToken,
+        logoutUser,
+      }}
+    >
       <button
         style={{ position: "absolute", visibility: "hidden" }}
         id="getToken"
@@ -85,6 +101,8 @@ export function AuthManager({ children }: AuthManagerProps) {
         Get Token
       </button>
       {children}
-    </>
+    </AuthContext.Provider>
   );
 }
+
+export const AuthContexts = () => useContext(AuthContext);

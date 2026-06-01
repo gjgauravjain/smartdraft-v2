@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useTheme } from "@/hooks/use-theme";
 import { SidebarTrigger } from "../ui/sidebar";
+import { AuthContexts } from "@/providers";
 
 function NotificationBell({ count = 0 }: { count?: number }) {
   return (
@@ -34,7 +35,12 @@ function NotificationBell({ count = 0 }: { count?: number }) {
 }
 
 function QuickLinks() {
-  const links = ["Dashboard", "Reports", "Settings", "Help"];
+    const { logoutUser } = AuthContexts();
+
+  const links = [{
+    name: "Logout",
+    action: () => logoutUser(),
+  }];
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -46,7 +52,9 @@ function QuickLinks() {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         {links.map((link) => (
-          <DropdownMenuItem key={link}>{link}</DropdownMenuItem>
+          <DropdownMenuItem key={link.name} onClick={link.action}>
+            {link.name}
+          </DropdownMenuItem>
         ))}
       </DropdownMenuContent>
     </DropdownMenu>

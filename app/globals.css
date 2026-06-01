@@ -27,6 +27,12 @@
   --color-input: var(--input);
   --color-border: var(--border);
   --color-destructive: var(--destructive);
+  --color-success-foreground: var(--success-foreground);
+  --color-success-border: var(--success-border);
+  --color-success-border-muted: var(--success-border-muted);
+  --color-success-surface: var(--success-surface);
+  --color-success-surface-muted: var(--success-surface-muted);
+  --color-success: var(--success);
   --color-accent-foreground: var(--accent-foreground);
   --color-accent: var(--accent);
   --color-muted-foreground: var(--muted-foreground);
@@ -37,6 +43,8 @@
   --color-tertiary: var(--tertiary);
   --color-primary-foreground: var(--primary-foreground);
   --color-primary: var(--primary);
+  --color-dropdown-primary-foreground: var(--dropdown-primary-foreground);
+  --color-dropdown-primary: var(--dropdown-primary);
   --color-popover-foreground: var(--popover-foreground);
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
@@ -83,6 +91,12 @@
 
   /* Destructive — warm red */
   --destructive: oklch(0.577 0.245 27.325);
+  --success: rgb(21, 128, 61);
+  --success-surface: rgb(220, 252, 231);
+  --success-surface-muted: rgb(220, 252, 231);
+  --success-border: rgb(187, 247, 208);
+  --success-border-muted: rgb(187, 247, 208);
+  --success-foreground: oklch(0.53 0.14 150.06);
 
   /* Border / Input / Ring */
   --border: oklch(0.88 0.01 0);             /* light neutral border */
@@ -108,6 +122,9 @@
   --sidebar-accent-foreground: rgb(163, 0, 70);
   --sidebar-border: oklch(0.88 0.01 0);
   --sidebar-ring: oklch(0.46 0.18 6.94);
+
+  --dropdown-primary: oklch(0.46 0.18 6.94);
+  --dropdown-primary-foreground: oklch(0.96 0.008 358);
 }
 
 .dark {
@@ -134,7 +151,7 @@
   --muted-foreground: oklch(0.64 0.04 358);
 
   /* Accent — medium burgundy */
-  --accent: oklch(0.26 0.045 358);
+  --accent: oklch(0.84 0.14 77.04);
   --accent-foreground: oklch(0.96 0.008 358);
 
   --tertiary: oklch(0.2 0.06 240);
@@ -142,6 +159,12 @@
 
   /* Destructive */
   --destructive: oklch(0.704 0.191 22.216);
+  --success: rgb(134, 239, 172);
+  --success-surface: rgb(34, 197, 94);
+  --success-surface-muted: rgba(34, 197, 94, 0.15);
+  --success-border: rgb(34, 197, 94);
+  --success-border-muted: rgba(34, 197, 94, 0.35);
+  --success-foreground: rgb(134, 239, 172);
 
   /* Border / Input / Ring */
   --border: oklch(0.3 0.03 263.94);
@@ -165,6 +188,9 @@
   --sidebar-accent-foreground: oklch(0.96 0.008 358);
   --sidebar-border: oklch(0.3 0.03 263.94);              /* navy-blue borders */
   --sidebar-ring: oklch(0.46 0.18 6.94);
+
+  --dropdown-primary: oklch(0.84 0.14 77.04);
+  --dropdown-primary-foreground: oklch(0.96 0.008 358);
 }
 
 @layer base {
@@ -173,6 +199,7 @@
   }
   body {
     @apply bg-background text-foreground;
+    overflow: hidden;
   }
   html {
     @apply font-sans;

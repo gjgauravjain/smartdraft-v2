@@ -16,8 +16,8 @@ export const getAddScenarioTradeToolTip = (
   scenarioId: string,
   transactionNumber: string,
 ) => `api/v1/scenarios/fetch-scenario-allpicks/${projectId}/${scenarioId}/${transactionNumber}/`;
-export const getDashboardApiUrl = (projectId: number) =>
-  `api/v1/visualisations/dashboard/${projectId}/`;
+export const getDashboardApiUrl = (projectId: number, withCompensation: boolean) =>
+  `api/v1/visualisations/dashboard/${projectId}/${withCompensation ? '?with_compensation=true' : ''}`;
 export const getRoundPickApiUrl = (projectId: number) => `Rounds-Pick/${projectId}`;
 export const getShowTeam = () => 'Show-Team/';
 export const getPlayer = (projectId: string) => `api/v1/players/${projectId}/`;
@@ -52,6 +52,11 @@ export const createFreeAgentCompensationApi = (projectId: string) =>
 
 export const freeAgentImpactCompensationApi = (projectId: string) =>
   `api/v1/transactions/free-agent-compensation-impact/${projectId}/`;
+
+export const applyCompensationImpactApi = (projectId: string) =>
+  `api/v1/transactions/apply-compensation-impact/${projectId}/`;
+export const applyCompensationApi = (projectId: string) =>
+  `api/v1/transactions/apply-compensation/${projectId}/`;
 
 export const createPriorityPickApi = (projectId: string) =>
   `api/v1/transactions/priority-pick/${projectId}/`;
@@ -191,7 +196,8 @@ export const fetchScenarioAllDraftPickApiUrl = (
   projectId: string,
   scenarioId: string,
   transactionNo: string,
-) => `api/v1/scenarios/fetch-scenario-all-draft-picks/${projectId}/${scenarioId}/${transactionNo}/`;
+  includeCompensation: boolean,
+) => `api/v1/scenarios/fetch-scenario-all-draft-picks/${projectId}/${scenarioId}/${transactionNo}/${includeCompensation ? '?with_compensation=true' : ''}`;
 export const fetchTradeOfferScriptApiUrl = (projectId: string, tradeOfferId: string) =>
   `api/v1/transactions/trade-offer-script/${projectId}/${tradeOfferId}/`;
 export const updateTradeOfferApiUrl = (projectId: string, tradeOfferId: string) =>
@@ -236,6 +242,17 @@ export const getFreeAgentScenarioImpactApiUrl = (
   scenarioId: string,
   transactioNo: string,
 ) => `api/v1/scenarios/free-agent-scenario-impact/${projectId}/${scenarioId}/${transactioNo}/`;
+export const applyCompensationScenarioImpactApi = (
+  projectId: string,
+  scenarioId: string,
+  transactionNo: string,
+) =>
+  `api/v1/scenarios/apply-compensation-scenario-impact/${projectId}/${scenarioId}/${transactionNo}/`;
+export const applyCompensationScenarioApi = (
+  projectId: string,
+  scenarioId: string,
+  transactionNo: string,
+) => `api/v1/scenarios/apply-compensation-scenario/${projectId}/${scenarioId}/${transactionNo}/`;
 export const reorderPlayerPosApiUrl = (projectId: string) =>
   `/api/v1/players/update-player-order/${projectId}/`;
 

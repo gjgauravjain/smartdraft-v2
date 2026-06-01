@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useAppSidebarWizard } from "./use-app-sidebar-wizard";
+import { useAppSidebarWizard } from "./useAppSidebarWizard";
 import {
   Sidebar,
   SidebarContent,
@@ -14,7 +14,7 @@ import {
   SidebarHeader,
   SidebarFooter,
 } from "@/components/ui/sidebar";
-import { ChevronDown, ChevronLeft, ChevronRight, Settings } from "lucide-react";
+import { ChevronDown, ChevronLeft, Settings } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -64,7 +64,8 @@ export function AppSidebar() {
                   onClick={() => setSelectedTeam(team)}
                   className={cn(
                     "cursor-pointer",
-                    team.id === selectedTeam?.id && "bg-sidebar-accent",
+                    team.id === selectedTeam?.id &&
+                      "bg-accent/60",
                   )}
                 >
                   <img
@@ -114,7 +115,7 @@ export function AppSidebar() {
                             {item.label}
                           </span>
                           {item.badge && (
-                            <div className="w-6 h-6 rounded-full bg-destructive text-primary-foreground text-xs font-bold flex items-center justify-center flex-shrink-0">
+                            <div className="w-6 h-6 rounded-full bg-destructive text-primary-foreground text-xs font-bold flex items-center justify-center shrink-0">
                               {item.badge}
                             </div>
                           )}

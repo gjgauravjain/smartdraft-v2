@@ -1,4 +1,5 @@
-import { TeamType, UserDetailsType } from "@/app/api/react-query/common";
+import { TeamType, UserDetailsType } from "@/app/api/type/common";
+import { ProjectType } from "@/app/api/type/projects";
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import { useShallow } from "zustand/react/shallow";
@@ -20,7 +21,7 @@ interface AppState {
   currentProject: string;
   currentOrganisation: string;
   selectedFlag: string;
-  hoveredTeamId: string;
+  hoveredTeamId: string | null;
   selectedTransactionModal: string;
   uploadCsvTransactionTypeModal: UploadCsvTransactionType | null;
   isSideBarOpen: boolean;
@@ -28,13 +29,15 @@ interface AppState {
   setCurrentProject: (projectId: string) => void;
   setCurrentOrganisation: (orgId: string) => void;
   setSelectedFlag: (flagId: string) => void;
-  setHoveredTeamId: (teamId: string) => void;
+  setHoveredTeamId: (teamId: string | null) => void;
   setSelectedTransactionModal: (modalId: string) => void;
   setUploadCsvTransactionTypeModal: (
     type: UploadCsvTransactionType | null,
   ) => void;
   setIsSideBarOpen: (isOpen: boolean) => void;
-  setSelectedTeam: (team: TeamType) => void;
+  setSelectedTeam: (team: TeamType | null) => void;
+  selectedProject: ProjectType | null;
+  setSelectedProject: (project: ProjectType | null) => void;
 }
 
 type Store = AuthState & AppState;
@@ -54,11 +57,12 @@ export const useStore = create<Store>()(
           currentProject: "",
           currentOrganisation: "",
           selectedFlag: "",
-          hoveredTeamId: "",
+          hoveredTeamId: null,
           selectedTransactionModal: "",
           uploadCsvTransactionTypeModal: null,
           isSideBarOpen: true,
           selectedTeam: null,
+          selectedProject: null,
         }),
 
       // App State
@@ -70,7 +74,7 @@ export const useStore = create<Store>()(
       uploadCsvTransactionTypeModal: null,
       isSideBarOpen: true,
       selectedTeam: null,
-
+      selectedProject: null,
       // App Actions
       setCurrentProject: (projectId) => set({ currentProject: projectId }),
       setCurrentOrganisation: (orgId) => set({ currentOrganisation: orgId }),
@@ -82,6 +86,7 @@ export const useStore = create<Store>()(
         set({ uploadCsvTransactionTypeModal: type }),
       setIsSideBarOpen: (isOpen) => set({ isSideBarOpen: isOpen }),
       setSelectedTeam: (team) => set({ selectedTeam: team }),
+      setSelectedProject: (project) => set({ selectedProject: project }),
     }),
     {
       name: "gtx-storage", // localStorage key
@@ -122,5 +127,7 @@ export const useAppState = () =>
       setUploadCsvTransactionTypeModal: state.setUploadCsvTransactionTypeModal,
       setIsSideBarOpen: state.setIsSideBarOpen,
       setSelectedTeam: state.setSelectedTeam,
+      selectedProject: state.selectedProject,
+      setSelectedProject: state.setSelectedProject,
     })),
   );

@@ -1,8 +1,7 @@
 'use client';
 
-import Link from 'next/link';
 import { useAuth0 } from '@auth0/auth0-react';
-import { Moon, Sun, LogIn, LayoutDashboard, LogOut } from 'lucide-react';
+import { Moon, Sun, LogIn, LogOut } from 'lucide-react';
 import { useTheme } from '@/hooks/use-theme';
 import { Button } from '@/components/ui/button';
 
@@ -43,11 +42,11 @@ export function Header() {
             className="gap-2"
           >
             <LogOut className="h-4 w-4" />
-            <span className="hidden sm:inline">Logout</span>
+            <span className="hidden sm:inline dark:text-white!">Logout</span>
           </Button>
         </>
       ) : (
-        <Button onClick={handleLogin} className="gap-2">
+        <Button onClick={handleLogin} className="gap-2 dark:text-white!">
           <LogIn className="h-4 w-4" />
           Sign In
         </Button>

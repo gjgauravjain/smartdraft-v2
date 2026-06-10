@@ -17,3 +17,15 @@ export type OrganisationListType = {
   createdAt: string;
   updatedAt: string;
 };
+
+export type NewOrganisationFormValues = {
+  organisationName: string;
+  sportingCode: string;
+  defaultTeam: string;
+};
+
+export type AddOrganisationType = {
+  name: string;
+  defaultTeam: string;
+  sportingCode: string;
+};

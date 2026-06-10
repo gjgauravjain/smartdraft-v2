@@ -1,12 +1,13 @@
 "use client";
 
+import { NewOrganisationModal } from "./NewOrganisationModal";
 import { OrgEmptyState } from "./OrgEmptyState";
 import { OrgErrorState } from "./OrgErrorState";
 import { OrgPageHeader } from "./OrgPageHeader";
 import { OrgStatsRow } from "./OrgStatsRow";
 import { OrgTable } from "./OrgTable";
 import { OrgTableSkeleton } from "./OrgTableSkeleton";
-import { useOrganisations } from "./useOrganisations";
+import { useOrganisations } from "./hook";
 
 const Organisations = () => {
   const {
@@ -18,6 +19,8 @@ const Organisations = () => {
     handleRowClick,
     handleMenuClick,
     refetch,
+    openAddModal,
+    setOpenAddModal,
   } = useOrganisations();
 
   const renderView = () => {
@@ -59,6 +62,12 @@ const Organisations = () => {
       <div className="overflow-auto h-[calc(100vh-140px)] bg-background p-5">
         {renderView()}
       </div>
+      <NewOrganisationModal
+        onOpenChange={() => {
+          setOpenAddModal((prev) => !prev);
+        }}
+        open={openAddModal}
+      />
     </div>
   );
 };

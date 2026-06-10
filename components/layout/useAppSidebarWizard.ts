@@ -12,9 +12,12 @@ export function useAppSidebarWizard() {
     useStore();
   const { user } = useStore();
 
-  const sidebarBadges = useMemo<Record<string, string>>(() => ({
-    tradeOffers: "3",
-  }), []);
+  const sidebarBadges = useMemo<Record<string, string>>(
+    () => ({
+      tradeOffers: "3",
+    }),
+    [],
+  );
 
   const { data } = useGetTeams();
 

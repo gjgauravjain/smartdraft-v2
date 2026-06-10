@@ -35,12 +35,11 @@ export function DashboardSubHeader({
   };
   return (
     <div
-  className={cn(
-    "flex h-11 shrink-0 items-center justify-between border-l-4 border-l-primary border-b border-b-border bg-background pr-4",
-    className,
-  )}
->
-      {/* Left: Draft label + dropdowns */}
+      className={cn(
+        "flex h-11 shrink-0 items-center justify-between border-l-4 border-l-primary border-b border-b-border bg-background pr-4",
+        className,
+      )}
+    >
       <div className="flex items-center gap-4">
         <DraftLabel />
         <ProjectDropdown

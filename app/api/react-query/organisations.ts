@@ -4,7 +4,6 @@ import { useAuth } from "@/store/useStore";
 import { useQuery } from "@tanstack/react-query";
 import { OrganisationListType } from "../type/organisation";
 
-
 export const transformOrgData = (data: any): OrganisationListType[] => {
   if (!data) {
     return [];
@@ -25,7 +24,7 @@ export const transformOrgData = (data: any): OrganisationListType[] => {
           name: org.sporting_code.name,
         },
         updatedAt: org.updated,
-      } as OrganisationListType),
+      }) as OrganisationListType,
   );
 };
 
@@ -35,10 +34,7 @@ export const useGetOrganisations = () => {
   return useQuery({
     queryKey: ["organisations"],
     queryFn: async () => {
-      const { data } = await apiClient.get(
-        getOrganisationListApiUrl(),
-      );
-      console.log("Org list response", data);
+      const { data } = await apiClient.get(getOrganisationListApiUrl());
       return transformOrgData(data);
     },
     enabled: !!accessToken,

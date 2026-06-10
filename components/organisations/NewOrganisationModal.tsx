@@ -74,7 +74,7 @@ export function NewOrganisationModal({
               <InfoBanner />
             </div>
 
-            <div className="px-5 py-3.5 border-t border-border flex gap-[10px] justify-end">
+            <div className="px-5 py-3.5 border-t border-border flex gap-2.5 justify-end">
               <Button
                 type="button"
                 variant="outline"

@@ -5,6 +5,7 @@ import { OrgErrorState } from "./OrgErrorState";
 import { OrgPageHeader } from "./OrgPageHeader";
 import { OrgStatsRow } from "./OrgStatsRow";
 import { OrgTable } from "./OrgTable";
+import { OrgTableSkeleton } from "./OrgTableSkeleton";
 import { useOrganisations } from "./useOrganisations";
 
 const Organisations = () => {
@@ -21,13 +22,7 @@ const Organisations = () => {
 
   const renderView = () => {
     if (loading) {
-      return (
-        <div className="flex items-center justify-center flex-1">
-          <p className="text-sm text-muted-foreground">
-            Loading organisations…
-          </p>
-        </div>
-      );
+      return <OrgTableSkeleton rows={6} />;
     }
 
     if (error) {
@@ -58,6 +53,7 @@ const Organisations = () => {
       <OrgPageHeader
         onManageUsers={handleManageUsers}
         onNewOrganisation={handleNewOrganisation}
+        isLoading={loading}
       />
 
       <div className="overflow-auto h-[calc(100vh-140px)] bg-background p-5">

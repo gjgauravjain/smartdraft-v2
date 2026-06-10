@@ -9,7 +9,7 @@ type OrgEmptyStateProps = {
 export const OrgEmptyState = ({ onCreateFirst }: OrgEmptyStateProps) => (
   <div className="flex h-full items-center justify-center flex-1 w-full">
     <div className="text-center max-w-95">
-      <div className="w-16 h-16 rounded-2xl bg-card border border-border text-primary flex items-center justify-center mx-auto mb-[18px]">
+      <div className="w-16 h-16 rounded-2xl bg-card border border-border text-primary flex items-center justify-center mx-auto mb-4.5">
         <GoOrganization size={28} />
       </div>
 
@@ -17,7 +17,7 @@ export const OrgEmptyState = ({ onCreateFirst }: OrgEmptyStateProps) => (
         No organisations yet
       </p>
 
-      <p className="text-[13.5px] text-muted-foreground mt-[7px] leading-relaxed">
+      <p className="text-[13.5px] text-muted-foreground mt-1.75 leading-relaxed">
         Create the first one to get the platform started. You can add users and
         link them once it exists.
       </p>

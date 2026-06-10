@@ -12,13 +12,13 @@ export const OrgErrorState = ({
 }: OrgErrorStateProps) => (
   <div className="flex items-center justify-center flex-1 w-full">
     <div className="text-center max-w-95">
-      <div className="w-16 h-16 rounded-2xl bg-destructive/10 border border-destructive/20 text-destructive flex items-center justify-center mx-auto mb-[18px]">
+      <div className="w-16 h-16 rounded-2xl bg-destructive/10 border border-destructive/20 text-destructive flex items-center justify-center mx-auto mb-4.5">
         <AlertCircleIcon size={16} />
       </div>
 
       <p className="text-[18px] font-bold text-foreground">Failed to load</p>
 
-      <p className="text-[13.5px] text-muted-foreground mt-[7px] leading-relaxed">
+      <p className="text-[13.5px] text-muted-foreground mt-1.75 leading-relaxed">
         {message}
       </p>
 

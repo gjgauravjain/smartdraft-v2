@@ -58,7 +58,7 @@ export const OrgTable = ({
         <span className="w-2" />
         <button
           onClick={() => setSortDir((d) => (d === "asc" ? "desc" : "asc"))}
-          className="inline-flex items-center gap-1.5 px-3 py-[6px] text-[11.5px] font-semibold rounded-md bg-card text-muted-foreground border border-border hover:bg-muted transition-colors cursor-pointer"
+          className="inline-flex items-center gap-1.5 px-3 py-1.5 text-[11.5px] font-semibold rounded-md bg-card text-muted-foreground border border-border hover:bg-muted transition-colors cursor-pointer"
         >
           Sort: Name {sortDir === "asc" ? "▾" : "▴"}
         </button>

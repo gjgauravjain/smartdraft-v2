@@ -16,7 +16,7 @@ export const routeUrl = {
   playerDatabase: '/player-database',
   playerReports: '/player-reports',
   playerHome: '/player-home',
-  organisation: '/organisation',
+  organisation: '/organisations',
   playerManager: '/player-manager',
   playerHomeInfo: '/player-home/:playerId',
   playerRanking: '/player-ranking',

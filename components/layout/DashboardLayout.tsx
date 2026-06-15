@@ -19,6 +19,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
     selectedProject,
     setSelectedProject,
     isMobile,
+    hideSubHeader,
   } = useDashboardLayout();
   return (
     <SidebarProvider open={isSideBarOpen} onOpenChange={setIsSideBarOpen}>
@@ -30,12 +31,13 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
             <div className="flex items-center gap-2 border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
               <DashboardHeader sidebarOpen={isSideBarOpen || isMobile} />
             </div>
-
-            <DashboardSubHeader
-              projects={projects}
-              selectedProject={selectedProject}
-              onProjectChange={setSelectedProject}
-            />
+            {!hideSubHeader && (
+              <DashboardSubHeader
+                projects={projects}
+                selectedProject={selectedProject}
+                onProjectChange={setSelectedProject}
+              />
+            )}
           </div>
 
           <main className="flex-1 overflow-auto">{children}</main>

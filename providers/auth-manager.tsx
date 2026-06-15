@@ -11,6 +11,7 @@ import {
 import { useAuth, useStore } from "@/store/useStore";
 import { setApiAccessToken } from "@/lib/api-client";
 import { useGetUserDetails } from "@/app/api/react-query/common";
+import { Toaster } from "sonner";
 
 interface AuthManagerProps {
   children: ReactNode;
@@ -100,6 +101,7 @@ export function AuthManager({ children }: AuthManagerProps) {
       >
         Get Token
       </button>
+      <Toaster />
       {children}
     </AuthContext.Provider>
   );

@@ -7,6 +7,8 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-sub-heading: var(--sub-heading);
+
   --font-sans: var(--font-sans);
   --font-mono: var(--font-geist-mono);
   --font-heading: var(--font-sans);
@@ -56,14 +58,20 @@
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
+
+  /* Table tokens exposed to Tailwind */
+  --color-table-header: var(--table-header);
+  --color-table-row-border: var(--table-row-border);
+  --color-table-row-hover: var(--table-row-hover);
+  --color-table-row-text: var(--table-row-text);
 }
 
 :root {
   /* LIGHT MODE SURFACES */
-  --background: oklch(0.995 0.001 0);      /* pure near-white */
-  --foreground: oklch(0.12 0.01 250);      /* dark slate gray */
+  --background: oklch(0.995 0.001 0); /* pure near-white */
+  --foreground: oklch(0.12 0.01 250); /* dark slate gray */
 
-  --card: oklch(1 0 0);                     /* pure white */
+  --card: oklch(1 0 0); /* pure white */
   --card-foreground: oklch(0.12 0.01 250);
 
   --popover: oklch(1 0 0);
@@ -71,21 +79,21 @@
 
   /* Primary — brand burgundy rgb(163, 0, 70) / #a30046 */
   --primary: rgb(163, 0, 70);
-  --primary-foreground: oklch(1 0 0);      /* white text on burgundy */
+  --primary-foreground: oklch(1 0 0); /* white text on burgundy */
 
   /* Secondary — very light, almost white blush */
   --secondary: oklch(0.975 0.008 358);
   --secondary-foreground: rgb(163, 0, 70);
 
   /* Muted — light neutral grays */
-  --muted: oklch(0.92 0.005 0);
+  --muted: oklch(0.95 0 0);
   --muted-foreground: oklch(0.55 0.015 250);
 
   /* Accent — soft mauve for hover/interactive states */
   --accent: oklch(0.92 0.015 340);
   --accent-foreground: rgb(163, 0, 70);
 
-   /* Tertiary — deep navy, rarely used */
+  /* Tertiary — deep navy, rarely used */
   --tertiary: oklch(0.2 0.06 240);
   --tertiary-foreground: oklch(1 0 0);
 
@@ -99,16 +107,16 @@
   --success-foreground: oklch(0.53 0.14 150.06);
 
   /* Border / Input / Ring */
-  --border: oklch(0.88 0.01 0);             /* light neutral border */
+  --border: oklch(0.88 0.01 0); /* light neutral border */
   --input: oklch(0.92 0.005 0);
-  --ring: rgb(163, 0, 70);                  /* burgundy ring on focus */
+  --ring: rgb(163, 0, 70); /* burgundy ring on focus */
 
   /* Charts — burgundy to mauve spectrum */
-  --chart-1: rgb(163, 0, 70);              /* brand burgundy */
-  --chart-2: rgb(200, 50, 100);            /* dusty rose */
-  --chart-3: oklch(0.6 0.08 358);          /* muted pink */
-  --chart-4: oklch(0.72 0.045 358);        /* blush */
-  --chart-5: oklch(0.2 0.06 358);          /* deep wine */
+  --chart-1: rgb(163, 0, 70); /* brand burgundy */
+  --chart-2: rgb(200, 50, 100); /* dusty rose */
+  --chart-3: oklch(0.6 0.08 358); /* muted pink */
+  --chart-4: oklch(0.72 0.045 358); /* blush */
+  --chart-5: oklch(0.2 0.06 358); /* deep wine */
 
   --radius: 0.625rem;
 
@@ -125,30 +133,40 @@
 
   --dropdown-primary: oklch(0.46 0.18 6.94);
   --dropdown-primary-foreground: oklch(0.96 0.008 358);
+
+  /* ── Table tokens (light) ─────────────────────────────────────── */
+  --table-header: oklch(
+    0.97 0.003 0
+  ); /* slightly darker than card — thead bg */
+  --table-row-border: oklch(0.91 0.005 0); /* row divider lines */
+  --table-row-hover: oklch(0.975 0.003 0); /* tr:hover surface */
+  --table-row-text: oklch(0.45 0.015 250); /* td body text */
+
+  --sub-heading: rgb(163, 0, 70);
 }
 
 .dark {
   /* DARK MODE SURFACES — #0a0f1a background */
-  --background: #0a0f1a;                   /* dark navy background */
-  --foreground: oklch(0.96 0.008 358);     /* near-white */
+  --background: #0a0f1a; /* dark navy background */
+  --foreground: oklch(0.96 0.008 358); /* near-white */
 
-  --card: #0f1623;                         /* slightly lighter navy */
+  --card: #0f1623; /* slightly lighter navy */
   --card-foreground: oklch(0.96 0.008 358);
 
   --popover: #0f1623;
   --popover-foreground: oklch(0.96 0.008 358);
 
   /* Primary — brighter version of rgb(163, 0, 70) to pop on dark background */
-  --primary: oklch(0.46 0.18 6.94);            /* bright pink-magenta version */
-  --primary-foreground: #0a0f1a;           /* dark text on bright button */
+  --primary: oklch(0.46 0.18 6.94); /* bright pink-magenta version */
+  --primary-foreground: #0a0f1a; /* dark text on bright button */
 
   /* Secondary — dark burgundy tinted surface */
   --secondary: oklch(0.24 0.04 358);
   --secondary-foreground: oklch(0.96 0.008 358);
 
   /* Muted — dark grays */
-  --muted: oklch(0.24 0.03 358);
-  --muted-foreground: oklch(0.64 0.04 358);
+  --muted: oklch(0.28 0.03 260.5);
+  --muted-foreground: oklch(0.77 0.02 254.5);
 
   /* Accent — medium burgundy */
   --accent: oklch(0.84 0.14 77.04);
@@ -172,11 +190,11 @@
   --ring: oklch(0.46 0.18 6.94);
 
   /* Charts — same hue, light to dark */
-  --chart-1: oklch(0.46 0.18 6.94);            /* light rose */
-  --chart-2: oklch(0.55 0.18 6.94);           /* mid rose */
-  --chart-3: oklch(0.50 0.18 6.94);            /* dusty burgundy */
-  --chart-4: oklch(0.46 0.18 6.94);              /* brand */
-  --chart-5: oklch(0.22 0.06 358);         /* deep wine */
+  --chart-1: oklch(0.46 0.18 6.94); /* light rose */
+  --chart-2: oklch(0.55 0.18 6.94); /* mid rose */
+  --chart-3: oklch(0.5 0.18 6.94); /* dusty burgundy */
+  --chart-4: oklch(0.46 0.18 6.94); /* brand */
+  --chart-5: oklch(0.22 0.06 358); /* deep wine */
 
   /* Sidebar — matches dark background #0a0f1a */
   --sidebar: #0a0f1a;
@@ -184,13 +202,21 @@
   --sidebar-foreground: oklch(0.96 0.008 358);
   --sidebar-primary: oklch(0.46 0.18 6.94);
   --sidebar-primary-foreground: #0a0f1a;
-  --sidebar-accent: oklch(0.46 0.18 6.94);              /* subtle navy-blue accent */
+  --sidebar-accent: oklch(0.46 0.18 6.94); /* subtle navy-blue accent */
   --sidebar-accent-foreground: oklch(0.96 0.008 358);
-  --sidebar-border: oklch(0.3 0.03 263.94);              /* navy-blue borders */
+  --sidebar-border: oklch(0.3 0.03 263.94); /* navy-blue borders */
   --sidebar-ring: oklch(0.46 0.18 6.94);
 
   --dropdown-primary: oklch(0.84 0.14 77.04);
   --dropdown-primary-foreground: oklch(0.96 0.008 358);
+
+  /* ── Table tokens (dark) ──────────────────────────────────────── */
+  --table-header: rgb(32, 41, 56); /* thead bg — one step lighter than card */
+  --table-row-border: rgb(31, 39, 52); /* row divider lines */
+  --table-row-hover: rgb(32, 41, 56); /* tr:hover surface */
+  --table-row-text: rgb(169, 180, 194); /* td body text */
+
+  --sub-heading: oklch(0.81 0.113 80);
 }
 
 @layer base {
@@ -203,5 +229,54 @@
   }
   html {
     @apply font-sans;
+  }
+}
+
+@layer components {
+  .sd-table-wrap {
+    @apply bg-card border border-border rounded-xl overflow-hidden;
+  }
+
+  .sd-table {
+    @apply w-full border-collapse;
+  }
+
+  .sd-table thead tr {
+    background-color: var(--table-header);
+  }
+
+  .sd-table th {
+    @apply px-3.5 py-2.5 text-left text-[10px] font-bold text-muted-foreground
+           uppercase tracking-[0.5px] border-b border-border;
+  }
+
+  .sd-table th.center {
+    @apply text-center;
+  }
+
+  .sd-table td {
+    @apply px-3.5 py-[11px];
+    color: var(--table-row-text);
+    border-bottom: 1px solid var(--table-row-border);
+  }
+
+  .sd-table tbody tr:last-child td {
+    border-bottom: none;
+  }
+
+  .sd-table tbody tr {
+    @apply cursor-pointer transition-colors;
+  }
+
+  .sd-table tbody tr:hover td {
+    background-color: var(--table-row-hover);
+  }
+
+  .sd-table tbody tr.sd-table-empty {
+    cursor: default;
+  }
+
+  .sd-table tbody tr.sd-table-empty:hover td {
+    background-color: transparent;
   }
 }

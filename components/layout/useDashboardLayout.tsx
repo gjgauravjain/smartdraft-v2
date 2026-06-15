@@ -6,8 +6,6 @@ import { useEffect } from "react";
 export const useDashboardLayout = () => {
   const { data: projects } = useGetProjects();
 
-  
-  console.log("debug:projects", projects)
   const {
     isSideBarOpen,
     setIsSideBarOpen,
@@ -21,6 +19,10 @@ export const useDashboardLayout = () => {
       setSelectedProject(projects[0]);
     }
   }, [projects]);
+
+  const hideSubHeader = ["/", "/projects", "/organisations"].includes(
+    window.location.pathname,
+  );
   return {
     projects,
     isSideBarOpen,
@@ -28,5 +30,6 @@ export const useDashboardLayout = () => {
     selectedProject,
     setSelectedProject,
     isMobile,
+    hideSubHeader,
   };
 };

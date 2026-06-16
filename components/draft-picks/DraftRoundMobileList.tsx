@@ -91,7 +91,6 @@ export function DraftRoundMobileList({ title, picks, userTeamId }: Props) {
               <span
                 className={cn(
                   "text-[11px] text-muted-foreground tabular-nums shrink-0",
-                  isUser && "text-primary",
                 )}
               >
                 {pick.pointPlayer || pick.aflPointValue}

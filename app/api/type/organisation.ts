@@ -45,3 +45,10 @@ export type OrgDetailsType = {
   sportingCode: SportingCodeType;
   members?: number;
 };
+
+export type OrgMembersListType = {
+  id: number;
+  name: string;
+  email: string;
+  tier: string;
+};

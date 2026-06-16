@@ -165,3 +165,18 @@ export const ORGLIST = [
     updated: "2026-06-10T10:35:54.905763Z",
   },
 ];
+
+export const ORG_MEMBERS = [
+  {
+    id: 1,
+    name: "James Anderson",
+    email: "james@brisbanelions.com.au",
+    tier: "SA",
+  },
+  {
+    id: 2,
+    name: "Priya Nair",
+    email: "priya@smartdraft.io",
+    tier: "SA",
+  },
+];

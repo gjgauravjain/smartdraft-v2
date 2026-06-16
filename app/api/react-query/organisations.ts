@@ -1,7 +1,6 @@
 import apiClient from "@/lib/api-client";
 import {
   createOrganisationApiUrl,
-  getOrganisactionDetailsApiUrl,
   getOrganisationListApiUrl,
   updateOrganisationApiUrl,
 } from "@/lib/api-constant";
@@ -11,9 +10,10 @@ import {
   AddOrganisationType,
   OrganisationListType,
   OrgDetailsType,
+  OrgMembersListType,
   UpdateOrganisationType,
 } from "../type/organisation";
-import { ORGLIST } from "../dummy/org-list";
+import { ORG_MEMBERS, ORGLIST } from "../dummy/org-list";
 
 export const transformOrgData = (data: any): OrganisationListType[] => {
   if (!data) {
@@ -113,6 +113,30 @@ export const useGetOrgDetails = (id: string) => {
       // const { data } = await apiClient.get(getOrganisactionDetailsApiUrl(id));
       const data = ORGLIST.find((item) => item.id.toString() === id.toString());
       return transformOrgDetailsData(data);
+    },
+    enabled: !!id,
+    staleTime: 5 * 60 * 1000,
+    retry: 0,
+  });
+};
+
+const transformOrgMembers = (data: any): OrgMembersListType[] => {
+  if (!data) {
+    return [];
+  }
+  return data.map((item: any) => ({
+    id: item.id,
+    name: item.name,
+    email: item.email,
+    tier: item.tier,
+  }));
+};
+export const useGetOrgMembers = (id: string) => {
+  return useQuery({
+    queryKey: ["organisations", id, "members"],
+    queryFn: async () => {
+      // const { data } = await apiClient.get(getOrganisactionMembersApiUrl(id));
+      return transformOrgMembers(ORG_MEMBERS);
     },
     enabled: !!id,
     staleTime: 5 * 60 * 1000,

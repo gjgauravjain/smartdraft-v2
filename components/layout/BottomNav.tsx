@@ -20,7 +20,7 @@ export function BottomNav() {
     <nav
       aria-label="Main navigation"
       className="flex items-start fixed w-full bottom-0 justify-around flex-shrink-0 border-t border-border bg-background"
-      style={{ height: 76, padding: "8px 6px 18px" }}
+      style={{ height: 56, padding: "8px 6px 18px" }}
     >
       {NAV_ITEMS.map(({ label, icon: Icon, href }) => {
         const active =

@@ -24,19 +24,29 @@ import {
 import { cn } from "@/lib/utils";
 
 export function AppSidebar() {
-  const { menuSections, isActiveLink, user, selectedTeam, setSelectedTeam, teams, setIsSideBarOpen, isSideBarOpen } =
-    useAppSidebarWizard();
+  const {
+    menuSections,
+    isActiveLink,
+    user,
+    selectedTeam,
+    setSelectedTeam,
+    teams,
+    setIsSideBarOpen,
+    isSideBarOpen,
+  } = useAppSidebarWizard();
 
+  console.log("debug: ", isSideBarOpen);
   return (
     <Sidebar className="bg-sidebar border-r border-sidebar-border">
       <SidebarHeader className="border-b border-sidebar-border  p-0">
         <div className="flex bg-tertiary items-center gap-2 px-4 py-3">
           <div className="flex justify-between w-full items-center">
-            <p className="text-lg font-bold text-white">
-              Smart Draft
-            </p>
+            <p className="text-lg font-bold text-white">Smart Draft</p>
             <div>
-              <ChevronLeft onClick={() => setIsSideBarOpen(!isSideBarOpen)} className="h-4 w-4 text-white ml-2 cursor-pointer" />
+              <ChevronLeft
+                onClick={() => setIsSideBarOpen(!isSideBarOpen)}
+                className="h-4 w-4 text-white ml-2 cursor-pointer"
+              />
             </div>
           </div>
         </div>
@@ -64,8 +74,7 @@ export function AppSidebar() {
                   onClick={() => setSelectedTeam(team)}
                   className={cn(
                     "cursor-pointer",
-                    team.id === selectedTeam?.id &&
-                      "bg-accent/60",
+                    team.id === selectedTeam?.id && "bg-accent/60",
                   )}
                 >
                   <img
@@ -147,7 +156,11 @@ export function AppSidebar() {
                   {user?.username}
                 </div>
                 <div className="text-xs text-muted-foreground">
-                  {teams.find((team) => team.id.toString() === user?.teamId.toString())?.teamNames}
+                  {
+                    teams.find(
+                      (team) => team.id.toString() === user?.teamId.toString(),
+                    )?.teamNames
+                  }
                 </div>
               </div>
             </button>

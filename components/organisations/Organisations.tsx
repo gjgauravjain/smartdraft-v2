@@ -59,7 +59,7 @@ const Organisations = () => {
         isLoading={loading}
       />
 
-      <div className="overflow-auto h-[calc(100vh-140px)] bg-background p-5">
+      <div className="overflow-auto h-[calc(100vh-100px)] bg-background p-5">
         {renderView()}
       </div>
       <NewOrganisationModal

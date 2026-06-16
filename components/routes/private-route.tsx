@@ -1,35 +1,24 @@
-'use client';
+"use client";
 
-import { useAuth0 } from '@auth0/auth0-react';
-import { usePathname } from 'next/navigation';
-import { useEffect, ReactNode } from 'react';
-import { DashboardLayout } from '../layout/DashboardLayout';
+import { useAuth0 } from "@auth0/auth0-react";
+import { useEffect, ReactNode } from "react";
+import { DashboardLayout } from "../layout/DashboardLayout";
 
 interface PrivateRouteProps {
   children: ReactNode;
   fallback?: ReactNode;
 }
 
-/**
- * PrivateRoute Component
- * Protects routes that require authentication.
- * Redirects to login if user is not authenticated.
- * Automatically wraps children with DashboardLayout.
- */
 export function PrivateRoute({ children, fallback }: PrivateRouteProps) {
   const { isAuthenticated, isLoading, loginWithRedirect } = useAuth0();
-  const pathname = usePathname();
-
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
-      // Redirect to login with return URL
       loginWithRedirect({
         appState: { returnTo: window.location.pathname },
       });
     }
   }, [isLoading, isAuthenticated, loginWithRedirect]);
 
-  // Show loading state
   if (isLoading) {
     return (
       fallback || (
@@ -43,15 +32,9 @@ export function PrivateRoute({ children, fallback }: PrivateRouteProps) {
     );
   }
 
-  // If not authenticated, show nothing (will redirect)
   if (!isAuthenticated) {
     return null;
   }
 
-  // User is authenticated, render children wrapped in DashboardLayout
-  return (
-    <DashboardLayout>
-      {children}
-    </DashboardLayout>
-  );
+  return <DashboardLayout>{children}</DashboardLayout>;
 }

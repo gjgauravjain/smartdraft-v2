@@ -2,6 +2,8 @@ import { useState, useMemo } from "react";
 import { OrgTableRow } from "./OrgTableRow";
 import { OrganisationListType } from "@/app/api/type/organisation";
 import { SearchIcon } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 type OrgTableProps = {
   organisations: OrganisationListType[];
@@ -16,7 +18,7 @@ export const OrgTable = ({
 }: OrgTableProps) => {
   const [search, setSearch] = useState("");
   const [sortDir, setSortDir] = useState<"asc" | "desc">("asc");
-
+  const isMobile = useIsMobile();
   const filtered = useMemo(() => {
     const q = search.toLowerCase();
     return organisations
@@ -35,7 +37,6 @@ export const OrgTable = ({
 
   return (
     <>
-      {/* Toolbar */}
       <div className="flex items-center mb-3">
         <span className="text-[13.5px] font-bold text-foreground">
           All organisations
@@ -63,7 +64,7 @@ export const OrgTable = ({
           Sort: Name {sortDir === "asc" ? "▾" : "▴"}
         </button>
       </div>
-      <div className="sd-table-wrap">
+      <div className={cn("sd-table-wrap", isMobile && "mb-30")}>
         <table className="sd-table">
           <thead>
             <tr>

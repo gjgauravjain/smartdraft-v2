@@ -93,7 +93,7 @@ export const OrgTable = ({
           Sort: Name {sortDir === "asc" ? "▾" : "▴"}
         </button>
       </div>
-      <div className={cn("sd-table-wrap", isMobile && "mb-30")}>
+      <div className={cn("sd-table-wrap", "mb-30")}>
         <table className="sd-table">
           <thead>
             <tr>

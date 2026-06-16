@@ -30,7 +30,7 @@ export function MobileTeamBadge({
         >
           <span
             className={cn(
-              "flex h-[22px] w-[22px] items-center justify-center rounded-full text-[8.5px] font-extrabold tracking-[0.3px]",
+              "flex h-5.5 w-5.5 items-center justify-center rounded-full text-[8.5px] font-extrabold tracking-[0.3px]",
               isAll
                 ? "bg-white/20 text-white"
                 : "bg-muted text-muted-foreground",
@@ -42,7 +42,7 @@ export function MobileTeamBadge({
           <span className="text-[11px] font-bold">All</span>
         </button>
 
-        <div className="mx-1 h-[22px] w-px shrink-0 bg-border" />
+        <div className="mx-1 h-5.5 w-px shrink-0 bg-border" />
 
         {teams.map((team) => {
           const selected = !isAll && team.id === selectedTeamId;
@@ -53,7 +53,7 @@ export function MobileTeamBadge({
               title={team.shortName}
               onClick={() => onTeamSelect?.(team.id)}
               className={cn(
-                "rounded-full p-[2px] shrink-0 transition-all",
+                "rounded-full p-0.5 shrink-0 transition-all",
                 selected ? "bg-primary" : "hover:bg-muted",
               )}
             >

@@ -55,7 +55,7 @@ export function AddUpdateOrganisationModal({
               className="flex-1 min-w-0"
             />
           </div>
-          <InfoBanner />
+          {!initialValue && <InfoBanner />}
         </div>
 
         <div className="px-4 pt-3 pb-6 border-t border-border flex-shrink-0">
@@ -65,7 +65,7 @@ export function AddUpdateOrganisationModal({
               isLoading={isSubmitting}
               className="w-full py-3.5 text-[14.5px] font-bold rounded-[10px]"
             >
-              Create organisation
+              {initialValue ? "Update organisation" : "Create organisation"}
             </Button>
           ) : (
             <div className="flex gap-2.5 justify-end">
@@ -85,7 +85,7 @@ export function AddUpdateOrganisationModal({
                 isLoading={isSubmitting}
                 className="text-[12.5px] font-semibold"
               >
-                Create organisation
+                {initialValue ? "Update organisation" : "Create organisation"}
               </Button>
             </div>
           )}
@@ -113,7 +113,7 @@ export function AddUpdateOrganisationModal({
               Cancel
             </button>
             <span className="flex-1 text-center text-[15.5px] font-bold text-foreground">
-              New organisation
+              {initialValue ? "Update Organisation" : "New organisation"}
             </span>
 
             <span className="w-[46px]" />
@@ -134,10 +134,12 @@ export function AddUpdateOrganisationModal({
           </div>
           <div className="flex-1 min-w-0">
             <DialogTitle className="text-[15.5px] font-bold text-foreground leading-none">
-              New organisation
+              {initialValue ? "Update Organisation" : "New organisation"}
             </DialogTitle>
             <DialogDescription className="text-xs text-muted-foreground mt-0.75">
-              Creates an empty org — add users afterwards
+              {initialValue
+                ? ""
+                : "Creates an empty org — add users afterwards"}
             </DialogDescription>
           </div>
         </DialogHeader>

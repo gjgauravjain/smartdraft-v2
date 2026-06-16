@@ -4,8 +4,10 @@ import { Search } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { TeamBadge } from "./TeamBadge";
-import { TabOptionType, TeamType } from "@/app/api/type/common";
+import { TeamType } from "@/app/api/type/common";
 import { useStore } from "@/store/useStore";
+import { MobileDraftPicksHeader } from "./MobileDraftsPickHeader";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 export interface DraftPicksToolbarProps {
   teams?: TeamType[];
@@ -29,6 +31,20 @@ export function DraftPicksToolbar({
   onToggleAll,
 }: DraftPicksToolbarProps) {
   const { setHoveredTeamId } = useStore();
+
+  const isMobile = useIsMobile();
+
+  if (isMobile) {
+    return (
+      <MobileDraftPicksHeader
+        title="Draft Picks"
+        subtitle={`2026 · ${isAll ? "All clubs" : "Selected club"}`}
+        notificationCount={3}
+        onSearch={onSearch}
+        onNotifications={() => {}}
+      />
+    );
+  }
   return (
     <div className="scrollbar-none flex h-12 w-full items-center gap-3 overflow-x-auto bg-background px-4">
       <span className="shrink-0 text-sm font-bold text-foreground">

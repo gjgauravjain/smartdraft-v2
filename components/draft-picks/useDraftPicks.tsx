@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useGetTeams } from "@/app/api/react-query/common";
 import { userGetDraftPicks } from "@/app/api/react-query/draftpicks";
 import { useStore } from "@/store/useStore";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 export const useDraftPicks = () => {
   const { data } = useGetTeams();
@@ -14,7 +15,7 @@ export const useDraftPicks = () => {
     projectId: Number(selectedProject?.id),
     compensationEnabled: compensation,
   });
-
+  const isMobile = useIsMobile();
   return {
     teams: data || [],
     selectedTeam,
@@ -26,5 +27,6 @@ export const useDraftPicks = () => {
     isAll,
     setIsAll,
     draftPicksData,
+    isMobile,
   };
 };

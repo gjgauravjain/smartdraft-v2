@@ -30,6 +30,13 @@ export type AddOrganisationType = {
   sportingCode: string;
 };
 
+export type UpdateOrganisationType = {
+  id: string;
+  name: string;
+  defaultTeam: string;
+  sportingCode: string;
+};
+
 export type OrgDetailsType = {
   id: string;
   name: string;

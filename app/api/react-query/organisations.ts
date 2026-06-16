@@ -3,6 +3,7 @@ import {
   createOrganisationApiUrl,
   getOrganisactionDetailsApiUrl,
   getOrganisationListApiUrl,
+  updateOrganisationApiUrl,
 } from "@/lib/api-constant";
 import { useAuth } from "@/store/useStore";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -10,6 +11,7 @@ import {
   AddOrganisationType,
   OrganisationListType,
   OrgDetailsType,
+  UpdateOrganisationType,
 } from "../type/organisation";
 import { ORGLIST } from "../dummy/org-list";
 
@@ -69,6 +71,25 @@ export const useCreateOrganisation = () => {
   });
 };
 
+export const useUpdateOrganisation = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (payload: UpdateOrganisationType) => {
+      const { data } = await apiClient.put(
+        updateOrganisationApiUrl(payload.id),
+        {
+          sporting_code: payload.sportingCode,
+          name: payload.name,
+          default_team: payload.defaultTeam,
+        },
+      );
+      return data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["organisations"] });
+    },
+  });
+};
 const transformOrgDetailsData = (data: any): OrgDetailsType => {
   return {
     id: data.id,

@@ -1,6 +1,6 @@
 "use client";
 
-import { NewOrganisationModal } from "./NewOrganisationModal";
+import { AddUpdateOrganisationModal } from "./AddUpdateOrganisationModal";
 import { OrgEmptyState } from "./OrgEmptyState";
 import { OrgErrorState } from "./OrgErrorState";
 import { OrgPageHeader } from "./OrgPageHeader";
@@ -62,7 +62,7 @@ const Organisations = () => {
       <div className="overflow-auto h-[calc(100vh-100px)] bg-background p-5">
         {renderView()}
       </div>
-      <NewOrganisationModal
+      <AddUpdateOrganisationModal
         onOpenChange={() => {
           setOpenAddModal((prev) => !prev);
         }}

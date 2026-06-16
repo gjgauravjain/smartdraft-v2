@@ -15,17 +15,18 @@ import { InfoBanner } from "./InfoBanner";
 import { FormTextField } from "../common/fields/FormTextfield";
 import { FormSelectField } from "../common/fields/FormSelectField";
 import { NewOrganisationModalProps } from "./type";
-import { useNewOrganisationModalWizard } from "./hook";
+import { useAddUpdateOrganisationModalWizard } from "./hook";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 
-export function NewOrganisationModal({
+export function AddUpdateOrganisationModal({
   open,
   onOpenChange,
+  initialValue,
 }: NewOrganisationModalProps) {
   const isMobile = useIsMobile();
   const { form, handleCancel, isSubmitting, handleSubmit, teamOptions } =
-    useNewOrganisationModalWizard({ onOpenChange });
+    useAddUpdateOrganisationModalWizard({ onOpenChange, initialValue, open });
 
   const formBody = (
     <Form {...form}>

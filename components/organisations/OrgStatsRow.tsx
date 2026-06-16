@@ -16,7 +16,7 @@ export const OrgStatsRow = ({
   newSignups,
   onManageUsers,
 }: OrgStatsRowProps) => (
-  <div className="grid grid-cols-3 gap-3 mb-5">
+  <div className="grid grid-cols-3 gap-2.5 md:gap-3 mb-4 md:mb-5">
     <StatCard
       label="Organisations"
       value={organisations.length}

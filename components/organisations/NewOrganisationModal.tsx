@@ -1,7 +1,6 @@
 "use client";
 
 import { LayoutGridIcon } from "lucide-react";
-
 import {
   Dialog,
   DialogContent,
@@ -9,22 +8,121 @@ import {
   DialogTitle,
   DialogDescription,
 } from "@/components/ui/dialog";
+import { Sheet, SheetContent, SheetTitle } from "@/components/ui/sheet";
 import { Form } from "@/components/ui/form";
-import { NewOrganisationModalProps } from "./type";
-import { useNewOrganisationModalWizard } from "./hook";
+import { Button } from "../ui/button";
 import { InfoBanner } from "./InfoBanner";
 import { FormTextField } from "../common/fields/FormTextfield";
 import { FormSelectField } from "../common/fields/FormSelectField";
-import { Button } from "../ui/button";
+import { NewOrganisationModalProps } from "./type";
+import { useNewOrganisationModalWizard } from "./hook";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { cn } from "@/lib/utils";
 
 export function NewOrganisationModal({
   open,
   onOpenChange,
 }: NewOrganisationModalProps) {
+  const isMobile = useIsMobile();
   const { form, handleCancel, isSubmitting, handleSubmit, teamOptions } =
-    useNewOrganisationModalWizard({
-      onOpenChange,
-    });
+    useNewOrganisationModalWizard({ onOpenChange });
+
+  const formBody = (
+    <Form {...form}>
+      <form onSubmit={handleSubmit} className="flex flex-col flex-1 min-h-0">
+        <div className="flex-1 overflow-auto px-4 py-4 flex flex-col gap-4">
+          <FormTextField
+            control={form.control}
+            name="organisationName"
+            label="Organisation name"
+            placeholder="e.g. Brisbane Lions"
+          />
+          <div className={cn("flex gap-3", isMobile && "flex-col")}>
+            <FormTextField
+              control={form.control}
+              name="sportingCode"
+              label="Sporting code"
+              placeholder="Enter Code"
+              className="flex-1 min-w-0"
+            />
+            <FormSelectField
+              control={form.control}
+              name="defaultTeam"
+              label="Default team"
+              options={teamOptions}
+              placeholder="Select from team list"
+              className="flex-1 min-w-0"
+            />
+          </div>
+          <InfoBanner />
+        </div>
+
+        <div className="px-4 pt-3 pb-6 border-t border-border flex-shrink-0">
+          {isMobile ? (
+            <Button
+              type="submit"
+              isLoading={isSubmitting}
+              className="w-full py-3.5 text-[14.5px] font-bold rounded-[10px]"
+            >
+              Create organisation
+            </Button>
+          ) : (
+            <div className="flex gap-2.5 justify-end">
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                disabled={isSubmitting}
+                className="text-[12.5px] font-semibold"
+                onClick={handleCancel}
+              >
+                Cancel
+              </Button>
+              <Button
+                type="submit"
+                size="sm"
+                isLoading={isSubmitting}
+                className="text-[12.5px] font-semibold"
+              >
+                Create organisation
+              </Button>
+            </div>
+          )}
+        </div>
+      </form>
+    </Form>
+  );
+
+  if (isMobile) {
+    return (
+      <Sheet open={open} onOpenChange={onOpenChange}>
+        <SheetContent
+          side="bottom"
+          className="h-full p-0 gap-0 bg-card border-border flex flex-col [&>button]:hidden"
+        >
+          <SheetTitle />
+          <div className="h-[3px] bg-sub-heading flex-shrink-0" />
+
+          <div className="flex items-center gap-2.5 px-4 py-3 border-b border-border flex-shrink-0">
+            <button
+              type="button"
+              onClick={handleCancel}
+              className="text-[14px] font-semibold text-muted-foreground bg-transparent border-none cursor-pointer p-0"
+            >
+              Cancel
+            </button>
+            <span className="flex-1 text-center text-[15.5px] font-bold text-foreground">
+              New organisation
+            </span>
+
+            <span className="w-[46px]" />
+          </div>
+
+          {formBody}
+        </SheetContent>
+      </Sheet>
+    );
+  }
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -42,60 +140,7 @@ export function NewOrganisationModal({
             </DialogDescription>
           </div>
         </DialogHeader>
-
-        <Form {...form}>
-          <form onSubmit={handleSubmit}>
-            <div className="px-5 py-5 flex flex-col gap-4">
-              <FormTextField
-                control={form.control}
-                name="organisationName"
-                label="Organisation name"
-                placeholder="e.g. Brisbane Lions"
-              />
-
-              <div className="flex gap-3">
-                <FormTextField
-                  control={form.control}
-                  name="sportingCode"
-                  label="Sporting code"
-                  placeholder="Enter Code"
-                  className="flex-1 min-w-0"
-                />
-                <FormSelectField
-                  control={form.control}
-                  name="defaultTeam"
-                  label="Default team"
-                  options={teamOptions}
-                  placeholder="Select from team list"
-                  className="flex-1 min-w-0"
-                />
-              </div>
-
-              <InfoBanner />
-            </div>
-
-            <div className="px-5 py-3.5 border-t border-border flex gap-2.5 justify-end">
-              <Button
-                type="button"
-                variant="outline"
-                size="sm"
-                disabled={isSubmitting}
-                className="text-[12.5px] font-semibold"
-                onClick={handleCancel}
-              >
-                Cancel
-              </Button>
-              <Button
-                type="submit"
-                size="sm"
-                isLoading={isSubmitting}
-                className="cursor-pointer text-[12.5px] font-semibold"
-              >
-                Create organisation
-              </Button>
-            </div>
-          </form>
-        </Form>
+        {formBody}
       </DialogContent>
     </Dialog>
   );

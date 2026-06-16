@@ -35,7 +35,6 @@ export function AppSidebar() {
     isSideBarOpen,
   } = useAppSidebarWizard();
 
-  console.log("debug: ", isSideBarOpen);
   return (
     <Sidebar className="bg-sidebar border-r border-sidebar-border">
       <SidebarHeader className="border-b border-sidebar-border  p-0">

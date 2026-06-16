@@ -4,6 +4,7 @@ import { OrganisationListType } from "@/app/api/type/organisation";
 import { SearchIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { OrgMobileList } from "./OrgMobileList";
 
 type OrgTableProps = {
   organisations: OrganisationListType[];
@@ -35,6 +36,34 @@ export const OrgTable = ({
       );
   }, [organisations, search, sortDir]);
 
+  if (isMobile) {
+    return (
+      <div className="flex flex-col gap-3.5 pb-32">
+        <div className="flex items-center">
+          <span className="text-[11px] font-bold text-muted-foreground uppercase tracking-[0.6px]">
+            All organisations
+          </span>
+          <span className="ml-[7px] text-[11px] text-muted-foreground">
+            {filtered.length} total
+          </span>
+        </div>
+
+        <div className="relative">
+          <input
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Search organisations…"
+            className="w-full py-2.5 pl-[34px] pr-3 text-[13px] bg-muted border border-border rounded-[9px] text-foreground outline-none focus:ring-1 focus:ring-ring placeholder:text-muted-foreground"
+          />
+          <span className="absolute left-[11px] top-1/2 -translate-y-1/2 text-muted-foreground flex pointer-events-none">
+            <SearchIcon size={15} />
+          </span>
+        </div>
+
+        <OrgMobileList organisations={filtered} onRowClick={onRowClick} />
+      </div>
+    );
+  }
   return (
     <>
       <div className="flex items-center mb-3">

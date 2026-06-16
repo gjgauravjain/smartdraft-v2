@@ -11,17 +11,20 @@ import { useState } from "react";
 import { useGetTeams } from "@/app/api/react-query/common";
 import { SelectOption } from "../common/fields/FormSelectField";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 export const useOrganisations = () => {
   const { data, isLoading, error, refetch, isRefetching } =
     useGetOrganisations();
   const [openAddModal, setOpenAddModal] = useState(false);
+  const router = useRouter();
   const handleManageUsers = () => console.log("Navigate to manage users");
   const handleNewOrganisation = () => {
     setOpenAddModal(true);
   };
-  const handleRowClick = (org: OrganisationListType) =>
-    console.log("Navigate to org", org.id);
+  const handleRowClick = (org: OrganisationListType) => {
+    router.push(`/organisations/${org.id}`);
+  };
   const handleMenuClick = (_e: React.MouseEvent, org: OrganisationListType) =>
     console.log("Menu for org", org.id);
 

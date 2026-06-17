@@ -10,6 +10,7 @@ import { MobileApplyCompensation } from "./MobileApplyCompensation";
 import MobileOrderEntry from "./MobileOrderEntry";
 import FullListView from "./fulllist/FullListView";
 import FullListMobileView from "./fulllist/FullListMobileView";
+import DraftAssetsChart from "./draft-assets/DraftAssetsChart";
 
 const DraftPicks = () => {
   const {
@@ -113,6 +114,17 @@ const DraftPicks = () => {
       )}
       {activeTab === "order" && renderOrderEntry()}
       {activeTab === "fulllist" && renderFullListEntry()}
+      {activeTab === "draftAssets" && (
+        <DraftAssetsChart
+          data={draftData?.draftAsset || []}
+          teams={teams}
+          highlightOwnerName={
+            teams.find(
+              (item) => item.id.toString() === selectedTeam?.toString(),
+            )?.shortName
+          }
+        />
+      )}
     </div>
   );
 };

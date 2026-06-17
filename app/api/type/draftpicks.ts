@@ -351,3 +351,8 @@ export type DraftPickType = {
   nextYear?: string;
   thirdYear?: string;
 };
+
+export type DraftAssetGraphType = {
+  name: string;
+  [year: string]: number | string;
+};

@@ -1,5 +1,9 @@
 import { TabOptionType } from "@/app/api/type/common";
-import { DraftYearList, DraftYearType } from "@/app/api/type/draftpicks";
+import {
+  DataOrderEntryType,
+  DraftYearList,
+  DraftYearType,
+} from "@/app/api/type/draftpicks";
 
 export const draftTabOption: TabOptionType[] = [
   {
@@ -61,3 +65,59 @@ export const isPlayerName = (value?: string) => {
   if (!value) return false;
   return Number.isNaN(Number(value));
 };
+
+export const NAME_COL_WIDTH = 170;
+export const COL_WIDTH = 64;
+
+// Decay curve fitted to match the value tooltips in the reference design
+// (3000 pts at pick 1, decaying ~3.7% per pick).
+export const VALUE_BASE = 3000;
+export const VALUE_DECAY = 0.963;
+
+export const GRADIENT_LIGHT: [number, number, number][] = [
+  [134, 207, 155],
+  [187, 222, 150],
+  [235, 220, 142],
+  [239, 188, 131],
+  [232, 145, 128],
+];
+export const GRADIENT_DARK: [number, number, number][] = [
+  [87, 177, 115],
+  [148, 195, 110],
+  [207, 185, 95],
+  [211, 143, 87],
+  [200, 106, 91],
+];
+
+function interpolateStop(stops: [number, number, number][], t: number) {
+  const clamped = Math.min(1, Math.max(0, t));
+  const segs = stops.length - 1;
+  const seg = Math.min(segs - 1, Math.floor(clamped * segs));
+  const localT = clamped * segs - seg;
+  const [r1, g1, b1] = stops[seg];
+  const [r2, g2, b2] = stops[seg + 1];
+  return [
+    Math.round(r1 + (r2 - r1) * localT),
+    Math.round(g1 + (g2 - g1) * localT),
+    Math.round(b1 + (b2 - b1) * localT),
+  ] as const;
+}
+
+export function cellBackground(t: number) {
+  const [lr, lg, lb] = interpolateStop(GRADIENT_LIGHT, t);
+  const [dr, dg, db] = interpolateStop(GRADIENT_DARK, t);
+  return `light-dark(rgb(${lr} ${lg} ${lb}), rgb(${dr} ${dg} ${db}))`;
+}
+
+export function pickValue(pick: number) {
+  return Math.round(VALUE_BASE * Math.pow(VALUE_DECAY, pick - 1));
+}
+
+export function getPicks(team: DataOrderEntryType) {
+  const picks: number[] = [];
+  for (let i = 1; i <= team.totalOrderLength; i++) {
+    const value = team[`order_${i}`];
+    if (typeof value === "number") picks.push(value);
+  }
+  return picks;
+}

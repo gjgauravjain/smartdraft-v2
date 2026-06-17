@@ -5,6 +5,7 @@ import NextYearDraftPick from "./NextYearDraftPick";
 import { useDraftPicks } from "./useDraftPicks";
 import { draftTabOption } from "./util";
 import { MobileTeamBadge } from "./MobileTeamBadge";
+import OrderOfEntry from "./OrderOfEntry";
 
 const DraftPicks = () => {
   const {
@@ -62,6 +63,13 @@ const DraftPicks = () => {
           data={draftData?.draftNextYear}
           selectedTeamId={selectedTeam}
           showAll={isAll}
+        />
+      )}
+      {activeTab === "order" && (
+        <OrderOfEntry
+          teamsList={teams}
+          highlightTeamId={selectedTeam}
+          data={draftPicksData?.orderOfEntryData || []}
         />
       )}
     </div>

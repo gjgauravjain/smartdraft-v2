@@ -8,7 +8,7 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-sub-heading: var(--sub-heading);
-
+  --color-primary-light: var(--primary-light);
   --font-sans: var(--font-sans);
   --font-mono: var(--font-geist-mono);
   --font-heading: var(--font-sans);
@@ -80,6 +80,7 @@
   /* Primary — brand burgundy rgb(163, 0, 70) / #a30046 */
   --primary: rgb(163, 0, 70);
   --primary-foreground: oklch(1 0 0); /* white text on burgundy */
+  --primary-light: #f4ecf0;
 
   /* Secondary — very light, almost white blush */
   --secondary: oklch(0.975 0.008 358);
@@ -159,7 +160,7 @@
   /* Primary — brighter version of rgb(163, 0, 70) to pop on dark background */
   --primary: oklch(0.46 0.18 6.94); /* bright pink-magenta version */
   --primary-foreground: #0a0f1a; /* dark text on bright button */
-
+  --primary-light: #36283c;
   /* Secondary — dark burgundy tinted surface */
   --secondary: oklch(0.24 0.04 358);
   --secondary-foreground: oklch(0.96 0.008 358);

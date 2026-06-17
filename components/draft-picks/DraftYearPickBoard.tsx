@@ -1,23 +1,12 @@
 "use client";
 
 import { useState } from "react";
-
-import { DraftYearList, DraftYearType } from "@/app/api/type/draftpicks";
+import { DraftYearType } from "@/app/api/type/draftpicks";
 import { DraftRoundColumn } from "@/components/draft-picks/DraftRoundColumn";
-
-type DraftRoundConfig = {
-  id: keyof DraftYearType;
-  title: string;
-};
-
-const DRAFT_ROUNDS: DraftRoundConfig[] = [
-  { id: "rd1List", title: "Round 1" },
-  { id: "rd2List", title: "Round 2" },
-  { id: "rd3List", title: "Round 3" },
-  { id: "rd4List", title: "Round 4" },
-  { id: "rd5List", title: "Round 5" },
-  { id: "rd6List", title: "Rest of Draft" },
-];
+import { DraftRoundTabBar } from "@/components/draft-picks/DraftRoundTabBar";
+import { DraftRoundMobileList } from "@/components/draft-picks/DraftRoundMobileList";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { DRAFT_ROUNDS, filterPicks } from "./util";
 
 interface DraftYearPickBoardProps {
   data?: DraftYearType;
@@ -29,22 +18,6 @@ interface DraftYearPickBoardProps {
   visibleRoundIds?: Array<keyof DraftYearType>;
 }
 
-const filterPicks = ({
-  picks,
-  selectedTeamId,
-  showAll,
-}: {
-  picks: DraftYearList[];
-  selectedTeamId?: string;
-  showAll?: boolean;
-}) => {
-  if (showAll || !selectedTeamId) {
-    return picks;
-  }
-
-  return picks.filter((pick) => Number(pick.teamId) === Number(selectedTeamId));
-};
-
 export function DraftYearPickBoard({
   data,
   selectedTeamId,
@@ -54,42 +27,71 @@ export function DraftYearPickBoard({
   defaultCollapsedRoundIds = ["rd5List", "rd6List"],
   visibleRoundIds,
 }: DraftYearPickBoardProps) {
+  const isMobile = useIsMobile();
   const [collapsedRoundIds, setCollapsedRoundIds] = useState<
     Array<keyof DraftYearType>
   >(defaultCollapsedRoundIds);
+  const [activeTab, setActiveTab] = useState<"all" | keyof DraftYearType>(
+    "all",
+  );
 
   const toggleRound = (roundId: keyof DraftYearType) => {
-    setCollapsedRoundIds((current) =>
-      current.includes(roundId)
-        ? current.filter((id) => id !== roundId)
-        : [...current, roundId],
+    setCollapsedRoundIds((cur) =>
+      cur.includes(roundId)
+        ? cur.filter((id) => id !== roundId)
+        : [...cur, roundId],
     );
   };
+
+  const visibleRounds = DRAFT_ROUNDS.filter(
+    (r) => !visibleRoundIds || visibleRoundIds.includes(r.id),
+  );
+
+  if (isMobile) {
+    const roundsToShow =
+      activeTab === "all"
+        ? visibleRounds
+        : visibleRounds.filter((r) => r.id === activeTab);
+
+    return (
+      <div className="flex flex-col pb-24">
+        <DraftRoundTabBar active={activeTab} onChange={setActiveTab} />
+        <div className="h-screen px-4 overflow-auto block pb-100">
+          {roundsToShow.map((round) => (
+            <DraftRoundMobileList
+              key={round.id}
+              title={round.title}
+              picks={filterPicks({
+                picks: data?.[round.id] ?? [],
+                selectedTeamId,
+                showAll,
+              })}
+              userTeamId={userTeamId}
+            />
+          ))}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="w-full overflow-x-auto bg-background p-4">
       <div className="flex min-w-max gap-4">
-        {DRAFT_ROUNDS.filter(
-          (round) => !visibleRoundIds || visibleRoundIds.includes(round.id),
-        ).map((round) => {
-          const picks = filterPicks({
-            picks: data?.[round.id] ?? [],
-            selectedTeamId,
-            showAll,
-          });
-
-          return (
-            <DraftRoundColumn
-              key={round.id}
-              title={round.title}
-              picks={picks}
-              collapsed={collapsedRoundIds.includes(round.id)}
-              onToggleCollapse={() => toggleRound(round.id)}
-              userTeamId={userTeamId}
-              hoveredTeamId={hoveredTeamId}
-            />
-          );
-        })}
+        {visibleRounds.map((round) => (
+          <DraftRoundColumn
+            key={round.id}
+            title={round.title}
+            picks={filterPicks({
+              picks: data?.[round.id] ?? [],
+              selectedTeamId,
+              showAll,
+            })}
+            collapsed={collapsedRoundIds.includes(round.id)}
+            onToggleCollapse={() => toggleRound(round.id)}
+            userTeamId={userTeamId}
+            hoveredTeamId={hoveredTeamId}
+          />
+        ))}
       </div>
     </div>
   );

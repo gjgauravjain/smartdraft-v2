@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Chip } from "@/components/ui/Chip";
 import { cn } from "@/lib/utils";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
+import { formatPlayerName, isPlayerName } from "./util";
 
 interface DraftRoundColumnProps {
   title: string;
@@ -17,23 +18,6 @@ interface DraftRoundColumnProps {
   hoveredTeamId?: number | string | null;
   className?: string;
 }
-
-const formatPlayerName = (name?: string) => {
-  if (!name) return "";
-
-  const words = name.trim().split(/\s+/);
-  if (words.length <= 1) return name;
-
-  return `${words
-    .slice(0, -1)
-    .map((word) => word[0])
-    .join(" ")} ${words[words.length - 1]}`;
-};
-
-const isPlayerName = (value?: string) => {
-  if (!value) return false;
-  return Number.isNaN(Number(value));
-};
 
 export function DraftRoundColumn({
   title,
@@ -68,11 +52,11 @@ export function DraftRoundColumn({
           className="flex flex-1 items-end justify-center px-2 py-4 text-muted-foreground transition-colors hover:text-foreground"
         >
           <span className="[writing-mode:vertical-rl] rotate-180 text-sm font-bold tracking-wide">
-            {title} <span className="mt-3 [writing-mode:vertical-rl] rotate-180 text-xs font-semibold">
-            {picks.length} picks
+            {title}{" "}
+            <span className="mt-3 [writing-mode:vertical-rl] rotate-180 text-xs font-semibold">
+              {picks.length} picks
+            </span>
           </span>
-          </span>
-          
         </button>
       </section>
     );
@@ -148,7 +132,10 @@ export function DraftRoundColumn({
                 )}
               >
                 <span className="font-bold text-xs text-foreground">
-                  {pick.overallPick} <span className="text-muted-foreground">({pick.clubPickNumber})</span> 
+                  {pick.overallPick}{" "}
+                  <span className="text-muted-foreground">
+                    ({pick.clubPickNumber})
+                  </span>
                 </span>
                 <div className="flex min-w-0 items-center gap-2">
                   {pick.image ? (

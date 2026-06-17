@@ -1,7 +1,9 @@
 "use client";
 
 import { TabOptionType } from "@/app/api/type/common";
+import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
+import { MobileTabItem } from "./MobileDraftTab";
 
 export interface DraftTab {
   id: string;
@@ -47,17 +49,36 @@ export function DraftPicksTabs({
   onTabChange,
 }: DraftPicksTabsProps) {
   const active = activeTabId ?? tabs[0]?.value;
-
+  const visibleTabs = tabs.filter((item) => !item.toHide);
+  const isMobile = useIsMobile();
+  if (isMobile) {
+    return (
+      <div className="border-b border-border bg-background">
+        <div className="scrollbar-none flex gap-1.5 overflow-x-auto px-3.5 py-2">
+          {visibleTabs.map((tab) => (
+            <MobileTabItem
+              key={tab.value}
+              tab={tab}
+              active={tab.value === active}
+              onClick={() => onTabChange?.(tab.value)}
+            />
+          ))}
+        </div>
+      </div>
+    );
+  }
   return (
     <div className="scrollbar-none flex items-center gap-6 overflow-x-auto border-t border-border bg-background px-4">
-      {tabs.filter((item) => !item.toHide).map((tab) => (
-        <TabItem
-          key={tab.value}
-          tab={tab}
-          active={tab.value === active}
-          onClick={() => onTabChange?.(tab.value)}
-        />
-      ))}
+      {tabs
+        .filter((item) => !item.toHide)
+        .map((tab) => (
+          <TabItem
+            key={tab.value}
+            tab={tab}
+            active={tab.value === active}
+            onClick={() => onTabChange?.(tab.value)}
+          />
+        ))}
     </div>
   );
 }

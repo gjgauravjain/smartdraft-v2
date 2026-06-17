@@ -4,6 +4,7 @@ import CurrentYearDraftPick from "./CurrentYearDraftPick";
 import NextYearDraftPick from "./NextYearDraftPick";
 import { useDraftPicks } from "./useDraftPicks";
 import { draftTabOption } from "./util";
+import { MobileTeamBadge } from "./MobileTeamBadge";
 
 const DraftPicks = () => {
   const {
@@ -17,6 +18,7 @@ const DraftPicks = () => {
     isAll,
     setIsAll,
     draftPicksData,
+    isMobile,
   } = useDraftPicks();
   const draftData = draftPicksData?.draftData;
 
@@ -33,12 +35,21 @@ const DraftPicks = () => {
         onToggleAll={setIsAll}
       />
 
-      {/* Row 2 – tabs */}
       <DraftPicksTabs
         tabs={[...(draftPicksData?.draftTab || []), ...draftTabOption]}
         activeTabId={activeTab}
         onTabChange={setActiveTab}
       />
+      {isMobile && (
+        <MobileTeamBadge
+          isAll={isAll}
+          teams={teams}
+          selectedTeamId={selectedTeam}
+          onToggleAll={setIsAll}
+          onTeamSelect={setSelectedTeam}
+        />
+      )}
+
       {activeTab === "current" && (
         <CurrentYearDraftPick
           data={draftData?.draftCurrentYear}

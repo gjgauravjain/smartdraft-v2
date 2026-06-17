@@ -1,6 +1,8 @@
 import { TeamType } from "@/app/api/type/common";
 import { DraftAssetGraphType, DraftAssetType } from "@/app/api/type/draftpicks";
 
+export const MIN_LABEL_WIDTH_PCT = 9;
+
 export const YEAR_COLOR_VARS = [
   "var(--chart-1)",
   "var(--chart-2)",

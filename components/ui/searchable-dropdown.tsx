@@ -15,6 +15,7 @@ import { cn } from "@/lib/utils";
 export type SearchableDropdownOption = {
   value: string;
   label: string;
+  icon?: React.ReactNode;
   disabled?: boolean;
 };
 
@@ -80,7 +81,9 @@ export function SearchableDropdown({
             {showStatusDot ? (
               <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-green-500" />
             ) : null}
-            <span className="truncate">{selectedOption?.label ?? placeholder}</span>
+            <span className="truncate">
+              {selectedOption?.label ?? placeholder}
+            </span>
           </span>
           <ChevronDown className="h-3 w-3 shrink-0 opacity-70" />
         </Button>
@@ -111,7 +114,11 @@ export function SearchableDropdown({
                   option.value === value && "bg-accent/60",
                 )}
               >
-                <span className="truncate">{option.label}</span>
+                <div className="flex items-center gap-2">
+                  {option.icon}
+                  <span className="truncate">{option.label}</span>
+                </div>
+
                 {option.value === value ? (
                   <Check className="ml-2 h-3.5 w-3.5 shrink-0" />
                 ) : null}

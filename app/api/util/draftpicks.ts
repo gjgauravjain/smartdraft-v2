@@ -317,7 +317,6 @@ export const transformDataOrderNewEntry = (data: any): DataOrderEntryType[] => {
   if (!data) {
     return [];
   }
-  console.log("data", data);
   const overallPicks = data.map((item: any) => [...item.Overall_Pick]);
   const flat = flatten(overallPicks);
   const minimumValue = min(compact(flat));
@@ -403,10 +402,10 @@ export const transformDashboardFullOrderList = (
     clubPickNumber: item.Club_Pick_Number,
     currentOwner: item.Current_Owner,
     draftRound: item.Draft_Round,
-    originalOwner: item.Original_Owner,
+    originalOwner: item.Original_Owner?.toString(),
     overallPick: item.Overall_Pick,
     pickType: item?.Pick_Status,
-    previousOwner: item.Previous_Owner,
+    previousOwner: item.Previous_Owner?.toString(),
     reason: item.Reason,
     selectedPlayer: item.Selected_Player,
     shortName: item?.Current_Owner_Short_Name,

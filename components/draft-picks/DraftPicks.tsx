@@ -8,6 +8,8 @@ import { MobileTeamBadge } from "./MobileTeamBadge";
 import OrderOfEntry from "./OrderOfEntry";
 import { MobileApplyCompensation } from "./MobileApplyCompensation";
 import MobileOrderEntry from "./MobileOrderEntry";
+import FullListView from "./fulllist/FullListView";
+import FullListMobileView from "./fulllist/FullListMobileView";
 
 const DraftPicks = () => {
   const {
@@ -40,6 +42,25 @@ const DraftPicks = () => {
         teamsList={teams}
         highlightTeamId={selectedTeam}
         data={draftPicksData?.orderOfEntryData || []}
+      />
+    );
+  };
+
+  const renderFullListEntry = () => {
+    if (isMobile) {
+      return (
+        <FullListMobileView
+          teams={teams}
+          highlightTeamId={selectedTeam}
+          data={draftData?.fullOrderList || []}
+        />
+      );
+    }
+    return (
+      <FullListView
+        teams={teams}
+        highlightTeamId={selectedTeam}
+        data={draftData?.fullOrderList || []}
       />
     );
   };
@@ -91,6 +112,7 @@ const DraftPicks = () => {
         />
       )}
       {activeTab === "order" && renderOrderEntry()}
+      {activeTab === "fulllist" && renderFullListEntry()}
     </div>
   );
 };

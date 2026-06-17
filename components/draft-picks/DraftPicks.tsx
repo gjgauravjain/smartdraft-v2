@@ -10,6 +10,8 @@ import { MobileApplyCompensation } from "./MobileApplyCompensation";
 import MobileOrderEntry from "./MobileOrderEntry";
 import FullListView from "./fulllist/FullListView";
 import FullListMobileView from "./fulllist/FullListMobileView";
+import DraftAssetsChart from "./draft-assets/DraftAssetsChart";
+import DraftAssetsMobileList from "./draft-assets/DraftAssetMobileList";
 
 const DraftPicks = () => {
   const {
@@ -64,6 +66,32 @@ const DraftPicks = () => {
       />
     );
   };
+
+  const renderDraftAssets = () => {
+    if (isMobile) {
+      return (
+        <DraftAssetsMobileList
+          data={draftData?.draftAsset || []}
+          teams={teams}
+          highlightOwnerName={
+            teams.find(
+              (item) => item.id.toString() === selectedTeam?.toString(),
+            )?.shortName
+          }
+        />
+      );
+    }
+    return (
+      <DraftAssetsChart
+        data={draftData?.draftAsset || []}
+        teams={teams}
+        highlightOwnerName={
+          teams.find((item) => item.id.toString() === selectedTeam?.toString())
+            ?.shortName
+        }
+      />
+    );
+  };
   return (
     <div className="w-full border-b border-border">
       {/* Row 1 – toolbar */}
@@ -113,6 +141,7 @@ const DraftPicks = () => {
       )}
       {activeTab === "order" && renderOrderEntry()}
       {activeTab === "fulllist" && renderFullListEntry()}
+      {activeTab === "draftAssets" && renderDraftAssets()}
     </div>
   );
 };

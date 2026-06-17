@@ -32,9 +32,9 @@ export function BottomNav() {
             aria-current={active ? "page" : undefined}
             onClick={() => router.push(href)}
             className={cn(
-              "flex flex-col items-center gap-[3px] flex-1 bg-transparent border-none cursor-pointer transition-colors duration-150",
+              "flex flex-col items-center gap-0.75 flex-1 bg-transparent border-none cursor-pointer transition-colors duration-150",
               active
-                ? "text-accent"
+                ? "dark:text-accent text-primary"
                 : "text-muted-foreground hover:text-foreground",
             )}
           >

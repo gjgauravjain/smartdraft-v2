@@ -317,7 +317,6 @@ export const transformDataOrderNewEntry = (data: any): DataOrderEntryType[] => {
   if (!data) {
     return [];
   }
-  console.log("data", data);
   const overallPicks = data.map((item: any) => [...item.Overall_Pick]);
   const flat = flatten(overallPicks);
   const minimumValue = min(compact(flat));

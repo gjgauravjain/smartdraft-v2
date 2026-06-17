@@ -49,9 +49,9 @@ export function ConfirmDangerDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-[460px] p-0 overflow-hidden">
+      <DialogContent className="max-w-115 p-0 overflow-hidden">
         <DialogTitle />
-        <div className="p-[22px]">
+        <div className="p-5.5">
           <div className="flex items-start gap-3">
             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[10px] border border-red-200 bg-red-50 text-red-700 dark:border-red-900/50 dark:bg-red-950/30 dark:text-red-400">
               <AlertTriangle className="h-5 w-5" />

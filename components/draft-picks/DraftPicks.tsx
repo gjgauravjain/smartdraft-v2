@@ -8,6 +8,7 @@ import { MobileTeamBadge } from "./MobileTeamBadge";
 import OrderOfEntry from "./OrderOfEntry";
 import { MobileApplyCompensation } from "./MobileApplyCompensation";
 import MobileOrderEntry from "./MobileOrderEntry";
+import FullListView from "./fulllist/FullListView";
 
 const DraftPicks = () => {
   const {
@@ -91,6 +92,13 @@ const DraftPicks = () => {
         />
       )}
       {activeTab === "order" && renderOrderEntry()}
+      {activeTab === "fulllist" && (
+        <FullListView
+          teams={teams}
+          highlightTeamId={selectedTeam}
+          data={draftData?.fullOrderList || []}
+        />
+      )}
     </div>
   );
 };

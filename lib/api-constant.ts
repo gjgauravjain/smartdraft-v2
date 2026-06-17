@@ -1,9 +1,8 @@
-
-export const BASE_URL = process.env.NEXT_PUBLIC_BASE_API_URL || '';
-export const AUTH0_DOMAIN = process.env.NEXT_PUBLIC_AUTH0_DOMAIN || '';
-export const AUTH0_CLIENT_ID = process.env.NEXT_PUBLIC_AUTH0_CLIENT_ID || '';
-export const AUTH0_HOST = process.env.NEXT_PUBLIC_HOST || '';
-export const AUTH0_AUDIENCE = process.env.NEXT_PUBLIC_AUTH0_AUDIENCE || '';
+export const BASE_URL = process.env.NEXT_PUBLIC_BASE_API_URL || "";
+export const AUTH0_DOMAIN = process.env.NEXT_PUBLIC_AUTH0_DOMAIN || "";
+export const AUTH0_CLIENT_ID = process.env.NEXT_PUBLIC_AUTH0_CLIENT_ID || "";
+export const AUTH0_HOST = process.env.NEXT_PUBLIC_HOST || "";
+export const AUTH0_AUDIENCE = process.env.NEXT_PUBLIC_AUTH0_AUDIENCE || "";
 
 export const loginApiUrl = `${BASE_URL}/Auth/`;
 export const getFlagApiUrl = `Get-Flags/`;
@@ -15,17 +14,23 @@ export const getAddScenarioTradeToolTip = (
   projectId: string,
   scenarioId: string,
   transactionNumber: string,
-) => `api/v1/scenarios/fetch-scenario-allpicks/${projectId}/${scenarioId}/${transactionNumber}/`;
-export const getDashboardApiUrl = (projectId: number, withCompensation: boolean) =>
-  `api/v1/visualisations/dashboard/${projectId}/${withCompensation ? '?with_compensation=true' : ''}`;
-export const getRoundPickApiUrl = (projectId: number) => `Rounds-Pick/${projectId}`;
-export const getShowTeam = () => 'Show-Team/';
+) =>
+  `api/v1/scenarios/fetch-scenario-allpicks/${projectId}/${scenarioId}/${transactionNumber}/`;
+export const getDashboardApiUrl = (
+  projectId: number,
+  withCompensation: boolean,
+) =>
+  `api/v1/visualisations/dashboard/${projectId}/${withCompensation ? "?with_compensation=true" : ""}`;
+export const getRoundPickApiUrl = (projectId: number) =>
+  `Rounds-Pick/${projectId}`;
+export const getShowTeam = () => "Show-Team/";
 export const getPlayer = (projectId: string) => `api/v1/players/${projectId}/`;
 export const getAllPicks = (projectId: number) =>
   `api/v1/transactions/fetch-all-picks-list/${projectId}/`;
 export const getPickType = () => `PickTypes/`;
 export const getFAPickTypeApiUrl = () => `/api/v1/transactions/pick-types-fa/`;
-export const getPriorityPickTypeApiUrl = () => `/api/v1/transactions/pick-types/`;
+export const getPriorityPickTypeApiUrl = () =>
+  `/api/v1/transactions/pick-types/`;
 export const getAcademyTransactions = (projectId: number) =>
   `api/v1/transactions/academy-bid-impact/${projectId}/`;
 export const getTransactionsSum = (projectId: number) =>
@@ -39,10 +44,12 @@ export const createManualPickEditApi = (projectId: string) =>
   `api/v1/transactions/manual-pick-edit/${projectId}/`;
 export const createDraftNightSelectionApi = (projectId: string) =>
   `/api/v1/transactions/draft-night-selection/${projectId}/`;
-export const createManualMovePickEditApi = (projectId: string) => `manual_pick_move/${projectId}`;
+export const createManualMovePickEditApi = (projectId: string) =>
+  `manual_pick_move/${projectId}`;
 export const createManualInsertPickEditApi = (projectId: string) =>
   `Manual-pick-insert/${projectId}`;
-export const createNgaBidApi = (projectId: string) => `/api/v1/transactions/nga-bid/${projectId}/`;
+export const createNgaBidApi = (projectId: string) =>
+  `/api/v1/transactions/nga-bid/${projectId}/`;
 export const createFatherSonBidApi = (projectId: string) =>
   `api/v1/transactions/father-son-bid/${projectId}/`;
 export const createAcademyBidApi = (projectId: string) =>
@@ -62,10 +69,13 @@ export const createPriorityPickApi = (projectId: string) =>
   `api/v1/transactions/priority-pick/${projectId}/`;
 export const createAddTradeApi = (projectId: string) =>
   `api/v1/transactions/completed-trade/${projectId}/`;
-export const currentPickApi = (projectId: string) => `api/v1/visualisations/tooltip/${projectId}/`;
+export const currentPickApi = (projectId: string) =>
+  `api/v1/visualisations/tooltip/${projectId}/`;
 export const createProjectApi = () => `api/v1/projects/create/`;
-export const deleteProjectApi = (projectId: string) => `/api/v1/projects/${projectId}/delete/`;
-export const getPlayerApi = (projectId: string) => `/api/v1/players/${projectId}/`;
+export const deleteProjectApi = (projectId: string) =>
+  `/api/v1/projects/${projectId}/delete/`;
+export const getPlayerApi = (projectId: string) =>
+  `/api/v1/players/${projectId}/`;
 export const addTradePopUpTransactionApi = (projectId: string) =>
   `api/v1/visualisations/tooltip/${projectId}/`;
 export const getTradeAlogrithmApi = (projectId: string, userId: number) =>
@@ -74,7 +84,8 @@ export const getTradeAlogirhtmDataApi = (projectId: string, teamId: string) =>
   `api/v1/trades/trade-algorithm/${projectId}/${teamId}/`;
 export const createAddNewPlayerApi = (projectId: string) =>
   `/api/v1/players/quick-add-player/${projectId}/`;
-export const fetchPlayerPositionApiUrl = () => `/api/v1/players/fetch-player-positions/`;
+export const fetchPlayerPositionApiUrl = () =>
+  `/api/v1/players/fetch-player-positions/`;
 export const createAddNewPlayerCsvApi = () => `add-new-players-csv/`;
 export const registerUserApiUrl = () => `api/v1/users/create/`;
 export const getUserInfo = () => `api/v1/users/current/`;
@@ -101,32 +112,43 @@ export const fetchScenarioValidity = (projectId: string) =>
   `api/v1/scenarios/fetch-scenario-validity/${projectId}/`;
 export const deleteAllScenarioValidity = (projectId: string) =>
   `api/v1/scenarios/delete-all-scenarios/${projectId}/`;
-export const fetchScenarioVisualisationApiUrl = (projectId: string, teamId: string) =>
-  `api/v1/scenarios/fetch-scenario-visualisation/${projectId}/${teamId}/`;
+export const fetchScenarioVisualisationApiUrl = (
+  projectId: string,
+  teamId: string,
+) => `api/v1/scenarios/fetch-scenario-visualisation/${projectId}/${teamId}/`;
 export const createNewScenarioApiUrl = (projectId: string) =>
   `api/v1/scenarios/create-new-scenario/${projectId}/`;
-export const deleteSingleScenarioApiUrl = (projectId: string, scenarioId: string) =>
-  `api/v1/scenarios/delete-single-scenario/${projectId}/${scenarioId}/`;
+export const deleteSingleScenarioApiUrl = (
+  projectId: string,
+  scenarioId: string,
+) => `api/v1/scenarios/delete-single-scenario/${projectId}/${scenarioId}/`;
 export const deleteTransactionApiUrl = (
   projectId: string,
   scenarioId: string,
   transactionId: string,
-) => `api/v1/scenarios/delete-single-transaction/${projectId}/${scenarioId}/${transactionId}/`;
+) =>
+  `api/v1/scenarios/delete-single-transaction/${projectId}/${scenarioId}/${transactionId}/`;
 export const cloneTransactionApiUrl = (
   projectId: string,
   scenarioId: string,
   transactionId: string,
-) => `api/v1/scenarios/clone-scenario/${projectId}/${scenarioId}/${transactionId}/`;
-export const updateScenarioMetaDataApiUrl = (projectId: string, scenarioId: string) =>
-  `api/v1/scenarios/metadata/${projectId}/${scenarioId}/`;
+) =>
+  `api/v1/scenarios/clone-scenario/${projectId}/${scenarioId}/${transactionId}/`;
+export const updateScenarioMetaDataApiUrl = (
+  projectId: string,
+  scenarioId: string,
+) => `api/v1/scenarios/metadata/${projectId}/${scenarioId}/`;
 export const createTradeScenarioApiUrl = (
   projectId: string,
   scenarioId: string,
   transactionNumber: string,
-) => `api/v1/scenarios/completed-trade-scenario/${projectId}/${scenarioId}/${transactionNumber}/`;
+) =>
+  `api/v1/scenarios/completed-trade-scenario/${projectId}/${scenarioId}/${transactionNumber}/`;
 
-export const approveTradeOfferApiUrl = (projectId: string, tradeOfferId: string) =>
-  `api/v1/transactions/accept-trade-offer/${projectId}/${tradeOfferId}/`;
+export const approveTradeOfferApiUrl = (
+  projectId: string,
+  tradeOfferId: string,
+) => `api/v1/transactions/accept-trade-offer/${projectId}/${tradeOfferId}/`;
 
 export const fetchTradePickScenarioApiUrl = (
   projectId: string,
@@ -146,7 +168,8 @@ export const scenarioPlannerDraftModeApiUrl = (
   projectId: string,
   scenarioId: string,
   transactionId: string,
-) => `api/v1/scenarios/enter-draft-mode-scenario/${projectId}/${scenarioId}/${transactionId}/`;
+) =>
+  `api/v1/scenarios/enter-draft-mode-scenario/${projectId}/${scenarioId}/${transactionId}/`;
 
 export const transactionPriorityPick = (projectId: string) =>
   `api/v1/transactions/priority-pick-impact/${projectId}/`;
@@ -155,55 +178,70 @@ export const createPriorityPickScenarioApiUrl = (
   projectId: string,
   scenarioId: string,
   transactionNo: string,
-) => `api/v1/scenarios/priority-pick-scenario/${projectId}/${scenarioId}/${transactionNo}/`;
+) =>
+  `api/v1/scenarios/priority-pick-scenario/${projectId}/${scenarioId}/${transactionNo}/`;
 export const priorityPickScenarioImpactApiUrl = (
   projectId: string,
   scenarioId: string,
   transactionNo: string,
-) => `api/v1/scenarios/priority-pick-scenario-impact/${projectId}/${scenarioId}/${transactionNo}/`;
+) =>
+  `api/v1/scenarios/priority-pick-scenario-impact/${projectId}/${scenarioId}/${transactionNo}/`;
 export const fecthScenarioPickListApiUrl = (
   projectId: string,
   scenarioId: string,
   transactionNo: string,
-) => `api/v1/scenarios/fetch-scenario-picks-list/${projectId}/${scenarioId}/${transactionNo}/`;
+) =>
+  `api/v1/scenarios/fetch-scenario-picks-list/${projectId}/${scenarioId}/${transactionNo}/`;
 export const createScenarioFatherSonApiUrl = (
   projectId: string,
   scenarioId: string,
   transactionNo: string,
-) => `api/v1/scenarios/fatherson-bid-scenario/${projectId}/${scenarioId}/${transactionNo}/`;
+) =>
+  `api/v1/scenarios/fatherson-bid-scenario/${projectId}/${scenarioId}/${transactionNo}/`;
 export const senarioFatherSonImpactApiUrl = (
   projectId: string,
   scenarioId: string,
   transactionNo: string,
-) => `api/v1/scenarios/fatherson-bid-scenario-impact/${projectId}/${scenarioId}/${transactionNo}/`;
+) =>
+  `api/v1/scenarios/fatherson-bid-scenario-impact/${projectId}/${scenarioId}/${transactionNo}/`;
 export const fetchSenarioPickListApiUrl = (
   projectId: string,
   scenarioId: string,
   transactionNo: string,
-) => `api/v1/scenarios/fetch-scenario-picks-list/${projectId}/${scenarioId}/${transactionNo}/`;
+) =>
+  `api/v1/scenarios/fetch-scenario-picks-list/${projectId}/${scenarioId}/${transactionNo}/`;
 export const createScenarioAcademyBidApiUrl = (
   projectId: string,
   scenarioId: string,
   transactionNo: string,
-) => `api/v1/scenarios/academy-bid-scenario/${projectId}/${scenarioId}/${transactionNo}/`;
+) =>
+  `api/v1/scenarios/academy-bid-scenario/${projectId}/${scenarioId}/${transactionNo}/`;
 export const getScenarioAcademyBidImpactApiUrl = (
   projectId: string,
   scenarioId: string,
   transactionNo: string,
-) => `api/v1/scenarios/academy-bid-scenario-impact/${projectId}/${scenarioId}/${transactionNo}/`;
+) =>
+  `api/v1/scenarios/academy-bid-scenario-impact/${projectId}/${scenarioId}/${transactionNo}/`;
 
 export const fetchScenarioAllDraftPickApiUrl = (
   projectId: string,
   scenarioId: string,
   transactionNo: string,
   includeCompensation: boolean,
-) => `api/v1/scenarios/fetch-scenario-all-draft-picks/${projectId}/${scenarioId}/${transactionNo}/${includeCompensation ? '?with_compensation=true' : ''}`;
-export const fetchTradeOfferScriptApiUrl = (projectId: string, tradeOfferId: string) =>
-  `api/v1/transactions/trade-offer-script/${projectId}/${tradeOfferId}/`;
-export const updateTradeOfferApiUrl = (projectId: string, tradeOfferId: string) =>
-  `api/v1/transactions/update-trade-offer/${projectId}/${tradeOfferId}/`;
-export const fetchTradeOfferStatusApiUrl = () => `api/v1/transactions/fetch-trade-offer-statuses/`;
-export const fetchTradeOfferTypeApiUrl = () => `api/v1/transactions/fetch-trade-offer-types/`;
+) =>
+  `api/v1/scenarios/fetch-scenario-all-draft-picks/${projectId}/${scenarioId}/${transactionNo}/${includeCompensation ? "?with_compensation=true" : ""}`;
+export const fetchTradeOfferScriptApiUrl = (
+  projectId: string,
+  tradeOfferId: string,
+) => `api/v1/transactions/trade-offer-script/${projectId}/${tradeOfferId}/`;
+export const updateTradeOfferApiUrl = (
+  projectId: string,
+  tradeOfferId: string,
+) => `api/v1/transactions/update-trade-offer/${projectId}/${tradeOfferId}/`;
+export const fetchTradeOfferStatusApiUrl = () =>
+  `api/v1/transactions/fetch-trade-offer-statuses/`;
+export const fetchTradeOfferTypeApiUrl = () =>
+  `api/v1/transactions/fetch-trade-offer-types/`;
 
 export const fetchMultiTeamTradeImpact = (projectId: string) =>
   `api/v1/transactions/multi-team-trade-impact/${projectId}/`;
@@ -220,14 +258,17 @@ export const createScenarioMultiTradeTeam = (
   projectId: string,
   scenarioId: string,
   transactionNo: string,
-) => `api/v1/scenarios/multi-team-trade-scenario/${projectId}/${scenarioId}/${transactionNo}/`;
+) =>
+  `api/v1/scenarios/multi-team-trade-scenario/${projectId}/${scenarioId}/${transactionNo}/`;
 
 // CSV APIS
 export const declineTradeOfferApiUrl = (projectId: string, tradeId: string) =>
   `api/v1/transactions/decline-trade-offer/${projectId}/${tradeId}/`;
 export const getcsvListFiles = () => `/api/v1/csv-reader/list-files/`;
-export const getCsvPayload = (fileName: string) => `/api/v1/csv-reader/${fileName}/fetch/`;
-export const csvUploadReaderApiUrl = (fileName: string) => `api/v1/csv-reader/${fileName}/update/`;
+export const getCsvPayload = (fileName: string) =>
+  `/api/v1/csv-reader/${fileName}/fetch/`;
+export const csvUploadReaderApiUrl = (fileName: string) =>
+  `api/v1/csv-reader/${fileName}/update/`;
 export const deleteLastRowApiUrl = (fileName: string) =>
   `api/v1/csv-reader/${fileName}/remove-last-row/`;
 
@@ -236,12 +277,14 @@ export const createFreeAgentScenarioApiUrl = (
   projectId: string,
   scenarioId: string,
   transactioNo: string,
-) => `api/v1/scenarios/free-agent-scenario/${projectId}/${scenarioId}/${transactioNo}/`;
+) =>
+  `api/v1/scenarios/free-agent-scenario/${projectId}/${scenarioId}/${transactioNo}/`;
 export const getFreeAgentScenarioImpactApiUrl = (
   projectId: string,
   scenarioId: string,
   transactioNo: string,
-) => `api/v1/scenarios/free-agent-scenario-impact/${projectId}/${scenarioId}/${transactioNo}/`;
+) =>
+  `api/v1/scenarios/free-agent-scenario-impact/${projectId}/${scenarioId}/${transactioNo}/`;
 export const applyCompensationScenarioImpactApi = (
   projectId: string,
   scenarioId: string,
@@ -252,7 +295,8 @@ export const applyCompensationScenarioApi = (
   projectId: string,
   scenarioId: string,
   transactionNo: string,
-) => `api/v1/scenarios/apply-compensation-scenario/${projectId}/${scenarioId}/${transactionNo}/`;
+) =>
+  `api/v1/scenarios/apply-compensation-scenario/${projectId}/${scenarioId}/${transactionNo}/`;
 export const reorderPlayerPosApiUrl = (projectId: string) =>
   `/api/v1/players/update-player-order/${projectId}/`;
 
@@ -264,9 +308,13 @@ export const createPassPickApiUrl = (projectId: string) =>
 
 //Organisatiob APIS
 export const getOrganisationListApiUrl = () => `api/v1/organisations/fetch/`;
+export const getOrganisactionDetailsApiUrl = (id: string) =>
+  `api/v1/admin/organisations/${id}/`;
 export const createOrganisationApiUrl = () => `api/v1/organisations/create/`;
-export const deleteOrganisationApiUrl = (orgId: string) => `api/v1/organisations/${orgId}/delete/`;
-export const updateOrganisationApiUrl = (orgId: string) => `api/v1/organisations/${orgId}/update/`;
+export const deleteOrganisationApiUrl = (orgId: string) =>
+  `api/v1/organisations/${orgId}/delete/`;
+export const updateOrganisationApiUrl = (orgId: string) =>
+  `api/v1/organisations/${orgId}/update/`;
 export const linkOrganisationApiUrl = (orgId: string, userId: string) =>
   `api/v1/organisations/${orgId}/users/${userId}/relationships/create/`;
 export const unlinkOrganisationApiUrl = (orgId: string, userId: string) =>
@@ -277,18 +325,28 @@ export const getOrganisationPlayerListApiUrl = (orgId: string) =>
   `api/v1/organisations/${orgId}/players/fetch/`;
 export const createOrganisationPlayerApiUrl = (orgId: string) =>
   `api/v1/organisations/${orgId}/players/create/`;
-export const deleteOrganisationPlayerApiUrl = (orgId: string, playerId: string) =>
-  `api/v1/organisations/${orgId}/players/${playerId}/delete/`;
-export const updateOrganisationPlayerApiUrl = (orgId: string, playerId: string) =>
-  `api/v1/organisations/${orgId}/players/${playerId}/update/`;
+export const deleteOrganisationPlayerApiUrl = (
+  orgId: string,
+  playerId: string,
+) => `api/v1/organisations/${orgId}/players/${playerId}/delete/`;
+export const updateOrganisationPlayerApiUrl = (
+  orgId: string,
+  playerId: string,
+) => `api/v1/organisations/${orgId}/players/${playerId}/update/`;
 
 export const getPlayerContractListApiUrl = (orgId: string, playerId: string) =>
   `api/v1/organisations/${orgId}/players/${playerId}/roster-allocations/fetch/`;
 export const createPlayerContractApiUrl = (orgId: string, playerId: string) =>
   `api/v1/organisations/${orgId}/players/${playerId}/roster-allocations/create/`;
-export const updatePlayerContractApiUrl = (orgId: string, rosterAllocationId: string) =>
+export const updatePlayerContractApiUrl = (
+  orgId: string,
+  rosterAllocationId: string,
+) =>
   `api/v1/organisations/${orgId}/roster-allocations/${rosterAllocationId}/update/`;
-export const deletePlayerContractApiUrl = (orgId: string, rosterAllocationId: string) =>
+export const deletePlayerContractApiUrl = (
+  orgId: string,
+  rosterAllocationId: string,
+) =>
   `api/v1/organisations/${orgId}/roster-allocations/${rosterAllocationId}/delete/`;
 
 export const getPlayerAccoladeListApiUrl = (orgId: string, playerId: string) =>
@@ -306,21 +364,41 @@ export const getAgentListApiUrl = (orgId: string) =>
   `api/v1/organisations/${orgId}/management/agent/fetch/`;
 export const createAllocationListApiUrl = (orgId: string) =>
   `api/v1/organisations/${orgId}/management/allocation/create/`;
-export const updateAllocationListApiUrl = (orgId: string, allocationId: string) =>
+export const updateAllocationListApiUrl = (
+  orgId: string,
+  allocationId: string,
+) =>
   `api/v1/organisations/${orgId}/management/allocation/${allocationId}/update/`;
-export const deleteAllocationListApiUrl = (orgId: string, allocationId: string) =>
+export const deleteAllocationListApiUrl = (
+  orgId: string,
+  allocationId: string,
+) =>
   `api/v1/organisations/${orgId}/management/allocation/${allocationId}/delete/`;
 
-export const getPlayerElegibilityListApiUrl = (orgId: string, playerId: string) =>
+export const getPlayerElegibilityListApiUrl = (
+  orgId: string,
+  playerId: string,
+) =>
   `api/v1/organisations/${orgId}/players/${playerId}/player-eligibility/fetch/`;
-export const getPlayerElegibilityOptionApiUrl = () => `api/v1/player-eligibility/fetch/`;
-export const updatePlayerElegibilityApiUrl = (orgId: string, playerElegibilityId: string) =>
+export const getPlayerElegibilityOptionApiUrl = () =>
+  `api/v1/player-eligibility/fetch/`;
+export const updatePlayerElegibilityApiUrl = (
+  orgId: string,
+  playerElegibilityId: string,
+) =>
   `/api/v1/organisations/${orgId}/player-eligibility/${playerElegibilityId}/update/`;
-export const createPlayerElegibilityApiUrl = (orgId: string, playerId: string) =>
+export const createPlayerElegibilityApiUrl = (
+  orgId: string,
+  playerId: string,
+) =>
   `/api/v1/organisations/${orgId}/players/${playerId}/player-eligibility/create/`;
-export const deletePlayerElegibilityApiUrl = (orgId: string, playerElegibilityId: string) =>
+export const deletePlayerElegibilityApiUrl = (
+  orgId: string,
+  playerElegibilityId: string,
+) =>
   `/api/v1/organisations/${orgId}/player-eligibility/${playerElegibilityId}/delete/`;
-export const getAccoladeTypeApiUrl = () => `/api/v1/organisations/accolades/accolade-types/fetch/`;
+export const getAccoladeTypeApiUrl = () =>
+  `/api/v1/organisations/accolades/accolade-types/fetch/`;
 
 //player info api
 export const getTimelineEntryApiUrl = (orgId: string, playerId: string) =>
@@ -329,7 +407,11 @@ export const getPlayerDetailsApiUrl = (orgId: string, playerId: string) =>
   `api/v1/organisations/${orgId}/players/${playerId}/fetch/`;
 
 export const getTimelineEntryFieldApiUrl = () => `api/v1/forms/`;
-export const createFormPlayerTimelineApiUrl = (orgId: string, playerId: string, formName: string) =>
+export const createFormPlayerTimelineApiUrl = (
+  orgId: string,
+  playerId: string,
+  formName: string,
+) =>
   `/api/v1/organisations/${orgId}/forms/player/${playerId}/form/${formName}/`;
 
 export const updateFormPlayerTimelineApiUrl = (orgId: string, formId: string) =>
@@ -338,9 +420,11 @@ export const updateFormPlayerTimelineApiUrl = (orgId: string, formId: string) =>
 export const deleteTimeLineEntryApiUrl = (orgId: string, formId: string) =>
   `/api/v1/organisations/${orgId}/forms/${formId}/delete/`;
 
-export const fetchPlayerStateApiUrl = () => `api/v1/players/player-states/fetch/`;
+export const fetchPlayerStateApiUrl = () =>
+  `api/v1/players/player-states/fetch/`;
 
-export const fetchCategoryContractTypeApiUrl = () => `api/v1/roster-allocations-types/fetch/`;
+export const fetchCategoryContractTypeApiUrl = () =>
+  `api/v1/roster-allocations-types/fetch/`;
 
 export const fetchClubSummaryApiUrl = (orgId: string, teamId: string) =>
   `api/v1/organisations/${orgId}/teams/${teamId}/roster-allocations-year/fetch/`;
@@ -351,15 +435,21 @@ export const updateRankingListApiUrl = (rankingListId: string) =>
   `api/v1/ranking-lists/${rankingListId}/update/`;
 export const deleteRankingListApiUrl = (rankingListId: string) =>
   `api/v1/ranking-lists/${rankingListId}/delete/`;
-export const createRankingListApiUrl = () => 'api/v1/ranking-lists/create/';
+export const createRankingListApiUrl = () => "api/v1/ranking-lists/create/";
 export const fetchRankingListDataApiUrl = (rankingListId: string) =>
   `api/v1/ranking-lists/${rankingListId}/fetch/`;
-export const deleteRankingPlayerApiUrl = (rankingListId: string, playerId: string) =>
+export const deleteRankingPlayerApiUrl = (
+  rankingListId: string,
+  playerId: string,
+) =>
   `/api/v1/ranking-lists/${rankingListId}/delete-ranking/${playerId}/delete/`;
 export const updateRankingsListApiUrl = (rankingListId: string) =>
   `api/v1/ranking-lists/${rankingListId}/update-rankings/`;
 
-export const roasterAllocationYearTeamApiUrl = (orgId: string, teamId: string) =>
+export const roasterAllocationYearTeamApiUrl = (
+  orgId: string,
+  teamId: string,
+) =>
   `api/v1/organisations/${orgId}/teams/${teamId}/roster-allocations-year-team/fetch/`;
 
 export const updateRankingSingleApiRoute = (rankingListId: string) =>
@@ -378,10 +468,14 @@ export const createPlayerManagerAgencyApiUrl = (orgId: string) =>
   `/api/v1/organisations/${orgId}/management/agent/create/`;
 export const getPlayerManagerAgencyApiUrl = (orgId: string) =>
   `api/v1/organisations/${orgId}/management/agent/fetch/`;
-export const updatePlayerManagerAgencyApiUrl = (orgId: string, agentId: string) =>
-  `/api/v1/organisations/${orgId}/management/agent/${agentId}/update/`;
-export const deletePlayerManagerAgencyApiUrl = (orgId: string, agentId: string) =>
-  `/api/v1/organisations/${orgId}/management/agent/${agentId}/delete/`;
+export const updatePlayerManagerAgencyApiUrl = (
+  orgId: string,
+  agentId: string,
+) => `/api/v1/organisations/${orgId}/management/agent/${agentId}/update/`;
+export const deletePlayerManagerAgencyApiUrl = (
+  orgId: string,
+  agentId: string,
+) => `/api/v1/organisations/${orgId}/management/agent/${agentId}/delete/`;
 export const getPlayerAllocationApiUrl = (orgId: string) =>
   `api/v1/organisations/${orgId}/management/allocation/fetch/`;
 export const bulkCreationRoasterAllocationApiUrl = (orgId: string) =>
@@ -392,8 +486,10 @@ export const validateBulkPlayerApitUrl = (orgId: string) =>
   `/api/v1/organisations/${orgId}/roster-allocations/validate-bulk/create/`;
 
 // wizard api
-export const fetchPlayerImportSourceApiUrl = () => `/api/v1/player-imports/sources/`;
-export const fetchPlayerImportFitzroyFilesApiUrl = () => `/api/v1/player-imports/files/`;
+export const fetchPlayerImportSourceApiUrl = () =>
+  `/api/v1/player-imports/sources/`;
+export const fetchPlayerImportFitzroyFilesApiUrl = () =>
+  `/api/v1/player-imports/files/`;
 export const fetchPlayerImportFilePreview = (orgId: string, fileName: string) =>
   `/api/v1/organisations/${orgId}/player-imports/${fileName}/preview/`;
 export const postMergeSelectionApiUrl = (orgId: string, fileName: string) =>

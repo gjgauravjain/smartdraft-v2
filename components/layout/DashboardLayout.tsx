@@ -6,6 +6,8 @@ import { DashboardHeader } from "./DashboardHeader";
 import { DashboardSubHeader } from "./DashboardSubHeader";
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
 import { useDashboardLayout } from "./useDashboardLayout";
+import { BottomNav } from "./BottomNav";
+import { cn } from "@/lib/utils";
 
 interface DashboardLayoutProps {
   children: ReactNode;
@@ -27,20 +29,23 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
         <AppSidebar />
 
         <SidebarInset className="flex flex-col flex-1 min-w-0">
-          <div className="sticky top-0 z-40">
-            <div className="flex items-center gap-2 border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
-              <DashboardHeader sidebarOpen={isSideBarOpen || isMobile} />
+          {!isMobile && (
+            <div className="sticky top-0 z-40">
+              <div className="flex items-center gap-2 border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
+                <DashboardHeader sidebarOpen={isSideBarOpen || isMobile} />
+              </div>
+              {!hideSubHeader && (
+                <DashboardSubHeader
+                  projects={projects}
+                  selectedProject={selectedProject}
+                  onProjectChange={setSelectedProject}
+                />
+              )}
             </div>
-            {!hideSubHeader && (
-              <DashboardSubHeader
-                projects={projects}
-                selectedProject={selectedProject}
-                onProjectChange={setSelectedProject}
-              />
-            )}
-          </div>
+          )}
 
-          <main className="flex-1 overflow-auto">{children}</main>
+          <main className={cn("flex-1 overflow-auto")}>{children}</main>
+          {isMobile && <BottomNav />}
         </SidebarInset>
       </div>
     </SidebarProvider>

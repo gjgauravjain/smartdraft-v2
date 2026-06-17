@@ -5,7 +5,7 @@ import { useEffect } from "react";
 
 export const useDashboardLayout = () => {
   const { data: projects } = useGetProjects();
-
+  const pathname = window.location.pathname;
   const {
     isSideBarOpen,
     setIsSideBarOpen,
@@ -20,9 +20,9 @@ export const useDashboardLayout = () => {
     }
   }, [projects]);
 
-  const hideSubHeader = ["/", "/projects", "/organisations"].includes(
-    window.location.pathname,
-  );
+  const hideSubHeader =
+    ["/", "/projects"].includes(pathname) ||
+    pathname.startsWith("/organisations");
   return {
     projects,
     isSideBarOpen,

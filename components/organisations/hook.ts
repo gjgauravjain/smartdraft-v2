@@ -1,27 +1,31 @@
 import {
   useCreateOrganisation,
   useGetOrganisations,
+  useUpdateOrganisation,
 } from "@/app/api/react-query/organisations";
 import { OrganisationListType } from "@/app/api/type/organisation";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { newOrganisationSchema, NewOrganisationSchema } from "./util";
 import { NewOrganisationModalProps } from "./type";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useGetTeams } from "@/app/api/react-query/common";
 import { SelectOption } from "../common/fields/FormSelectField";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 export const useOrganisations = () => {
   const { data, isLoading, error, refetch, isRefetching } =
     useGetOrganisations();
   const [openAddModal, setOpenAddModal] = useState(false);
+  const router = useRouter();
   const handleManageUsers = () => console.log("Navigate to manage users");
   const handleNewOrganisation = () => {
     setOpenAddModal(true);
   };
-  const handleRowClick = (org: OrganisationListType) =>
-    console.log("Navigate to org", org.id);
+  const handleRowClick = (org: OrganisationListType) => {
+    router.push(`/organisations/${org.id}`);
+  };
   const handleMenuClick = (_e: React.MouseEvent, org: OrganisationListType) =>
     console.log("Menu for org", org.id);
 
@@ -39,12 +43,17 @@ export const useOrganisations = () => {
   };
 };
 
-export function useNewOrganisationModalWizard({
+export function useAddUpdateOrganisationModalWizard({
   onOpenChange,
-}: Pick<NewOrganisationModalProps, "onOpenChange" | "onSuccess">) {
+  initialValue,
+}: NewOrganisationModalProps) {
   const { data } = useGetTeams();
+  const isEditing = !!initialValue;
 
   const { mutate: createOrganisation, isPending } = useCreateOrganisation();
+  const { mutate: updateOrganisation, isPending: isUpdating } =
+    useUpdateOrganisation();
+
   const form = useForm<NewOrganisationSchema>({
     resolver: yupResolver(newOrganisationSchema),
     defaultValues: {
@@ -54,12 +63,41 @@ export function useNewOrganisationModalWizard({
     },
   });
 
+  useEffect(() => {
+    if (initialValue) {
+      form.reset({
+        organisationName: initialValue.name,
+        sportingCode: initialValue.sportingCode.code,
+        defaultTeam: initialValue.defaultTeam.id.toString(),
+      });
+      return;
+    }
+  }, [initialValue]);
+
   function handleCancel() {
     form.reset();
     onOpenChange(false);
   }
 
   function handleSubmit(values: NewOrganisationSchema) {
+    if (isEditing) {
+      updateOrganisation(
+        {
+          id: initialValue.id,
+          defaultTeam: values.defaultTeam,
+          name: values.organisationName,
+          sportingCode: values.sportingCode,
+        },
+        {
+          onSuccess: () => {
+            toast.success("Organisation updated successfully");
+            form.reset();
+            onOpenChange(false);
+          },
+        },
+      );
+      return;
+    }
     createOrganisation(
       {
         defaultTeam: values.defaultTeam,
@@ -83,11 +121,13 @@ export function useNewOrganisationModalWizard({
         icon: team.image || undefined,
       }))
     : [];
+
   return {
     form,
+    isEditing,
     handleCancel,
     handleSubmit: form.handleSubmit(handleSubmit),
     teamOptions,
-    isSubmitting: isPending,
+    isSubmitting: isPending || isUpdating,
   };
 }

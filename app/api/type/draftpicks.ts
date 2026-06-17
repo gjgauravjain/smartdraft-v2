@@ -319,6 +319,8 @@ export type DataOrderEntryType = {
   id: number;
   minimumValue: number;
   maximumValue: number;
+} & {
+  [key: `order_${number}`]: number;
 };
 
 export type DataFullOrderListType = {

@@ -5,6 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import {
   transformDashboardData,
   transformDashboardDraftTab,
+  transformDataOrderNewEntry,
   transformNewDraftPick,
 } from "../util/draftpicks";
 
@@ -27,6 +28,7 @@ export const userGetDraftPicks = ({
         dashboardData: transformDashboardData(data),
         draftData: transformNewDraftPick(data),
         draftTab: transformDashboardDraftTab(data),
+        orderOfEntryData: transformDataOrderNewEntry(data.order_of_entry),
       };
     },
     enabled: !!accessToken && !!projectId,

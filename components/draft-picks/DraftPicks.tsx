@@ -5,6 +5,9 @@ import NextYearDraftPick from "./NextYearDraftPick";
 import { useDraftPicks } from "./useDraftPicks";
 import { draftTabOption } from "./util";
 import { MobileTeamBadge } from "./MobileTeamBadge";
+import OrderOfEntry from "./OrderOfEntry";
+import { MobileApplyCompensation } from "./MobileApplyCompensation";
+import MobileOrderEntry from "./MobileOrderEntry";
 
 const DraftPicks = () => {
   const {
@@ -22,6 +25,24 @@ const DraftPicks = () => {
   } = useDraftPicks();
   const draftData = draftPicksData?.draftData;
 
+  const renderOrderEntry = () => {
+    if (isMobile) {
+      return (
+        <MobileOrderEntry
+          teamsList={teams}
+          highlightTeamId={selectedTeam}
+          data={draftPicksData?.orderOfEntryData || []}
+        />
+      );
+    }
+    return (
+      <OrderOfEntry
+        teamsList={teams}
+        highlightTeamId={selectedTeam}
+        data={draftPicksData?.orderOfEntryData || []}
+      />
+    );
+  };
   return (
     <div className="w-full border-b border-border">
       {/* Row 1 – toolbar */}
@@ -49,7 +70,12 @@ const DraftPicks = () => {
           onTeamSelect={setSelectedTeam}
         />
       )}
-
+      {isMobile && (
+        <MobileApplyCompensation
+          checked={compensation}
+          onCheckedChange={setCompensation}
+        />
+      )}
       {activeTab === "current" && (
         <CurrentYearDraftPick
           data={draftData?.draftCurrentYear}
@@ -64,6 +90,7 @@ const DraftPicks = () => {
           showAll={isAll}
         />
       )}
+      {activeTab === "order" && renderOrderEntry()}
     </div>
   );
 };

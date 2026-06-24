@@ -67,157 +67,173 @@
 }
 
 :root {
-  /* LIGHT MODE SURFACES */
-  --background: oklch(0.995 0.001 0); /* pure near-white */
-  --foreground: oklch(0.12 0.01 250); /* dark slate gray */
+  /* ═══════════════════════════════════════════════════════════════
+     LIGHT MODE — Design token: "A + C blend" (softened palette)
+     Ref: DESIGN.md § Core tokens + Accent
+  ═══════════════════════════════════════════════════════════════ */
 
-  --card: oklch(1 0 0); /* pure white */
-  --card-foreground: oklch(0.12 0.01 250);
+  /* Surfaces */
+  --background: #edeff2; /* pageBg  — off-white, no pure white */
+  --foreground: #222b38; /* text    — deep slate */
 
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.12 0.01 250);
+  --card: #fcfcfd; /* surface — cards / panels */
+  --card-foreground: #222b38;
 
-  /* Primary — brand burgundy rgb(163, 0, 70) / #a30046 */
-  --primary: rgb(163, 0, 70);
-  --primary-foreground: oklch(1 0 0); /* white text on burgundy */
-  --primary-light: #f4ecf0;
+  --popover: #fcfcfd;
+  --popover-foreground: #222b38;
 
-  /* Secondary — very light, almost white blush */
-  --secondary: oklch(0.975 0.008 358);
-  --secondary-foreground: rgb(163, 0, 70);
+  /* Primary — UI accent: softened maroon (OKLCH-derived, not brand exact) */
+  --primary: oklch(49% 0.132 360); /* ≈ #9A3A5E */
+  --primary-foreground: #fcfcfd; /* white text on maroon fill */
+  --primary-light: oklch(49% 0.132 360 / 0.08); /* accentSoft wash */
 
-  /* Muted — light neutral grays */
-  --muted: oklch(0.95 0 0);
-  --muted-foreground: oklch(0.55 0.015 250);
+  /* Secondary — very light blush surface */
+  --secondary: #f4f5f7; /* surface3 / raised chips */
+  --secondary-foreground: oklch(49% 0.132 360); /* maroon text */
 
-  /* Accent — soft mauve for hover/interactive states */
-  --accent: oklch(0.92 0.015 340);
-  --accent-foreground: rgb(163, 0, 70);
+  /* Muted — recessed / neutral */
+  --muted: #f4f5f7; /* surfaceMuted */
+  --muted-foreground: #4c5563; /* text2 */
+
+  /* Accent — faint maroon wash (hover / active nav rows) */
+  --accent: oklch(49% 0.132 360 / 0.08); /* accentSoft */
+  --accent-foreground: oklch(49% 0.132 360); /* maroon text */
 
   /* Tertiary — deep navy, rarely used */
-  --tertiary: oklch(0.2 0.06 240);
-  --tertiary-foreground: oklch(1 0 0);
+  --tertiary: #1b2d4a; /* SD_BRAND navy */
+  --tertiary-foreground: #fcfcfd;
 
   /* Destructive — warm red */
   --destructive: oklch(0.577 0.245 27.325);
-  --success: rgb(21, 128, 61);
-  --success-surface: rgb(220, 252, 231);
-  --success-surface-muted: rgb(220, 252, 231);
-  --success-border: rgb(187, 247, 208);
-  --success-border-muted: rgb(187, 247, 208);
-  --success-foreground: oklch(0.53 0.14 150.06);
+
+  /* Status / Success — calmer sage green (design spec) */
+  --success: #3f7d55; /* statusOkText */
+  --success-surface: #e4eee7; /* statusOkBg  */
+  --success-surface-muted: #e4eee7;
+  --success-border: #cbe0d1; /* statusOkBorder */
+  --success-border-muted: #cbe0d1;
+  --success-foreground: #3f7d55;
 
   /* Border / Input / Ring */
-  --border: oklch(0.88 0.01 0); /* light neutral border */
-  --input: oklch(0.92 0.005 0);
-  --ring: rgb(163, 0, 70); /* burgundy ring on focus */
+  --border: #e3e5ea; /* border — primary dividers */
+  --input: #eceef2; /* borderSubtle */
+  --ring: oklch(49% 0.132 360); /* maroon focus ring */
 
   /* Charts — gold / blue / green draft-year palette */
-  --chart-1: rgb(95, 169, 125); /* green — oldest year */
-  --chart-2: rgb(91, 147, 198); /* blue — middle year */
-  --chart-3: rgb(210, 165, 92); /* gold — most recent year */
-  --chart-4: rgb(175, 145, 200); /* muted violet — extra year */
-  --chart-5: rgb(150, 150, 150); /* neutral gray — extra year */
+  --chart-1: rgb(95, 169, 125); /* green  — oldest year */
+  --chart-2: rgb(91, 147, 198); /* blue   — middle year */
+  --chart-3: rgb(210, 165, 92); /* gold   — most recent year */
+  --chart-4: rgb(175, 145, 200); /* violet — extra year */
+  --chart-5: rgb(150, 150, 150); /* gray   — extra year */
 
   --radius: 0.625rem;
 
-  /* Sidebar — light sidebar for light mode */
-  --sidebar: oklch(0.98 0.002 0);
-  --sidebar-header: oklch(0.3 0.06 259.57);
-  --sidebar-foreground: oklch(0.12 0.01 250);
-  --sidebar-primary: rgb(163, 0, 70);
-  --sidebar-primary-foreground: oklch(1 0 0);
-  --sidebar-accent: oklch(0.92 0.015 340);
-  --sidebar-accent-foreground: rgb(163, 0, 70);
-  --sidebar-border: oklch(0.88 0.01 0);
-  --sidebar-ring: oklch(0.46 0.18 6.94);
+  /* Sidebar */
+  --sidebar: #f6f7f9; /* sidebarBg */
+  --sidebar-foreground: #222b38; /* text */
+  --sidebar-primary: oklch(49% 0.132 360); /* accent */
+  --sidebar-primary-foreground: #fcfcfd;
+  --sidebar-accent: oklch(49% 0.132 360 / 0.08); /* accentSoft */
+  --sidebar-accent-foreground: oklch(49% 0.132 360);
+  --sidebar-border: #e3e5ea;
+  --sidebar-ring: oklch(49% 0.132 360);
 
-  --dropdown-primary: oklch(0.46 0.18 6.94);
-  --dropdown-primary-foreground: oklch(0.96 0.008 358);
+  --dropdown-primary: oklch(49% 0.132 360);
+  --dropdown-primary-foreground: #fcfcfd;
 
   /* ── Table tokens (light) ─────────────────────────────────────── */
-  --table-header: oklch(
-    0.97 0.003 0
-  ); /* slightly darker than card — thead bg */
-  --table-row-border: oklch(0.91 0.005 0); /* row divider lines */
-  --table-row-hover: oklch(0.975 0.003 0); /* tr:hover surface */
-  --table-row-text: oklch(0.45 0.015 250); /* td body text */
+  --table-header: #f7f8fa; /* surface3 — thead bg */
+  --table-row-border: #e3e5ea; /* border   — row dividers */
+  --table-row-hover: #f4f5f7; /* surfaceMuted — tr:hover */
+  --table-row-text: #4c5563; /* text2 */
 
-  --sub-heading: rgb(163, 0, 70);
+  /* Sub-heading accent text */
+  --sub-heading: oklch(49% 0.132 360); /* accentText light = maroon */
 }
 
 .dark {
-  /* DARK MODE SURFACES — #0a0f1a background */
-  --background: #0a0f1a; /* dark navy background */
-  --foreground: oklch(0.96 0.008 358); /* near-white */
+  /* ═══════════════════════════════════════════════════════════════
+     DARK MODE — Design token: "A + C blend" (softened palette)
+     Ref: DESIGN.md § Core tokens + Accent
+  ═══════════════════════════════════════════════════════════════ */
 
-  --card: #0f1623; /* slightly lighter navy */
-  --card-foreground: oklch(0.96 0.008 358);
+  /* Surfaces */
+  --background: #0e1420; /* pageBg  */
+  --foreground: #d7dee8; /* text    */
 
-  --popover: #0f1623;
-  --popover-foreground: oklch(0.96 0.008 358);
+  --card: #192030; /* surface — cards / panels */
+  --card-foreground: #d7dee8;
 
-  /* Primary — brighter version of rgb(163, 0, 70) to pop on dark background */
-  --primary: oklch(0.46 0.18 6.94); /* bright pink-magenta version */
-  --primary-foreground: #0a0f1a; /* dark text on bright button */
-  --primary-light: #36283c;
-  /* Secondary — dark burgundy tinted surface */
-  --secondary: oklch(0.24 0.04 358);
-  --secondary-foreground: oklch(0.96 0.008 358);
+  --popover: #192030;
+  --popover-foreground: #d7dee8;
 
-  /* Muted — dark grays */
-  --muted: oklch(0.28 0.03 260.5);
-  --muted-foreground: oklch(0.77 0.02 254.5);
+  /* Primary — dark-mode accent maroon (+5% lightness for AA contrast) */
+  --primary: oklch(
+    54% 0.132 360
+  ); /* ≈ #A8486B — intentionally lighter than light mode */
+  --primary-foreground: #fcfcfd; /* white text on maroon fill */
+  --primary-light: oklch(54% 0.132 360 / 0.2); /* accentMid wash */
 
-  /* Accent — medium burgundy */
-  --accent: oklch(0.84 0.14 77.04);
-  --accent-foreground: oklch(0.96 0.008 358);
+  /* Secondary — dark recessed surface */
+  --secondary: #131a26; /* sidebarBg / surfaceMuted */
+  --secondary-foreground: #d7dee8; /* text */
 
-  --tertiary: oklch(0.2 0.06 240);
-  --tertiary-foreground: oklch(0.96 0.008 358);
+  /* Muted */
+  --muted: #131a26; /* surfaceMuted */
+  --muted-foreground: #a9b4c2; /* text2 */
+
+  /* Accent — solid maroon fill (active nav / chips in dark = solid + white) */
+  --accent: oklch(54% 0.132 360 / 0.45); /* accentMid */
+  --accent-foreground: #d7dee8;
+
+  /* Tertiary */
+  --tertiary: #1b2d4a;
+  --tertiary-foreground: #d7dee8;
 
   /* Destructive */
   --destructive: oklch(0.704 0.191 22.216);
-  --success: rgb(134, 239, 172);
-  --success-surface: rgb(34, 197, 94);
-  --success-surface-muted: rgba(34, 197, 94, 0.15);
-  --success-border: rgb(34, 197, 94);
-  --success-border-muted: rgba(34, 197, 94, 0.35);
-  --success-foreground: rgb(134, 239, 172);
+
+  /* Status / Success — calmer sage green (dark spec) */
+  --success: #9bd3a6; /* statusOkText */
+  --success-surface: rgba(74, 140, 90, 0.16); /* statusOkBg */
+  --success-surface-muted: rgba(74, 140, 90, 0.16);
+  --success-border: rgba(74, 140, 90, 0.34); /* statusOkBorder */
+  --success-border-muted: rgba(74, 140, 90, 0.34);
+  --success-foreground: #9bd3a6;
 
   /* Border / Input / Ring */
-  --border: oklch(0.3 0.03 263.94);
-  --input: #0f1623;
-  --ring: oklch(0.46 0.18 6.94);
+  --border: #28313f; /* border */
+  --input: #1f2734; /* borderSubtle */
+  --ring: oklch(54% 0.132 360);
 
-  /* Charts — gold / blue / green draft-year palette, brightened for dark bg */
-  --chart-1: rgb(95, 169, 125); /* green — oldest year */
-  --chart-2: rgb(91, 147, 198); /* blue — middle year */
-  --chart-3: rgb(210, 165, 92); /* gold — most recent year */
-  --chart-4: rgb(175, 145, 200); /* muted violet — extra year */
-  --chart-5: rgb(150, 150, 150); /* neutral gray — extra year */
+  /* Charts */
+  --chart-1: rgb(95, 169, 125);
+  --chart-2: rgb(91, 147, 198);
+  --chart-3: rgb(210, 165, 92);
+  --chart-4: rgb(175, 145, 200);
+  --chart-5: rgb(150, 150, 150);
 
-  /* Sidebar — matches dark background #0a0f1a */
-  --sidebar: #0a0f1a;
-  --sidebar-secondary: oklch(0.3 0.06 259.57);
-  --sidebar-foreground: oklch(0.96 0.008 358);
-  --sidebar-primary: oklch(0.46 0.18 6.94);
-  --sidebar-primary-foreground: #0a0f1a;
-  --sidebar-accent: oklch(0.46 0.18 6.94); /* subtle navy-blue accent */
-  --sidebar-accent-foreground: oklch(0.96 0.008 358);
-  --sidebar-border: oklch(0.3 0.03 263.94); /* navy-blue borders */
-  --sidebar-ring: oklch(0.46 0.18 6.94);
+  /* Sidebar */
+  --sidebar: #131a26; /* sidebarBg */
+  --sidebar-foreground: #d7dee8;
+  --sidebar-primary: oklch(54% 0.132 360);
+  --sidebar-primary-foreground: #fcfcfd;
+  --sidebar-accent: oklch(54% 0.132 360 / 0.2);
+  --sidebar-accent-foreground: #d7dee8;
+  --sidebar-border: #28313f;
+  --sidebar-ring: oklch(54% 0.132 360);
 
-  --dropdown-primary: oklch(0.84 0.14 77.04);
-  --dropdown-primary-foreground: oklch(0.96 0.008 358);
+  --dropdown-primary: oklch(81% 0.113 80); /* Lions gold for dark dropdowns */
+  --dropdown-primary-foreground: #0e1420;
 
   /* ── Table tokens (dark) ──────────────────────────────────────── */
-  --table-header: rgb(32, 41, 56); /* thead bg — one step lighter than card */
-  --table-row-border: rgb(31, 39, 52); /* row divider lines */
-  --table-row-hover: rgb(32, 41, 56); /* tr:hover surface */
-  --table-row-text: rgb(169, 180, 194); /* td body text */
+  --table-header: #202938; /* surface3 — thead bg */
+  --table-row-border: #1f2734; /* borderSubtle — row dividers */
+  --table-row-hover: #202938; /* surface3 — tr:hover */
+  --table-row-text: #a9b4c2; /* text2 */
 
-  --sub-heading: oklch(0.81 0.113 80);
+  /* Sub-heading — dark promotes to dimmed Lions gold for legibility */
+  --sub-heading: oklch(81% 0.113 80); /* accentText dark ≈ #E8B968 */
 }
 
 @layer base {
@@ -280,4 +296,8 @@
   .sd-table tbody tr.sd-table-empty:hover td {
     background-color: transparent;
   }
+}
+
+::-webkit-scrollbar {
+  display: none;
 }

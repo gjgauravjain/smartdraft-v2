@@ -77,11 +77,12 @@ export function ProjectDropdown({
         value={value}
         options={options}
         onChange={onChange}
+        label={"Project"}
         placeholder="Select project"
         searchPlaceholder="Search projects..."
         emptyMessage="No projects found."
         showStatusDot
-        triggerClassName="rounded-full max-w-[118px]! border-primary/30 bg-primary/5 text-primary hover:bg-primary/10"
+        triggerClassName=" max-w-[118px]!  bg-primary/5 text-primary "
       />
     </div>
   );

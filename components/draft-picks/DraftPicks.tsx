@@ -14,6 +14,7 @@ import DraftAssetsChart from "./draft-assets/DraftAssetsChart";
 import DraftAssetsMobileList from "./draft-assets/DraftAssetMobileList";
 import { DashboardSubHeader } from "../layout/DashboardSubHeader";
 import ApplyCompensation from "./ApplyCompensation";
+import { DraftPicksSkeleton } from "./DraftPicksSkeleton";
 
 const DraftPicks = () => {
   const {
@@ -27,6 +28,7 @@ const DraftPicks = () => {
     isAll,
     setIsAll,
     draftPicksData,
+    loading,
     isMobile,
     selectedProject,
     setSelectedProject,
@@ -115,7 +117,7 @@ const DraftPicks = () => {
         onTalentOrderChange={setSelectedTalentOrder}
         talentOrder={selectedTalentOrder}
       />
-      {!isMobile && (
+      {!loading && !isMobile && (
         <div className="flex border-t justify-between  bg-card gap-2 px-2 pt-1">
           <div>
             <DraftPicksTabs
@@ -133,7 +135,7 @@ const DraftPicks = () => {
           </div>
         </div>
       )}
-      {isMobile && (
+      {!loading && isMobile && (
         <DraftPicksTabs
           tabs={[...(draftPicksData?.draftTab || []), ...draftTabOption]}
           activeTabId={activeTab}
@@ -168,23 +170,29 @@ const DraftPicks = () => {
           onCheckedChange={setCompensation}
         />
       )}
-      {activeTab === "current" && (
-        <CurrentYearDraftPick
-          data={draftData?.draftCurrentYear}
-          selectedTeamId={selectedTeam}
-          showAll={isAll}
-        />
+      {loading ? (
+        <DraftPicksSkeleton isMobile={isMobile} />
+      ) : (
+        <>
+          {activeTab === "current" && (
+            <CurrentYearDraftPick
+              data={draftData?.draftCurrentYear}
+              selectedTeamId={selectedTeam}
+              showAll={isAll}
+            />
+          )}
+          {activeTab === "next" && (
+            <NextYearDraftPick
+              data={draftData?.draftNextYear}
+              selectedTeamId={selectedTeam}
+              showAll={isAll}
+            />
+          )}
+          {activeTab === "order" && renderOrderEntry()}
+          {activeTab === "fulllist" && renderFullListEntry()}
+          {activeTab === "draftAssets" && renderDraftAssets()}
+        </>
       )}
-      {activeTab === "next" && (
-        <NextYearDraftPick
-          data={draftData?.draftNextYear}
-          selectedTeamId={selectedTeam}
-          showAll={isAll}
-        />
-      )}
-      {activeTab === "order" && renderOrderEntry()}
-      {activeTab === "fulllist" && renderFullListEntry()}
-      {activeTab === "draftAssets" && renderDraftAssets()}
     </div>
   );
 };

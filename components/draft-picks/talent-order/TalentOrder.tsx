@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import { useTalentOrder } from "./useTalentOrder";
 import { PlayerDatabaseType } from "@/app/api/type/player";
 import { FILTERS } from "./util";
+import { useIsMobile } from "@/hooks/use-mobile";
+import FilterTalentOrder from "./FilterTalentOrder";
+import FilterPlayerList from "./FilterPlayerList";
 
 type TalentOrderProps = {
   players: PlayerDatabaseType[];
@@ -19,7 +22,7 @@ const TalentOrder: React.FC<TalentOrderProps> = ({
   const [internalCollapsed, setInternalCollapsed] = useState(false);
   const isControlled = isCollapsedProp !== undefined;
   const isCollapsed = isControlled ? isCollapsedProp : internalCollapsed;
-
+  const isMobile = useIsMobile();
   const toggleCollapse = () => {
     if (onToggleCollapse) {
       onToggleCollapse();
@@ -32,6 +35,17 @@ const TalentOrder: React.FC<TalentOrderProps> = ({
   const { playerList, filter, setFilter, totalCount, remainingCount } =
     useTalentOrder(players);
 
+  if (isMobile) {
+    return (
+      <div className="flex h-[calc(100vh-300px)] min-h-0 flex-col overflow-hidden">
+        <FilterTalentOrder filter={filter} setFilter={setFilter} />
+        <span className="text-[10.5px] px-2.5 py-1 text-muted-foreground">
+          {remainingCount} of {totalCount} remaining
+        </span>
+        <FilterPlayerList playerList={playerList} className="pb-24" />
+      </div>
+    );
+  }
   if (isCollapsed) {
     return (
       <div
@@ -92,99 +106,8 @@ const TalentOrder: React.FC<TalentOrderProps> = ({
             ›
           </button>
         </div>
-
-        <div className="px-3 pt-2 pb-1 shrink-0 flex gap-1">
-          {FILTERS.map(({ key, label }) => {
-            const active = filter === key;
-            return (
-              <button
-                key={key}
-                type="button"
-                onClick={() => setFilter(key)}
-                className={[
-                  "flex-1 px-2 py-[5px] text-[10.5px] font-semibold rounded-[5px] border cursor-pointer transition-colors",
-                  active
-                    ? "bg-primary text-primary-foreground border-primary"
-                    : "bg-background text-muted-foreground border-border hover:bg-muted",
-                ].join(" ")}
-              >
-                {label}
-              </button>
-            );
-          })}
-        </div>
-        <div className="flex-1 overflow-y-auto px-2.5 pb-2.5 pt-1.5 flex flex-col gap-1">
-          {playerList.length === 0 ? (
-            <div className="text-[11px] text-muted-foreground text-center py-6">
-              No players match this filter.
-            </div>
-          ) : (
-            playerList.map((row) => {
-              const isDrafted = row.status === "drafted";
-              return (
-                <div
-                  key={row.id}
-                  className={[
-                    "flex items-center gap-2 px-[9px] py-[7px] border rounded-[6px] transition-colors",
-                    isDrafted
-                      ? "bg-muted border-border opacity-60"
-                      : "bg-card border-border opacity-100 hover:bg-muted/50 cursor-pointer",
-                  ].join(" ")}
-                >
-                  <div
-                    className={[
-                      "w-[22px] h-[22px] rounded shrink-0 flex items-center justify-center text-[11px] font-bold tabular-nums",
-                      isDrafted
-                        ? "bg-muted-foreground/50 text-primary-foreground"
-                        : "bg-secondary text-muted-foreground",
-                    ].join(" ")}
-                  >
-                    {row.rank}
-                  </div>
-
-                  <div className="flex-1 min-w-0">
-                    <div
-                      className={[
-                        "text-xs font-semibold whitespace-nowrap overflow-hidden text-ellipsis",
-                        isDrafted ? "text-muted-foreground" : "text-foreground",
-                      ].join(" ")}
-                    >
-                      {row.name}
-                    </div>
-                    <div className="text-[10px] text-muted-foreground whitespace-nowrap overflow-hidden text-ellipsis flex items-center gap-1">
-                      {isDrafted ? (
-                        <>
-                          <span>Drafted</span>
-                          <span
-                            aria-hidden
-                            className="w-[11px] h-[11px] rounded-full bg-muted-foreground/40 border border-black/10 shrink-0"
-                          />
-                          <span className="font-bold">{row.club}</span>
-                        </>
-                      ) : (
-                        <span>
-                          {row.club}
-                          {row.state ? ` · ${row.state}` : ""}
-                        </span>
-                      )}
-                    </div>
-                  </div>
-
-                  <div
-                    className={[
-                      "px-[5px] py-[1px] rounded-[3px] text-[9px] font-bold shrink-0",
-                      isDrafted
-                        ? "bg-muted-foreground/50 text-primary-foreground"
-                        : "bg-primary text-primary-foreground",
-                    ].join(" ")}
-                  >
-                    {row.positionLabel}
-                  </div>
-                </div>
-              );
-            })
-          )}
-        </div>
+        <FilterTalentOrder filter={filter} setFilter={setFilter} />
+        <FilterPlayerList playerList={playerList} />
       </div>
     </div>
   );

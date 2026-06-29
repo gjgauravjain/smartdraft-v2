@@ -124,3 +124,14 @@ export function getPicks(team: DataOrderEntryType) {
 
 export const TALENT_ORDER_WIDTH = 264;
 export const TALENT_ORDER_RAIL_WIDTH = 18;
+
+export const TALENT_ORDER_TABS: TabOptionType[] = [
+  {
+    value: "picks",
+    label: "Picks",
+  },
+  {
+    value: "talent",
+    label: "Talent Orders",
+  },
+];

@@ -14,7 +14,11 @@ export const useDraftPicks = () => {
   const [isAll, setIsAll] = useState(false);
   const { selectedProject, setSelectedProject } = useStore();
   const { data: projects } = useGetProjects();
-  const { data: draftPicksData } = userGetDraftPicks({
+  const {
+    data: draftPicksData,
+    isLoading: isDraftPicksLoading,
+    isRefetching: isDraftPicksRefetching,
+  } = userGetDraftPicks({
     projectId: Number(selectedProject?.id),
     compensationEnabled: compensation,
   });
@@ -47,6 +51,7 @@ export const useDraftPicks = () => {
     isAll,
     setIsAll,
     draftPicksData,
+    loading: isDraftPicksLoading || isDraftPicksRefetching,
     isMobile,
     selectedProject,
     setSelectedProject,

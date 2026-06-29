@@ -9,6 +9,8 @@
   --color-foreground: var(--foreground);
   --color-sub-heading: var(--sub-heading);
   --color-primary-light: var(--primary-light);
+  --color-highlight-text: var(--highlight-text);
+  --color-highlight-background: var(--highlight-background);
   --font-sans: var(--font-sans);
   --font-mono: var(--font-geist-mono);
   --font-heading: var(--font-sans);
@@ -99,6 +101,9 @@
   --accent: oklch(49% 0.132 360 / 0.08); /* accentSoft */
   --accent-foreground: oklch(49% 0.132 360); /* maroon text */
 
+  --highlight-text: oklch(49% 0.132 360); /* maroon text */
+  --highlight-background: oklch(49% 0.132 360 / 0.08); /* accentSoft */
+  
   /* Tertiary — deep navy, rarely used */
   --tertiary: #1b2d4a; /* SD_BRAND navy */
   --tertiary-foreground: #fcfcfd;
@@ -183,12 +188,15 @@
   --muted-foreground: #a9b4c2; /* text2 */
 
   /* Accent — solid maroon fill (active nav / chips in dark = solid + white) */
-  --accent: oklch(54% 0.132 360 / 0.45); /* accentMid */
-  --accent-foreground: #d7dee8;
+  --accent: oklch(0.84 0.14 77.04);
+  --accent-foreground: oklch(0.96 0.008 358);
 
   /* Tertiary */
   --tertiary: #1b2d4a;
   --tertiary-foreground: #d7dee8;
+
+  --highlight-text: oklch(0.84 0.14 77.04);
+  --highlight-background: oklch(0.96 0.008 358);
 
   /* Destructive */
   --destructive: oklch(0.704 0.191 22.216);

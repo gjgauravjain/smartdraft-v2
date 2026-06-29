@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 
 const NAV_ITEMS = [
   { label: "Home", icon: Home, href: "/" },
-  { label: "Draft", icon: LayoutPanelLeft, href: "/draft" },
+  { label: "Draft", icon: LayoutPanelLeft, href: "/draftpick" },
   { label: "Player", icon: User, href: "/player" },
   { label: "List", icon: ClipboardList, href: "/list" },
   { label: "Account", icon: User, href: "/account" },
@@ -34,7 +34,7 @@ export function BottomNav() {
             className={cn(
               "flex flex-col items-center gap-0.75 flex-1 bg-transparent border-none cursor-pointer transition-colors duration-150",
               active
-                ? "dark:text-accent text-primary"
+                ? "text-highlight-text  "
                 : "text-muted-foreground hover:text-foreground",
             )}
           >

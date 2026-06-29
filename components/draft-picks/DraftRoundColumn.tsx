@@ -131,11 +131,8 @@ export function DraftRoundColumn({
                   dimForHover && "opacity-40",
                 )}
               >
-                <span className="font-bold text-xs text-foreground">
+                <span className={cn("font-bold text-xs text-foreground", belongsToUserTeam ? "text-highlight-text" : "text-foreground")}>
                   {pick.overallPick}{" "}
-                  <span className="text-muted-foreground">
-                    ({pick.clubPickNumber})
-                  </span>
                 </span>
                 <div className="flex min-w-0 items-center gap-2">
                   {pick.image ? (
@@ -147,7 +144,7 @@ export function DraftRoundColumn({
                   ) : (
                     <span className="h-6 w-6 shrink-0 rounded-full border border-border bg-muted" />
                   )}
-                  <span className="truncate font-bold text-xs text-foreground">
+                  <span className={cn("truncate font-bold text-xs text-foreground", belongsToUserTeam ? "text-highlight-text" : "text-foreground")}>
                     {pick.currentOwnerShort}
                   </span>
                   {hasOwnerNote && (

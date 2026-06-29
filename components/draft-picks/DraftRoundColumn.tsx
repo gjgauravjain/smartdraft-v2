@@ -1,6 +1,6 @@
 "use client";
 
-import { ChevronLeft, ChevronRight, Info, MoreHorizontal } from "lucide-react";
+import { ChevronLeft, ChevronRight, Info } from "lucide-react";
 
 import { DraftYearList } from "@/app/api/type/draftpicks";
 import { Button } from "@/components/ui/button";
@@ -88,15 +88,6 @@ export function DraftRoundColumn({
             aria-label={`Collapse ${title}`}
           >
             <ChevronLeft className="h-4 w-4" />
-          </Button>
-          <Button
-            type="button"
-            variant="ghost"
-            size="icon"
-            className="h-8 w-8 text-muted-foreground hover:text-foreground"
-            aria-label={`${title} actions`}
-          >
-            <MoreHorizontal className="h-4 w-4" />
           </Button>
         </div>
       </div>

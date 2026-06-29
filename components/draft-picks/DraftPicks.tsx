@@ -146,7 +146,10 @@ const DraftPicks = () => {
           teams={teams}
           selectedTeamId={selectedTeam}
           onToggleAll={setIsAll}
-          onTeamSelect={setSelectedTeam}
+          onTeamSelect={(selectedTeamId) => {
+            setSelectedTeam(selectedTeamId);
+            setIsAll(false);
+          }}
         />
       )}
       {isMobile && (

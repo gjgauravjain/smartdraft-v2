@@ -1,7 +1,7 @@
 "use client";
 
 import {
-  useGetOrgDetails,
+  useGetOrganisations,
   useGetOrgMembers,
 } from "@/app/api/react-query/organisations";
 import { OrganisationHeader } from "./OrgDetailHeader";
@@ -12,7 +12,11 @@ import { OrgMembersList } from "./OrgMembers";
 import { ConfirmDangerDialog } from "@/components/common/ConfirmDangerDialog";
 
 export default function OrganisationDetails({ id }: { id: string }) {
-  const { data } = useGetOrgDetails(id);
+  const { data: organisations } = useGetOrganisations();
+  const organisation = organisations?.find(
+    (org) => org.id.toString() === id.toString(),
+  );
+
   const { data: memberList } = useGetOrgMembers(id);
   const [openEditModal, setOpenEditModal] = useState(false);
   const [deactivateOpen, setDeactivateOpen] = useState(false);
@@ -20,13 +24,13 @@ export default function OrganisationDetails({ id }: { id: string }) {
   return (
     <div className="h-full bg-background">
       <OrganisationHeader
-        title={data?.name ?? "Organisation"}
+        title={organisation?.name ?? "Organisation"}
         onBack={() => history.back()}
         onEdit={() => setOpenEditModal(true)}
         onDeactivate={() => setDeactivateOpen(true)}
       />
       <div className="p-5">
-        {data && <OrgInfoCard organisation={data} />}
+        {organisation && <OrgInfoCard organisation={organisation} />}
         <div className="mt-4">
           <OrgMembersList membersList={memberList || []} />
         </div>
@@ -36,15 +40,15 @@ export default function OrganisationDetails({ id }: { id: string }) {
           setOpenEditModal((prev) => !prev);
         }}
         open={openEditModal}
-        initialValue={data}
+        initialValue={organisation}
       />
       <ConfirmDangerDialog
         open={deactivateOpen}
         onOpenChange={setDeactivateOpen}
         title="Deactivate organisation"
-        subtitle={`${data?.name} · ${data?.members} members`}
+        subtitle={`${organisation?.name} · ${organisation?.members} members`}
         description="This removes the organisation from the platform and revokes all member access."
-        confirmText={data?.name.toUpperCase()}
+        confirmText={organisation?.name.toUpperCase()}
         actionLabel="Deactivate org"
         onConfirm={() => {
           console.log("Deactivate");

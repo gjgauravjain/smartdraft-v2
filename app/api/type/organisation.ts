@@ -16,6 +16,7 @@ export type OrganisationListType = {
   sportingCode: SportingCodeType;
   createdAt: string;
   updatedAt: string;
+  members?: number;
 };
 
 export type NewOrganisationFormValues = {
@@ -35,15 +36,6 @@ export type UpdateOrganisationType = {
   name: string;
   defaultTeam: string;
   sportingCode: string;
-};
-
-export type OrgDetailsType = {
-  id: string;
-  name: string;
-  logo: string | null;
-  defaultTeam: DefaultTeamType;
-  sportingCode: SportingCodeType;
-  members?: number;
 };
 
 export type OrgMembersListType = {

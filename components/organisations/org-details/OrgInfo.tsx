@@ -1,11 +1,11 @@
 import { useGetTeams } from "@/app/api/react-query/common";
-import { OrgDetailsType } from "@/app/api/type/organisation";
+import { OrganisationListType } from "@/app/api/type/organisation";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { getInitials } from "@/lib/utils";
+import { formatDate, getInitials } from "@/lib/utils";
 import { InfoItem, MobileInfoItem } from "./InfoItem";
 
 interface OrgInfoCardProps {
-  organisation: OrgDetailsType;
+  organisation: OrganisationListType;
 }
 
 export function OrgInfoCard({ organisation }: OrgInfoCardProps) {
@@ -14,7 +14,7 @@ export function OrgInfoCard({ organisation }: OrgInfoCardProps) {
   const { data } = useGetTeams();
 
   const flag = data?.find(
-    (item) => item.id.toString() === organisation.id.toString(),
+    (item) => item.id.toString() === organisation.defaultTeam.id.toString(),
   );
 
   const logo = flag?.image;
@@ -52,7 +52,11 @@ export function OrgInfoCard({ organisation }: OrgInfoCardProps) {
               bordered
             />
 
-            <MobileInfoItem label="Created" value="-" bordered />
+            <MobileInfoItem
+              label="Created"
+              value={formatDate(organisation.createdAt)}
+              bordered
+            />
           </div>
         </div>
       </div>
@@ -95,7 +99,10 @@ export function OrgInfoCard({ organisation }: OrgInfoCardProps) {
               value={`${organisation.members ?? 0} users`}
             />
 
-            <InfoItem label="Created" value="-" />
+            <InfoItem
+              label="Created"
+              value={formatDate(organisation.createdAt)}
+            />
           </div>
         </div>
       </div>

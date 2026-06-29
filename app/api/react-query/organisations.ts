@@ -9,11 +9,10 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   AddOrganisationType,
   OrganisationListType,
-  OrgDetailsType,
   OrgMembersListType,
   UpdateOrganisationType,
 } from "../type/organisation";
-import { ORG_MEMBERS, ORGLIST } from "../dummy/org-list";
+import { ORG_MEMBERS } from "../dummy/org-list";
 
 export const transformOrgData = (data: any): OrganisationListType[] => {
   if (!data) {
@@ -90,36 +89,6 @@ export const useUpdateOrganisation = () => {
     },
   });
 };
-const transformOrgDetailsData = (data: any): OrgDetailsType => {
-  return {
-    id: data.id,
-    name: data.name,
-    logo: data.logo,
-    defaultTeam: {
-      id: data.default_team.id,
-      name: data.default_team.name,
-      shortName: data.default_team.short_name,
-    },
-    sportingCode: {
-      code: data.sporting_code.code,
-      name: data.sporting_code.name,
-    },
-  };
-};
-export const useGetOrgDetails = (id: string) => {
-  return useQuery({
-    queryKey: ["organisations", id],
-    queryFn: async () => {
-      // const { data } = await apiClient.get(getOrganisactionDetailsApiUrl(id));
-      const data = ORGLIST.find((item) => item.id.toString() === id.toString());
-      return transformOrgDetailsData(data);
-    },
-    enabled: !!id,
-    staleTime: 5 * 60 * 1000,
-    retry: 0,
-  });
-};
-
 const transformOrgMembers = (data: any): OrgMembersListType[] => {
   if (!data) {
     return [];

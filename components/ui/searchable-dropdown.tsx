@@ -1,8 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Check, ChevronDown, Search } from "lucide-react";
-
+import { Check, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -31,6 +30,7 @@ interface SearchableDropdownProps {
   triggerClassName?: string;
   contentClassName?: string;
   showStatusDot?: boolean;
+  label?: string;
 }
 
 export function SearchableDropdown({
@@ -45,6 +45,7 @@ export function SearchableDropdown({
   triggerClassName,
   contentClassName,
   showStatusDot,
+  label,
 }: SearchableDropdownProps) {
   const [open, setOpen] = React.useState(false);
   const [search, setSearch] = React.useState("");
@@ -71,21 +72,29 @@ export function SearchableDropdown({
           variant="outline"
           size="sm"
           disabled={disabled}
+          title={label}
           className={cn(
-            "h-7 max-w-56 justify-between gap-1.5 px-3 text-xs font-semibold rounded-sm! dark:bg-primary dark:text-white",
+            "h-auto w-full max-w-56 flex-col items-start justify-center gap-0 overflow-hidden rounded-[5px] border-primary bg-primary px-[9px] py-[3px] leading-[1.15] text-white hover:bg-primary hover:text-white dark:bg-primary dark:text-white",
             className,
             triggerClassName,
           )}
         >
-          <span className="flex min-w-0 items-center gap-1.5">
+          {label ? (
+            <span className="w-auto truncate text-[7.5px] font-bold uppercase tracking-[0.7px] text-white/70">
+              {label}
+            </span>
+          ) : null}
+          <span className="flex relative w-full min-w-0 items-center gap-[5px]">
             {showStatusDot ? (
               <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-green-500" />
             ) : null}
-            <span className="truncate">
+            <p className="min-w-0 flex-1 text-justify truncate text-[11.5px] font-bold whitespace-nowrap text-white">
               {selectedOption?.label ?? placeholder}
+            </p>
+            <span className="shrink-0 absolute right-0 text-[9px] text-white">
+              ▾
             </span>
           </span>
-          <ChevronDown className="h-3 w-3 shrink-0 opacity-70" />
         </Button>
       </PopoverTrigger>
       <PopoverContent

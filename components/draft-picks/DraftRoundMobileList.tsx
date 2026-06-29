@@ -43,7 +43,7 @@ export function DraftRoundMobileList({ title, picks, userTeamId }: Props) {
             <div
               className={cn(
                 "w-6 text-[13px] font-bold tabular-nums shrink-0",
-                isUser ? "text-primary" : "text-foreground",
+                isUser ? "text-highlight-text" : "text-foreground",
               )}
             >
               {pick.overallPick}
@@ -62,7 +62,7 @@ export function DraftRoundMobileList({ title, picks, userTeamId }: Props) {
             <span
               className={cn(
                 "text-[12px] font-semibold shrink-0",
-                isUser ? "text-primary" : "text-foreground",
+                isUser ? "text-highlight-text" : "text-foreground",
               )}
             >
               {pick.currentOwnerShort}

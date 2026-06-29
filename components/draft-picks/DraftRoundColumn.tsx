@@ -1,6 +1,6 @@
 "use client";
 
-import { ChevronLeft, ChevronRight, Info, MoreHorizontal } from "lucide-react";
+import { ChevronLeft, ChevronRight, Info } from "lucide-react";
 
 import { DraftYearList } from "@/app/api/type/draftpicks";
 import { Button } from "@/components/ui/button";
@@ -65,7 +65,7 @@ export function DraftRoundColumn({
   return (
     <section
       className={cn(
-        "flex h-[calc(100vh-214px)] w-60 shrink-0 flex-col overflow-hidden rounded-lg border border-border bg-card text-card-foreground",
+        "flex h-[calc(100vh-178px)] w-60 shrink-0 flex-col overflow-hidden rounded-lg border border-border bg-card text-card-foreground",
         className,
       )}
     >
@@ -88,15 +88,6 @@ export function DraftRoundColumn({
             aria-label={`Collapse ${title}`}
           >
             <ChevronLeft className="h-4 w-4" />
-          </Button>
-          <Button
-            type="button"
-            variant="ghost"
-            size="icon"
-            className="h-8 w-8 text-muted-foreground hover:text-foreground"
-            aria-label={`${title} actions`}
-          >
-            <MoreHorizontal className="h-4 w-4" />
           </Button>
         </div>
       </div>
@@ -127,15 +118,19 @@ export function DraftRoundColumn({
                 className={cn(
                   "grid grid-cols-[2.75rem_5.5rem_minmax(0,1fr)] items-center border-b border-border/70 px-3 py-1.75 text-xs transition-colors",
                   belongsToUserTeam && "bg-primary/10",
-                  isHoveredTeam && "bg-accent text-accent-foreground",
+                  isHoveredTeam && "bg-accent/10 text-accent-foreground",
                   dimForHover && "opacity-40",
                 )}
               >
-                <span className="font-bold text-xs text-foreground">
+                <span
+                  className={cn(
+                    "font-bold text-xs text-foreground",
+                    belongsToUserTeam
+                      ? "text-highlight-text"
+                      : "text-foreground",
+                  )}
+                >
                   {pick.overallPick}{" "}
-                  <span className="text-muted-foreground">
-                    ({pick.clubPickNumber})
-                  </span>
                 </span>
                 <div className="flex min-w-0 items-center gap-2">
                   {pick.image ? (
@@ -147,7 +142,14 @@ export function DraftRoundColumn({
                   ) : (
                     <span className="h-6 w-6 shrink-0 rounded-full border border-border bg-muted" />
                   )}
-                  <span className="truncate font-bold text-xs text-foreground">
+                  <span
+                    className={cn(
+                      "truncate font-bold text-xs text-foreground",
+                      belongsToUserTeam
+                        ? "text-highlight-text"
+                        : "text-foreground",
+                    )}
+                  >
                     {pick.currentOwnerShort}
                   </span>
                   {hasOwnerNote && (

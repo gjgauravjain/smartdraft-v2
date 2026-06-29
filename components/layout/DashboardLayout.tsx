@@ -3,7 +3,6 @@
 import { ReactNode } from "react";
 import { AppSidebar } from "./AppSidebar";
 import { DashboardHeader } from "./DashboardHeader";
-import { DashboardSubHeader } from "./DashboardSubHeader";
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
 import { useDashboardLayout } from "./useDashboardLayout";
 import { BottomNav } from "./BottomNav";
@@ -14,15 +13,7 @@ interface DashboardLayoutProps {
 }
 
 export function DashboardLayout({ children }: DashboardLayoutProps) {
-  const {
-    projects,
-    isSideBarOpen,
-    setIsSideBarOpen,
-    selectedProject,
-    setSelectedProject,
-    isMobile,
-    hideSubHeader,
-  } = useDashboardLayout();
+  const { isSideBarOpen, setIsSideBarOpen, isMobile } = useDashboardLayout();
   return (
     <SidebarProvider open={isSideBarOpen} onOpenChange={setIsSideBarOpen}>
       <div className="flex min-h-screen w-full">
@@ -34,13 +25,6 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
               <div className="flex items-center gap-2 border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
                 <DashboardHeader sidebarOpen={isSideBarOpen || isMobile} />
               </div>
-              {!hideSubHeader && (
-                <DashboardSubHeader
-                  projects={projects}
-                  selectedProject={selectedProject}
-                  onProjectChange={setSelectedProject}
-                />
-              )}
             </div>
           )}
 

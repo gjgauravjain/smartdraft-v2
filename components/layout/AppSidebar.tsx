@@ -26,6 +26,7 @@ import {
 } from "../ui/dropdown-menu";
 import { cn } from "@/lib/utils";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { OrganisationType } from "@/app/api/type/common";
 
 function AppSidebarToggle() {
   const { state, toggleSidebar } = useSidebar();
@@ -56,18 +57,26 @@ function AppSidebarHeader({
   selectedTeam,
   teams,
   setSelectedTeam,
+  organisations,
+  selectedOrganisation,
+  setSelectedOrganisation,
 }: {
   selectedTeam: ReturnType<typeof useAppSidebarWizard>["selectedTeam"];
   teams: ReturnType<typeof useAppSidebarWizard>["teams"];
   setSelectedTeam: ReturnType<typeof useAppSidebarWizard>["setSelectedTeam"];
+  organisations: OrganisationType[];
+  selectedOrganisation: string;
+  setSelectedOrganisation: (org: string) => void;
 }) {
   const { state } = useSidebar();
   const isCollapsed = state === "collapsed";
   const isMobile = useIsMobile();
+  const showCollapsed = isCollapsed && !isMobile;
+
   return (
     <SidebarHeader className="border-b border-sidebar-border p-0">
       <div className="flex bg-tertiary items-center gap-2 px-0 py-3 relative">
-        {isCollapsed && !isMobile ? (
+        {showCollapsed ? (
           <div className="flex w-full items-center justify-center">
             <div className="w-7 h-7 rounded-md bg-white/10 flex items-center justify-center text-white text-xs font-bold tracking-wider">
               SD
@@ -81,39 +90,37 @@ function AppSidebarHeader({
         {!isCollapsed && <AppSidebarToggle />}
       </div>
 
-      <div className={cn("px-4 py-2", isCollapsed && !isMobile && "px-0 py-0")}>
+      <div
+        className={cn(
+          "flex items-center gap-2 px-4 py-2",
+          showCollapsed && "flex-col gap-2 px-0",
+        )}
+      >
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            {isCollapsed && !isMobile ? (
-              <div className="px-0 py-2 flex justify-center">
-                <div
-                  title={selectedTeam?.teamNames}
-                  className="flex items-center justify-center w-8 h-8 rounded-lg bg-sidebar border border-sidebar-border cursor-pointer hover:bg-sidebar-accent transition-colors"
-                >
-                  <img
-                    src={selectedTeam?.image}
-                    alt={selectedTeam?.teamNames}
-                    className="w-5 h-5 rounded-full"
-                  />
-                </div>
-              </div>
+            {showCollapsed ? (
+              <button
+                title={selectedTeam?.teamNames}
+                className="flex items-center justify-center w-8 h-8 rounded-lg bg-sidebar border border-sidebar-border cursor-pointer hover:bg-sidebar-accent transition-colors"
+              >
+                <img
+                  src={selectedTeam?.image}
+                  alt={selectedTeam?.teamNames}
+                  className="w-5 h-5 rounded-full"
+                />
+              </button>
             ) : (
-              <button className="flex items-center gap-2 w-full px-2 py-2 rounded-lg border border-sidebar-border hover:bg-sidebar-accent transition-colors">
-                <div>
-                  <img
-                    src={selectedTeam?.image}
-                    alt={selectedTeam?.teamNames}
-                    className="w-4 h-4 rounded-full"
-                  />
-                </div>
-                <span className="font-medium text-sidebar-foreground flex-1 text-left">
-                  {selectedTeam?.teamNames || "Select Team"}
-                </span>
+              <button className="flex items-center gap-1.5 shrink-0 h-9 px-2 rounded-lg border border-sidebar-border hover:bg-sidebar-accent transition-colors">
+                <img
+                  src={selectedTeam?.image}
+                  alt={selectedTeam?.teamNames}
+                  className="w-4 h-4 rounded-full"
+                />
                 <ChevronRight className="h-4 w-4 text-muted-foreground rotate-90" />
               </button>
             )}
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-56">
+          <DropdownMenuContent className="w-56" align="start">
             {teams?.map((team) => (
               <DropdownMenuItem
                 key={team.id}
@@ -133,11 +140,64 @@ function AppSidebarHeader({
             ))}
           </DropdownMenuContent>
         </DropdownMenu>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            {showCollapsed ? (
+              <button
+                title={
+                  organisations.find(
+                    (org) =>
+                      org.organisationId.toString() ===
+                      selectedOrganisation.toString(),
+                  )?.organisationTitle
+                }
+                className="flex items-center justify-center w-8 h-8 rounded-lg bg-sidebar border border-sidebar-border cursor-pointer hover:bg-sidebar-accent transition-colors text-[10px] font-semibold text-sidebar-foreground"
+              >
+                {(
+                  organisations.find(
+                    (org) =>
+                      org.organisationId.toString() ===
+                      selectedOrganisation.toString(),
+                  )?.organisationTitle || "ORG"
+                )
+                  .slice(0, 2)
+                  .toUpperCase()}
+              </button>
+            ) : (
+              <button className="flex items-center gap-2 flex-1 min-w-0 h-9 px-2 rounded-lg border border-sidebar-border hover:bg-sidebar-accent transition-colors">
+                <span className="font-medium text-sidebar-foreground flex-1 min-w-0 text-left truncate">
+                  {organisations.find(
+                    (org) =>
+                      org.organisationId.toString() ===
+                      selectedOrganisation.toString(),
+                  )?.organisationTitle || "CURRENT ORG"}
+                </span>
+                <ChevronRight className="h-4 w-4 text-muted-foreground rotate-90 shrink-0" />
+              </button>
+            )}
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="w-56" align="start">
+            {organisations.map((org) => (
+              <DropdownMenuItem
+                key={org.organisationId}
+                onClick={() =>
+                  setSelectedOrganisation(org.organisationId.toString())
+                }
+                className={cn(
+                  "cursor-pointer",
+                  org.organisationId.toString() ===
+                    selectedOrganisation.toString() && "bg-accent/60",
+                )}
+              >
+                {org.organisationTitle}
+              </DropdownMenuItem>
+            ))}
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
     </SidebarHeader>
   );
 }
-
 export function AppSidebar() {
   const {
     menuSections,
@@ -146,6 +206,9 @@ export function AppSidebar() {
     selectedTeam,
     setSelectedTeam,
     teams,
+    organisations,
+    currentOrganisation,
+    setCurrentOrganisation,
   } = useAppSidebarWizard();
 
   const { state } = useSidebar();
@@ -160,6 +223,9 @@ export function AppSidebar() {
         selectedTeam={selectedTeam}
         teams={teams}
         setSelectedTeam={setSelectedTeam}
+        organisations={organisations}
+        selectedOrganisation={currentOrganisation}
+        setSelectedOrganisation={setCurrentOrganisation}
       />
 
       <SidebarContent className="px-0 gap-0! group-data-[collapsible=icon]:overflow-y-auto">

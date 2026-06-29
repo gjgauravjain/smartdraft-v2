@@ -8,27 +8,40 @@ import { TeamType } from "@/app/api/type/common";
 import { useStore } from "@/store/useStore";
 import { MobileDraftPicksHeader } from "./MobileDraftsPickHeader";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { DashboardSubHeader } from "../layout/DashboardSubHeader";
+import { ProjectType } from "@/app/api/type/projects";
+import { SearchableDropdownOption } from "../ui/searchable-dropdown";
 
 export interface DraftPicksToolbarProps {
   teams?: TeamType[];
   selectedTeamId?: string;
   onTeamSelect?: (id: string) => void;
-  applyCompensation?: boolean;
-  onApplyCompensation?: (v: boolean) => void;
   onSearch?: () => void;
   isAll: boolean;
   onToggleAll: (isAll: boolean) => void;
+  projects?: ProjectType[];
+  selectedProject?: ProjectType | null;
+  onProjectChange?: (project: ProjectType) => void;
+  talentOrder?: string;
+  onTalentOrderChange?: (value: string) => void;
+  onNewTransaction?: () => void;
+  className?: string;
+  talentOrderOptions: SearchableDropdownOption[];
 }
 
 export function DraftPicksToolbar({
   teams = [],
   selectedTeamId,
   onTeamSelect,
-  applyCompensation = true,
-  onApplyCompensation,
   onSearch,
   isAll,
   onToggleAll,
+  projects,
+  selectedProject,
+  onProjectChange,
+  talentOrder,
+  onTalentOrderChange,
+  talentOrderOptions,
 }: DraftPicksToolbarProps) {
   const { setHoveredTeamId } = useStore();
 
@@ -46,11 +59,7 @@ export function DraftPicksToolbar({
     );
   }
   return (
-    <div className="scrollbar-none flex h-12 w-full items-center gap-3 overflow-x-auto bg-background px-4">
-      <span className="shrink-0 text-sm font-bold text-foreground">
-        Draft Picks
-      </span>
-
+    <div className="scrollbar-none flex h-12 w-full items-center gap-3 overflow-x-auto bg-card px-4">
       <div className="flex items-center gap-2">
         <Label
           htmlFor="compensation"
@@ -82,25 +91,16 @@ export function DraftPicksToolbar({
           />
         ))}
       </div>
-      <button
-        onClick={onSearch}
-        className="flex h-9.5 w-9.5 border items-center justify-center rounded-sm text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
-      >
-        <Search className="h-4 w-4" />
-      </button>
 
-      <div className="flex items-center gap-2 border p-2 rounded-sm">
-        <Switch
-          id="compensation"
-          checked={applyCompensation}
-          onCheckedChange={onApplyCompensation}
+      <div className="flex items-center gap-2 p-2 rounded-sm">
+        <DashboardSubHeader
+          projects={projects}
+          selectedProject={selectedProject}
+          onProjectChange={onProjectChange}
+          talentOrder={talentOrder}
+          onTalentOrderChange={onTalentOrderChange}
+          talentOrderOptions={talentOrderOptions}
         />
-        <Label
-          htmlFor="compensation"
-          className="cursor-pointer whitespace-nowrap text-sm text-foreground"
-        >
-          Apply compensation picks
-        </Label>
       </div>
     </div>
   );

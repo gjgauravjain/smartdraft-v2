@@ -53,7 +53,7 @@ if (typeof window !== "undefined") {
       return response
     },
     async error => {
-      if (error.response?.status === 401 && !isAuthErrorHandled) {
+      if ((error.response?.status === 401 || error.response?.status === 403) && !isAuthErrorHandled) {
         isAuthErrorHandled = true
         toast.error("Session expired. Please log in again.")
         try {

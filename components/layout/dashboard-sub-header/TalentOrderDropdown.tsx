@@ -1,9 +1,15 @@
 "use client";
 
+import { useState } from "react";
 import {
   SearchableDropdown,
   SearchableDropdownOption,
 } from "@/components/ui/searchable-dropdown";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { MobileFilterPill } from "@/components/common/MobileFilterPill";
+import { BottomSheet } from "@/components/common/BottomSheet";
+import { BottomSheetOption } from "@/components/common/BottomSheetOption";
+import { ListOrderedIcon } from "lucide-react";
 
 interface TalentOrderDropdownProps {
   value?: string;
@@ -16,6 +22,49 @@ export function TalentOrderDropdown({
   onChange,
   options,
 }: TalentOrderDropdownProps) {
+  const isMobile = useIsMobile();
+  const [sheetOpen, setSheetOpen] = useState(false);
+
+  const selectedOption = options.find((option) => option.value === value);
+  const selectedLabel = selectedOption?.label ?? value;
+
+  if (isMobile) {
+    return (
+      <>
+        <MobileFilterPill
+          eyebrow="Talent board"
+          value={selectedLabel}
+          active={false}
+          onClick={() => setSheetOpen(true)}
+        />
+        <BottomSheet
+          open={sheetOpen}
+          onClose={() => setSheetOpen(false)}
+          title="Switch talent board"
+          subtitle={selectedLabel}
+        >
+          <div className="flex flex-col gap-1.5 px-3 py-2.5">
+            {options.map((option) => {
+              const isSelected = option.value === value;
+              return (
+                <BottomSheetOption
+                  key={option.value}
+                  label={option.label}
+                  icon={<ListOrderedIcon />}
+                  selected={isSelected}
+                  onClick={() => {
+                    onChange?.(option.value);
+                    setSheetOpen(false);
+                  }}
+                />
+              );
+            })}
+          </div>
+        </BottomSheet>
+      </>
+    );
+  }
+
   return (
     <div className="flex items-center gap-2 border rounded-md px-3 h-8 py-0!">
       <span className="text-xs text-muted-foreground">Talent Order</span>

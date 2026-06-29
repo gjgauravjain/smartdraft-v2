@@ -5,6 +5,7 @@ import { useStore } from "@/store/useStore";
 import TalentOrder from "./talent-order/TalentOrder";
 import { useGetPlayerList } from "@/app/api/react-query/player";
 import { TALENT_ORDER_RAIL_WIDTH, TALENT_ORDER_WIDTH } from "./util";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface CurrentYearDraftPickProps {
   data?: DraftYearType;
@@ -20,7 +21,7 @@ const CurrentYearDraftPick = ({
   const { user, hoveredTeamId, currentOrganisation } = useStore();
   const { data: players } = useGetPlayerList({ orgId: currentOrganisation });
   const [isTalentOrderCollapsed, setIsTalentOrderCollapsed] = useState(false);
-
+  const isMobile = useIsMobile();
   const reservedRight = isTalentOrderCollapsed
     ? TALENT_ORDER_RAIL_WIDTH
     : TALENT_ORDER_WIDTH + TALENT_ORDER_RAIL_WIDTH;
@@ -29,7 +30,7 @@ const CurrentYearDraftPick = ({
     <div className="flex gap-4">
       <div
         className="flex-1 min-w-0 transition-[padding] duration-200"
-        style={{ paddingRight: reservedRight }}
+        style={{ paddingRight: isMobile ? 0 : reservedRight }}
       >
         <DraftYearPickBoard
           data={data}
@@ -39,12 +40,14 @@ const CurrentYearDraftPick = ({
           hoveredTeamId={hoveredTeamId}
         />
       </div>
-      <TalentOrder
-        players={players || []}
-        isCollapsed={isTalentOrderCollapsed}
-        topOffset={151}
-        onToggleCollapse={() => setIsTalentOrderCollapsed((prev) => !prev)}
-      />
+      {!isMobile && (
+        <TalentOrder
+          players={players || []}
+          isCollapsed={isTalentOrderCollapsed}
+          topOffset={151}
+          onToggleCollapse={() => setIsTalentOrderCollapsed((prev) => !prev)}
+        />
+      )}
     </div>
   );
 };

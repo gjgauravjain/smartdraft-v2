@@ -12,6 +12,7 @@ import FullListView from "./fulllist/FullListView";
 import FullListMobileView from "./fulllist/FullListMobileView";
 import DraftAssetsChart from "./draft-assets/DraftAssetsChart";
 import DraftAssetsMobileList from "./draft-assets/DraftAssetMobileList";
+import { DashboardSubHeader } from "../layout/DashboardSubHeader";
 
 const DraftPicks = () => {
   const {
@@ -26,6 +27,12 @@ const DraftPicks = () => {
     setIsAll,
     draftPicksData,
     isMobile,
+    selectedProject,
+    setSelectedProject,
+    selectedTalentOrder,
+    setSelectedTalentOrder,
+    talentOrderOptions,
+    projects,
   } = useDraftPicks();
   const draftData = draftPicksData?.draftData;
 
@@ -94,7 +101,17 @@ const DraftPicks = () => {
   };
   return (
     <div className="w-full border-b border-border">
-      {/* Row 1 – toolbar */}
+      {!isMobile && (
+        <DashboardSubHeader
+          projects={projects}
+          selectedProject={selectedProject}
+          onProjectChange={setSelectedProject}
+          talentOrderOptions={talentOrderOptions}
+          onTalentOrderChange={setSelectedTalentOrder}
+          talentOrder={selectedTalentOrder}
+        />
+      )}
+
       <DraftPicksToolbar
         teams={teams}
         selectedTeamId={selectedTeam}
@@ -117,6 +134,16 @@ const DraftPicks = () => {
           selectedTeamId={selectedTeam}
           onToggleAll={setIsAll}
           onTeamSelect={setSelectedTeam}
+        />
+      )}
+      {isMobile && (
+        <DashboardSubHeader
+          projects={projects}
+          selectedProject={selectedProject}
+          onProjectChange={setSelectedProject}
+          talentOrderOptions={talentOrderOptions}
+          onTalentOrderChange={setSelectedTalentOrder}
+          talentOrder={selectedTalentOrder}
         />
       )}
       {isMobile && (

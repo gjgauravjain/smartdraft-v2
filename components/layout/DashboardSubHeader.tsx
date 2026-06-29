@@ -8,6 +8,7 @@ import { Button } from "../ui/button";
 import { Plus } from "lucide-react";
 import { ProjectType } from "@/app/api/type/projects";
 import { SearchableDropdownOption } from "../ui/searchable-dropdown";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface DashboardSubHeaderProps {
   projects?: ProjectType[];
@@ -30,12 +31,36 @@ export function DashboardSubHeader({
   selectedProject,
   talentOrderOptions,
 }: DashboardSubHeaderProps) {
+  const isMobile = useIsMobile();
   const handleProjectChange = (projectId: string) => {
     const project = projects?.find((p) => p.id === projectId);
     if (project) {
       onProjectChange?.(project);
     }
   };
+
+  if (isMobile) {
+    return (
+      <div
+        className={cn(
+          "flex shrink-0 gap-2  border-b border-b-border bg-background px-3 py-2",
+          className,
+        )}
+      >
+        <ProjectDropdown
+          value={selectedProject?.id}
+          onChange={handleProjectChange}
+          projects={projects}
+        />
+        <TalentOrderDropdown
+          value={talentOrder}
+          onChange={onTalentOrderChange}
+          options={talentOrderOptions}
+        />
+      </div>
+    );
+  }
+
   return (
     <div
       className={cn(

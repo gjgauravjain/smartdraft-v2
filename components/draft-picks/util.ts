@@ -121,3 +121,6 @@ export function getPicks(team: DataOrderEntryType) {
   }
   return picks;
 }
+
+export const TALENT_ORDER_WIDTH = 264;
+export const TALENT_ORDER_RAIL_WIDTH = 18;

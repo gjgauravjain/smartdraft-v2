@@ -22,6 +22,9 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
     setSelectedProject,
     isMobile,
     hideSubHeader,
+    selectedTalentOrder,
+    setSelectedTalentOrder,
+    talentOrderOptions,
   } = useDashboardLayout();
   return (
     <SidebarProvider open={isSideBarOpen} onOpenChange={setIsSideBarOpen}>
@@ -39,6 +42,9 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
                   projects={projects}
                   selectedProject={selectedProject}
                   onProjectChange={setSelectedProject}
+                  talentOrderOptions={talentOrderOptions}
+                  onTalentOrderChange={setSelectedTalentOrder}
+                  talentOrder={selectedTalentOrder}
                 />
               )}
             </div>

@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
 import { Plus } from "lucide-react";
 import { ProjectType } from "@/app/api/type/projects";
+import { SearchableDropdownOption } from "../ui/searchable-dropdown";
 
 interface DashboardSubHeaderProps {
   projects?: ProjectType[];
@@ -16,6 +17,7 @@ interface DashboardSubHeaderProps {
   onTalentOrderChange?: (value: string) => void;
   onNewTransaction?: () => void;
   className?: string;
+  talentOrderOptions: SearchableDropdownOption[];
 }
 
 export function DashboardSubHeader({
@@ -26,6 +28,7 @@ export function DashboardSubHeader({
   onNewTransaction,
   className,
   selectedProject,
+  talentOrderOptions,
 }: DashboardSubHeaderProps) {
   const handleProjectChange = (projectId: string) => {
     const project = projects?.find((p) => p.id === projectId);
@@ -50,6 +53,7 @@ export function DashboardSubHeader({
         <TalentOrderDropdown
           value={talentOrder}
           onChange={onTalentOrderChange}
+          options={talentOrderOptions}
         />
       </div>
       <Button

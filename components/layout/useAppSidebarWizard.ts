@@ -8,8 +8,14 @@ import { useGetTeams } from "@/app/api/react-query/common";
 
 export function useAppSidebarWizard() {
   const pathname = usePathname();
-  const { selectedTeam, setSelectedTeam, setIsSideBarOpen, isSideBarOpen } =
-    useStore();
+  const {
+    selectedTeam,
+    setSelectedTeam,
+    setIsSideBarOpen,
+    isSideBarOpen,
+    currentOrganisation,
+    setCurrentOrganisation,
+  } = useStore();
   const { user } = useStore();
 
   const sidebarBadges = useMemo<Record<string, string>>(
@@ -66,5 +72,8 @@ export function useAppSidebarWizard() {
     setIsSideBarOpen,
     isSideBarOpen,
     user,
+    organisations: user?.organisations || [],
+    currentOrganisation,
+    setCurrentOrganisation,
   };
 }

@@ -1,29 +1,27 @@
 "use client";
 
-import { SearchableDropdown } from "@/components/ui/searchable-dropdown";
-
-export const TALENT_ORDER_OPTIONS = [
-  { value: "Recruiting board", label: "Recruiting board" },
-  { value: "Big board", label: "Big board" },
-  { value: "Position rank", label: "Position rank" },
-  { value: "Class rank", label: "Class rank" },
-];
+import {
+  SearchableDropdown,
+  SearchableDropdownOption,
+} from "@/components/ui/searchable-dropdown";
 
 interface TalentOrderDropdownProps {
   value?: string;
   onChange?: (value: string) => void;
+  options: SearchableDropdownOption[];
 }
 
 export function TalentOrderDropdown({
   value = "Recruiting board",
   onChange,
+  options,
 }: TalentOrderDropdownProps) {
   return (
     <div className="flex items-center gap-2 border rounded-md px-3 h-8 py-0!">
       <span className="text-xs text-muted-foreground">Talent Order</span>
       <SearchableDropdown
         value={value}
-        options={TALENT_ORDER_OPTIONS}
+        options={options}
         onChange={onChange}
         placeholder="Select order"
         searchPlaceholder="Search order..."

@@ -43,7 +43,7 @@ export function DashboardSubHeader({
     return (
       <div
         className={cn(
-          "flex shrink-0 gap-2  border-b border-b-border bg-background px-3 py-2",
+          "flex shrink-0 gap-2  border-b border-b-border bg-card px-3 py-2",
           className,
         )}
       >
@@ -64,12 +64,11 @@ export function DashboardSubHeader({
   return (
     <div
       className={cn(
-        "flex h-11 shrink-0 items-center justify-between border-l-4 border-l-primary border-b border-b-border bg-background pr-4",
+        "flex h-11 shrink-0 items-center justify-between bg-card",
         className,
       )}
     >
-      <div className="flex items-center gap-4">
-        <DraftLabel />
+      <div className="flex items-center gap-2">
         <ProjectDropdown
           value={selectedProject?.id}
           onChange={handleProjectChange}
@@ -80,15 +79,15 @@ export function DashboardSubHeader({
           onChange={onTalentOrderChange}
           options={talentOrderOptions}
         />
+        <Button
+          onClick={onNewTransaction}
+          size="sm"
+          className="h-8 gap-1.5 bg-primary text-primary-foreground hover:bg-primary/90"
+        >
+          <Plus className="h-4 w-4" />
+          New transaction
+        </Button>
       </div>
-      <Button
-        onClick={onNewTransaction}
-        size="sm"
-        className="h-8 gap-1.5 bg-primary text-primary-foreground hover:bg-primary/90"
-      >
-        <Plus className="h-4 w-4" />
-        New transaction
-      </Button>
     </div>
   );
 }

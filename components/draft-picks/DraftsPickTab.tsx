@@ -23,7 +23,7 @@ function TabItem({
     <button
       onClick={onClick}
       className={cn(
-        "relative shrink-0 px-1 pb-2 pt-1 text-sm transition-colors whitespace-nowrap",
+        "relative shrink-0 px-1 cursor-pointer pb-4 pt-1 text-sm transition-colors whitespace-nowrap",
         active
           ? "font-semibold text-primary dark:text-accent"
           : "text-muted-foreground hover:text-foreground",
@@ -53,7 +53,7 @@ export function DraftPicksTabs({
   const isMobile = useIsMobile();
   if (isMobile) {
     return (
-      <div className="border-b border-border bg-background">
+      <div className="border-b border-border">
         <div className="scrollbar-none flex gap-1.5 overflow-x-auto px-3.5 py-2">
           {visibleTabs.map((tab) => (
             <MobileTabItem
@@ -68,7 +68,7 @@ export function DraftPicksTabs({
     );
   }
   return (
-    <div className="scrollbar-none flex items-center gap-6 overflow-x-auto border-t border-border bg-background px-4">
+    <div className="scrollbar-none flex items-center gap-6 overflow-x-auto border-border px-4">
       {tabs
         .filter((item) => !item.toHide)
         .map((tab) => (

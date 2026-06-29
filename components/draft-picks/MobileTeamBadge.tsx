@@ -17,7 +17,7 @@ export function MobileTeamBadge({
   onTeamSelect,
 }: MobileTeamBadgeProps) {
   return (
-    <div className="border-b border-border bg-background">
+    <div className="border-b border-border bg-card">
       <div className="scrollbar-none flex items-center gap-1.5 overflow-x-auto px-3 py-2.5">
         <button
           onClick={() => onToggleAll(!isAll)}

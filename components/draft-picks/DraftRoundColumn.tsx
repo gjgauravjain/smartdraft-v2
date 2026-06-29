@@ -65,7 +65,7 @@ export function DraftRoundColumn({
   return (
     <section
       className={cn(
-        "flex h-[calc(100vh-214px)] w-60 shrink-0 flex-col overflow-hidden rounded-lg border border-border bg-card text-card-foreground",
+        "flex h-[calc(100vh-178px)] w-60 shrink-0 flex-col overflow-hidden rounded-lg border border-border bg-card text-card-foreground",
         className,
       )}
     >

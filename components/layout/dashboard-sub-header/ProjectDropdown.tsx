@@ -73,7 +73,6 @@ export function ProjectDropdown({
 
   return (
     <div className="flex items-center gap-2">
-      <span className="text-xs text-muted-foreground">Project</span>
       <SearchableDropdown
         value={value}
         options={options}
@@ -82,7 +81,7 @@ export function ProjectDropdown({
         searchPlaceholder="Search projects..."
         emptyMessage="No projects found."
         showStatusDot
-        triggerClassName="rounded-full border-primary/30 bg-primary/5 text-primary hover:bg-primary/10"
+        triggerClassName="rounded-full max-w-[118px]! border-primary/30 bg-primary/5 text-primary hover:bg-primary/10"
       />
     </div>
   );

@@ -67,7 +67,6 @@ export function TalentOrderDropdown({
 
   return (
     <div className="flex items-center gap-2 border rounded-md px-3 h-8 py-0!">
-      <span className="text-xs text-muted-foreground">Talent Order</span>
       <SearchableDropdown
         value={value}
         options={options}
@@ -75,7 +74,7 @@ export function TalentOrderDropdown({
         placeholder="Select order"
         searchPlaceholder="Search order..."
         emptyMessage="No talent orders found."
-        triggerClassName="border-transparent px-2 shadow-none bg-transparent! h-7 text-xs font-normal hover:bg-transparent focus:ring-0 focus:ring-offset-0"
+        triggerClassName="border-transparent  max-w-[118px]! px-2 shadow-none bg-transparent! h-7 text-xs font-normal hover:bg-transparent focus:ring-0 focus:ring-offset-0"
       />
     </div>
   );

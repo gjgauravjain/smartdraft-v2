@@ -13,6 +13,7 @@ import FullListMobileView from "./fulllist/FullListMobileView";
 import DraftAssetsChart from "./draft-assets/DraftAssetsChart";
 import DraftAssetsMobileList from "./draft-assets/DraftAssetMobileList";
 import { DashboardSubHeader } from "../layout/DashboardSubHeader";
+import ApplyCompensation from "./ApplyCompensation";
 
 const DraftPicks = () => {
   const {
@@ -100,33 +101,45 @@ const DraftPicks = () => {
     );
   };
   return (
-    <div className="w-full border-b border-border">
-      {!isMobile && (
-        <DashboardSubHeader
-          projects={projects}
-          selectedProject={selectedProject}
-          onProjectChange={setSelectedProject}
-          talentOrderOptions={talentOrderOptions}
-          onTalentOrderChange={setSelectedTalentOrder}
-          talentOrder={selectedTalentOrder}
-        />
-      )}
-
+    <div className="w-full border-b ">
       <DraftPicksToolbar
         teams={teams}
         selectedTeamId={selectedTeam}
         onTeamSelect={setSelectedTeam}
-        applyCompensation={compensation}
-        onApplyCompensation={setCompensation}
         isAll={isAll}
         onToggleAll={setIsAll}
+        projects={projects}
+        selectedProject={selectedProject}
+        onProjectChange={setSelectedProject}
+        talentOrderOptions={talentOrderOptions}
+        onTalentOrderChange={setSelectedTalentOrder}
+        talentOrder={selectedTalentOrder}
       />
+      {!isMobile && (
+        <div className="flex border-t justify-between  bg-card gap-2 px-2 pt-1">
+          <div>
+            <DraftPicksTabs
+              tabs={[...(draftPicksData?.draftTab || []), ...draftTabOption]}
+              activeTabId={activeTab}
+              onTabChange={setActiveTab}
+            />
+          </div>
 
-      <DraftPicksTabs
-        tabs={[...(draftPicksData?.draftTab || []), ...draftTabOption]}
-        activeTabId={activeTab}
-        onTabChange={setActiveTab}
-      />
+          <div>
+            <ApplyCompensation
+              applyCompensation={compensation}
+              onApplyCompensation={setCompensation}
+            />
+          </div>
+        </div>
+      )}
+      {isMobile && (
+        <DraftPicksTabs
+          tabs={[...(draftPicksData?.draftTab || []), ...draftTabOption]}
+          activeTabId={activeTab}
+          onTabChange={setActiveTab}
+        />
+      )}
       {isMobile && (
         <MobileTeamBadge
           isAll={isAll}

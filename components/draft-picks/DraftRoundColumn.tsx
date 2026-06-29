@@ -127,11 +127,18 @@ export function DraftRoundColumn({
                 className={cn(
                   "grid grid-cols-[2.75rem_5.5rem_minmax(0,1fr)] items-center border-b border-border/70 px-3 py-1.75 text-xs transition-colors",
                   belongsToUserTeam && "bg-primary/10",
-                  isHoveredTeam && "bg-accent text-accent-foreground",
+                  isHoveredTeam && "bg-accent/10 text-accent-foreground",
                   dimForHover && "opacity-40",
                 )}
               >
-                <span className={cn("font-bold text-xs text-foreground", belongsToUserTeam ? "text-highlight-text" : "text-foreground")}>
+                <span
+                  className={cn(
+                    "font-bold text-xs text-foreground",
+                    belongsToUserTeam
+                      ? "text-highlight-text"
+                      : "text-foreground",
+                  )}
+                >
                   {pick.overallPick}{" "}
                 </span>
                 <div className="flex min-w-0 items-center gap-2">
@@ -144,7 +151,14 @@ export function DraftRoundColumn({
                   ) : (
                     <span className="h-6 w-6 shrink-0 rounded-full border border-border bg-muted" />
                   )}
-                  <span className={cn("truncate font-bold text-xs text-foreground", belongsToUserTeam ? "text-highlight-text" : "text-foreground")}>
+                  <span
+                    className={cn(
+                      "truncate font-bold text-xs text-foreground",
+                      belongsToUserTeam
+                        ? "text-highlight-text"
+                        : "text-foreground",
+                    )}
+                  >
                     {pick.currentOwnerShort}
                   </span>
                   {hasOwnerNote && (

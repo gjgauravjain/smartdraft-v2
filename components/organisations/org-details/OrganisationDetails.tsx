@@ -1,6 +1,9 @@
 "use client";
 
-import { useGetOrganisations } from "@/app/api/react-query/organisations";
+import {
+  useDeleteOrganisation,
+  useGetOrganisations,
+} from "@/app/api/react-query/organisations";
 import { useGetAllUsers } from "@/app/api/react-query/users";
 import { getOrgMembersFromUsers } from "@/app/api/util/user";
 import { OrganisationHeader } from "./OrgDetailHeader";
@@ -9,10 +12,15 @@ import { AddUpdateOrganisationModal } from "../AddUpdateOrganisationModal";
 import { useMemo, useState } from "react";
 import { OrgMembersList } from "./OrgMembers";
 import { ConfirmDangerDialog } from "@/components/common/ConfirmDangerDialog";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 export default function OrganisationDetails({ id }: { id: string }) {
+  const router = useRouter();
   const { data: organisations } = useGetOrganisations();
   const { data: users = [] } = useGetAllUsers();
+  const { mutate: deleteOrganisation, isPending: isDeleting } =
+    useDeleteOrganisation();
   const organisation = organisations?.find(
     (org) => org.id.toString() === id.toString(),
   );
@@ -53,8 +61,15 @@ export default function OrganisationDetails({ id }: { id: string }) {
         description="This removes the organisation from the platform and revokes all member access."
         confirmText={organisation?.name.toUpperCase()}
         actionLabel="Deactivate org"
+        isLoading={isDeleting}
         onConfirm={() => {
-          console.log("Deactivate");
+          deleteOrganisation(id, {
+            onSuccess: () => {
+              toast.success("Organisation deactivated successfully");
+              setDeactivateOpen(false);
+              router.push("/organisations");
+            },
+          });
         }}
       />
     </div>

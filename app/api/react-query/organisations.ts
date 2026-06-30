@@ -1,6 +1,7 @@
 import apiClient from "@/lib/api-client";
 import {
   createOrganisationApiUrl,
+  deleteOrganisationApiUrl,
   getOrganisationListApiUrl,
   updateOrganisationApiUrl,
 } from "@/lib/api-constant";
@@ -80,6 +81,19 @@ export const useUpdateOrganisation = () => {
           default_team: payload.defaultTeam,
         },
       );
+      return data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["organisations"] });
+    },
+  });
+};
+
+export const useDeleteOrganisation = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (orgId: string) => {
+      const { data } = await apiClient.delete(deleteOrganisationApiUrl(orgId));
       return data;
     },
     onSuccess: () => {

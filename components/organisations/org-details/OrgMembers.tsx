@@ -6,6 +6,9 @@ import { useIsMobile } from "@/hooks/use-mobile";
 
 type OrgMembersListProps = {
   membersList: OrgMembersListType[];
+  onAddUser?: () => void;
+  onRemoveMember?: (memberId: number) => void;
+  isRemovingMember?: boolean;
 };
 
 function EmptyMembers({ isMobile }: { isMobile: boolean }) {
@@ -25,7 +28,12 @@ function EmptyMembers({ isMobile }: { isMobile: boolean }) {
     </div>
   );
 }
-export function OrgMembersList({ membersList }: OrgMembersListProps) {
+export function OrgMembersList({
+  membersList,
+  onAddUser,
+  onRemoveMember,
+  isRemovingMember,
+}: OrgMembersListProps) {
   const isMobile = useIsMobile();
   if (isMobile) {
     return (
@@ -37,7 +45,11 @@ export function OrgMembersList({ membersList }: OrgMembersListProps) {
 
           <div className="flex-1" />
 
-          <Button size="sm" className="h-8 gap-1.5 px-2.5 text-[11.5px]">
+          <Button
+            size="sm"
+            className="h-8 gap-1.5 px-2.5 text-[11.5px]"
+            onClick={onAddUser}
+          >
             <UserPlus className="h-3 w-3" />
             Add user
           </Button>
@@ -74,7 +86,10 @@ export function OrgMembersList({ membersList }: OrgMembersListProps) {
               </span>
 
               <button
-                className="flex text-muted-foreground transition-colors hover:text-destructive"
+                type="button"
+                disabled={isRemovingMember}
+                onClick={() => onRemoveMember?.(member.id)}
+                className="flex text-muted-foreground transition-colors hover:text-destructive disabled:opacity-50"
                 title="Remove from organisation"
               >
                 <Link2Off className="h-[15px] w-[15px]" />
@@ -98,7 +113,7 @@ export function OrgMembersList({ membersList }: OrgMembersListProps) {
 
         <div className="flex-1" />
 
-        <Button size="sm" className="gap-1.5">
+        <Button size="sm" className="gap-1.5" onClick={onAddUser}>
           <UserPlus className="h-3 w-3" />
           Add existing user
         </Button>
@@ -148,7 +163,10 @@ export function OrgMembersList({ membersList }: OrgMembersListProps) {
 
                 <td className="text-right">
                   <button
-                    className="inline-flex text-muted-foreground transition-colors hover:text-destructive"
+                    type="button"
+                    disabled={isRemovingMember}
+                    onClick={() => onRemoveMember?.(member.id)}
+                    className="inline-flex text-muted-foreground transition-colors hover:text-destructive disabled:opacity-50"
                     title="Remove from organisation"
                   >
                     <Link2Off className="h-[15px] w-[15px]" />

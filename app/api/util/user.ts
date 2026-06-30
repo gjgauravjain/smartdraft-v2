@@ -1,5 +1,14 @@
 import { OrgMembersListType } from "../type/organisation";
-import { UserListType } from "../type/user";
+import { CreateUserType, UserListType } from "../type/user";
+
+export const transformCreateUserPayload = (payload: CreateUserType) => ({
+  first_name: payload.firstName,
+  last_name: payload.lastName,
+  email: payload.email,
+  team_id: Number(payload.defaultTeamId),
+  tier: [payload.tierId],
+  organisation_ids: payload.organisationIds.map((id) => Number(id)),
+});
 
 export const transformAllUsers = (data: any[]): UserListType[] => {
   if (!data) {

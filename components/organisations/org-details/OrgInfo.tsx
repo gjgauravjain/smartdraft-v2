@@ -6,9 +6,10 @@ import { InfoItem, MobileInfoItem } from "./InfoItem";
 
 interface OrgInfoCardProps {
   organisation: OrganisationListType;
+  memberCount: number;
 }
 
-export function OrgInfoCard({ organisation }: OrgInfoCardProps) {
+export function OrgInfoCard({ organisation, memberCount }: OrgInfoCardProps) {
   const isMobile = useIsMobile();
 
   const { data } = useGetTeams();
@@ -48,7 +49,7 @@ export function OrgInfoCard({ organisation }: OrgInfoCardProps) {
 
             <MobileInfoItem
               label="Members"
-              value={`${organisation.members ?? 0}`}
+              value={`${memberCount} users`}
               bordered
             />
 
@@ -94,10 +95,7 @@ export function OrgInfoCard({ organisation }: OrgInfoCardProps) {
               value={organisation.defaultTeam?.name ?? "-"}
             />
 
-            <InfoItem
-              label="Members"
-              value={`${organisation.members ?? 0} users`}
-            />
+            <InfoItem label="Members" value={`${memberCount} users`} />
 
             <InfoItem
               label="Created"

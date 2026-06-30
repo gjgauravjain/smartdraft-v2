@@ -29,3 +29,20 @@ export type UserListType = {
   userPermissions: string[];
   organisations: UserOrganisationType[];
 };
+
+export type CreateUserType = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  defaultTeamId: string;
+  tierId: string;
+  organisationIds: string[];
+};
+
+export type UpdateUserType = {
+  id: number;
+  firstName: string;
+  lastName: string;
+  email: string;
+  defaultTeamId: string;
+};

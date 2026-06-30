@@ -90,6 +90,10 @@ export const createAddNewPlayerCsvApi = () => `add-new-players-csv/`;
 export const registerUserApiUrl = () => `api/v1/users/create/`;
 export const getUserInfo = () => `api/v1/users/current/`;
 export const getAllUsersApiUrl = () => `api/v1/users/all/fetch/`;
+export const updateUserApiUrl = (userId: string) =>
+  `api/v1/users/${userId}/update/`;
+export const deleteUserApiUrl = (userId: string) =>
+  `api/v1/users/${userId}/delete/`;
 export const getNgaTransactionSumApiUrl = (projectId: string) =>
   `/api/v1/transactions/nga-bid-impact/${projectId}/`;
 export const getDraftOption = () => `api/v1/projects/draft-types/`;

@@ -7,10 +7,10 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { OrganisationOption } from "./util";
+import { OrganisationListType } from "@/app/api/type/organisation";
 
 type AddOrganisationButtonProps = {
-  options: OrganisationOption[];
+  options: OrganisationListType[];
   onSelect: (orgId: string) => void;
 };
 

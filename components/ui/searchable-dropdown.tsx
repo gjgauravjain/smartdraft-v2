@@ -64,34 +64,48 @@ export function SearchableDropdown({
     setSearch("");
   };
 
+  const isLabeledPill = Boolean(label);
+
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button
           type="button"
-          variant="outline"
+          variant="ghost"
           size="sm"
           disabled={disabled}
           title={label}
           className={cn(
-            "h-auto w-full max-w-56 flex-col items-start justify-center gap-0 overflow-hidden rounded-[5px] border-primary bg-primary px-[9px] py-[3px] leading-[1.15] text-white hover:bg-primary hover:text-white dark:bg-primary dark:text-white",
+            "h-auto w-full max-w-56 flex-col items-start justify-center gap-0 overflow-hidden rounded-[5px] px-[9px] py-[3px] leading-[1.15] shadow-none",
+            isLabeledPill
+              ? cn(
+                  "border border-primary/20 bg-primary-light dark:bg-primary dark:text-white text-primary",
+                  "hover:bg-primary/10 hover:text-primary",
+                  "data-[state=open]:border-primary data-[state=open]:bg-primary data-[state=open]:text-primary-foreground",
+                  "data-[state=open]:hover:bg-primary data-[state=open]:hover:text-primary-foreground",
+                )
+              : cn(
+                  "border border-border bg-card text-foreground",
+                  "hover:bg-accent hover:text-accent-foreground",
+                  "data-[state=open]:border-border data-[state=open]:bg-accent data-[state=open]:text-accent-foreground",
+                ),
             className,
             triggerClassName,
           )}
         >
           {label ? (
-            <span className="w-auto truncate text-[7.5px] font-bold uppercase tracking-[0.7px] text-white/70">
+            <span className="w-auto truncate text-[7.5px] font-bold uppercase tracking-[0.7px] opacity-70">
               {label}
             </span>
           ) : null}
-          <span className="flex relative w-full min-w-0 items-center gap-[5px]">
+          <span className="relative flex w-full min-w-0 items-center gap-[5px]">
             {showStatusDot ? (
               <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-green-500" />
             ) : null}
-            <p className="min-w-0 flex-1 text-justify truncate text-[11.5px] font-bold whitespace-nowrap text-white">
+            <p className="min-w-0 flex-1 truncate text-left text-[11.5px] font-bold whitespace-nowrap">
               {selectedOption?.label ?? placeholder}
             </p>
-            <span className="shrink-0 absolute right-0 text-[9px] text-white">
+            <span className="absolute right-0 shrink-0 text-[9px] opacity-80">
               ▾
             </span>
           </span>

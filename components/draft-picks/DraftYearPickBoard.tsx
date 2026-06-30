@@ -54,9 +54,9 @@ export function DraftYearPickBoard({
         : visibleRounds.filter((r) => r.id === activeTab);
 
     return (
-      <div className="flex flex-col pb-24">
+      <div className="flex flex-col">
         <DraftRoundTabBar active={activeTab} onChange={setActiveTab} />
-        <div className="h-screen px-4 overflow-auto block pb-100">
+        <div className="h-screen px-4 overflow-auto block pb-[500px]">
           {roundsToShow.map((round) => (
             <DraftRoundMobileList
               key={round.id}

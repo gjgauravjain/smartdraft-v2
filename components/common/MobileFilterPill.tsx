@@ -31,9 +31,7 @@ export function MobileFilterPill({
       <span
         className={cn(
           "text-[8.5px] font-bold uppercase tracking-[0.7px]",
-          active
-            ? "text-primary/75 dark:text-white/75"
-            : "text-muted-foreground",
+          active ? "text-white/75 dark:text-white/75" : "text-muted-foreground",
         )}
       >
         {eyebrow}
@@ -42,7 +40,7 @@ export function MobileFilterPill({
         <span
           className={cn(
             "flex-1 truncate text-[12.5px] font-bold",
-            active ? "text-primary dark:text-white" : "text-foreground",
+            active ? "text-white" : "text-foreground",
           )}
         >
           {value}
@@ -50,7 +48,7 @@ export function MobileFilterPill({
         <ChevronDown
           className={cn(
             "h-2.5 w-2.5 shrink-0",
-            active ? "text-primary" : "text-muted-foreground",
+            active ? "text-white" : "text-muted-foreground",
           )}
         />
       </span>

@@ -1,3 +1,4 @@
+import { OrgMembersListType } from "../type/organisation";
 import { UserListType } from "../type/user";
 
 export const transformAllUsers = (data: any[]): UserListType[] => {
@@ -43,8 +44,35 @@ export const countUsersByOrganisation = (
   const counts: Record<string, number> = {};
   for (const user of users) {
     for (const org of user.organisations) {
-      counts[org.organisationId] = (counts[org.organisationId] ?? 0) + 1;
+      const orgId = org.organisationId.toString();
+      counts[orgId] = (counts[orgId] ?? 0) + 1;
     }
   }
   return counts;
 };
+
+export const getOrgMembersFromUsers = (
+  users: UserListType[],
+  orgId: string,
+): OrgMembersListType[] =>
+  users
+    .filter((user) =>
+      user.organisations.some(
+        (org) => org.organisationId.toString() === orgId.toString(),
+      ),
+    )
+    .map((user) => {
+      const orgRelation = user.organisations.find(
+        (org) => org.organisationId.toString() === orgId.toString(),
+      );
+      const name =
+        [user.firstName, user.lastName].filter(Boolean).join(" ") ||
+        user.username;
+
+      return {
+        id: user.id,
+        name,
+        email: user.email,
+        tier: orgRelation?.roles?.[0] ?? "Member",
+      };
+    });

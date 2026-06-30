@@ -1,23 +1,26 @@
 "use client";
 
-import {
-  useGetOrganisations,
-  useGetOrgMembers,
-} from "@/app/api/react-query/organisations";
+import { useGetOrganisations } from "@/app/api/react-query/organisations";
+import { useGetAllUsers } from "@/app/api/react-query/users";
+import { getOrgMembersFromUsers } from "@/app/api/util/user";
 import { OrganisationHeader } from "./OrgDetailHeader";
 import { OrgInfoCard } from "./OrgInfo";
 import { AddUpdateOrganisationModal } from "../AddUpdateOrganisationModal";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { OrgMembersList } from "./OrgMembers";
 import { ConfirmDangerDialog } from "@/components/common/ConfirmDangerDialog";
 
 export default function OrganisationDetails({ id }: { id: string }) {
   const { data: organisations } = useGetOrganisations();
+  const { data: users = [] } = useGetAllUsers();
   const organisation = organisations?.find(
     (org) => org.id.toString() === id.toString(),
   );
 
-  const { data: memberList } = useGetOrgMembers(id);
+  const memberList = useMemo(
+    () => getOrgMembersFromUsers(users, id),
+    [users, id],
+  );
   const [openEditModal, setOpenEditModal] = useState(false);
   const [deactivateOpen, setDeactivateOpen] = useState(false);
 
@@ -32,7 +35,7 @@ export default function OrganisationDetails({ id }: { id: string }) {
       <div className="p-5">
         {organisation && <OrgInfoCard organisation={organisation} />}
         <div className="mt-4">
-          <OrgMembersList membersList={memberList || []} />
+          <OrgMembersList membersList={memberList} />
         </div>
       </div>
       <AddUpdateOrganisationModal
@@ -46,7 +49,7 @@ export default function OrganisationDetails({ id }: { id: string }) {
         open={deactivateOpen}
         onOpenChange={setDeactivateOpen}
         title="Deactivate organisation"
-        subtitle={`${organisation?.name} · ${organisation?.members} members`}
+        subtitle={`${organisation?.name} · ${memberList.length} members`}
         description="This removes the organisation from the platform and revokes all member access."
         confirmText={organisation?.name.toUpperCase()}
         actionLabel="Deactivate org"

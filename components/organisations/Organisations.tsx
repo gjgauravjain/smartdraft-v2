@@ -12,6 +12,7 @@ import { useOrganisations } from "./hook";
 const Organisations = () => {
   const {
     organisations,
+    totalUsers,
     loading,
     error,
     handleManageUsers,
@@ -39,8 +40,7 @@ const Organisations = () => {
       <>
         <OrgStatsRow
           organisations={organisations}
-          totalUsers={0}
-          newSignups={0}
+          totalUsers={totalUsers}
           onManageUsers={handleManageUsers}
         />
         <OrgTable

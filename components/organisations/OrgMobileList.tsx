@@ -23,18 +23,15 @@ export const OrgMobileList = ({
           onClick={() => onRowClick(org)}
           className="w-full bg-card border border-border rounded-xl p-3.5 flex items-center gap-3 text-left active:opacity-70 transition-opacity cursor-pointer"
         >
-          {/* Avatar */}
           <div className="w-[42px] h-[42px] rounded-[10px] bg-muted border border-border flex items-center justify-center flex-shrink-0 text-foreground font-bold text-[16px] tracking-[0.3px]">
             {getInitials(org.name)}
           </div>
-
-          {/* Text */}
           <div className="flex-1 min-w-0">
             <p className="text-[14.5px] font-bold text-foreground truncate">
               {org.name}
             </p>
             <p className="text-[11.5px] text-muted-foreground mt-[3px] truncate">
-              {org.defaultTeam.name} · 0 members
+              {org.defaultTeam.name} · {org.members ?? 0} members
             </p>
           </div>
 

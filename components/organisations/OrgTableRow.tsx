@@ -51,7 +51,7 @@ export const OrgTableRow = ({
     </td>
     <td className="text-[12.5px]">{org.defaultTeam.name}</td>
     <td className="text-[13px] text-center tabular-nums font-semibold">
-      {"—"}
+      {org.members ?? "—"}
     </td>
     <td className="text-xs">{formatDate(org.createdAt)}</td>
     <td className="text-right">

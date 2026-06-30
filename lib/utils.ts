@@ -15,3 +15,10 @@ export const getInitials = (name: string) =>
     .slice(0, 2);
 
 export const formatDate = (date: string) => dayjs(date).format("DD/MM/YYYY");
+
+export const TIER_OPTIONS = [
+  {
+    value: "standard",
+    label: "Standard",
+  },
+];

@@ -3,12 +3,14 @@ import {
   useGetOrganisations,
   useUpdateOrganisation,
 } from "@/app/api/react-query/organisations";
+import { useGetAllUsers } from "@/app/api/react-query/users";
+import { countUsersByOrganisation } from "@/app/api/util/user";
 import { OrganisationListType } from "@/app/api/type/organisation";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { newOrganisationSchema, NewOrganisationSchema } from "./util";
 import { NewOrganisationModalProps } from "./type";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useGetTeams } from "@/app/api/react-query/common";
 import { SelectOption } from "../common/fields/FormSelectField";
 import { toast } from "sonner";
@@ -17,8 +19,26 @@ import { useRouter } from "next/navigation";
 export const useOrganisations = () => {
   const { data, isLoading, error, refetch, isRefetching } =
     useGetOrganisations();
+  const {
+    data: users = [],
+    isLoading: usersLoading,
+    isRefetching: usersRefetching,
+  } = useGetAllUsers();
+
   const [openAddModal, setOpenAddModal] = useState(false);
   const router = useRouter();
+
+  const memberCounts = useMemo(() => countUsersByOrganisation(users), [users]);
+
+  const organisations = useMemo(
+    () =>
+      (data ?? []).map((org) => ({
+        ...org,
+        members: memberCounts[org.id] ?? 0,
+      })),
+    [data, memberCounts],
+  );
+
   const handleManageUsers = () => console.log("Navigate to manage users");
   const handleNewOrganisation = () => {
     setOpenAddModal(true);
@@ -30,8 +50,9 @@ export const useOrganisations = () => {
     console.log("Menu for org", org.id);
 
   return {
-    organisations: data ?? [],
-    loading: isLoading || isRefetching,
+    organisations,
+    totalUsers: users.length,
+    loading: isLoading || isRefetching || usersLoading || usersRefetching,
     error: error?.message ?? null,
     handleManageUsers,
     handleNewOrganisation,

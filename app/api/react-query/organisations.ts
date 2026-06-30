@@ -1,6 +1,7 @@
 import apiClient from "@/lib/api-client";
 import {
   createOrganisationApiUrl,
+  deleteOrganisationApiUrl,
   getOrganisationListApiUrl,
   updateOrganisationApiUrl,
 } from "@/lib/api-constant";
@@ -9,10 +10,8 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   AddOrganisationType,
   OrganisationListType,
-  OrgMembersListType,
   UpdateOrganisationType,
 } from "../type/organisation";
-import { ORG_MEMBERS } from "../dummy/org-list";
 
 export const transformOrgData = (data: any): OrganisationListType[] => {
   if (!data) {
@@ -89,26 +88,16 @@ export const useUpdateOrganisation = () => {
     },
   });
 };
-const transformOrgMembers = (data: any): OrgMembersListType[] => {
-  if (!data) {
-    return [];
-  }
-  return data.map((item: any) => ({
-    id: item.id,
-    name: item.name,
-    email: item.email,
-    tier: item.tier,
-  }));
-};
-export const useGetOrgMembers = (id: string) => {
-  return useQuery({
-    queryKey: ["organisations", id, "members"],
-    queryFn: async () => {
-      // const { data } = await apiClient.get(getOrganisactionMembersApiUrl(id));
-      return transformOrgMembers(ORG_MEMBERS);
+
+export const useDeleteOrganisation = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (orgId: string) => {
+      const { data } = await apiClient.delete(deleteOrganisationApiUrl(orgId));
+      return data;
     },
-    enabled: !!id,
-    staleTime: 5 * 60 * 1000,
-    retry: 0,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["organisations"] });
+    },
   });
 };

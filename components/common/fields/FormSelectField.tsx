@@ -4,6 +4,7 @@ import { ReactNode } from "react";
 import { Control, FieldValues, FieldPath } from "react-hook-form";
 import {
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -29,6 +30,8 @@ interface FormSelectFieldProps<T extends FieldValues> {
   label: string;
   options: SelectOption[];
   placeholder?: string;
+  description?: string;
+  emptyMessage?: string;
   disabled?: boolean;
   className?: string;
 }
@@ -70,6 +73,8 @@ export function FormSelectField<T extends FieldValues>({
   label,
   options,
   placeholder = "Select an option",
+  description,
+  emptyMessage = "No options available.",
   disabled,
   className,
 }: FormSelectFieldProps<T>) {
@@ -84,8 +89,8 @@ export function FormSelectField<T extends FieldValues>({
           </FormLabel>
           <Select
             onValueChange={field.onChange}
-            defaultValue={field.value}
-            disabled={disabled}
+            value={field.value || undefined}
+            disabled={disabled || options.length === 0}
           >
             <FormControl>
               <SelectTrigger className="bg-background border-border text-foreground text-[13px] h-9 w-full">
@@ -93,13 +98,24 @@ export function FormSelectField<T extends FieldValues>({
               </SelectTrigger>
             </FormControl>
             <SelectContent className="h-auto max-h-60">
-              {options.map((opt) => (
-                <SelectItem key={opt.value} value={opt.value}>
-                  <OptionContent option={opt} />
-                </SelectItem>
-              ))}
+              {options.length ? (
+                options.map((opt) => (
+                  <SelectItem key={opt.value} value={opt.value}>
+                    <OptionContent option={opt} />
+                  </SelectItem>
+                ))
+              ) : (
+                <div className="px-2 py-4 text-center text-xs text-muted-foreground">
+                  {emptyMessage}
+                </div>
+              )}
             </SelectContent>
           </Select>
+          {description && (
+            <FormDescription className="text-[11px] leading-[1.4]">
+              {description}
+            </FormDescription>
+          )}
           <FormMessage className="text-xs" />
         </FormItem>
       )}

@@ -31,8 +31,10 @@ export type TeamOption = {
   name: string;
 };
 
+export const normalizeOrgId = (orgId: string | number) => orgId.toString();
+
 export const orgIdsMatch = (a: string | number, b: string | number) =>
-  a.toString() === b.toString();
+  normalizeOrgId(a) === normalizeOrgId(b);
 
 export const getLinkedOrganisations = (
   organisations: OrganisationListType[],

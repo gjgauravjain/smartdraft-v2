@@ -8,10 +8,11 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { OrganisationListType } from "@/app/api/type/organisation";
+import { normalizeOrgId } from "./util";
 
 type AddOrganisationButtonProps = {
   options: OrganisationListType[];
-  onSelect: (orgId: string) => void;
+  onSelect: (orgId: string | number) => void;
 };
 
 export function AddOrganisationButton({
@@ -44,7 +45,7 @@ export function AddOrganisationButton({
                 key={org.id}
                 type="button"
                 onClick={() => {
-                  onSelect(org.id);
+                  onSelect(normalizeOrgId(org.id));
                   setOpen(false);
                 }}
                 className="flex w-full items-center rounded-sm px-2 py-1.5 text-left text-[13px] outline-none hover:bg-accent hover:text-accent-foreground"

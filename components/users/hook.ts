@@ -10,6 +10,7 @@ import {
   CreateUserFormValues,
   getAvailableOrganisations,
   getLinkedOrganisations,
+  normalizeOrgId,
   orgIdsMatch,
 } from "./util";
 
@@ -33,9 +34,14 @@ export function useCreateUserModal({
 
   useEffect(() => {
     if (open) {
-      form.reset({ ...createUserFormDefaults, ...defaultValues });
+      form.reset({
+        ...createUserFormDefaults,
+        ...defaultValues,
+        organisationIds: (defaultValues?.organisationIds ?? []).map(normalizeOrgId),
+      });
     }
-  }, [open, defaultValues, form]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open, defaultValues]);
 
   const organisationIds = form.watch("organisationIds");
 
@@ -49,17 +55,29 @@ export function useCreateUserModal({
     [organisations, organisationIds],
   );
 
-  const addOrganisation = (orgId: string) => {
-    form.setValue("organisationIds", [...organisationIds, orgId], {
-      shouldDirty: true,
-    });
-  };
+  const addOrganisation = (orgId: string | number) => {
+    const normalizedId = normalizeOrgId(orgId);
 
-  const removeOrganisation = (orgId: string) => {
+    if (organisationIds.some((id) => orgIdsMatch(id, normalizedId))) {
+      return;
+    }
+
     form.setValue(
       "organisationIds",
-      organisationIds.filter((id) => !orgIdsMatch(id, orgId)),
-      { shouldDirty: true },
+      [...organisationIds.map(normalizeOrgId), normalizedId],
+      { shouldDirty: true, shouldValidate: true },
+    );
+  };
+
+  const removeOrganisation = (orgId: string | number) => {
+    const normalizedId = normalizeOrgId(orgId);
+
+    form.setValue(
+      "organisationIds",
+      organisationIds
+        .map(normalizeOrgId)
+        .filter((id) => !orgIdsMatch(id, normalizedId)),
+      { shouldDirty: true, shouldValidate: true },
     );
   };
 

@@ -6,7 +6,7 @@ export const transformCreateUserPayload = (payload: CreateUserType) => ({
   last_name: payload.lastName,
   email: payload.email,
   team_id: Number(payload.defaultTeamId),
-  tier: [payload.tierId],
+  tier: payload.tierId,
   organisation_ids: payload.organisationIds.map((id) => Number(id)),
 });
 

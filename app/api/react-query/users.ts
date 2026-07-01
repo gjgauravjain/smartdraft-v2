@@ -62,12 +62,15 @@ export const useUpdateUser = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (payload: UpdateUserType) => {
-      const { data } = await apiClient.put(updateUserApiUrl(payload.id.toString()), {
-        first_name: payload.firstName,
-        last_name: payload.lastName,
-        email: payload.email,
-        team_id: Number(payload.defaultTeamId),
-      });
+      const { data } = await apiClient.put(
+        updateUserApiUrl(payload.id.toString()),
+        {
+          first_name: payload.firstName,
+          last_name: payload.lastName,
+          email: payload.email,
+          team_id: Number(payload.defaultTeamId),
+        },
+      );
       return data;
     },
     onSuccess: () => invalidateUsers(queryClient),

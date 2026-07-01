@@ -122,7 +122,7 @@ export default function OrganisationDetails({ id }: { id: string }) {
         onOpenChange={setCreateUserOpen}
         teams={teamOptions}
         tiers={TIER_OPTIONS}
-        organisations={organisationOptions}
+        organisations={organisations}
         defaultValues={createUserDefaults}
       />
       <ConfirmDangerDialog

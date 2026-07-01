@@ -21,4 +21,8 @@ export const TIER_OPTIONS = [
     value: "standard",
     label: "Standard",
   },
+  {
+    value: "super_admin",
+    label: "Super Admin",
+  },
 ];

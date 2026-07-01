@@ -7,7 +7,7 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { BottomSheet } from "@/components/common/BottomSheet";
 import { MobileFilterPill } from "@/components/common/MobileFilterPill";
 import { BottomSheetOption } from "@/components/common/BottomSheetOption";
-import { FileIcon, Grid2X2Icon } from "lucide-react";
+import { Grid2X2Icon } from "lucide-react";
 
 interface ProjectDropdownProps {
   projects?: ProjectType[];
@@ -82,7 +82,7 @@ export function ProjectDropdown({
         searchPlaceholder="Search projects..."
         emptyMessage="No projects found."
         showStatusDot
-        triggerClassName=" max-w-[118px]!  bg-primary/5 text-primary "
+        triggerClassName="max-w-[118px]!"
       />
     </div>
   );

@@ -4,12 +4,13 @@ import { getInitials } from "@/lib/utils";
 import { AddOrganisationButton } from "./AddOrganisationButton";
 import { OrgLinkRow } from "./OrgLinkRow";
 import { OrganisationListType } from "@/app/api/type/organisation";
+import { normalizeOrgId } from "./util";
 
 type LinkedOrganisationsSectionProps = {
   linkedOrgs: OrganisationListType[];
   availableOrgs: OrganisationListType[];
-  onAdd: (orgId: string) => void;
-  onRemove: (orgId: string) => void;
+  onAdd: (orgId: string | number) => void;
+  onRemove: (orgId: string | number) => void;
 };
 
 export function LinkedOrganisationsSection({
@@ -37,7 +38,7 @@ export function LinkedOrganisationsSection({
               label={org.name}
               shortCode={org.sportingCode?.code ?? getInitials(org.name)}
               isLast={index === linkedOrgs.length - 1}
-              onRemove={() => onRemove(org.id)}
+              onRemove={() => onRemove(normalizeOrgId(org.id))}
             />
           ))}
         </div>

@@ -16,6 +16,7 @@ interface DashboardSubHeaderProps {
   talentOrder?: string;
   onTalentOrderChange?: (value: string) => void;
   onNewTransaction?: () => void;
+  onNewProject?: () => void;
   className?: string;
   talentOrderOptions: SearchableDropdownOption[];
 }
@@ -26,6 +27,7 @@ export function DashboardSubHeader({
   talentOrder,
   onTalentOrderChange,
   onNewTransaction,
+  onNewProject,
   className,
   selectedProject,
   talentOrderOptions,
@@ -50,7 +52,7 @@ export function DashboardSubHeader({
           value={selectedProject?.id}
           onChange={handleProjectChange}
           projects={projects}
-          onNewProject={() => {}}
+          onNewProject={onNewProject ?? (() => {})}
         />
         <TalentOrderDropdown
           value={talentOrder}

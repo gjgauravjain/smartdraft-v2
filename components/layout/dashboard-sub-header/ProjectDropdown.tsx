@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { Grid2X2Icon } from "lucide-react";
+import { PlusIcon } from "lucide-react";
 import { ProjectType } from "@/app/api/type/projects";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { BottomSheet } from "@/components/common/BottomSheet";
@@ -10,6 +10,7 @@ import { BottomSheetOption } from "@/components/common/BottomSheetOption";
 import { DesktopProjectDropdown } from "./DesktopProjectDropdown";
 import { useStore } from "@/store/useStore";
 import { DraftBoardIcon } from "@/components/common/icons";
+import { Button } from "@/components/ui/button";
 
 interface ProjectDropdownProps {
   projects?: ProjectType[];
@@ -48,6 +49,14 @@ export const ProjectDropdown = ({
           onClose={() => setSheetOpen(false)}
           title="Switch project"
           subtitle={selectedProject?.projectName}
+          footer={
+            <div className=" gap-2.5 border-t border-border bg-secondary px-[22px] py-3.5 dark:bg-muted">
+              <Button className="w-full" onClick={onNewProject}>
+                <PlusIcon />
+                <span className="text-[13.5px] font-semibold">New project</span>
+              </Button>
+            </div>
+          }
         >
           <div className="flex flex-col gap-1.5 px-3 py-2.5">
             {sortedProjects.map((project) => {

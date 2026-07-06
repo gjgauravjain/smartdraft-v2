@@ -54,16 +54,10 @@ function AppSidebarToggle() {
 }
 
 function AppSidebarHeader({
-  selectedTeam,
-  teams,
-  setSelectedTeam,
   organisations,
   selectedOrganisation,
   setSelectedOrganisation,
 }: {
-  selectedTeam: ReturnType<typeof useAppSidebarWizard>["selectedTeam"];
-  teams: ReturnType<typeof useAppSidebarWizard>["teams"];
-  setSelectedTeam: ReturnType<typeof useAppSidebarWizard>["setSelectedTeam"];
   organisations: OrganisationType[];
   selectedOrganisation: string;
   setSelectedOrganisation: (org: string) => void;
@@ -73,18 +67,24 @@ function AppSidebarHeader({
   const isMobile = useIsMobile();
   const showCollapsed = isCollapsed && !isMobile;
 
+  const selectedOrgTitle =
+    organisations.find(
+      (org) =>
+        org.organisationId.toString() === selectedOrganisation.toString(),
+    )?.organisationTitle || "CURRENT ORG";
+
   return (
     <SidebarHeader className="border-b border-sidebar-border p-0">
-      <div className="flex bg-tertiary items-center gap-2 px-0 py-3 relative">
+      <div className="flex bg-tertiary items-center gap-2 px-0 py-2 relative">
         {showCollapsed ? (
           <div className="flex w-full items-center justify-center">
-            <div className="w-7 h-7 rounded-md bg-white/10 flex items-center justify-center text-white text-xs font-bold tracking-wider">
+            <div className="w-6 h-6 rounded-md bg-white/10 flex items-center justify-center text-white text-[10px] font-bold tracking-wider">
               SD
             </div>
           </div>
         ) : (
           <div className="flex justify-between w-full px-4 items-center">
-            <p className="text-lg font-bold text-white">Smart Draft</p>
+            <p className="text-base font-bold text-white">Smart Draft</p>
           </div>
         )}
         {!isCollapsed && <AppSidebarToggle />}
@@ -92,87 +92,25 @@ function AppSidebarHeader({
 
       <div
         className={cn(
-          "flex items-center gap-2 px-4 py-2",
-          showCollapsed && "flex-col gap-2 px-0",
+          "px-3 py-1.5",
+          showCollapsed && "flex justify-center px-0",
         )}
       >
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             {showCollapsed ? (
               <button
-                title={selectedTeam?.teamNames}
-                className="flex items-center justify-center w-8 h-8 rounded-lg bg-sidebar border border-sidebar-border cursor-pointer hover:bg-sidebar-accent transition-colors"
+                title={selectedOrgTitle}
+                className="flex items-center justify-center w-8 h-7 rounded-md bg-sidebar border border-sidebar-border cursor-pointer hover:bg-sidebar-accent transition-colors text-[10px] font-semibold text-sidebar-foreground"
               >
-                <img
-                  src={selectedTeam?.image}
-                  alt={selectedTeam?.teamNames}
-                  className="w-5 h-5 rounded-full"
-                />
+                {selectedOrgTitle.slice(0, 2).toUpperCase()}
               </button>
             ) : (
-              <button className="flex items-center gap-1.5 shrink-0 h-9 px-2 rounded-lg border border-sidebar-border hover:bg-sidebar-accent transition-colors">
-                <img
-                  src={selectedTeam?.image}
-                  alt={selectedTeam?.teamNames}
-                  className="w-4 h-4 rounded-full"
-                />
-                <ChevronRight className="h-4 w-4 text-muted-foreground rotate-90" />
-              </button>
-            )}
-          </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-56" align="start">
-            {teams?.map((team) => (
-              <DropdownMenuItem
-                key={team.id}
-                onClick={() => setSelectedTeam(team)}
-                className={cn(
-                  "cursor-pointer",
-                  team.id === selectedTeam?.id && "bg-accent/60",
-                )}
-              >
-                <img
-                  src={team.image}
-                  alt={team.teamNames}
-                  className="w-6 h-6 rounded-full mr-2"
-                />
-                {team.teamNames}
-              </DropdownMenuItem>
-            ))}
-          </DropdownMenuContent>
-        </DropdownMenu>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            {showCollapsed ? (
-              <button
-                title={
-                  organisations.find(
-                    (org) =>
-                      org.organisationId.toString() ===
-                      selectedOrganisation.toString(),
-                  )?.organisationTitle
-                }
-                className="flex items-center justify-center w-8 h-8 rounded-lg bg-sidebar border border-sidebar-border cursor-pointer hover:bg-sidebar-accent transition-colors text-[10px] font-semibold text-sidebar-foreground"
-              >
-                {(
-                  organisations.find(
-                    (org) =>
-                      org.organisationId.toString() ===
-                      selectedOrganisation.toString(),
-                  )?.organisationTitle || "ORG"
-                )
-                  .slice(0, 2)
-                  .toUpperCase()}
-              </button>
-            ) : (
-              <button className="flex items-center gap-2 flex-1 min-w-0 h-9 px-2 rounded-lg border border-sidebar-border hover:bg-sidebar-accent transition-colors">
-                <span className="font-medium text-sidebar-foreground flex-1 min-w-0 text-left truncate">
-                  {organisations.find(
-                    (org) =>
-                      org.organisationId.toString() ===
-                      selectedOrganisation.toString(),
-                  )?.organisationTitle || "CURRENT ORG"}
+              <button className="flex items-center gap-1.5 w-full min-w-0 h-7 px-2 rounded-md border border-sidebar-border hover:bg-sidebar-accent transition-colors">
+                <span className="text-xs text-sidebar-foreground flex-1 min-w-0 text-left truncate">
+                  {selectedOrgTitle}
                 </span>
-                <ChevronRight className="h-4 w-4 text-muted-foreground rotate-90 shrink-0" />
+                <ChevronRight className="h-3 w-3 text-muted-foreground rotate-90 shrink-0" />
               </button>
             )}
           </DropdownMenuTrigger>
@@ -184,7 +122,7 @@ function AppSidebarHeader({
                   setSelectedOrganisation(org.organisationId.toString())
                 }
                 className={cn(
-                  "cursor-pointer",
+                  "cursor-pointer text-xs",
                   org.organisationId.toString() ===
                     selectedOrganisation.toString() && "bg-accent/60",
                 )}
@@ -203,8 +141,6 @@ export function AppSidebar() {
     menuSections,
     isActiveLink,
     user,
-    selectedTeam,
-    setSelectedTeam,
     teams,
     organisations,
     currentOrganisation,
@@ -220,52 +156,48 @@ export function AppSidebar() {
       className="bg-sidebar border-r border-sidebar-border"
     >
       <AppSidebarHeader
-        selectedTeam={selectedTeam}
-        teams={teams}
-        setSelectedTeam={setSelectedTeam}
         organisations={organisations}
         selectedOrganisation={currentOrganisation}
         setSelectedOrganisation={setCurrentOrganisation}
       />
 
-      <SidebarContent className="px-0 gap-0! group-data-[collapsible=icon]:overflow-y-auto">
+      <SidebarContent className="px-0 gap-0! overflow-hidden">
         {menuSections.map((section, index) => (
           <React.Fragment key={section.id}>
-            {isCollapsed && index > 0 && <SidebarSeparator className="my-1" />}
-            <SidebarGroup className="py-0! mt-2 px-0">
+            {isCollapsed && index > 0 && <SidebarSeparator className="my-0.5" />}
+            <SidebarGroup className="py-0! mt-1 px-0">
               {section.menuLabel && (
-                <SidebarGroupLabel className="px-4 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                <SidebarGroupLabel className="h-5 px-3 text-[10px] font-medium text-text4 uppercase tracking-wider">
                   {section.menuLabel}
                 </SidebarGroupLabel>
               )}
               <SidebarGroupContent>
-                <SidebarMenu className="gap-1 px-2">
+                <SidebarMenu className="gap-0 px-1.5">
                   {section.subMenu.map((item) => {
                     const Icon = item.icon;
                     return (
                       <SidebarMenuItem key={item.id}>
                         <SidebarMenuButton
                           asChild
+                          size="sm"
                           tooltip={item.label}
-                          className={`
-                            relative h-10 rounded-lg transition-all
-                            ${
-                              isActiveLink(item.url)
-                                ? "bg-primary/10 text-primary hover:bg-primary/20 dark:bg-sidebar-accent dark:text-sidebar-accent-foreground"
-                                : "text-sidebar-foreground hover:bg-sidebar-accent/50"
-                            }
-                          `}
+                          className={cn(
+                            "relative h-7 rounded-md px-2 transition-all",
+                            isActiveLink(item.url)
+                              ? "bg-primary/10 text-primary hover:bg-primary/20 dark:bg-sidebar-accent dark:text-sidebar-accent-foreground"
+                              : "text-sidebar-foreground hover:bg-sidebar-accent/50",
+                          )}
                         >
                           <Link
                             href={item.url}
-                            className="flex items-center gap-3"
+                            className="flex items-center gap-2"
                           >
-                            <Icon className="h-4 w-4 shrink-0" />
-                            <span className="text-sm font-medium flex-1">
+                            <Icon className="h-3.5 w-3.5 shrink-0" />
+                            <span className="text-xs font-medium flex-1">
                               {item.label}
                             </span>
                             {item.badge && (
-                              <div className="w-6 h-6 rounded-full bg-destructive text-primary-foreground text-xs font-bold flex items-center justify-center shrink-0">
+                              <div className="w-5 h-5 rounded-full bg-destructive text-primary-foreground text-[10px] font-bold flex items-center justify-center shrink-0">
                                 {item.badge}
                               </div>
                             )}
@@ -281,30 +213,32 @@ export function AppSidebar() {
         ))}
       </SidebarContent>
 
-      <SidebarFooter className="border-t border-sidebar-border bg-sidebar px-2 py-4">
-        <SidebarMenu>
+      <SidebarFooter className="border-t border-sidebar-border bg-sidebar px-1.5 py-2">
+        <SidebarMenu className="gap-0">
           <SidebarMenuItem>
             <SidebarMenuButton
+              size="sm"
               tooltip="Org Admin"
-              className="h-10 rounded-lg text-sidebar-foreground hover:bg-sidebar-accent/50"
+              className="h-7 rounded-md text-sidebar-foreground hover:bg-sidebar-accent/50"
             >
-              <Settings className="h-4 w-4 shrink-0" />
-              <span className="text-sm font-medium">Org Admin</span>
+              <Settings className="h-3.5 w-3.5 shrink-0" />
+              <span className="text-xs font-medium">Org Admin</span>
             </SidebarMenuButton>
           </SidebarMenuItem>
-          <SidebarMenuItem className="mt-2">
+          <SidebarMenuItem>
             <SidebarMenuButton
+              size="sm"
               tooltip={user?.username}
-              className="h-10 rounded-lg hover:bg-sidebar-accent/50"
+              className="h-8 rounded-md hover:bg-sidebar-accent/50"
             >
-              <div className="w-6 h-6 rounded-full bg-destructive text-primary-foreground flex items-center justify-center text-xs font-bold shrink-0">
+              <div className="w-5 h-5 rounded-full bg-destructive text-primary-foreground flex items-center justify-center text-[10px] font-bold shrink-0">
                 {user?.username?.[0]?.toUpperCase() || "U"}
               </div>
               <div className="flex-1 text-left min-w-0">
-                <div className="text-sm font-medium text-sidebar-foreground truncate">
+                <div className="text-xs font-medium text-sidebar-foreground truncate">
                   {user?.username}
                 </div>
-                <div className="text-xs text-muted-foreground truncate">
+                <div className="text-[10px] text-muted-foreground truncate">
                   {
                     teams.find(
                       (team) => team.id.toString() === user?.teamId.toString(),

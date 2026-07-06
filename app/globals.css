@@ -41,6 +41,7 @@
   --color-accent: var(--accent);
   --color-muted-foreground: var(--muted-foreground);
   --color-muted: var(--muted);
+  --color-text4: var(--text4);
   --color-secondary-foreground: var(--secondary-foreground);
   --color-secondary: var(--secondary);
   --color-tertiary-foreground: var(--tertiary-foreground);
@@ -96,6 +97,7 @@
   /* Muted — recessed / neutral */
   --muted: #f4f5f7; /* surfaceMuted */
   --muted-foreground: #4c5563; /* text2 */
+  --text4: #a2a9b4; /* faint labels */
 
   /* Accent — faint maroon wash (hover / active nav rows) */
   --accent: oklch(49% 0.132 360 / 0.08); /* accentSoft */
@@ -103,7 +105,7 @@
 
   --highlight-text: oklch(49% 0.132 360); /* maroon text */
   --highlight-background: oklch(49% 0.132 360 / 0.08); /* accentSoft */
-  
+
   /* Tertiary — deep navy, rarely used */
   --tertiary: #1b2d4a; /* SD_BRAND navy */
   --tertiary-foreground: #fcfcfd;
@@ -186,17 +188,24 @@
   /* Muted */
   --muted: #131a26; /* surfaceMuted */
   --muted-foreground: #a9b4c2; /* text2 */
+  --text4: #5e6b7b; /* faint labels */
 
   /* Accent — solid maroon fill (active nav / chips in dark = solid + white) */
-  --accent: oklch(0.84 0.14 77.04);
-  --accent-foreground: oklch(0.96 0.008 358);
+  --accent: oklch(
+    54% 0.132 360
+  ); /* sdAccent(54) ≈ #A8486B — matches --primary per spec's activeBg row */
+  --accent-foreground: #fcfcfd; /* white text on solid maroon fill, per spec's activeText row */
 
   /* Tertiary */
   --tertiary: #1b2d4a;
   --tertiary-foreground: #d7dee8;
 
-  --highlight-text: oklch(0.84 0.14 77.04);
-  --highlight-background: oklch(0.96 0.008 358);
+  --highlight-text: oklch(
+    81% 0.113 80
+  ); /* dimmed Lions gold ≈ #E8B968 — accentText dark, matches --sub-heading */
+  --highlight-background: oklch(
+    81% 0.113 80 / 0.15
+  ); /* soft gold wash to accompany the promoted gold text */
 
   /* Destructive */
   --destructive: oklch(0.704 0.191 22.216);

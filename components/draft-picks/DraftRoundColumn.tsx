@@ -1,6 +1,6 @@
 "use client";
 
-import { ChevronLeft, ChevronRight, Info } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 import { DraftYearList } from "@/app/api/type/draftpicks";
 import { Button } from "@/components/ui/button";
@@ -8,6 +8,7 @@ import { Chip } from "@/components/ui/Chip";
 import { cn } from "@/lib/utils";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import { formatPlayerName, isPlayerName } from "./util";
+import { PiInfoThin } from "react-icons/pi";
 
 interface DraftRoundColumnProps {
   title: string;
@@ -155,7 +156,7 @@ export function DraftRoundColumn({
                   {hasOwnerNote && (
                     <Tooltip>
                       <TooltipTrigger>
-                        <Info className="h-3.5 w-3.5 shrink-0 cursor-pointer text-muted-foreground" />
+                        <PiInfoThin className="shrink-0 cursor-pointer text-muted-foreground" />
                       </TooltipTrigger>
                       <TooltipContent className="max-w-xs">
                         {pick.reason}

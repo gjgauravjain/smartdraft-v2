@@ -1,6 +1,7 @@
 import { DataFullOrderListType } from "@/app/api/type/draftpicks";
 
-export const hasValue = (v?: string) => !!v && v !== "—" && v.trim() !== "";
+export const hasValue = (v?: string) =>
+  !!v && v !== "—" && v?.toString()?.trim() !== "";
 
 export const isAdjusted = (item: DataFullOrderListType) =>
   hasValue(item.reason);

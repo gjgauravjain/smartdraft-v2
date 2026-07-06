@@ -1,6 +1,5 @@
 "use client";
 
-import { DraftLabel } from "@/components/layout/dashboard-sub-header/DraftLabel";
 import { ProjectDropdown } from "@/components/layout/dashboard-sub-header/ProjectDropdown";
 import { TalentOrderDropdown } from "@/components/layout/dashboard-sub-header/TalentOrderDropdown";
 import { cn } from "@/lib/utils";
@@ -51,6 +50,7 @@ export function DashboardSubHeader({
           value={selectedProject?.id}
           onChange={handleProjectChange}
           projects={projects}
+          onNewProject={() => {}}
         />
         <TalentOrderDropdown
           value={talentOrder}
@@ -69,16 +69,6 @@ export function DashboardSubHeader({
       )}
     >
       <div className="flex items-center gap-2">
-        <ProjectDropdown
-          value={selectedProject?.id}
-          onChange={handleProjectChange}
-          projects={projects}
-        />
-        <TalentOrderDropdown
-          value={talentOrder}
-          onChange={onTalentOrderChange}
-          options={talentOrderOptions}
-        />
         <Button
           onClick={onNewTransaction}
           size="sm"

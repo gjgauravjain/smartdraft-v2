@@ -12,9 +12,9 @@ import FullListView from "./fulllist/FullListView";
 import FullListMobileView from "./fulllist/FullListMobileView";
 import DraftAssetsChart from "./draft-assets/DraftAssetsChart";
 import DraftAssetsMobileList from "./draft-assets/DraftAssetMobileList";
-import { DashboardSubHeader } from "../layout/DashboardSubHeader";
 import ApplyCompensation from "./ApplyCompensation";
 import { DraftPicksSkeleton } from "./DraftPicksSkeleton";
+import AppSelectionSettings from "../layout/AppSelectionSettings";
 
 const DraftPicks = () => {
   const {
@@ -117,6 +117,7 @@ const DraftPicks = () => {
         onTalentOrderChange={setSelectedTalentOrder}
         talentOrder={selectedTalentOrder}
       />
+      {isMobile && <AppSelectionSettings />}
       {!loading && !isMobile && (
         <div className="flex border-t justify-between  bg-card gap-2 px-2 pt-1">
           <div>
@@ -154,16 +155,7 @@ const DraftPicks = () => {
           }}
         />
       )}
-      {isMobile && (
-        <DashboardSubHeader
-          projects={projects}
-          selectedProject={selectedProject}
-          onProjectChange={setSelectedProject}
-          talentOrderOptions={talentOrderOptions}
-          onTalentOrderChange={setSelectedTalentOrder}
-          talentOrder={selectedTalentOrder}
-        />
-      )}
+
       {isMobile && (
         <MobileApplyCompensation
           checked={compensation}

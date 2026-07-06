@@ -38,6 +38,8 @@ interface AppState {
   setSelectedTeam: (team: TeamType | null) => void;
   selectedProject: ProjectType | null;
   setSelectedProject: (project: ProjectType | null) => void;
+  selectedTalentOrder: string | null;
+  setSelectedTalentOrder: (talentOrder: string | null) => void;
 }
 
 type Store = AuthState & AppState;
@@ -45,7 +47,6 @@ type Store = AuthState & AppState;
 export const useStore = create<Store>()(
   persist(
     (set) => ({
-      // Auth State
       accessToken: null,
       user: null,
       setAccessToken: (token) => set({ accessToken: token }),
@@ -63,6 +64,7 @@ export const useStore = create<Store>()(
           isSideBarOpen: true,
           selectedTeam: null,
           selectedProject: null,
+          selectedTalentOrder: "",
         }),
 
       // App State
@@ -75,6 +77,7 @@ export const useStore = create<Store>()(
       isSideBarOpen: true,
       selectedTeam: null,
       selectedProject: null,
+      selectedTalentOrder: "",
       // App Actions
       setCurrentProject: (projectId) => set({ currentProject: projectId }),
       setCurrentOrganisation: (orgId) => set({ currentOrganisation: orgId }),
@@ -87,11 +90,12 @@ export const useStore = create<Store>()(
       setIsSideBarOpen: (isOpen) => set({ isSideBarOpen: isOpen }),
       setSelectedTeam: (team) => set({ selectedTeam: team }),
       setSelectedProject: (project) => set({ selectedProject: project }),
+      setSelectedTalentOrder: (talentOrder) =>
+        set({ selectedTalentOrder: talentOrder }),
     }),
     {
-      name: "gtx-storage", // localStorage key
+      name: "gtx-storage",
       storage: createJSONStorage(() => localStorage),
-      // Persist all state
     },
   ),
 );
@@ -119,6 +123,7 @@ export const useAppState = () =>
       uploadCsvTransactionTypeModal: state.uploadCsvTransactionTypeModal,
       isSideBarOpen: state.isSideBarOpen,
       selectedTeam: state.selectedTeam,
+      selectedTalentOrder: state.selectedTalentOrder,
       setCurrentProject: state.setCurrentProject,
       setCurrentOrganisation: state.setCurrentOrganisation,
       setSelectedFlag: state.setSelectedFlag,

@@ -23,7 +23,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
           {!isMobile && (
             <div className="sticky top-0 z-40">
               <div className="flex items-center gap-2 border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
-                <DashboardHeader sidebarOpen={isSideBarOpen || isMobile} />
+                <DashboardHeader />
               </div>
             </div>
           )}

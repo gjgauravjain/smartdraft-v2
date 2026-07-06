@@ -18,19 +18,20 @@ export interface MenuSection {
   badge?: string;
 }
 
-export function getSideMenuOptions(isStaff: boolean = false, sidebarBadges: Record<string, string> = {}): MenuSection[] {
+export function getSideMenuOptions(
+  sidebarBadges: Record<string, string> = {},
+): MenuSection[] {
   return [
     {
       menuLabel: '',
-      hide: true,
       id: 'home',
       subMenu: [
         {
           id: 'home',
-          label: 'Dashboard',
-          toShow: false,
+          label: 'Home',
+          toShow: true,
           icon: SD_ICON_COMPONENTS.home,
-          url: routeUrl.dashboard,
+          url: routeUrl.home,
         },
       ],
     },
@@ -39,11 +40,11 @@ export function getSideMenuOptions(isStaff: boolean = false, sidebarBadges: Reco
       id: 'smart_draft',
       subMenu: [
         {
-          id: 'home',
-          label: 'Draft Summary',
+          id: 'draft_home',
+          label: 'Draft Home',
           toShow: true,
           icon: SD_ICON_COMPONENTS.dhome,
-          url: routeUrl.dashboard,
+          url: routeUrl.draftSummary,
         },
         {
           id: 'draft_pick',
@@ -53,21 +54,6 @@ export function getSideMenuOptions(isStaff: boolean = false, sidebarBadges: Reco
           url: routeUrl.draftPick,
         },
         {
-          id: 'player_ranking',
-          label: 'Talent Order',
-          toShow: true,
-          icon: SD_ICON_COMPONENTS.order,
-          url: routeUrl.playerRanking,
-        },
-        {
-          id: 'trade_analysis',
-          label: 'Trade Analysis',
-          toShow: true,
-          icon: SD_ICON_COMPONENTS.trade,
-          url: routeUrl.tradeAnalysis,
-          badge: sidebarBadges['tradeOffers'], // Example of using dynamic badge
-        },
-        {
           id: 'scenario_planner',
           label: 'Scenario Planner',
           toShow: true,
@@ -75,8 +61,16 @@ export function getSideMenuOptions(isStaff: boolean = false, sidebarBadges: Reco
           url: routeUrl.scenarioPlanning,
         },
         {
+          id: 'trade_offers',
+          label: 'Trade Offers',
+          toShow: true,
+          icon: SD_ICON_COMPONENTS.trade,
+          url: routeUrl.tradeOffer,
+          badge: sidebarBadges.tradeOffers,
+        },
+        {
           id: 'project_list',
-          label: 'Project List',
+          label: 'Projects',
           toShow: true,
           icon: SD_ICON_COMPONENTS.list,
           url: routeUrl.projectList,
@@ -88,20 +82,6 @@ export function getSideMenuOptions(isStaff: boolean = false, sidebarBadges: Reco
       menuLabel: 'Player',
       subMenu: [
         {
-          id: 'players_home',
-          label: 'Players Home',
-          toShow: false,
-          icon: SD_ICON_COMPONENTS.home,
-          url: routeUrl.playerHome,
-        },
-        {
-          id: 'player_reports',
-          label: 'Player Reports',
-          toShow: false,
-          icon: SD_ICON_COMPONENTS.notes,
-          url: routeUrl.playerReports,
-        },
-        {
           id: 'player_profile',
           label: 'Player Profile',
           toShow: true,
@@ -109,11 +89,18 @@ export function getSideMenuOptions(isStaff: boolean = false, sidebarBadges: Reco
           url: routeUrl.playerProfile,
         },
         {
-          id: 'draft_board',
-          label: 'Draft Board',
+          id: 'player_ranking',
+          label: 'Talent Order',
           toShow: true,
-          icon: SD_ICON_COMPONENTS.board,
-          url: routeUrl.draftBoard,
+          icon: SD_ICON_COMPONENTS.order,
+          url: routeUrl.playerRanking,
+        },
+        {
+          id: 'notes_and_forms',
+          label: 'Notes & Forms',
+          toShow: true,
+          icon: SD_ICON_COMPONENTS.notes,
+          url: routeUrl.notesAndForms,
         },
         {
           id: 'player_database',
@@ -122,19 +109,11 @@ export function getSideMenuOptions(isStaff: boolean = false, sidebarBadges: Reco
           icon: SD_ICON_COMPONENTS.database,
           url: routeUrl.playerDatabase,
         },
-        {
-          id: 'player_manager',
-          label: 'Player Manager',
-          toShow: true,
-          icon: SD_ICON_COMPONENTS.player,
-          url: routeUrl.playerManager,
-        },
       ],
     },
     {
       id: 'smart_list',
       menuLabel: 'List',
-      hide: false,
       subMenu: [
         {
           id: 'club_summary',
@@ -144,55 +123,53 @@ export function getSideMenuOptions(isStaff: boolean = false, sidebarBadges: Reco
           url: routeUrl.smartList,
         },
         {
-          id: 'contract_status',
-          label: 'Contract Status',
-          toShow: false,
-          icon: SD_ICON_COMPONENTS.contracts,
-          url: routeUrl.contractStatus,
-        },
-        {
-          id: 'tpp',
-          label: 'TPP',
-          toShow: false,
-          icon: SD_ICON_COMPONENTS.contracts,
-          url: routeUrl.tpp,
-        },
-        {
           id: 'list_projection',
           label: 'List Projection',
-          toShow: false,
+          toShow: true,
           icon: SD_ICON_COMPONENTS.projection,
           url: routeUrl.listProjection,
         },
+        {
+          id: 'heads_of_agreement',
+          label: 'Heads of Agreement',
+          toShow: true,
+          icon: SD_ICON_COMPONENTS.contracts,
+          url: routeUrl.headsOfAgreement,
+        },
       ],
     },
+  ];
+}
+
+export function getOrgAdminMenuItem(): SubMenuItem {
+  return {
+    id: 'org_admin',
+    label: 'Org Admin',
+    toShow: true,
+    icon: SD_ICON_COMPONENTS.settings,
+    url: routeUrl.orgAdmin,
+  };
+}
+
+export function getSuperadminMenuOptions(isSuperuser: boolean): SubMenuItem[] {
+  if (!isSuperuser) {
+    return [];
+  }
+
+  return [
     {
-      id: 'settings',
-      menuLabel: 'Settings',
-      hide: !isStaff,
-      subMenu: [
-        {
-          id: 'organisation',
-          label: 'Organisations',
-          toShow: isStaff,
-          icon: SD_ICON_COMPONENTS.building,
-          url: routeUrl.organisation,
-        },
-        {
-          id: 'users',
-          label: 'Users',
-          toShow: isStaff,
-          icon: SD_ICON_COMPONENTS.player,
-          url: '/users',
-        },
-        {
-          id: 'permissions',
-          label: 'Permissions',
-          toShow: isStaff,
-          icon: SD_ICON_COMPONENTS.shield,
-          url: '/permissions',
-        },
-      ],
+      id: 'organisation',
+      label: 'Organisations',
+      toShow: true,
+      icon: SD_ICON_COMPONENTS.building,
+      url: routeUrl.organisation,
+    },
+    {
+      id: 'users',
+      label: 'Users',
+      toShow: true,
+      icon: SD_ICON_COMPONENTS.player,
+      url: routeUrl.users,
     },
   ];
 }

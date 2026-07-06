@@ -17,7 +17,7 @@ import {
   SidebarSeparator,
   useSidebar,
 } from "@/components/ui/sidebar";
-import { ChevronLeft, ChevronRight, Settings } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -139,6 +139,8 @@ function AppSidebarHeader({
 export function AppSidebar() {
   const {
     menuSections,
+    orgAdminItem,
+    superadminItems,
     isActiveLink,
     user,
     teams,
@@ -149,6 +151,7 @@ export function AppSidebar() {
 
   const { state } = useSidebar();
   const isCollapsed = state === "collapsed";
+  const OrgAdminIcon = orgAdminItem.icon;
 
   return (
     <Sidebar
@@ -217,14 +220,60 @@ export function AppSidebar() {
         <SidebarMenu className="gap-0">
           <SidebarMenuItem>
             <SidebarMenuButton
+              asChild
               size="sm"
-              tooltip="Org Admin"
-              className="h-7 rounded-md text-sidebar-foreground hover:bg-sidebar-accent/50"
+              tooltip={orgAdminItem.label}
+              className={cn(
+                "h-7 rounded-md transition-all",
+                isActiveLink(orgAdminItem.url)
+                  ? "bg-primary/10 text-primary hover:bg-primary/20 dark:bg-sidebar-accent dark:text-sidebar-accent-foreground"
+                  : "text-sidebar-foreground hover:bg-sidebar-accent/50",
+              )}
             >
-              <Settings className="h-3.5 w-3.5 shrink-0" />
-              <span className="text-xs font-medium">Org Admin</span>
+              <Link
+                href={orgAdminItem.url}
+                className="flex items-center gap-2"
+              >
+                <OrgAdminIcon className="h-3.5 w-3.5 shrink-0" />
+                <span className="text-xs font-medium">{orgAdminItem.label}</span>
+              </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
+
+          {superadminItems.length > 0 && (
+            <>
+              <SidebarGroupLabel className="mt-1 h-5 px-1 text-[10px] font-medium text-text4 uppercase tracking-wider">
+                Superadmin
+              </SidebarGroupLabel>
+              {superadminItems.map((item) => {
+                const Icon = item.icon;
+                return (
+                  <SidebarMenuItem key={item.id}>
+                    <SidebarMenuButton
+                      asChild
+                      size="sm"
+                      tooltip={item.label}
+                      className={cn(
+                        "h-7 rounded-md transition-all",
+                        isActiveLink(item.url)
+                          ? "bg-primary/10 text-primary hover:bg-primary/20 dark:bg-sidebar-accent dark:text-sidebar-accent-foreground"
+                          : "text-sidebar-foreground hover:bg-sidebar-accent/50",
+                      )}
+                    >
+                      <Link
+                        href={item.url}
+                        className="flex items-center gap-2"
+                      >
+                        <Icon className="h-3.5 w-3.5 shrink-0" />
+                        <span className="text-xs font-medium">{item.label}</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                );
+              })}
+            </>
+          )}
+
           <SidebarMenuItem>
             <SidebarMenuButton
               size="sm"

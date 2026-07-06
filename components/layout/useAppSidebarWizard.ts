@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo } from "react";
 import { usePathname } from "next/navigation";
-import { getSideMenuOptions } from "@/lib/sidebar-config";
+import { getSideMenuOptions, getOrgAdminMenuItem, getSuperadminMenuOptions } from "@/lib/sidebar-config";
 import { useStore } from "@/store/useStore";
 import { useGetTeams } from "@/app/api/react-query/common";
 
@@ -42,13 +42,20 @@ export function useAppSidebarWizard() {
 
   const menuSections = useMemo(
     () =>
-      getSideMenuOptions(!!user?.isStaff, sidebarBadges)
+      getSideMenuOptions(sidebarBadges)
         .map((section) => ({
           ...section,
           subMenu: section.subMenu.filter((item) => item.toShow === true),
         }))
         .filter((section) => !section.hide && section.subMenu.length > 0),
-    [sidebarBadges, user?.isStaff],
+    [sidebarBadges],
+  );
+
+  const orgAdminItem = useMemo(() => getOrgAdminMenuItem(), []);
+
+  const superadminItems = useMemo(
+    () => getSuperadminMenuOptions(!!user?.isSuperuser),
+    [user?.isSuperuser],
   );
 
   const isActiveLink = (url: string) => {
@@ -64,6 +71,8 @@ export function useAppSidebarWizard() {
 
   return {
     menuSections,
+    orgAdminItem,
+    superadminItems,
     isActiveLink,
     getVisibleMenuItems,
     setSelectedTeam,

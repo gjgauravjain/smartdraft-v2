@@ -1,14 +1,6 @@
 "use client";
 
-import {
-  Bell,
-  Plus,
-  Search,
-  ChevronDown,
-  Command,
-  Sun,
-  Moon,
-} from "lucide-react";
+import { Bell, Search, Command, Sun, Moon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -20,6 +12,9 @@ import {
 import { useTheme } from "@/hooks/use-theme";
 import { SidebarTrigger } from "../ui/sidebar";
 import { AuthContexts } from "@/providers";
+import AppSelectionSettings from "./AppSelectionSettings";
+import { useAuth } from "@/store/useStore";
+import { Avatar, AvatarFallback } from "../ui/avatar";
 
 function NotificationBell({ count = 0 }: { count?: number }) {
   return (
@@ -36,7 +31,7 @@ function NotificationBell({ count = 0 }: { count?: number }) {
 
 function QuickLinks() {
   const { logoutUser } = AuthContexts();
-
+  const { user } = useAuth();
   const links = [
     {
       name: "Logout",
@@ -46,11 +41,12 @@ function QuickLinks() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" className="gap-1.5 text-sm font-semibold">
-          <Plus className="h-4 w-4" />
-          Quick links
-          <ChevronDown className="h-3.5 w-3.5" />
-        </Button>
+        <Avatar className="h-[32px] cursor-pointer w-[32px] bg-primary text-primary-foreground">
+          <AvatarFallback className="h-[32px] w-[32px] bg-primary text-primary-foreground">
+            {user?.firstName?.charAt(0)}
+            {user?.lastName?.charAt(0)}
+          </AvatarFallback>
+        </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         {links.map((link) => (
@@ -102,6 +98,7 @@ export function DashboardHeader({ sidebarOpen }: DashboardHeaderProps) {
             <Moon className="h-5 w-5" />
           )}
         </Button>
+        <AppSelectionSettings />
         <NotificationBell count={3} />
         <QuickLinks />
       </div>

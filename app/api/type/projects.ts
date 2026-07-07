@@ -12,3 +12,9 @@ export type ProjectType = {
   draftLadder: Record<string, number>;
   user: number;
 };
+
+export type DraftOptionType = {
+  value: string;
+  label: string;
+  year: string;
+};

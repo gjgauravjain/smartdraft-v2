@@ -17,6 +17,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import RequiredLabel from "./RequiredLabel";
 
 export interface SelectOption {
   label: string;
@@ -27,13 +28,14 @@ export interface SelectOption {
 interface FormSelectFieldProps<T extends FieldValues> {
   control: Control<T>;
   name: FieldPath<T>;
-  label: string;
+  label: ReactNode;
   options: SelectOption[];
   placeholder?: string;
   description?: string;
   emptyMessage?: string;
   disabled?: boolean;
   className?: string;
+  required?: boolean;
 }
 
 function OptionIcon({ icon }: { icon: string | ReactNode }) {
@@ -77,6 +79,7 @@ export function FormSelectField<T extends FieldValues>({
   emptyMessage = "No options available.",
   disabled,
   className,
+  required,
 }: FormSelectFieldProps<T>) {
   return (
     <FormField
@@ -84,8 +87,8 @@ export function FormSelectField<T extends FieldValues>({
       name={name}
       render={({ field }) => (
         <FormItem className={className}>
-          <FormLabel className="text-[11.5px] font-bold text-foreground uppercase tracking-wide">
-            {label}
+          <FormLabel className="text-[11.5px] font-bold text-foreground uppercase tracking-wide [&_*]:normal-case [&_*]:tracking-normal">
+            <RequiredLabel showRequired={required}>{label}</RequiredLabel>
           </FormLabel>
           <Select
             onValueChange={field.onChange}

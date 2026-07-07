@@ -1,19 +1,4 @@
-import {
-  LayoutDashboard,
-  FileText,
-  TrendingUp,
-  GitCompare,
-  FolderKanban,
-  Home,
-  ClipboardList,
-  Database,
-  Users,
-  Building2,
-  ListChecks,
-  BarChart3,
-  FileSignature,
-  Shield,
-} from 'lucide-react';
+import { SD_ICON_COMPONENTS } from '@/components/common/icons';
 import { routeUrl } from './route-url';
 
 export interface SubMenuItem {
@@ -33,19 +18,20 @@ export interface MenuSection {
   badge?: string;
 }
 
-export function getSideMenuOptions(isStaff: boolean = false, sidebarBadges: Record<string, string> = {}): MenuSection[] {
+export function getSideMenuOptions(
+  sidebarBadges: Record<string, string> = {},
+): MenuSection[] {
   return [
     {
       menuLabel: '',
-      hide: true,
       id: 'home',
       subMenu: [
         {
           id: 'home',
-          label: 'Dashboard',
-          toShow: false,
-          icon: LayoutDashboard,
-          url: routeUrl.dashboard,
+          label: 'Home',
+          toShow: true,
+          icon: SD_ICON_COMPONENTS.home,
+          url: routeUrl.home,
         },
       ],
     },
@@ -54,46 +40,39 @@ export function getSideMenuOptions(isStaff: boolean = false, sidebarBadges: Reco
       id: 'smart_draft',
       subMenu: [
         {
-          id: 'home',
-          label: 'Draft Summary',
+          id: 'draft_home',
+          label: 'Draft Home',
           toShow: true,
-          icon: LayoutDashboard,
-          url: routeUrl.dashboard,
+          icon: SD_ICON_COMPONENTS.dhome,
+          url: routeUrl.draftSummary,
         },
         {
           id: 'draft_pick',
           label: 'Draft Picks',
           toShow: true,
-          icon: FileText,
+          icon: SD_ICON_COMPONENTS.picks,
           url: routeUrl.draftPick,
-        },
-        {
-          id: 'player_ranking',
-          label: 'Talent Order',
-          toShow: true,
-          icon: ClipboardList,
-          url: routeUrl.playerRanking,
-        },
-        {
-          id: 'trade_analysis',
-          label: 'Trade Analysis',
-          toShow: true,
-          icon: TrendingUp,
-          url: routeUrl.tradeAnalysis,
-          badge: sidebarBadges['tradeOffers'], // Example of using dynamic badge
         },
         {
           id: 'scenario_planner',
           label: 'Scenario Planner',
           toShow: true,
-          icon: GitCompare,
+          icon: SD_ICON_COMPONENTS.scenario,
           url: routeUrl.scenarioPlanning,
         },
         {
-          id: 'project_list',
-          label: 'Project List',
+          id: 'trade_offers',
+          label: 'Trade Offers',
           toShow: true,
-          icon: FolderKanban,
+          icon: SD_ICON_COMPONENTS.trade,
+          url: routeUrl.tradeOffer,
+          badge: sidebarBadges.tradeOffers,
+        },
+        {
+          id: 'project_list',
+          label: 'Projects',
+          toShow: true,
+          icon: SD_ICON_COMPONENTS.list,
           url: routeUrl.projectList,
         },
       ],
@@ -103,111 +82,94 @@ export function getSideMenuOptions(isStaff: boolean = false, sidebarBadges: Reco
       menuLabel: 'Player',
       subMenu: [
         {
-          id: 'players_home',
-          label: 'Players Home',
-          toShow: false,
-          icon: Home,
-          url: routeUrl.playerHome,
-        },
-        {
-          id: 'player_reports',
-          label: 'Player Reports',
-          toShow: false,
-          icon: FileSignature,
-          url: routeUrl.playerReports,
-        },
-        {
           id: 'player_profile',
           label: 'Player Profile',
           toShow: true,
-          icon: ClipboardList,
+          icon: SD_ICON_COMPONENTS.player,
           url: routeUrl.playerProfile,
         },
         {
-          id: 'draft_board',
-          label: 'Draft Board',
+          id: 'player_ranking',
+          label: 'Talent Order',
           toShow: true,
-          icon: ClipboardList,
-          url: routeUrl.draftBoard,
+          icon: SD_ICON_COMPONENTS.order,
+          url: routeUrl.playerRanking,
+        },
+        {
+          id: 'notes_and_forms',
+          label: 'Notes & Forms',
+          toShow: true,
+          icon: SD_ICON_COMPONENTS.notes,
+          url: routeUrl.notesAndForms,
         },
         {
           id: 'player_database',
           label: 'Player Database',
           toShow: true,
-          icon: Database,
+          icon: SD_ICON_COMPONENTS.database,
           url: routeUrl.playerDatabase,
-        },
-        {
-          id: 'player_manager',
-          label: 'Player Manager',
-          toShow: true,
-          icon: Users,
-          url: routeUrl.playerManager,
         },
       ],
     },
     {
       id: 'smart_list',
       menuLabel: 'List',
-      hide: false,
       subMenu: [
         {
           id: 'club_summary',
           label: 'Club Summary',
           toShow: true,
-          icon: Building2,
+          icon: SD_ICON_COMPONENTS.list,
           url: routeUrl.smartList,
-        },
-        {
-          id: 'contract_status',
-          label: 'Contract Status',
-          toShow: false,
-          icon: FileSignature,
-          url: routeUrl.contractStatus,
-        },
-        {
-          id: 'tpp',
-          label: 'TPP',
-          toShow: false,
-          icon: BarChart3,
-          url: routeUrl.tpp,
         },
         {
           id: 'list_projection',
           label: 'List Projection',
-          toShow: false,
-          icon: ListChecks,
+          toShow: true,
+          icon: SD_ICON_COMPONENTS.projection,
           url: routeUrl.listProjection,
+        },
+        {
+          id: 'heads_of_agreement',
+          label: 'Heads of Agreement',
+          toShow: true,
+          icon: SD_ICON_COMPONENTS.contracts,
+          url: routeUrl.headsOfAgreement,
         },
       ],
     },
+  ];
+}
+
+export function getOrgAdminMenuItem(): SubMenuItem {
+  return {
+    id: 'org_admin',
+    label: 'Org Admin',
+    toShow: true,
+    icon: SD_ICON_COMPONENTS.settings,
+    url: routeUrl.orgAdmin,
+  };
+}
+
+export function getSuperadminMenuOptions(isSuperuser: boolean): SubMenuItem[] {
+  if (!isSuperuser) {
+    return [];
+  }
+
+  return [
     {
-      id: 'settings',
-      menuLabel: 'Settings',
-      hide: !isStaff,
-      subMenu: [
-        {
-          id: 'organisation',
-          label: 'Organisations',
-          toShow: isStaff,
-          icon: Building2,
-          url: routeUrl.organisation,
-        },
-        {
-          id: 'users',
-          label: 'Users',
-          toShow: isStaff,
-          icon: Users,
-          url: '/users',
-        },
-        {
-          id: 'permissions',
-          label: 'Permissions',
-          toShow: isStaff,
-          icon: Shield,
-          url: '/permissions',
-        },
-      ],
+      id: 'organisation',
+      label: 'Organisations',
+      toShow: true,
+      icon: SD_ICON_COMPONENTS.building,
+      url: routeUrl.organisation,
+    },
+    {
+      id: 'users',
+      label: 'Users',
+      toShow: true,
+      icon: SD_ICON_COMPONENTS.player,
+      url: routeUrl.users,
     },
   ];
 }

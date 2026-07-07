@@ -107,15 +107,15 @@ export const DesktopProjectDropdown = ({
           className={cn(
             "group flex h-auto max-w-56 flex-col items-start justify-center gap-0 overflow-hidden rounded-lg border-[1.5px] px-[11px] py-[5px] leading-[1.15] transition-colors",
             "border-primary bg-primary-light text-primary shadow-[oklch(49%_0.132_360_/_0.08)_0px_0px_0px_3px]",
-            "dark:rounded-[5px] dark:border dark:border-primary/20 dark:bg-primary dark:px-[9px] dark:py-[3px] dark:text-white dark:shadow-none",
+            "rounded-[5px] dark:border dark:border-primary/20 dark:bg-primary px-[9px] py-[3px] dark:text-white dark:shadow-none",
             "dark:data-[state=open]:border-primary dark:data-[state=open]:bg-primary dark:data-[state=open]:text-primary-foreground dark:data-[state=open]:shadow-[0_0_0_3px_oklch(0.54_0.132_0_/_0.2)]",
           )}
         >
-          <span className="truncate text-[8px] font-bold uppercase tracking-[0.8px] opacity-75 dark:text-[7.5px] dark:tracking-[0.7px] dark:opacity-70">
+          <span className="truncate text-[8px] font-bold uppercase tracking-[0.8px] opacity-75 text-[7.5px] dark:tracking-[0.7px] dark:opacity-70">
             Project
           </span>
-          <span className="relative flex w-full min-w-0 items-center gap-[7px] dark:gap-[5px]">
-            <p className="min-w-0 flex-1 truncate whitespace-nowrap text-left text-[12.5px] font-bold dark:text-[11.5px]">
+          <span className="relative flex w-full min-w-0 items-center gap-[7px] gap-[5px]">
+            <p className="min-w-0 flex-1 truncate whitespace-nowrap text-left text-[12.5px] font-bold text-[11.5px]">
               {selectedProject?.projectName ?? "Select project"}
             </p>
             <span className="shrink-0 text-[9px] opacity-80 transition-transform duration-150 group-data-[state=open]:rotate-180">

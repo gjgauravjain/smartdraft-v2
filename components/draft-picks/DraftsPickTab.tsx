@@ -10,7 +10,7 @@ export interface DraftTab {
   label: string;
 }
 
-function TabItem({
+const TabItem = ({
   tab,
   active,
   onClick,
@@ -18,14 +18,14 @@ function TabItem({
   tab: TabOptionType;
   active: boolean;
   onClick: () => void;
-}) {
+}) => {
   return (
     <button
       onClick={onClick}
       className={cn(
         "relative shrink-0 px-1 cursor-pointer pb-4 pt-1 text-sm transition-colors whitespace-nowrap",
         active
-          ? "font-semibold text-primary dark:text-accent"
+          ? "font-semibold text-highlight-text"
           : "text-muted-foreground hover:text-foreground",
       )}
     >
@@ -35,7 +35,7 @@ function TabItem({
       )}
     </button>
   );
-}
+};
 
 export interface DraftPicksTabsProps {
   tabs?: TabOptionType[];
@@ -43,11 +43,11 @@ export interface DraftPicksTabsProps {
   onTabChange?: (id: string) => void;
 }
 
-export function DraftPicksTabs({
+export const DraftPicksTabs = ({
   tabs = [],
   activeTabId,
   onTabChange,
-}: DraftPicksTabsProps) {
+}: DraftPicksTabsProps) => {
   const active = activeTabId ?? tabs[0]?.value;
   const visibleTabs = tabs.filter((item) => !item.toHide);
   const isMobile = useIsMobile();
@@ -81,4 +81,4 @@ export function DraftPicksTabs({
         ))}
     </div>
   );
-}
+};

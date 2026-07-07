@@ -1,6 +1,6 @@
 "use client";
 
-import { ChevronLeft, ChevronRight, Info } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 import { DraftYearList } from "@/app/api/type/draftpicks";
 import { Button } from "@/components/ui/button";
@@ -8,6 +8,7 @@ import { Chip } from "@/components/ui/Chip";
 import { cn } from "@/lib/utils";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import { formatPlayerName, isPlayerName } from "./util";
+import { PiInfoThin } from "react-icons/pi";
 
 interface DraftRoundColumnProps {
   title: string;
@@ -92,10 +93,10 @@ export function DraftRoundColumn({
         </div>
       </div>
 
-      <div className="grid grid-cols-[2.75rem_5.5rem_minmax(0,1fr)] items-center border-b border-border bg-muted/40 py-1.25 px-3 text-xs font-bold uppercase tracking-wider text-muted-foreground">
-        <span className="text-[9px]">#</span>
-        <span className="text-[9px]">Team</span>
-        <span className="text-right text-[9px]">Player / Pts</span>
+      <div className="grid grid-cols-[2.75rem_5.5rem_minmax(0,1fr)] items-center border-b border-border bg-table-header py-1.25 px-3 text-[9px] font-bold uppercase tracking-wider text-text4">
+        <span>#</span>
+        <span>Team</span>
+        <span className="text-right">Player / Pts</span>
       </div>
 
       <div className="min-h-0 flex-1 overflow-y-auto">
@@ -116,15 +117,15 @@ export function DraftRoundColumn({
               <div
                 key={`${pick.draftRound}-${pick.overallPick}-${pick.id}`}
                 className={cn(
-                  "grid grid-cols-[2.75rem_5.5rem_minmax(0,1fr)] items-center border-b border-border/70 px-3 py-1.75 text-xs transition-colors",
-                  belongsToUserTeam && "bg-primary/10",
-                  isHoveredTeam && "bg-accent/10 text-accent-foreground",
+                  "grid grid-cols-[2.75rem_5.5rem_minmax(0,1fr)] items-center border-b border-border/70 bg-card px-3 py-1.75 text-xs text-foreground transition-colors",
+                  (belongsToUserTeam || isHoveredTeam) &&
+                    "bg-highlight-background",
                   dimForHover && "opacity-40",
                 )}
               >
                 <span
                   className={cn(
-                    "font-bold text-xs text-foreground",
+                    "text-xs font-bold tabular-nums",
                     belongsToUserTeam
                       ? "text-highlight-text"
                       : "text-foreground",
@@ -144,10 +145,10 @@ export function DraftRoundColumn({
                   )}
                   <span
                     className={cn(
-                      "truncate font-bold text-xs text-foreground",
+                      "truncate text-xs font-normal",
                       belongsToUserTeam
                         ? "text-highlight-text"
-                        : "text-foreground",
+                        : "text-muted-foreground",
                     )}
                   >
                     {pick.currentOwnerShort}
@@ -155,9 +156,9 @@ export function DraftRoundColumn({
                   {hasOwnerNote && (
                     <Tooltip>
                       <TooltipTrigger>
-                        <Info className="h-3.5 w-3.5 shrink-0 cursor-pointer" />
+                        <PiInfoThin className="shrink-0 cursor-pointer text-muted-foreground" />
                       </TooltipTrigger>
-                      <TooltipContent className="max-w-xs text-white">
+                      <TooltipContent className="max-w-xs">
                         {pick.reason}
                       </TooltipContent>
                     </Tooltip>
@@ -169,7 +170,7 @@ export function DraftRoundColumn({
                       {formatPlayerName(pick.pointPlayer)}
                     </Chip>
                   ) : (
-                    <span className="font-semibold text-muted-foreground">
+                    <span className="font-normal text-muted-foreground">
                       {pick.pointPlayer || pick.aflPointValue}
                     </span>
                   )}

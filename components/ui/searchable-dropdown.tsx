@@ -30,6 +30,7 @@ interface SearchableDropdownProps {
   triggerClassName?: string;
   contentClassName?: string;
   showStatusDot?: boolean;
+  startIcon?: React.ReactNode;
   label?: string;
 }
 
@@ -45,6 +46,7 @@ export function SearchableDropdown({
   triggerClassName,
   contentClassName,
   showStatusDot,
+  startIcon,
   label,
 }: SearchableDropdownProps) {
   const [open, setOpen] = React.useState(false);
@@ -99,10 +101,13 @@ export function SearchableDropdown({
             </span>
           ) : null}
           <span className="relative flex w-full min-w-0 items-center gap-[5px]">
+            {startIcon ? (
+              <span className="flex shrink-0 items-center">{startIcon}</span>
+            ) : null}
             {showStatusDot ? (
               <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-green-500" />
             ) : null}
-            <p className="min-w-0 flex-1 truncate text-left text-[11.5px] font-bold whitespace-nowrap">
+            <p className="min-w-0 flex-1 mr-5 truncate text-left text-[11.5px] font-bold whitespace-nowrap">
               {selectedOption?.label ?? placeholder}
             </p>
             <span className="absolute right-0 shrink-0 text-[9px] opacity-80">

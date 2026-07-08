@@ -14,6 +14,14 @@ const svgProps = {
   "aria-hidden": true,
 };
 
+export const DotsIcon = ({ className }: IconProps) => (
+  <svg className={cn("size-[17px] shrink-0", className)} {...svgProps}>
+    <circle cx="12" cy="12" r="1" />
+    <circle cx="19" cy="12" r="1" />
+    <circle cx="5" cy="12" r="1" />
+  </svg>
+);
+
 export const HomeIcon = ({ className }: IconProps) => {
   return (
     <svg className={cn("size-[17px] shrink-0", className)} {...svgProps}>

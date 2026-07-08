@@ -1,9 +1,9 @@
-import { useCreateUser } from "@/app/api/react-query/users";
+import { useCreateUser, useGetAllUsers } from "@/app/api/react-query/users";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { CreateUserModalProps } from "./type";
+import { CreateUserModalProps, UsersListFilterState } from "./type";
 import {
   createUserFormDefaults,
   createUserFormSchema,
@@ -13,6 +13,11 @@ import {
   normalizeOrgId,
   orgIdsMatch,
 } from "./util";
+import { UserListType } from "@/app/api/type/user";
+import { filterUsers } from "./util";
+import { useGetTeams } from "@/app/api/react-query/common";
+import { useGetOrganisations } from "@/app/api/react-query/organisations";
+import { useStore } from "@/store/useStore";
 
 type UseCreateUserModalArgs = Pick<
   CreateUserModalProps,
@@ -37,7 +42,9 @@ export function useCreateUserModal({
       form.reset({
         ...createUserFormDefaults,
         ...defaultValues,
-        organisationIds: (defaultValues?.organisationIds ?? []).map(normalizeOrgId),
+        organisationIds: (defaultValues?.organisationIds ?? []).map(
+          normalizeOrgId,
+        ),
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -100,3 +107,78 @@ export function useCreateUserModal({
     handleSubmit,
   };
 }
+
+export const useUsersList = () => {
+  const { data: users, isLoading, error, refetch } = useGetAllUsers();
+  const [createUserOpen, setCreateUserOpen] = useState(false);
+  const [filters, setFilters] = useState<UsersListFilterState>({
+    search: "",
+    orgFilter: "all",
+    tierFilter: "all",
+    statusFilter: "all",
+  });
+
+  const { data: teams = [] } = useGetTeams();
+  const { data: organisations = [] } = useGetOrganisations();
+
+  const filteredUsers = useMemo(
+    () =>
+      filterUsers(
+        users ?? [],
+        filters.search,
+        filters.orgFilter,
+        filters.tierFilter,
+        filters.statusFilter,
+      ),
+    [users, filters],
+  );
+
+  const teamOptions = useMemo(
+    () =>
+      teams.map((team) => ({
+        id: team.id,
+        name: team.teamNames,
+      })),
+    [teams],
+  );
+
+  const setSearch = (search: string) =>
+    setFilters((prev) => ({ ...prev, search }));
+
+  const setOrgFilter = (orgFilter: string) =>
+    setFilters((prev) => ({ ...prev, orgFilter }));
+
+  const setTierFilter = (tierFilter: string) =>
+    setFilters((prev) => ({ ...prev, tierFilter }));
+
+  const setStatusFilter = (
+    statusFilter: UsersListFilterState["statusFilter"],
+  ) => setFilters((prev) => ({ ...prev, statusFilter }));
+
+  const handleRowClick = (user: UserListType) => {
+    console.log("Navigate to user", user.id);
+  };
+
+  const handleMenuClick = (e: React.MouseEvent, user: UserListType) => {
+    e.stopPropagation();
+    console.log("Menu for user", user.id);
+  };
+
+  return {
+    users: filteredUsers,
+    isLoading,
+    error,
+    filters,
+    setSearch,
+    setOrgFilter,
+    setTierFilter,
+    setStatusFilter,
+    handleRowClick,
+    handleMenuClick,
+    refetch,
+    createUserOpen,
+    setCreateUserOpen,
+    teamOptions,
+    organisations,
+  };
+};

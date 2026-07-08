@@ -1,6 +1,11 @@
 import { z } from "zod";
 import { SelectOption } from "../common/fields/FormSelectField";
 import { OrganisationListType } from "@/app/api/type/organisation";
+import {
+  UserListType,
+  UserOrganisationType,
+  UserTier,
+} from "@/app/api/type/user";
 
 export const createUserFormSchema = z.object({
   firstName: z.string().trim().min(1, "First name is required"),
@@ -54,3 +59,59 @@ export const getAvailableOrganisations = (
 
 export const toTeamSelectOptions = (teams: TeamOption[]): SelectOption[] =>
   teams.map((team) => ({ value: team.id, label: team.name }));
+
+export const getUserInitials = (user: UserListType): string => {
+  const first = user.firstName?.[0] ?? "";
+  const last = user.lastName?.[0] ?? "";
+  return `${first}${last}`.toUpperCase();
+};
+
+export const getUserFullName = (user: UserListType): string =>
+  `${user.firstName} ${user.lastName}`.trim();
+
+export const getUserTier = (user: UserListType): UserTier =>
+  user.isSuperuser ? "super_admin" : "standard";
+
+export const isUserActive = (user: UserListType): boolean =>
+  user.isActive && user.active === "active";
+
+export const getUserOrgShortNames = (
+  user: UserListType,
+): UserOrganisationType[] => user.organisations ?? [];
+
+export const filterUsers = (
+  users: UserListType[],
+  search: string,
+  orgFilter: string,
+  tierFilter: string,
+  statusFilter: string,
+): UserListType[] => {
+  return users.filter((user) => {
+    const fullName = getUserFullName(user).toLowerCase();
+    const matchesSearch =
+      !search ||
+      fullName.includes(search.toLowerCase()) ||
+      user.email.toLowerCase().includes(search.toLowerCase());
+
+    const matchesOrg =
+      !orgFilter ||
+      orgFilter === "all" ||
+      user.organisations.some((o) =>
+        o.organisationTitle.toLowerCase().includes(orgFilter.toLowerCase()),
+      );
+
+    const matchesTier =
+      !tierFilter ||
+      tierFilter === "all" ||
+      (tierFilter === "super_admin" && user.isSuperuser) ||
+      (tierFilter === "standard" && !user.isSuperuser);
+
+    const matchesStatus =
+      !statusFilter ||
+      statusFilter === "all" ||
+      (statusFilter === "active" && isUserActive(user)) ||
+      (statusFilter === "inactive" && !isUserActive(user));
+
+    return matchesSearch && matchesOrg && matchesTier && matchesStatus;
+  });
+};

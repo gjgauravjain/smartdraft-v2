@@ -10,3 +10,10 @@ export type CreateUserModalProps = {
   organisations: OrganisationListType[];
   defaultValues?: Partial<CreateUserFormValues>;
 };
+
+export type UsersListFilterState = {
+  search: string;
+  orgFilter: string;
+  tierFilter: string;
+  statusFilter: "all" | "active" | "inactive";
+};

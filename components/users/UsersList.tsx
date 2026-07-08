@@ -8,6 +8,10 @@ import { ErrorState } from "../common/ErrorState";
 import { UsersPageHeader } from "./UserPageHeader";
 import { CreateUserModal } from "./CreateUserModal";
 import { TIER_OPTIONS } from "@/lib/utils";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { MobileSearch } from "./MobileSearch";
+import { UsersMobileList } from "./UserMobileList";
+import UserMobileHeader from "./UserMobileHeader";
 
 const UsersList = () => {
   const {
@@ -28,6 +32,8 @@ const UsersList = () => {
     organisations,
   } = useUsersList();
 
+  const isMobile = useIsMobile();
+
   if (isLoading) {
     return (
       <div className="flex flex-col flex-1 overflow-hidden">
@@ -44,6 +50,27 @@ const UsersList = () => {
           <ErrorState message={error.message} onRetry={refetch ?? (() => {})} />
         </div>
       </div>
+    );
+  }
+
+  if (isMobile) {
+    return (
+      <>
+        <UserMobileHeader onAddUser={() => setCreateUserOpen(true)} />
+        <div className="p-2.5">
+          <MobileSearch value={filters.search} onChange={setSearch} />
+          <div className="border-b border-border h-[calc(100vh-170px)] pb-[70px] overflow-auto">
+            <UsersMobileList users={users} onRowClick={handleRowClick} />
+          </div>
+          <CreateUserModal
+            open={createUserOpen}
+            onOpenChange={setCreateUserOpen}
+            teams={teamOptions}
+            tiers={TIER_OPTIONS}
+            organisations={organisations}
+          />
+        </div>
+      </>
     );
   }
   return (

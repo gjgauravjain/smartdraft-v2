@@ -3,22 +3,24 @@ import { getUserInitials, isUserActive } from "./util";
 
 type UserAvatarProps = {
   user: UserListType;
+  size?: 32 | 38;
 };
 
-export const UserAvatar = ({ user }: UserAvatarProps) => {
+export const UserAvatar = ({ user, size = 32 }: UserAvatarProps) => {
   const active = isUserActive(user);
   const initials = getUserInitials(user);
 
-  if (!active) {
-    return (
-      <div className="w-8 h-8 rounded-full shrink-0 bg-muted text-muted-foreground flex items-center justify-center text-[12px] font-bold">
-        {initials}
-      </div>
-    );
-  }
+  const sizeCls =
+    size === 38 ? "w-[38px] h-[38px] text-[12px]" : "w-8 h-8 text-[12px]";
+
+  const colorCls = active
+    ? "bg-primary text-primary-foreground"
+    : "bg-muted text-muted-foreground";
 
   return (
-    <div className="w-8 h-8 rounded-full shrink-0 bg-primary text-primary-foreground flex items-center justify-center text-[12px] font-bold">
+    <div
+      className={`${sizeCls} ${colorCls} rounded-full shrink-0 flex items-center justify-center font-bold`}
+    >
       {initials}
     </div>
   );

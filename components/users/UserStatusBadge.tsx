@@ -1,20 +1,31 @@
 type UserStatusBadgeProps = {
   active: boolean;
+  size?: "sm" | "md";
 };
 
-export const UserStatusBadge = ({ active }: UserStatusBadgeProps) => {
+export const UserStatusBadge = ({
+  active,
+  size = "md",
+}: UserStatusBadgeProps) => {
+  const textCls = size === "sm" ? "text-[11px]" : "text-[12px]";
+  const dotCls = size === "sm" ? "w-1.5 h-1.5" : "w-[7px] h-[7px]";
+
   if (active) {
     return (
-      <span className="inline-flex items-center gap-1.5 text-[12px] font-semibold text-success">
-        <span className="w-[7px] h-[7px] rounded-full bg-success" />
+      <span
+        className={`inline-flex items-center gap-1.5 ${textCls} font-semibold text-success`}
+      >
+        <span className={`${dotCls} rounded-full bg-success`} />
         Active
       </span>
     );
   }
 
   return (
-    <span className="inline-flex items-center gap-1.5 text-[12px] font-semibold text-muted-foreground">
-      <span className="w-[7px] h-[7px] rounded-full bg-muted-foreground/50" />
+    <span
+      className={`inline-flex items-center gap-1.5 ${textCls} font-semibold text-muted-foreground`}
+    >
+      <span className={`${dotCls} rounded-full bg-muted-foreground/50`} />
       Inactive
     </span>
   );

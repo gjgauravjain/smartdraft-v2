@@ -10,6 +10,9 @@ export type UserOrganisationType = {
   invitationAccepted: boolean;
   roles: string[];
 };
+
+export type UserTier = "super_admin" | "standard";
+
 export type UserListType = {
   id: number;
   lastLogin: string | null;

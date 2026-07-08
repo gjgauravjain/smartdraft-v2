@@ -26,9 +26,7 @@ type Props<T> = {
   groups?: SdTableGroup<T>[];
   columns: SdColumnDef<T>[];
   rowKey: (row: T) => string | number;
-  /** Left inset border + muted bg */
   highlightRow?: (row: T) => boolean;
-  /** Primary-tinted highlight (e.g. selected team) — takes precedence */
   accentRow?: (row: T) => boolean;
   defaultSortKey?: string;
   defaultSortDir?: SortDir;
@@ -153,7 +151,6 @@ function SdTable<T>({
         })}
       </div>
 
-      {/* Body */}
       <div className={cn("flex-1 overflow-y-auto", tableBodyClassName)}>
         {resolvedGroups.map((group, gi) => (
           <div key={gi}>
@@ -188,7 +185,7 @@ function SdTable<T>({
                   style={{
                     gridTemplateColumns: gridCols,
                     padding: "0 16px",
-                    height: 40,
+                    minHeight: "40px",
                   }}
                 >
                   {columns.map((col) => {

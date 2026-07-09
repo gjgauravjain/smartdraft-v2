@@ -46,12 +46,11 @@ export const useCreateUser = () => {
         await Promise.all(
           payload.organisationIds.map((orgId) =>
             apiClient.post(linkOrganisationApiUrl(orgId, userId), {
-              roles: [payload.tierId],
+              roles: [],
             }),
           ),
         );
       }
-
       return user;
     },
     onSuccess: () => invalidateUsers(queryClient),

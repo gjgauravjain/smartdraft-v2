@@ -11,7 +11,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useTheme } from "@/hooks/use-theme";
 import { AuthContexts } from "@/providers";
-import AppSelectionSettings from "./AppSelectionSettings";
 import { useAuth } from "@/store/useStore";
 import { Avatar, AvatarFallback } from "../ui/avatar";
 
@@ -91,7 +90,6 @@ export function DashboardHeader() {
             <Moon className="h-5 w-5" />
           )}
         </Button>
-        <AppSelectionSettings />
         <NotificationBell count={3} />
         <QuickLinks />
       </div>

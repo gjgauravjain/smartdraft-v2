@@ -180,6 +180,13 @@ const DraftPicks = () => {
               showAll={isAll}
             />
           )}
+          {activeTab === "third" && (
+            <NextYearDraftPick
+              data={draftData?.draftThirdYear}
+              selectedTeamId={selectedTeam}
+              showAll={isAll}
+            />
+          )}
           {activeTab === "order" && renderOrderEntry()}
           {activeTab === "fulllist" && renderFullListEntry()}
           {activeTab === "draftAssets" && renderDraftAssets()}

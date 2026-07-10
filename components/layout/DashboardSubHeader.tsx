@@ -8,6 +8,7 @@ import { Plus } from "lucide-react";
 import { ProjectType } from "@/app/api/type/projects";
 import { SearchableDropdownOption } from "../ui/searchable-dropdown";
 import { useIsMobile } from "@/hooks/use-mobile";
+import AppSelectionSettings from "./AppSelectionSettings";
 
 interface DashboardSubHeaderProps {
   projects?: ProjectType[];
@@ -70,6 +71,7 @@ export function DashboardSubHeader({
         className,
       )}
     >
+      <AppSelectionSettings />
       <div className="flex items-center gap-2">
         <Button
           onClick={onNewTransaction}

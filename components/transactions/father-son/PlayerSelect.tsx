@@ -65,9 +65,6 @@ const PlayerSelect = ({
     setPlayerSource("talentOrder");
   };
 
-  // Attach board rank — assumes playersOptions is already ordered by
-  // talent-order rank when playerSource === "talentOrder". Swap idx+1 for a
-  // real rank field (e.g. p.boardRank) if your API returns one.
   const boardPlayers: any[] = useMemo(
     () => playersOptions.map((p, idx) => ({ ...p, rank: idx + 1 })),
     [playersOptions],

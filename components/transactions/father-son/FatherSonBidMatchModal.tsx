@@ -7,7 +7,6 @@ import {
   DialogOverlay,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
 import { useFatherSonBidMatchModal } from "./hook";
 import { cn } from "@/lib/utils";
@@ -24,6 +23,8 @@ import { Form } from "@/components/ui/form";
 import { DisplayStateToolbar } from "./DisplayStateToolbar";
 import { DisplayStateKey } from "./type";
 import PlayerSelect from "./PlayerSelect";
+import { useIsMobile } from "@/hooks/use-mobile";
+import ActionButton from "./ActionButton";
 
 type FatherSonBidMatchModalProps = {
   isOpen: boolean;
@@ -56,20 +57,28 @@ const FatherSonBidMatchModal = ({
   } = useFatherSonBidMatchModal({
     onClose,
   });
-
+  const isMobile = useIsMobile();
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
       <DialogPortal>
         <DialogOverlay className="bg-black" />
         <DialogPrimitive.Content
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black p-6 pt-17.5 outline-none"
+          className={cn(
+            "fixed inset-0 z-50 flex items-center justify-center bg-black p-6 pt-17.5 outline-none",
+            isMobile && "pt-17.75 pr-0 pb-0 pl-0",
+          )}
           onOpenAutoFocus={(e) => e.preventDefault()}
         >
           <DialogTitle className="sr-only">Father Son Bid Match</DialogTitle>
           <DisplayStateToolbar
             active={displayedImpact?.displayState as DisplayStateKey}
           />
-          <div className="flex h-full max-h-220 w-full max-w-6xl flex-col overflow-hidden rounded-2xl bg-card shadow-[0_40px_90px_-24px_rgba(0,0,0,0.6)]">
+          <div
+            className={cn(
+              "flex h-full max-h-220 w-full max-w-6xl flex-col overflow-hidden rounded-2xl bg-card shadow-[0_40px_90px_-24px_rgba(0,0,0,0.6)]",
+              isMobile && "rounded-t-[20px] rounded-b-none",
+            )}
+          >
             <div className="flex items-center gap-4 border-b border-border px-6 py-4">
               <div className="min-w-0 flex-1">
                 <div className="mb-1 text-[10px] font-extrabold uppercase tracking-wider text-highlight-text">
@@ -119,9 +128,19 @@ const FatherSonBidMatchModal = ({
               </DialogPrimitive.Close>
             </div>
 
-            <div className="grid min-h-0 flex-1 grid-cols-[0.8fr_1.2fr]">
+            <div
+              className={cn(
+                "grid min-h-0 flex-1 grid-cols-[0.8fr_1.2fr]",
+                isMobile && "flex flex-col overflow-auto",
+              )}
+            >
               <Form {...form}>
-                <div className="flex flex-col gap-2 overflow-auto border-r border-border bg-secondary/40 p-5">
+                <div
+                  className={cn(
+                    "flex flex-col gap-2 overflow-auto border-r border-border bg-secondary/40 p-5",
+                    isMobile && "overflow-visible border-r-0 border-b",
+                  )}
+                >
                   <FormSelectField
                     label="Father-son club"
                     control={form.control}
@@ -148,22 +167,30 @@ const FatherSonBidMatchModal = ({
 
                   {displayedImpact && (
                     <>
-                      <DraftHandSection
-                        title="Draft hand · Current"
-                        chips={buildBeforeChips(displayedImpact)}
-                        variant="before"
-                      />
-                      <DraftHandSection
-                        title="Draft hand · After match"
-                        chips={buildAfterChips(displayedImpact)}
-                        variant="after"
-                      />
-                      <FutureHandsSection impact={displayedImpact} />
+                      {isMobile && <SummaryCard impact={displayedImpact} />}
+                      <div className={cn(isMobile && "border p-3 rounded-2xl")}>
+                        <DraftHandSection
+                          title="Draft hand · Current"
+                          chips={buildBeforeChips(displayedImpact)}
+                          variant="before"
+                        />
+                        <DraftHandSection
+                          title="Draft hand · After match"
+                          chips={buildAfterChips(displayedImpact)}
+                          variant="after"
+                        />
+                        <FutureHandsSection impact={displayedImpact} />
+                      </div>
                     </>
                   )}
                 </div>
               </Form>
-              <div className="flex flex-col gap-4 overflow-auto p-5">
+              <div
+                className={cn(
+                  "flex flex-col gap-4 overflow-auto p-5",
+                  isMobile && "overflow-visible",
+                )}
+              >
                 {!displayedImpact && !readyToFetch && (
                   <EmptyState message="Select a club, player, and bid pick to see the match impact." />
                 )}
@@ -177,7 +204,8 @@ const FatherSonBidMatchModal = ({
                 )}
                 {displayedImpact && (
                   <>
-                    <SummaryCard impact={displayedImpact} />
+                    {!isMobile && <SummaryCard impact={displayedImpact} />}
+
                     <StatsGrid impact={displayedImpact} />
                     <PointsLedger impact={displayedImpact} />
                     <CompensationCard impact={displayedImpact} />
@@ -186,21 +214,10 @@ const FatherSonBidMatchModal = ({
               </div>
             </div>
 
-            <div className="flex items-center gap-3 border-t border-border bg-secondary/40 px-6 py-3.5">
-              <div className="flex-1" />
-              <Button variant="outline" onClick={handleClose}>
-                Cancel
-              </Button>
-              <Button
-                disabled={!displayedImpact || !displayedImpact.canProceed}
-                className="bg-primary text-primary-foreground hover:bg-primary/90"
-                onClick={() => {
-                  handleClose();
-                }}
-              >
-                Match bid
-              </Button>
-            </div>
+            <ActionButton
+              handleClose={handleClose}
+              displayedImpact={displayedImpact}
+            />
           </div>
         </DialogPrimitive.Content>
       </DialogPortal>

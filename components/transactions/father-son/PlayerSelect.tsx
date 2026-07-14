@@ -1,3 +1,5 @@
+"use client";
+
 import {
   FormSelectField,
   SelectOption,
@@ -8,23 +10,38 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 import { UseFormReturn } from "react-hook-form";
 import { FatherSonBidMatchFormValues } from "./hook";
 import RequiredLabel from "@/components/common/fields/RequiredLabel";
+import { PlayerDatabaseType } from "@/app/api/type/player";
+import { PlayerBoardSelect } from "./PlayerBoardSelect";
+import { useMemo, useState } from "react";
+import { ChevronDown, User } from "lucide-react";
 
 type PlayerSelectProps = {
   playerSource: "all" | "talentOrder";
   setPlayerSource: (source: "all" | "talentOrder") => void;
   talentOrderOptions: SelectOption[];
   talentOrderId: string;
-  playersOptions: SelectOption[];
+  playersOptions: PlayerDatabaseType[];
   form: UseFormReturn<
     FatherSonBidMatchFormValues,
     any,
     FatherSonBidMatchFormValues
   >;
 };
+
+function getDisplayName(player: PlayerDatabaseType) {
+  const first = player.preferredFirstName || player.firstName;
+  const last = player.preferredLastName || player.lastName;
+  return `${first} ${last}`.trim();
+}
 
 const PlayerSelect = ({
   playerSource,
@@ -34,13 +51,31 @@ const PlayerSelect = ({
   talentOrderOptions,
   playersOptions,
 }: PlayerSelectProps) => {
+  const [boardOpen, setBoardOpen] = useState(false);
+
   const selectedTalentOrder = talentOrderOptions.find(
     (o) => o.value === talentOrderId,
   );
 
+  const selectedPlayerId = form.watch("playerId");
+  const selectedPlayer = playersOptions.find((p) => p.id === selectedPlayerId);
+
   const handleSelectTalentOrder = (value: string) => {
     form.setValue("talentOrderId", value, { shouldValidate: true });
     setPlayerSource("talentOrder");
+  };
+
+  // Attach board rank — assumes playersOptions is already ordered by
+  // talent-order rank when playerSource === "talentOrder". Swap idx+1 for a
+  // real rank field (e.g. p.boardRank) if your API returns one.
+  const boardPlayers: any[] = useMemo(
+    () => playersOptions.map((p, idx) => ({ ...p, rank: idx + 1 })),
+    [playersOptions],
+  );
+
+  const handleBoardSelect = (playerId: string) => {
+    form.setValue("playerId", playerId, { shouldValidate: true });
+    setBoardOpen(false);
   };
 
   return (
@@ -108,15 +143,38 @@ const PlayerSelect = ({
         </DropdownMenu>
       </div>
 
-      <FormSelectField
-        label={undefined}
-        control={form.control}
-        name="playerId"
-        options={playersOptions}
-        placeholder={"Select player"}
-        isSearchable
-        required={false}
-      />
+      <Popover open={boardOpen} onOpenChange={setBoardOpen}>
+        <PopoverTrigger asChild>
+          <button
+            type="button"
+            className={cn(
+              "flex h-9 w-full items-center gap-2 rounded-lg border border-border bg-background px-3 text-left text-[13px] transition-colors hover:border-foreground/20",
+              !selectedPlayer && "text-text4",
+            )}
+          >
+            <User className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
+            <span className="min-w-0 flex-1 truncate">
+              {selectedPlayer
+                ? getDisplayName(selectedPlayer)
+                : "Select player"}
+            </span>
+            <ChevronDown className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
+          </button>
+        </PopoverTrigger>
+        <PopoverContent align="start" sideOffset={4} className="w-[380px] p-0">
+          <PlayerBoardSelect
+            players={boardPlayers}
+            boardTotal={boardPlayers.length}
+            value={selectedPlayerId}
+            onSelect={handleBoardSelect}
+            showSwitchFooter={playerSource === "talentOrder"}
+            onSwitchToAll={() => {
+              setPlayerSource("all");
+              setBoardOpen(false);
+            }}
+          />
+        </PopoverContent>
+      </Popover>
     </div>
   );
 };

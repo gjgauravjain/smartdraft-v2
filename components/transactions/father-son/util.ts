@@ -1,7 +1,9 @@
+import { PlayerDatabaseType } from "@/app/api/type/player";
 import {
   FatherSonBidImpactResponse,
   OverallImpactItem,
 } from "@/app/api/type/transaction";
+import { BoardCategory, BoardPlayer } from "./type";
 
 export const DISPLAY_STATES = [
   { key: "shuffle_lost", letter: "A", label: "Shuffle + lost" },
@@ -60,4 +62,44 @@ export function buildAfterChips(impact: FatherSonBidImpactResponse) {
     .filter((p) => p.yearType === "Current")
     .sort((a, b) => Number(a.overallPick) - Number(b.overallPick))
     .map((p) => ({ pick: p.overallPick, used: p.pickStatus === "Used" }));
+}
+
+export const CATEGORY_FILTERS: { key: BoardCategory; label: string }[] = [
+  { key: "all", label: "All" },
+  { key: "fs", label: "F/S" },
+  { key: "academy", label: "Academy" },
+  { key: "nga", label: "NGA" },
+];
+
+export function getPlayerCategory(player: BoardPlayer): BoardCategory {
+  const types = (player.elegibility ?? [])
+    .map((e) => e.eligibilityType?.toLowerCase() ?? "")
+    .join(" ");
+  if (/father|son|f\/s/.test(types)) return "fs";
+  if (/academy/.test(types)) return "academy";
+  if (/nga|next generation/.test(types)) return "nga";
+  return "all";
+}
+
+export function getInitials(player: BoardPlayer) {
+  const first = player.preferredFirstName || player.firstName || "";
+  const last = player.preferredLastName || player.lastName || "";
+  return `${first[0] ?? ""}${last[0] ?? ""}`.toUpperCase();
+}
+
+export function getDisplayName(player: BoardPlayer) {
+  const first = player.preferredFirstName || player.firstName;
+  const last = player.preferredLastName || player.lastName;
+  return `${first} ${last}`.trim();
+}
+
+export function getTag(player: BoardPlayer) {
+  const category = getPlayerCategory(player);
+  if (category === "fs") {
+    const abbrev = player.currentRoasterAllocation?.teamId ?? "";
+    return `F/S${abbrev ? ` · ${abbrev}` : ""}`;
+  }
+  if (category === "academy") return "Academy";
+  if (category === "nga") return "NGA";
+  return null;
 }

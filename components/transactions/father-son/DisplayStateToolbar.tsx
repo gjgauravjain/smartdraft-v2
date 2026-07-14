@@ -8,9 +8,9 @@ export function DisplayStateToolbar({
   active: DisplayStateKey | null;
 }) {
   return (
-    <div className="pointer-events-none absolute inset-x-0 top-4.5 z-50 flex justify-center">
+    <div className="pointer-events-none absolute inset-x-0 top-2 z-50 flex justify-center sm:top-4.5">
       <div className="pointer-events-auto inline-flex items-center gap-1 rounded-full border border-white/[0.14] bg-[rgba(15,20,30,0.82)] p-1 backdrop-blur-md">
-        <span className="px-2.5 text-[9.5px] font-extrabold uppercase tracking-wide text-white/50">
+        <span className="hidden px-2.5 text-[9.5px] font-extrabold uppercase tracking-wide text-white/50 sm:inline">
           Display state
         </span>
         {DISPLAY_STATES.map((s) => {
@@ -20,9 +20,9 @@ export function DisplayStateToolbar({
               key={s.key}
               type="button"
               className={cn(
-                "inline-flex h-7 items-center gap-1.5 whitespace-nowrap rounded-full px-3 text-[11px] font-bold transition-colors",
+                "inline-flex h-7 items-center gap-1.5 whitespace-nowrap rounded-full px-1.5 text-[11px] font-bold transition-colors sm:px-3",
                 isActive
-                  ? "bg-white text-[#16202e]"
+                  ? "bg-white text-black"
                   : "bg-transparent text-white/70 hover:text-white",
               )}
             >
@@ -34,7 +34,7 @@ export function DisplayStateToolbar({
               >
                 {s.letter}
               </span>
-              {s.label}
+              <span className="hidden sm:inline">{s.label}</span>
             </button>
           );
         })}

@@ -156,15 +156,6 @@ export const useFatherSonBidMatchModal = ({
     [talentOrder],
   );
 
-  const playersOptions: SelectOption[] = useMemo(
-    () =>
-      activePlayers.map((p: any) => ({
-        value: String(p.id),
-        label: playerName(p),
-      })),
-    [activePlayers],
-  );
-
   const setPlayerSource = (source: "all" | "talentOrder") => {
     form.setValue("playerSource", source);
     form.setValue("playerId", "");
@@ -195,7 +186,7 @@ export const useFatherSonBidMatchModal = ({
     selectedProject,
     teamsOptions,
     talentOrderOptions,
-    playersOptions,
+    playersOptions: activePlayers,
     setPlayerSource,
     setTalentOrderId,
     allDraftPicksOptions,

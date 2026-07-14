@@ -1,5 +1,6 @@
 import { OverallImpactItem } from "@/app/api/type/transaction";
 import { cn } from "@/lib/utils";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 export function DraftHandSection({
   title,
@@ -14,10 +15,16 @@ export function DraftHandSection({
   }>;
   variant: "before" | "after";
 }) {
+  const isMobile = useIsMobile();
+
   return (
-    <div>
-      <div className="mb-2 flex items-center gap-2">
-        <div className="whitespace-nowrap text-[10.5px] font-extrabold uppercase tracking-wide text-text4">
+    <div className={cn("mb-3")}>
+      <div className={cn("mb-2 flex items-center gap-2", isMobile && "gap-2")}>
+        <div
+          className={cn(
+            "whitespace-nowrap text-[10.5px] font-extrabold uppercase tracking-wide text-text4",
+          )}
+        >
           {title}
         </div>
         <div className="h-px flex-1 bg-border" />
@@ -34,7 +41,8 @@ export function DraftHandSection({
             <div
               key={`${c.pick}-${idx}`}
               className={cn(
-                "inline-flex h-7 items-center gap-1.5 rounded-full border px-2.5 text-[12.5px] font-bold tabular-nums",
+                "inline-flex h-7 items-center gap-1.5 rounded-full border text-[12.5px] font-bold tabular-nums",
+                isMobile ? "px-2.75" : "px-2.5",
                 isLost &&
                   "border-destructive/30 bg-destructive/10 text-destructive",
                 isShuffled &&
@@ -47,6 +55,9 @@ export function DraftHandSection({
                   "border-border bg-card text-foreground",
               )}
             >
+              {isHighlighted && (
+                <span className="h-1.25 w-1.25 rounded-full bg-primary-foreground" />
+              )}
               <span className={isLost ? "line-through" : undefined}>
                 {c.pick}
               </span>

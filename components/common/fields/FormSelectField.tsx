@@ -104,13 +104,16 @@ export function FormSelectField<T extends FieldValues>({
       name={name}
       render={({ field }) => (
         <FormItem className={className}>
-          <FormLabel className="text-[11.5px] font-bold text-foreground uppercase tracking-wide [&_*]:normal-case [&_*]:tracking-normal">
-            <RequiredLabel showRequired={required}>{label}</RequiredLabel>
-          </FormLabel>
+          {label && (
+            <FormLabel className="text-[11.5px] font-bold text-foreground uppercase tracking-wide [&_*]:normal-case [&_*]:tracking-normal">
+              <RequiredLabel showRequired={required}>{label}</RequiredLabel>
+            </FormLabel>
+          )}
+
           <Select
             onValueChange={field.onChange}
             value={field.value || undefined}
-            disabled={disabled || options.length === 0}
+            disabled={disabled}
             onOpenChange={(open) => {
               if (!open) setSearch("");
             }}

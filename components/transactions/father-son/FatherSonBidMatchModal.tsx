@@ -23,6 +23,7 @@ import { FormSelectField } from "@/components/common/fields/FormSelectField";
 import { Form } from "@/components/ui/form";
 import { DisplayStateToolbar } from "./DisplayStateToolbar";
 import { DisplayStateKey } from "./type";
+import PlayerSelect from "./PlayerSelect";
 
 type FatherSonBidMatchModalProps = {
   isOpen: boolean;
@@ -34,7 +35,6 @@ const FatherSonBidMatchModal = ({
   onClose,
 }: FatherSonBidMatchModalProps) => {
   const {
-    players,
     readyToFetch,
     selectedPlayer,
     bidTeam,
@@ -45,6 +45,12 @@ const FatherSonBidMatchModal = ({
     loading,
     form,
     selectedProject,
+    playerSource,
+    talentOrderId,
+    talentOrderOptions,
+    playersOptions,
+    setPlayerSource,
+    setTalentOrderId,
     teamsOptions,
     allDraftPicksOptions,
   } = useFatherSonBidMatchModal({
@@ -122,17 +128,14 @@ const FatherSonBidMatchModal = ({
                     name="fsTeamId"
                     options={teamsOptions}
                   />
-                  <FormSelectField
-                    label="Player"
-                    control={form.control}
-                    name="playerId"
-                    options={(players ?? []).map((p: any) => ({
-                      value: String(p.id),
-                      label: playerName(p),
-                    }))}
-                    isSearchable
+                  <PlayerSelect
+                    form={form}
+                    playerSource={playerSource}
+                    setPlayerSource={setPlayerSource}
+                    talentOrderOptions={talentOrderOptions}
+                    talentOrderId={talentOrderId}
+                    playersOptions={playersOptions}
                   />
-
                   <FormSelectField
                     label="Bid pick"
                     control={form.control}

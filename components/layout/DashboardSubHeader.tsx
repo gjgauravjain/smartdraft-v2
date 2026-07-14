@@ -76,6 +76,14 @@ export function DashboardSubHeader({
           onChange={onTalentOrderChange}
           options={talentOrderOptions}
         />
+        <AddTransaction
+          menuOpen={menuOpen}
+          setMenuOpen={setMenuOpen}
+          handleMenuSelect={handleMenuSelect}
+        />
+        {activeModal && (
+          <TransactionModalSwitch type={activeModal} onClose={closeModal} />
+        )}
       </div>
     );
   }

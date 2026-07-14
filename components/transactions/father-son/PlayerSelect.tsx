@@ -56,7 +56,7 @@ const PlayerSelect = ({
           className={cn(
             "inline-flex h-6.5 items-center whitespace-nowrap rounded-md border px-2.5 text-[11px] font-extrabold transition-colors",
             playerSource === "all"
-              ? "border-[#d3d7de] bg-card text-primary shadow-sm"
+              ? "border bg-card text-highlight-text shadow-sm"
               : "border-transparent bg-transparent text-muted-foreground hover:text-foreground",
           )}
         >
@@ -75,7 +75,7 @@ const PlayerSelect = ({
               className={cn(
                 "inline-flex h-6.5 max-w-47.5 items-center gap-1.5 whitespace-nowrap rounded-md border px-2.5 text-[11px] font-semibold transition-colors",
                 playerSource === "talentOrder"
-                  ? "border-[#d3d7de] bg-card text-primary shadow-sm"
+                  ? "border bg-card text-highlight-text shadow-sm"
                   : "border-transparent bg-transparent text-muted-foreground hover:text-foreground",
               )}
             >

@@ -72,7 +72,7 @@ const FatherSonBidMatchModal = ({
           <div className="flex h-full max-h-220 w-full max-w-6xl flex-col overflow-hidden rounded-2xl bg-card shadow-[0_40px_90px_-24px_rgba(0,0,0,0.6)]">
             <div className="flex items-center gap-4 border-b border-border px-6 py-4">
               <div className="min-w-0 flex-1">
-                <div className="mb-1 text-[10px] font-extrabold uppercase tracking-wider text-primary">
+                <div className="mb-1 text-[10px] font-extrabold uppercase tracking-wider text-highlight-text">
                   Transaction · Father Son Bid Match
                 </div>
                 <div className="truncate text-xl font-extrabold tracking-tight text-foreground">

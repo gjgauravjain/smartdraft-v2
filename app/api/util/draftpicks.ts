@@ -32,6 +32,7 @@ import {
   DataFullOrderListType,
   DraftYearList,
   DraftPickType,
+  DraftPicksDataType,
 } from "../type/draftpicks";
 import { compact, flatten, min, max } from "lodash";
 
@@ -467,4 +468,21 @@ export const transformDashboardDraftTab = (data: any): TabOptionType[] => {
       toHide: !data?.third_year,
     },
   ];
+};
+
+export const transformAllPicks = (data?: any): DraftPicksDataType[] => {
+  if (!data) {
+    return [];
+  }
+
+  return data.map((item: any) => ({
+    value: item.value,
+    label: item.label,
+    unique: item.unique,
+    pickStatus: item.pick_status,
+    overallPick: item.overall_pick,
+    currentOwner: item.current_owner,
+    year: item.year,
+    display: item.display,
+  }));
 };

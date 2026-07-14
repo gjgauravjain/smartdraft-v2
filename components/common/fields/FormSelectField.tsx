@@ -1,7 +1,8 @@
 "use client";
 
-import { ReactNode } from "react";
+import { ReactNode, useMemo, useState } from "react";
 import { Control, FieldValues, FieldPath } from "react-hook-form";
+import { Search } from "lucide-react";
 import {
   FormControl,
   FormDescription,
@@ -17,6 +18,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Input } from "@/components/ui/input";
 import RequiredLabel from "./RequiredLabel";
 
 export interface SelectOption {
@@ -36,6 +38,8 @@ interface FormSelectFieldProps<T extends FieldValues> {
   disabled?: boolean;
   className?: string;
   required?: boolean;
+  isSearchable?: boolean;
+  searchPlaceholder?: string;
 }
 
 function OptionIcon({ icon }: { icon: string | ReactNode }) {
@@ -80,7 +84,20 @@ export function FormSelectField<T extends FieldValues>({
   disabled,
   className,
   required,
+  isSearchable = false,
+  searchPlaceholder = "Search...",
 }: FormSelectFieldProps<T>) {
+  const [search, setSearch] = useState("");
+
+  const filteredOptions = useMemo(() => {
+    if (!isSearchable) return options;
+    const normalized = search.trim().toLowerCase();
+    if (!normalized) return options;
+    return options.filter((opt) =>
+      opt.label.toLowerCase().includes(normalized),
+    );
+  }, [options, search, isSearchable]);
+
   return (
     <FormField
       control={control}
@@ -94,22 +111,40 @@ export function FormSelectField<T extends FieldValues>({
             onValueChange={field.onChange}
             value={field.value || undefined}
             disabled={disabled || options.length === 0}
+            onOpenChange={(open) => {
+              if (!open) setSearch("");
+            }}
           >
             <FormControl>
               <SelectTrigger className="bg-background border-border text-foreground text-[13px] h-9 w-full">
                 <SelectValue placeholder={placeholder} />
               </SelectTrigger>
             </FormControl>
-            <SelectContent className="h-auto max-h-60">
-              {options.length ? (
-                options.map((opt) => (
+            <SelectContent className="h-auto max-h-72">
+              {isSearchable && (
+                <div className="sticky -top-2.5 z-10 -mx-1 -mt-1 mb-1 bg-popover px-2 pt-2 pb-1.5 border-b border-border">
+                  <div className="relative">
+                    <Search className="pointer-events-none absolute left-2 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted-foreground" />
+                    <Input
+                      value={search}
+                      onChange={(e) => setSearch(e.target.value)}
+                      onKeyDown={(e) => e.stopPropagation()}
+                      placeholder={searchPlaceholder}
+                      className="h-8 pl-7 text-xs"
+                      autoFocus
+                    />
+                  </div>
+                </div>
+              )}
+              {filteredOptions.length ? (
+                filteredOptions.map((opt) => (
                   <SelectItem key={opt.value} value={opt.value}>
                     <OptionContent option={opt} />
                   </SelectItem>
                 ))
               ) : (
                 <div className="px-2 py-4 text-center text-xs text-muted-foreground">
-                  {emptyMessage}
+                  {search ? "No matches found." : emptyMessage}
                 </div>
               )}
             </SelectContent>

@@ -1,8 +1,9 @@
 import apiClient from "@/lib/api-client";
-import { getDashboardApiUrl } from "@/lib/api-constant";
+import { getAllPicks, getDashboardApiUrl } from "@/lib/api-constant";
 import { useAuth } from "@/store/useStore";
 import { useQuery } from "@tanstack/react-query";
 import {
+  transformAllPicks,
   transformDashboardData,
   transformDashboardDraftTab,
   transformDataOrderNewEntry,
@@ -30,6 +31,25 @@ export const userGetDraftPicks = ({
         draftTab: transformDashboardDraftTab(data),
         orderOfEntryData: transformDataOrderNewEntry(data.order_of_entry),
       };
+    },
+    enabled: !!accessToken && !!projectId,
+    staleTime: 5 * 60 * 1000,
+    retry: 0,
+  });
+};
+
+export const useGetAllDraftPicksList = ({
+  projectId,
+}: {
+  projectId: number;
+}) => {
+  const { accessToken } = useAuth();
+
+  return useQuery({
+    queryKey: ["draftpicks", projectId],
+    queryFn: async () => {
+      const { data } = await apiClient.get(getAllPicks(projectId));
+      return transformAllPicks(data);
     },
     enabled: !!accessToken && !!projectId,
     staleTime: 5 * 60 * 1000,

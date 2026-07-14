@@ -1,14 +1,16 @@
 "use client";
 
+import { useState } from "react";
 import { ProjectDropdown } from "@/components/layout/dashboard-sub-header/ProjectDropdown";
 import { TalentOrderDropdown } from "@/components/layout/dashboard-sub-header/TalentOrderDropdown";
 import { cn } from "@/lib/utils";
-import { Button } from "../ui/button";
-import { Plus } from "lucide-react";
 import { ProjectType } from "@/app/api/type/projects";
 import { SearchableDropdownOption } from "../ui/searchable-dropdown";
 import { useIsMobile } from "@/hooks/use-mobile";
 import AppSelectionSettings from "./AppSelectionSettings";
+import TransactionModalSwitch from "./dashboard-sub-header/TransactionModalSwitch";
+import AddTransaction from "./dashboard-sub-header/AddTransaction";
+import { TransactionMenuValue } from "./dashboard-sub-header/type";
 
 interface DashboardSubHeaderProps {
   projects?: ProjectType[];
@@ -34,12 +36,26 @@ export function DashboardSubHeader({
   talentOrderOptions,
 }: DashboardSubHeaderProps) {
   const isMobile = useIsMobile();
+
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [activeModal, setActiveModal] = useState<TransactionMenuValue | null>(
+    null,
+  );
+
   const handleProjectChange = (projectId: string) => {
     const project = projects?.find((p) => p.id === projectId);
     if (project) {
       onProjectChange?.(project);
     }
   };
+
+  const handleMenuSelect = (value: TransactionMenuValue) => {
+    setMenuOpen(false);
+    setActiveModal(value);
+    onNewTransaction?.();
+  };
+
+  const closeModal = () => setActiveModal(null);
 
   if (isMobile) {
     return (
@@ -73,15 +89,15 @@ export function DashboardSubHeader({
     >
       <AppSelectionSettings />
       <div className="flex items-center gap-2">
-        <Button
-          onClick={onNewTransaction}
-          size="sm"
-          className="h-8 gap-1.5 bg-primary text-primary-foreground hover:bg-primary/90"
-        >
-          <Plus className="h-4 w-4" />
-          New transaction
-        </Button>
+        <AddTransaction
+          menuOpen={menuOpen}
+          setMenuOpen={setMenuOpen}
+          handleMenuSelect={handleMenuSelect}
+        />
       </div>
+      {activeModal && (
+        <TransactionModalSwitch type={activeModal} onClose={closeModal} />
+      )}
     </div>
   );
 }

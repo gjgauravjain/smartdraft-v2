@@ -1,9 +1,6 @@
 "use client";
 
-import {
-  FormSelectField,
-  SelectOption,
-} from "@/components/common/fields/FormSelectField";
+import { SelectOption } from "@/components/common/fields/FormSelectField";
 import {
   DropdownMenu,
   DropdownMenuContent,

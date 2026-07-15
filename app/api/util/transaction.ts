@@ -48,23 +48,30 @@ export const transformFatherSonBidImpactResponse = (
     })),
 
     overallImpactVisual: response.overall_impact_visual.map((item: any) => ({
-      firstVisual: item.first_visual,
+      firstValue: item.first_value,
       firstValueTooltip: item.first_value_tooltip,
       pointsRemaining: item.points_remaining,
       prefix: item.prefix,
       secondValue: item.second_value,
       summary: item.summary,
+
       deficitSummary: item.deficit_summary,
       deficitWarning: item.deficit_warning,
       deficitYear: item.deficit_year,
       pointsDeficit: item.points_deficit,
 
+      deficitExceedsCap: item.deficit_exceeds_cap,
+      allowableDeficitPoints: item.allowable_deficit_points,
+      missingNextYearFirstRounder: item.missing_next_year_first_rounder,
+
       deficitImpact: item.deficit_impact
         ? {
-            draftRound: item.deficit_impact.draft_round,
-            overallPick: item.deficit_impact.overall_pick,
-            aflPointsValue: item.deficit_impact.afl_points_value,
-            maxDeficitPoints: item.deficit_impact.max_deficit_points,
+            year: item.deficit_impact.Year,
+            overallPick: item.deficit_impact.Overall_Pick,
+            draftRoundInt: item.deficit_impact.Draft_Round_Int,
+            aflPointsValue: item.deficit_impact.AFL_Points_Value,
+            maxDeficitPoints: item.deficit_impact.Max_Deficit_Points,
+            pointsRemaining: item.deficit_impact.points_remaining,
             pointsSubtracted: item.deficit_impact.points_subtracted,
             newOverallPick: item.deficit_impact.new_overall_pick,
           }

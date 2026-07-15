@@ -345,6 +345,16 @@
     background-color: var(--ledger-deficit-alert-bg);
     border-color: var(--ledger-deficit-alert-border);
   }
+
+  .future-hand-deficit-chip {
+    background-color: var(--ledger-deficit-bg);
+    border-color: var(--ledger-deficit-border);
+    color: var(--ledger-deficit-text);
+  }
+
+  .future-hand-deficit-note {
+    color: var(--ledger-deficit-text);
+  }
 }
 
 ::-webkit-scrollbar {

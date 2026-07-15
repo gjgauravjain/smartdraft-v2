@@ -20,6 +20,7 @@ import { PlayerDatabaseType } from "@/app/api/type/player";
 import { PlayerBoardSelect } from "./PlayerBoardSelect";
 import { useMemo, useState } from "react";
 import { ChevronDown, User } from "lucide-react";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 type PlayerSelectProps = {
   playerSource: "all" | "talentOrder";
@@ -49,6 +50,7 @@ const PlayerSelect = ({
   playersOptions,
 }: PlayerSelectProps) => {
   const [boardOpen, setBoardOpen] = useState(false);
+  const isMobile = useIsMobile();
 
   const selectedTalentOrder = talentOrderOptions.find(
     (o) => o.value === talentOrderId,
@@ -155,7 +157,12 @@ const PlayerSelect = ({
             <ChevronDown className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
           </button>
         </PopoverTrigger>
-        <PopoverContent align="start" sideOffset={4} className="w-[380px] p-0">
+        <PopoverContent
+          align="start"
+          sideOffset={4}
+          portalled={!isMobile}
+          className="w-95 max-w-[calc(100vw-24px)] p-0"
+        >
           <PlayerBoardSelect
             players={boardPlayers}
             boardTotal={boardPlayers.length}

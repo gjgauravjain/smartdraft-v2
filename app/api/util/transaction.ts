@@ -71,7 +71,7 @@ export const transformFatherSonBidImpactResponse = (
         : undefined,
     })),
 
-    compensationPicks2026: response.compensation_picks_2026.map(
+    compensationPicks2026: (response?.compensation_picks_2026 || []).map(
       (item: any) => ({
         teamId: item.team_id,
         teamName: item.team_name,

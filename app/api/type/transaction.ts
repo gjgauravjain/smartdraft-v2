@@ -32,25 +32,33 @@ export interface CompensationPick {
 }
 
 export type DeficitImpactType = {
-  draftRound: number[];
+  year: string[];
   overallPick: number[];
+  draftRoundInt: number[];
   aflPointsValue: number[];
   maxDeficitPoints: number[];
+  pointsRemaining: number[];
   pointsSubtracted: number[];
   newOverallPick: number[];
 };
 
 export type ImpactVisualType = {
-  firstVisual: string;
-  firstValueTooltip: string;
-  pointsRemaining: string;
-  prefix: string;
-  secondValue: string;
+  firstValue: number | string | null;
+  firstValueTooltip: string | null;
+  pointsRemaining: number | string;
+  prefix: string | null;
+  secondValue: number | string | null;
   summary: string;
+
   deficitSummary?: string;
   deficitWarning?: string;
   deficitYear?: number;
   pointsDeficit?: number;
+
+  deficitExceedsCap?: boolean;
+  allowableDeficitPoints?: number;
+  missingNextYearFirstRounder?: boolean;
+
   deficitImpact?: DeficitImpactType;
 };
 

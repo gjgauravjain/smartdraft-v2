@@ -205,8 +205,8 @@ const FatherSonBidMatchModal = ({
                 {displayedImpact && (
                   <>
                     {!isMobile && <SummaryCard impact={displayedImpact} />}
+                    {!isMobile && <StatsGrid impact={displayedImpact} />}
 
-                    <StatsGrid impact={displayedImpact} />
                     <PointsLedger impact={displayedImpact} />
                     <CompensationCard impact={displayedImpact} />
                   </>

@@ -3,7 +3,6 @@
 import * as React from "react";
 import { Search, CornerDownLeft } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { PlayerDatabaseType } from "@/app/api/type/player";
 import { BoardCategory, BoardPlayer } from "./type";
 import {
   CATEGORY_FILTERS,
@@ -88,6 +87,7 @@ export function PlayerBoardSelect({
 
       <div
         className="max-h-72 min-h-0 overflow-y-auto overscroll-contain"
+        style={{ touchAction: "pan-y" }}
         onWheel={(e) => e.stopPropagation()}
       >
         {filteredPlayers.length === 0 && (

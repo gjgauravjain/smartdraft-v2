@@ -356,3 +356,14 @@ export type DraftAssetGraphType = {
   name: string;
   [year: string]: number | string;
 };
+
+export type DraftPicksDataType = {
+  value: number;
+  label: string;
+  unique: string;
+  pickStatus: string;
+  overallPick: number;
+  currentOwner: number;
+  year: number;
+  display: string;
+};

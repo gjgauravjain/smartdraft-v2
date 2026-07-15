@@ -1,4 +1,4 @@
-import { useGetPlayerList } from "@/app/api/react-query/player";
+import { useGetPlayerListByTalentOrder } from "@/app/api/react-query/player";
 import { DraftYearType } from "@/app/api/type/draftpicks";
 import { DraftYearPickBoard } from "@/components/draft-picks/DraftYearPickBoard";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -24,8 +24,10 @@ const NextYearDraftPick = ({
   showAll,
 }: NextYearDraftPickProps) => {
   const [activeTab, setActiveTab] = useState("picks");
-  const { user, hoveredTeamId, currentOrganisation } = useStore();
-  const { data: players } = useGetPlayerList({ orgId: currentOrganisation });
+  const { user, hoveredTeamId, selectedTalentOrder } = useStore();
+  const { data: players } = useGetPlayerListByTalentOrder({
+    talentOrder: selectedTalentOrder || "",
+  });
   const [isTalentOrderCollapsed, setIsTalentOrderCollapsed] = useState(false);
   const isMobile = useIsMobile();
   const reservedRight = isTalentOrderCollapsed

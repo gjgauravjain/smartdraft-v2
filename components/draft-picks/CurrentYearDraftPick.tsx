@@ -3,7 +3,7 @@ import { DraftYearType } from "@/app/api/type/draftpicks";
 import { DraftYearPickBoard } from "@/components/draft-picks/DraftYearPickBoard";
 import { useStore } from "@/store/useStore";
 import TalentOrder from "./talent-order/TalentOrder";
-import { useGetPlayerList } from "@/app/api/react-query/player";
+import { useGetPlayerListByTalentOrder } from "@/app/api/react-query/player";
 import {
   TALENT_ORDER_RAIL_WIDTH,
   TALENT_ORDER_TABS,
@@ -24,8 +24,11 @@ const CurrentYearDraftPick = ({
   showAll,
 }: CurrentYearDraftPickProps) => {
   const [activeTab, setActiveTab] = useState("picks");
-  const { user, hoveredTeamId, currentOrganisation } = useStore();
-  const { data: players } = useGetPlayerList({ orgId: currentOrganisation });
+  const { user, hoveredTeamId, currentOrganisation, selectedTalentOrder } =
+    useStore();
+  const { data: players } = useGetPlayerListByTalentOrder({
+    talentOrder: selectedTalentOrder || "",
+  });
   const [isTalentOrderCollapsed, setIsTalentOrderCollapsed] = useState(false);
   const isMobile = useIsMobile();
   const reservedRight = isTalentOrderCollapsed

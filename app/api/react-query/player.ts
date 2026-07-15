@@ -1,6 +1,7 @@
 import apiClient from "@/lib/api-client";
 import {
   fetchRankingListApiUrl,
+  fetchRankingListDataApiUrl,
   getOrganisationPlayerListApiUrl,
 } from "@/lib/api-constant";
 import { useAuth } from "@/store/useStore";
@@ -32,5 +33,25 @@ export const useGetTalentOrder = () => {
       return transformRankingList(data);
     },
     enabled: !!accessToken,
+  });
+};
+
+export const useGetPlayerListByTalentOrder = ({
+  talentOrder,
+}: {
+  talentOrder: string;
+}) => {
+  const { accessToken } = useAuth();
+
+  return useQuery({
+    queryKey: ["playerListByTalentOrder", talentOrder],
+    queryFn: async () => {
+      const { data } = await apiClient.get(
+        fetchRankingListDataApiUrl(talentOrder),
+      );
+      const playersList = data.ranks.map((rank: any) => rank.player).flat();
+      return transformPlayerList(playersList);
+    },
+    enabled: !!accessToken && !!talentOrder,
   });
 };

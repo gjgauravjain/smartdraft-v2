@@ -6,7 +6,7 @@ interface MobileTeamBadgeProps {
   selectedTeamId?: string;
   isAll: boolean;
   onToggleAll: (value: boolean) => void;
-  onTeamSelect?: (id: string) => void;
+  onTeamSelect?: (id?: string) => void;
 }
 
 export function MobileTeamBadge({
@@ -51,7 +51,7 @@ export function MobileTeamBadge({
             <button
               key={team.id}
               title={team.shortName}
-              onClick={() => onTeamSelect?.(team.id)}
+              onClick={() => onTeamSelect?.(selected ? undefined : team.id)}
               className={cn(
                 "rounded-full p-0.5 shrink-0 transition-all",
                 selected ? "bg-primary" : "hover:bg-muted",

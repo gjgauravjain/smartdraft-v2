@@ -8,7 +8,7 @@ import { Chip } from "@/components/ui/Chip";
 import { cn } from "@/lib/utils";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import { formatPlayerName, isPlayerName } from "./util";
-import { PiInfoThin } from "react-icons/pi";
+import { IoMdInformationCircleOutline } from "react-icons/io";
 
 interface DraftRoundColumnProps {
   title: string;
@@ -156,7 +156,7 @@ export function DraftRoundColumn({
                   {hasOwnerNote && (
                     <Tooltip>
                       <TooltipTrigger>
-                        <PiInfoThin className="shrink-0 cursor-pointer text-muted-foreground" />
+                        <IoMdInformationCircleOutline className="shrink-0 cursor-pointer font-bold text-muted-foreground" />
                       </TooltipTrigger>
                       <TooltipContent className="max-w-xs">
                         {pick.reason}

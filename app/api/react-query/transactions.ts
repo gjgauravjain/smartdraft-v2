@@ -1,7 +1,16 @@
-import { getTransactionsSum } from "@/lib/api-constant";
+import {
+  createPassPickApiUrl,
+  getTransactionsSum,
+  passPickImpactApiUrl,
+} from "@/lib/api-constant";
 import apiClient from "@/lib/api-client";
 import { useAuth } from "@/store/useStore";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  buildPassPickRequestPayload,
+  transformPassPickImpactResponse,
+} from "../util/pass-pick";
+import { PassPickPassType } from "../type/pass-pick";
 import { transformFatherSonBidImpactResponse } from "../util/transaction";
 
 type GetFatherSonBidImpactParams = {
@@ -36,5 +45,62 @@ export const useGetFatherSonBidImpact = ({
 
     enabled: !!accessToken && readyToFetch,
     retry: 0,
+  });
+};
+
+type GetPassPickImpactParams = {
+  projectId: number;
+  pickId: string;
+  passType: PassPickPassType;
+};
+
+export const useGetPassPickImpact = ({
+  projectId,
+  pickId,
+  passType,
+}: GetPassPickImpactParams) => {
+  const { accessToken } = useAuth();
+  const readyToFetch = Boolean(projectId && pickId && passType);
+
+  return useQuery({
+    queryKey: ["pass-pick-impact", projectId, pickId, passType],
+    queryFn: async () => {
+      const { data } = await apiClient.post(
+        passPickImpactApiUrl(String(projectId)),
+        buildPassPickRequestPayload({ pickId, passType }),
+      );
+
+      return transformPassPickImpactResponse(data);
+    },
+    enabled: !!accessToken && readyToFetch,
+    retry: 0,
+  });
+};
+
+export const useCreatePassPick = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({
+      projectId,
+      pickId,
+      passType,
+    }: {
+      projectId: number;
+      pickId: string;
+      passType: PassPickPassType;
+    }) => {
+      const { data } = await apiClient.post(
+        createPassPickApiUrl(String(projectId)),
+        buildPassPickRequestPayload({ pickId, passType }),
+      );
+      return data;
+    },
+    onSuccess: (_data, variables) => {
+      queryClient.invalidateQueries({ queryKey: ["draftpicks"] });
+      queryClient.invalidateQueries({
+        queryKey: ["pass-pick-impact", variables.projectId],
+      });
+    },
   });
 };

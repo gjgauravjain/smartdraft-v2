@@ -120,7 +120,7 @@ const PlayerSelect = ({
           <DropdownMenuContent align="start" className="w-56">
             {talentOrderOptions.length === 0 && (
               <div className="px-2 py-1.5 text-xs text-muted-foreground">
-                No talent orders available
+                No talent order available
               </div>
             )}
             {talentOrderOptions.map((option) => (

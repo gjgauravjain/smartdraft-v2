@@ -132,6 +132,6 @@ export const TALENT_ORDER_TABS: TabOptionType[] = [
   },
   {
     value: "talent",
-    label: "Talent Orders",
+    label: "Talent Order",
   },
 ];

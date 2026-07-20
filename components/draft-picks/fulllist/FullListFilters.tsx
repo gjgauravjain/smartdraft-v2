@@ -67,7 +67,7 @@ const FullListFilters = ({
         onChange={onClubChange}
         placeholder="Select club"
         searchPlaceholder="Search club..."
-        emptyMessage="No talent orders found."
+        emptyMessage="No talent order found."
         triggerClassName="border bg-card px-2 shadow-none bg-transparent! h-7 text-xs font-normal hover:bg-transparent focus:ring-0 focus:ring-offset-0"
       />
 

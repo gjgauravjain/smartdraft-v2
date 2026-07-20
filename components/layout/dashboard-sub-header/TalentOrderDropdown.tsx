@@ -74,7 +74,7 @@ export function TalentOrderDropdown({
         label="Talent board"
         placeholder="Select order"
         searchPlaceholder="Search order..."
-        emptyMessage="No talent orders found."
+        emptyMessage="No talent order found."
         triggerClassName="border-transparent  w-full min-w-[118px] max-w-[118px]! px-2 shadow-none bg-transparent! h-7 text-xs font-normal hover:bg-transparent focus:ring-0 focus:ring-offset-0 text-foreground!"
       />
     </div>

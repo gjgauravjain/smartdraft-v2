@@ -55,7 +55,6 @@ const NextYearDraftPick = ({
                 "rd4List",
                 "rd5List",
               ]}
-              defaultCollapsedRoundIds={["rd5List"]}
             />
           </div>
           {!isMobile && (

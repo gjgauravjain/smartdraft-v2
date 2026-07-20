@@ -82,7 +82,7 @@ export function DraftAssetsChart({
   highlightOwnerName,
   className,
 }: DraftAssetsChartProps) {
-  const [sortDir, setSortDir] = React.useState<SortDirection>("asc");
+  const [sortDir, setSortDir] = React.useState<SortDirection>("desc");
 
   const years = React.useMemo(
     () => Array.from(new Set(data.map((d) => d.year))).sort(),

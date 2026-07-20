@@ -1,5 +1,6 @@
 import { TransactionMenuValue } from "./type";
 import FatherSonBidMatchModal from "@/components/transactions/father-son/FatherSonBidMatchModal";
+import ManualPickEditModal from "@/components/transactions/manual-pick-edit/ManualPickEditModal";
 import PassPickModal from "@/components/transactions/pass-pick/PassPickModal";
 
 type TransactionModalSwitchProps = {
@@ -39,7 +40,7 @@ const TransactionModalSwitch = ({
     return <></>;
   }
   if (type === "manual_pick_edit") {
-    return <></>;
+    return <ManualPickEditModal isOpen={true} onClose={onClose} />;
   }
   if (type === "pass_picks") {
     return <PassPickModal isOpen={true} onClose={onClose} />;

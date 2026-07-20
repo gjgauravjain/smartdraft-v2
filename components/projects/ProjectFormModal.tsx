@@ -55,12 +55,13 @@ function ProjectFormFields({
         label="Project name"
         placeholder="2026 Live Draft"
         required
+        italiseLabel
         className={fieldsClassName}
       />
 
       <div>
         <div className="mb-[7px] flex items-center justify-between">
-          <span className={labelClassName}>Description</span>
+          <span className={cn(labelClassName, "italic")}>Description</span>
           <span className="mb-0 text-[11px] tabular-nums text-[rgb(115,123,136)] dark:text-[rgb(130,143,158)]">
             {descriptionLength} / {PROJECT_DESCRIPTION_MAX_LENGTH}
           </span>
@@ -70,6 +71,7 @@ function ProjectFormFields({
           name="projectDescription"
           label=""
           placeholder="Primary board for the 2026 national draft."
+          italiseLabel
           className={cn(fieldsClassName, "[&_label]:hidden")}
         />
       </div>

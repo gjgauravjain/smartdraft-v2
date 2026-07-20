@@ -10,6 +10,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { cn } from "@/lib/utils";
 import RequiredLabel from "./RequiredLabel";
 
 interface FormTextFieldProps<T extends FieldValues> {
@@ -20,6 +21,7 @@ interface FormTextFieldProps<T extends FieldValues> {
   disabled?: boolean;
   className?: string;
   required?: boolean;
+  italiseLabel?: boolean;
 }
 
 export function FormTextField<T extends FieldValues>({
@@ -30,6 +32,7 @@ export function FormTextField<T extends FieldValues>({
   disabled,
   className,
   required,
+  italiseLabel,
 }: FormTextFieldProps<T>) {
   return (
     <FormField
@@ -38,7 +41,12 @@ export function FormTextField<T extends FieldValues>({
       render={({ field }) => (
         <FormItem className={className}>
           {label ? (
-            <FormLabel className="text-[11.5px] font-bold text-foreground uppercase tracking-wide">
+            <FormLabel
+              className={cn(
+                "text-[11.5px] font-bold text-foreground uppercase tracking-wide",
+                italiseLabel && "italic",
+              )}
+            >
               <RequiredLabel showRequired={required}>{label}</RequiredLabel>
             </FormLabel>
           ) : null}
@@ -46,7 +54,10 @@ export function FormTextField<T extends FieldValues>({
             <Input
               placeholder={placeholder}
               disabled={disabled}
-              className="bg-background border-border text-foreground text-[13px] h-9"
+              className={cn(
+                "bg-background border-border text-foreground text-[13px] h-9",
+                italiseLabel && "placeholder:italic",
+              )}
               {...field}
             />
           </FormControl>

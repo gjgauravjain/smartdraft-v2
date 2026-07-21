@@ -1,5 +1,6 @@
 import { TransactionMenuValue } from "./type";
 import FatherSonBidMatchModal from "@/components/transactions/father-son/FatherSonBidMatchModal";
+import PassPickModal from "@/components/transactions/pass-pick/PassPickModal";
 
 type TransactionModalSwitchProps = {
   type: TransactionMenuValue;
@@ -41,7 +42,7 @@ const TransactionModalSwitch = ({
     return <></>;
   }
   if (type === "pass_picks") {
-    return <></>;
+    return <PassPickModal isOpen={true} onClose={onClose} />;
   }
   if (type === "delete_unusable_picks") {
     return <></>;

@@ -24,7 +24,7 @@ export function DraftYearPickBoard({
   showAll,
   userTeamId,
   hoveredTeamId,
-  defaultCollapsedRoundIds = ["rd5List", "rd6List"],
+  defaultCollapsedRoundIds = [],
   visibleRoundIds,
 }: DraftYearPickBoardProps) {
   const isMobile = useIsMobile();

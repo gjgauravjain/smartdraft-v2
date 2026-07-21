@@ -49,6 +49,11 @@ export function DraftAssetsMobileList({
     return withTotals;
   }, [data, teams, years, sortDir, matchTeam]);
 
+  const maxTotal = React.useMemo(
+    () => Math.max(...rows.map((r) => r.total), 0),
+    [rows],
+  );
+
   return (
     <div className={cn("flex flex-col font-sans", className)}>
       <div className="flex flex-wrap items-center justify-between gap-2.5 px-3.5 pb-2 pt-3">
@@ -100,7 +105,7 @@ export function DraftAssetsMobileList({
           </div>
         </div>
       </div>
-      <div className="flex flex-col gap-2.5 px-3.5 pt-1 h-screen pb-100 overflow-auto">
+      <div className="flex flex-col gap-2.5 px-3.5 pt-1 h-screen pb-150 overflow-auto">
         {rows.map(({ row, team, total }) => (
           <TeamRow
             key={row.name}
@@ -108,6 +113,7 @@ export function DraftAssetsMobileList({
             team={team}
             years={years}
             total={total}
+            maxTotal={maxTotal}
             isHighlighted={
               !!highlightOwnerName &&
               row.name.toLowerCase() === highlightOwnerName.toLowerCase()

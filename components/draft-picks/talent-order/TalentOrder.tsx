@@ -42,7 +42,7 @@ const TalentOrder: React.FC<TalentOrderProps> = ({
         <span className="text-[10.5px] px-2.5 py-1 text-muted-foreground">
           {remainingCount} of {totalCount} remaining
         </span>
-        <FilterPlayerList playerList={playerList} className="pb-24" />
+        <FilterPlayerList playerList={playerList} className="pb-50" />
       </div>
     );
   }

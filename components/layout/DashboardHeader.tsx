@@ -90,7 +90,7 @@ export function DashboardHeader() {
             <Moon className="h-5 w-5" />
           )}
         </Button>
-        <NotificationBell count={3} />
+        <NotificationBell count={0} />
         <QuickLinks />
       </div>
     </header>

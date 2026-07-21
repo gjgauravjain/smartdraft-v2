@@ -9,6 +9,7 @@ interface TeamRowProps {
   team?: TeamType;
   years: string[];
   total: number;
+  maxTotal: number;
   isHighlighted: boolean;
 }
 
@@ -17,8 +18,11 @@ export function TeamRow({
   team,
   years,
   total,
+  maxTotal,
   isHighlighted,
 }: TeamRowProps) {
+  const barWidthPct = maxTotal > 0 ? (total / maxTotal) * 100 : 0;
+
   return (
     <div className="font-sans">
       <div className="mb-[5px] flex items-center gap-2">
@@ -48,10 +52,11 @@ export function TeamRow({
 
       <div
         className={cn(
-          "flex h-[22px] overflow-hidden rounded-md bg-muted",
+          "flex h-[22px] overflow-hidden rounded-md",
           isHighlighted &&
             "outline outline-[1.5px] -outline-offset-[1.5px] outline-primary",
         )}
+        style={{ width: `${barWidthPct}%` }}
       >
         {years.map((year, i) => {
           const value = row[year];

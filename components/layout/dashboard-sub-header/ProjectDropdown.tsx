@@ -26,8 +26,7 @@ export const ProjectDropdown = ({
   onNewProject,
 }: ProjectDropdownProps) => {
   const sortedProjects = useMemo(
-    () =>
-      [...projects].sort((a, b) => parseInt(b.year, 10) - parseInt(a.year, 10)),
+    () => [...projects].sort((a, b) => Number(b.id) - Number(a.id)),
     [projects],
   );
 

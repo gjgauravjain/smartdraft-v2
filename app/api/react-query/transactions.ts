@@ -1,4 +1,5 @@
 import {
+  createManualPickEditApi,
   createPassPickApiUrl,
   getTransactionsSum,
   passPickImpactApiUrl,
@@ -10,7 +11,9 @@ import {
   buildPassPickRequestPayload,
   transformPassPickImpactResponse,
 } from "../util/pass-pick";
+import { ManualPickEditReason } from "../type/manual-pick-edit";
 import { PassPickPassType } from "../type/pass-pick";
+import { buildManualPickEditRequestPayload } from "../util/manual-pick-edit";
 import { transformFatherSonBidImpactResponse } from "../util/transaction";
 
 type GetFatherSonBidImpactParams = {
@@ -101,6 +104,43 @@ export const useCreatePassPick = () => {
       queryClient.invalidateQueries({
         queryKey: ["pass-pick-impact", variables.projectId],
       });
+    },
+  });
+};
+
+export const useCreateManualPickEdit = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({
+      projectId,
+      pickLabel,
+      uniquePick,
+      newOwnerId,
+      viaOwnerId,
+      reason,
+    }: {
+      projectId: number;
+      pickLabel: string;
+      uniquePick: string;
+      newOwnerId: string;
+      viaOwnerId?: string;
+      reason: ManualPickEditReason;
+    }) => {
+      const { data } = await apiClient.post(
+        createManualPickEditApi(String(projectId)),
+        buildManualPickEditRequestPayload({
+          pickLabel,
+          uniquePick,
+          newOwnerId,
+          viaOwnerId,
+          reason,
+        }),
+      );
+      return data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["draftpicks"] });
     },
   });
 };

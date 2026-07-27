@@ -33,7 +33,7 @@ const OrderOfEntry = ({
   const gridTemplate = `${NAME_COL_WIDTH}px repeat(${maxCols}, ${COL_WIDTH}px)`;
 
   return (
-    <div className="flex h-[calc(100vh-180px)] min-h-0 flex-col p-4">
+    <div className="flex h-[calc(100vh-150px)] min-h-0 flex-col p-4">
       <div className="mb-2 flex shrink-0 items-center justify-end gap-1.75 text-[9.5px] font-semibold text-muted-foreground">
         <span>EARLY · high value</span>
         <span

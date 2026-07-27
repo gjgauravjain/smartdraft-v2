@@ -17,7 +17,9 @@ interface DraftRoundColumnProps {
   onToggleCollapse?: () => void;
   userTeamId?: number | string;
   hoveredTeamId?: number | string | null;
+  rowHeight?: number;
   className?: string;
+  bodyRef?: React.RefObject<HTMLDivElement | null> | null;
 }
 
 export function DraftRoundColumn({
@@ -27,7 +29,9 @@ export function DraftRoundColumn({
   onToggleCollapse,
   userTeamId,
   hoveredTeamId,
+  rowHeight,
   className,
+  bodyRef,
 }: DraftRoundColumnProps) {
   if (collapsed) {
     return (
@@ -70,14 +74,14 @@ export function DraftRoundColumn({
         className,
       )}
     >
-      <div className="flex py-2.5 px-3 items-center justify-between border-b border-border">
+      <div className="flex py-1 px-3 items-center justify-between border-b border-border">
         <div>
           <h3 className="text-xs font-bold leading-tight text-foreground">
-            {title}
+            {title}{" "}
+            <span className="text-muted-foreground">
+              ({picks.length} picks)
+            </span>
           </h3>
-          <p className="text-[10px] font-semibold text-muted-foreground">
-            {picks.length} picks
-          </p>
         </div>
         <div className="flex items-center gap-1">
           <Button
@@ -93,13 +97,13 @@ export function DraftRoundColumn({
         </div>
       </div>
 
-      <div className="grid grid-cols-[2.75rem_5.5rem_minmax(0,1fr)] items-center border-b border-border bg-table-header py-1.25 px-3 text-[9px] font-bold uppercase tracking-wider text-text4">
+      <div className="grid grid-cols-[2.75rem_5.5rem_minmax(0,1fr)] items-center border-b border-border bg-table-header py-0 px-3 text-[9px] font-bold uppercase tracking-wider text-text4">
         <span>#</span>
         <span>Team</span>
         <span className="text-right">Player / Pts</span>
       </div>
 
-      <div className="min-h-0 flex-1 overflow-y-auto">
+      <div ref={bodyRef} className="min-h-0 flex-1 overflow-y-auto">
         {picks.length ? (
           picks.map((pick) => {
             const belongsToUserTeam =
@@ -116,8 +120,13 @@ export function DraftRoundColumn({
             return (
               <div
                 key={`${pick.draftRound}-${pick.overallPick}-${pick.id}`}
+                style={
+                  rowHeight
+                    ? { height: `${rowHeight}px`, minHeight: `${rowHeight}px` }
+                    : undefined
+                }
                 className={cn(
-                  "grid grid-cols-[2.75rem_5.5rem_minmax(0,1fr)] items-center border-b border-border/70 bg-card px-3 py-1.75 text-xs text-foreground transition-colors",
+                  "grid grid-cols-[2.75rem_5.5rem_minmax(0,1fr)] items-center border-b border-border/70 bg-card px-3 text-xs text-foreground transition-colors",
                   (belongsToUserTeam || isHoveredTeam) &&
                     "bg-highlight-background",
                   dimForHover && "opacity-40",
@@ -138,10 +147,10 @@ export function DraftRoundColumn({
                     <img
                       src={pick.image}
                       alt={pick.currentOwnerShort}
-                      className="h-6 w-6 shrink-0 rounded-full border border-border"
+                      className="h-3 w-3 shrink-0 rounded-full border border-border"
                     />
                   ) : (
-                    <span className="h-6 w-6 shrink-0 rounded-full border border-border bg-muted" />
+                    <span className="h-3 w-3 shrink-0 rounded-full border border-border bg-muted" />
                   )}
                   <span
                     className={cn(

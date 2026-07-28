@@ -1,12 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect } from "react";
 import { DraftYearType } from "@/app/api/type/draftpicks";
 import { DraftRoundColumn } from "@/components/draft-picks/DraftRoundColumn";
 import { DraftRoundTabBar } from "@/components/draft-picks/DraftRoundTabBar";
 import { DraftRoundMobileList } from "@/components/draft-picks/DraftRoundMobileList";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { useRowHeight } from "./hook";
 import { DRAFT_ROUNDS, filterPicks } from "./util";
+import { useState } from "react";
 
 interface DraftYearPickBoardProps {
   data?: DraftYearType;
@@ -28,6 +30,8 @@ export function DraftYearPickBoard({
   visibleRoundIds,
 }: DraftYearPickBoardProps) {
   const isMobile = useIsMobile();
+  const { containerRef, rowHeight } = useRowHeight();
+
   const [collapsedRoundIds, setCollapsedRoundIds] = useState<
     Array<keyof DraftYearType>
   >(defaultCollapsedRoundIds);
@@ -74,10 +78,14 @@ export function DraftYearPickBoard({
     );
   }
 
+  const firstExpandedIndex = visibleRounds.findIndex(
+    (r) => !collapsedRoundIds.includes(r.id),
+  );
+
   return (
     <div className="w-full overflow-x-auto bg-background p-4">
       <div className="flex min-w-max gap-4">
-        {visibleRounds.map((round) => (
+        {visibleRounds.map((round, index) => (
           <DraftRoundColumn
             key={round.id}
             title={round.title}
@@ -90,6 +98,8 @@ export function DraftYearPickBoard({
             onToggleCollapse={() => toggleRound(round.id)}
             userTeamId={userTeamId}
             hoveredTeamId={hoveredTeamId}
+            rowHeight={rowHeight}
+            bodyRef={index === firstExpandedIndex ? containerRef : null}
           />
         ))}
       </div>

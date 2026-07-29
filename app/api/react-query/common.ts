@@ -1,8 +1,13 @@
 import apiClient from "@/lib/api-client";
-import { getFlagApiUrl, getUserInfo } from "@/lib/api-constant";
+import {
+  getAddTradeToolTip,
+  getFlagApiUrl,
+  getUserInfo,
+} from "@/lib/api-constant";
 import { useAuth } from "@/store/useStore";
 import { useQuery } from "@tanstack/react-query";
 import { transformTeamsData, transformUserDetails } from "../util/common";
+import { transformFlagTooltip } from "../util/flags";
 
 const fetchTeams = async () => {
   const { data } = await apiClient.get(getFlagApiUrl);
@@ -16,6 +21,21 @@ export const useGetTeams = () => {
     queryKey: ["teams"],
     queryFn: fetchTeams,
     enabled: !!accessToken,
+    staleTime: 5 * 60 * 1000,
+    retry: 0,
+  });
+};
+
+export const useGetFlagTooltip = (projectId?: number) => {
+  const { accessToken } = useAuth();
+
+  return useQuery({
+    queryKey: ["flagTooltip", projectId],
+    queryFn: async () => {
+      const { data } = await apiClient.get(getAddTradeToolTip(projectId!));
+      return transformFlagTooltip(data);
+    },
+    enabled: !!accessToken && !!projectId,
     staleTime: 5 * 60 * 1000,
     retry: 0,
   });

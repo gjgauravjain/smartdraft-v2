@@ -11,6 +11,8 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { DashboardSubHeader } from "../layout/DashboardSubHeader";
 import { ProjectType } from "@/app/api/type/projects";
 import { SearchableDropdownOption } from "../ui/searchable-dropdown";
+import { useGetFlagTooltip } from "@/app/api/react-query/common";
+import { useMemo } from "react";
 
 export interface DraftPicksToolbarProps {
   teams?: TeamType[];
@@ -44,6 +46,15 @@ export function DraftPicksToolbar({
   talentOrderOptions,
 }: DraftPicksToolbarProps) {
   const { setHoveredTeamId } = useStore();
+  const { data: flagTooltip = [] } = useGetFlagTooltip(
+    selectedProject?.id ? Number(selectedProject.id) : undefined,
+  );
+
+  const tooltipByTeamId = useMemo(() => {
+    return new Map(
+      flagTooltip.map((tooltip) => [tooltip.teamId.toString(), tooltip]),
+    );
+  }, [flagTooltip]);
 
   const isMobile = useIsMobile();
 
@@ -79,6 +90,7 @@ export function DraftPicksToolbar({
             key={team.id}
             team={team}
             selected={team.id === selectedTeamId}
+            tooltipData={tooltipByTeamId.get(team.id)}
             onClick={() => {
               if (team.id === selectedTeamId) {
                 onTeamSelect?.("");

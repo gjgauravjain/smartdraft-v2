@@ -3,6 +3,7 @@
 import { TransactionMenuValue } from "./type";
 import FatherSonBidMatchModal from "@/components/transactions/father-son/FatherSonBidMatchModal";
 import ManualPickEditModal from "@/components/transactions/manual-pick-edit/ManualPickEditModal";
+import EnterDraftModeModal from "@/components/transactions/draft-mode/EnterDraftModeModal";
 import PassPickModal from "@/components/transactions/pass-pick/PassPickModal";
 import { useAuth } from "@/store/useStore";
 import { hasRebuildDraftEditCapability } from "@/lib/capabilities";
@@ -56,7 +57,7 @@ const TransactionModalSwitch = ({
     return <PassPickModal isOpen={true} onClose={onClose} />;
   }
   if (type === "delete_unusable_picks") {
-    return <></>;
+    return <EnterDraftModeModal isOpen={true} onClose={onClose} />;
   }
 
   return null;

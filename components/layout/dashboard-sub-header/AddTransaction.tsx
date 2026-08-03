@@ -1,6 +1,6 @@
 "use client";
 
-import { TRANSACTION_MENU_OPTIONS } from "./util";
+import { getTransactionMenuOptions } from "./util";
 import {
   Popover,
   PopoverContent,
@@ -13,6 +13,7 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 import { BottomSheet } from "@/components/common/BottomSheet";
 import { BottomSheetOption } from "@/components/common/BottomSheetOption";
+import { useAuth } from "@/store/useStore";
 
 type AddTransactionProps = {
   menuOpen: boolean;
@@ -26,6 +27,8 @@ const AddTransaction = ({
   handleMenuSelect,
 }: AddTransactionProps) => {
   const isMobile = useIsMobile();
+  const { user } = useAuth();
+  const transactionMenuOptions = getTransactionMenuOptions(user);
 
   const triggerButton = (
     <Button
@@ -53,7 +56,7 @@ const AddTransaction = ({
           title="New transaction"
         >
           <div className="flex flex-col gap-1.5 px-3 py-2.5">
-            {TRANSACTION_MENU_OPTIONS.map((option) => (
+            {transactionMenuOptions.map((option) => (
               <BottomSheetOption
                 key={option.id}
                 label={option.label}
@@ -75,7 +78,7 @@ const AddTransaction = ({
       <PopoverTrigger asChild>{triggerButton}</PopoverTrigger>
       <PopoverContent align="end" className="w-64 p-1">
         <div className="flex flex-col">
-          {TRANSACTION_MENU_OPTIONS.map((option) => (
+          {transactionMenuOptions.map((option) => (
             <button
               key={option.id}
               type="button"

@@ -2,6 +2,10 @@ import { TransactionMenuValue } from "./type";
 import FatherSonBidMatchModal from "@/components/transactions/father-son/FatherSonBidMatchModal";
 import ManualPickEditModal from "@/components/transactions/manual-pick-edit/ManualPickEditModal";
 import PassPickModal from "@/components/transactions/pass-pick/PassPickModal";
+import { hasRebuildDraftEditCapability } from "@/lib/capabilities";
+import { useAuth } from "@/store/useStore";
+import { useEffect } from "react";
+import { toast } from "sonner";
 
 type TransactionModalSwitchProps = {
   type: TransactionMenuValue;
@@ -11,6 +15,15 @@ const TransactionModalSwitch = ({
   type,
   onClose,
 }: TransactionModalSwitchProps) => {
+  const { user } = useAuth();
+
+  useEffect(() => {
+    if (type === "manual_pick_edit" && !hasRebuildDraftEditCapability(user)) {
+      toast.error("You do not have permission to edit draft picks.");
+      onClose();
+    }
+  }, [type, user, onClose]);
+
   if (!type) return null;
   if (type === "completed_trade") {
     return <></>;
@@ -40,6 +53,8 @@ const TransactionModalSwitch = ({
     return <></>;
   }
   if (type === "manual_pick_edit") {
+    if (!hasRebuildDraftEditCapability(user)) return null;
+
     return <ManualPickEditModal isOpen={true} onClose={onClose} />;
   }
   if (type === "pass_picks") {

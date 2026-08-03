@@ -20,7 +20,7 @@ export const ManualPickEditFields = ({
   sameOwnerError,
 }: ManualPickEditFieldsProps) => {
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col gap-4">
       <FormSelectField
         label="Select pick to edit owner"
         control={form.control}

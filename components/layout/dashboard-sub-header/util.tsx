@@ -1,4 +1,6 @@
+import { UserDetailsType } from "@/app/api/type/common";
 import { ProjectType } from "@/app/api/type/projects";
+import { hasRebuildDraftEditCapability } from "@/lib/capabilities";
 import {
   ArrowLeftRight,
   Users,
@@ -95,3 +97,15 @@ export const TRANSACTION_MENU_OPTIONS = [
     icon: <LogIn />,
   },
 ] as const;
+
+export const getTransactionMenuOptions = (
+  user: UserDetailsType | null | undefined,
+) => {
+  const hasDraftEdit = hasRebuildDraftEditCapability(user);
+
+  return TRANSACTION_MENU_OPTIONS.filter(
+    (option) =>
+      (option.value !== "manual_pick_edit" && option.value !== "pass_picks") ||
+      hasDraftEdit,
+  );
+};

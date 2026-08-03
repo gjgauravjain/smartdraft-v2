@@ -40,8 +40,10 @@ export const userGetDraftPicks = ({
 
 export const useGetAllDraftPicksList = ({
   projectId,
+  enabled = true,
 }: {
   projectId: number;
+  enabled?: boolean;
 }) => {
   const { accessToken } = useAuth();
 
@@ -51,7 +53,7 @@ export const useGetAllDraftPicksList = ({
       const { data } = await apiClient.get(getAllPicks(projectId));
       return transformAllPicks(data);
     },
-    enabled: !!accessToken && !!projectId,
+    enabled: !!accessToken && !!projectId && enabled,
     staleTime: 5 * 60 * 1000,
     retry: 0,
   });

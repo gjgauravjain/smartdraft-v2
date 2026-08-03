@@ -18,7 +18,24 @@ import {
   passPickFormSchema,
 } from "./util";
 
-export const usePassPickModal = ({ onClose }: { onClose: () => void }) => {
+const getErrorMessage = (error: unknown, fallback: string) => {
+  if (axios.isAxiosError(error)) {
+    const message =
+      error.response?.data?.detail || error.response?.data?.message;
+    if (typeof message === "string") return message;
+  }
+
+  if (error instanceof Error && error.message) return error.message;
+  return fallback;
+};
+
+export const usePassPickModal = ({
+  isOpen,
+  onClose,
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+}) => {
   const { selectedProject } = useStore();
   const projectId = Number(selectedProject?.id || "0");
 
@@ -33,7 +50,7 @@ export const usePassPickModal = ({ onClose }: { onClose: () => void }) => {
   });
 
   const { data: allDraftPicks = [], isLoading: picksLoading } =
-    useGetAllDraftPicksList({ projectId });
+    useGetAllDraftPicksList({ projectId, enabled: isOpen });
   const { data: teams = [] } = useGetTeams();
 
   const teamNamesById = useMemo(() => {
@@ -53,9 +70,17 @@ export const usePassPickModal = ({ onClose }: { onClose: () => void }) => {
     projectId,
     pickId,
     passType: selectedPassPick as PassPickPassType,
+    enabled: isOpen && readyToFetch,
   });
 
   const createPassPick = useCreatePassPick();
+
+  const impactErrorMessage = impactQuery.error
+    ? getErrorMessage(
+        impactQuery.error,
+        "Failed to load pass impact preview",
+      )
+    : null;
 
   const canPass =
     readyToFetch &&
@@ -83,14 +108,7 @@ export const usePassPickModal = ({ onClose }: { onClose: () => void }) => {
           handleClose();
         },
         onError: (error) => {
-          if (axios.isAxiosError(error)) {
-            const message =
-              error.response?.data?.detail || error.response?.data?.message;
-            toast.error(
-              typeof message === "string" ? message : "Failed to pass pick(s)",
-            );
-          }
-          toast.error("Failed to pass pick(s)");
+          toast.error(getErrorMessage(error, "Failed to pass pick(s)"));
         },
       },
     );
@@ -104,7 +122,7 @@ export const usePassPickModal = ({ onClose }: { onClose: () => void }) => {
     selectedPassPick,
     impactData: impactQuery.data ?? null,
     impactLoading: impactQuery.isFetching,
-    impactError: impactQuery.error ?? null,
+    impactError: impactErrorMessage,
     canPass,
     isSubmitting: createPassPick.isPending,
     handleClose,

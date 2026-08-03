@@ -36,7 +36,7 @@ const PassPickModal = ({ isOpen, onClose }: PassPickModalProps) => {
     handleClose,
     handleSubmit,
     selectedProject,
-  } = usePassPickModal({ onClose });
+  } = usePassPickModal({ isOpen, onClose });
 
   const readyToShowPreview = Boolean(pickId && selectedPassPick);
 
@@ -55,7 +55,7 @@ const PassPickModal = ({ isOpen, onClose }: PassPickModalProps) => {
       selectedPassPick={selectedPassPick}
       impactData={impactData}
       impactLoading={impactLoading}
-      impactError={impactError?.message ?? null}
+      impactError={impactError}
       readyToShowPreview={readyToShowPreview}
     />
   );

@@ -6,6 +6,7 @@ import { hasRebuildDraftEditCapability } from "@/lib/capabilities";
 import { useAuth } from "@/store/useStore";
 import { useEffect } from "react";
 import { toast } from "sonner";
+import { TRANSACTION_MENU_OPTIONS_VALUE } from "./util";
 
 type TransactionModalSwitchProps = {
   type: TransactionMenuValue;
@@ -18,49 +19,52 @@ const TransactionModalSwitch = ({
   const { user } = useAuth();
 
   useEffect(() => {
-    if (type === "manual_pick_edit" && !hasRebuildDraftEditCapability(user)) {
+    if (
+      type === TRANSACTION_MENU_OPTIONS_VALUE.MANUAL_PICK_EDIT &&
+      !hasRebuildDraftEditCapability(user)
+    ) {
       toast.error("You do not have permission to edit draft picks.");
       onClose();
     }
   }, [type, user, onClose]);
 
   if (!type) return null;
-  if (type === "completed_trade") {
+  if (type === TRANSACTION_MENU_OPTIONS_VALUE.COMPLETED_TRADE) {
     return <></>;
   }
-  if (type === "multi_completed_trade") {
+  if (type === TRANSACTION_MENU_OPTIONS_VALUE.MULTI_COMPLETED_TRADE) {
     return <></>;
   }
-  if (type === "priority_pick") {
+  if (type === TRANSACTION_MENU_OPTIONS_VALUE.PRIORITY_PICK) {
     return <></>;
   }
-  if (type === "free_agent_compensation") {
+  if (type === TRANSACTION_MENU_OPTIONS_VALUE.FREE_AGENT_COMPENSATION) {
     return <></>;
   }
-  if (type === "apply_compensation") {
+  if (type === TRANSACTION_MENU_OPTIONS_VALUE.APPLY_COMPENSATION) {
     return <></>;
   }
-  if (type === "academy_bid_match") {
+  if (type === TRANSACTION_MENU_OPTIONS_VALUE.ACADEMY_BID_MATCH) {
     return <></>;
   }
-  if (type === "father_son_bid_match") {
+  if (type === TRANSACTION_MENU_OPTIONS_VALUE.FATHER_SON_BID_MATCH) {
     return <FatherSonBidMatchModal isOpen={true} onClose={onClose} />;
   }
-  if (type === "nga_bid_match") {
+  if (type === TRANSACTION_MENU_OPTIONS_VALUE.NGA_BID_MATCH) {
     return <></>;
   }
-  if (type === "draft_night_selection") {
+  if (type === TRANSACTION_MENU_OPTIONS_VALUE.DRAFT_NIGHT_SELECTION) {
     return <></>;
   }
-  if (type === "manual_pick_edit") {
+  if (type === TRANSACTION_MENU_OPTIONS_VALUE.MANUAL_PICK_EDIT) {
     if (!hasRebuildDraftEditCapability(user)) return null;
 
     return <ManualPickEditModal isOpen={true} onClose={onClose} />;
   }
-  if (type === "pass_picks") {
+  if (type === TRANSACTION_MENU_OPTIONS_VALUE.PASS_PICKS) {
     return <PassPickModal isOpen={true} onClose={onClose} />;
   }
-  if (type === "delete_unusable_picks") {
+  if (type === TRANSACTION_MENU_OPTIONS_VALUE.DELETE_UNUSABLE_PICKS) {
     return <></>;
   }
 

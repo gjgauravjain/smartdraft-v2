@@ -1,6 +1,5 @@
 import { UserDetailsType } from "@/app/api/type/common";
 
-/** Permission codename from rebuild draft-edit capability (#356). */
 export const REBUILD_DRAFT_EDIT_CAPABILITY = "rebuild_draft_edit";
 
 export const hasRebuildDraftEditCapability = (

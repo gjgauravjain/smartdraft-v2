@@ -34,7 +34,7 @@ const ManualPickEditModal = ({ isOpen, onClose }: ManualPickEditModalProps) => {
     handleClose,
     handleSubmit,
     selectedProject,
-  } = useManualPickEditModal({ onClose });
+  } = useManualPickEditModal({ onClose, isOpen });
 
   const onOpenChange = (open: boolean) => {
     if (!open) handleClose();

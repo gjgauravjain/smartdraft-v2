@@ -18,8 +18,10 @@ import {
 
 export const useManualPickEditModal = ({
   onClose,
+  isOpen,
 }: {
   onClose: () => void;
+  isOpen: boolean;
 }) => {
   const { selectedProject } = useStore();
   const projectId = Number(selectedProject?.id || "0");
@@ -29,13 +31,13 @@ export const useManualPickEditModal = ({
     resolver: zodResolver(manualPickEditFormSchema),
   });
 
-  const [pickId = "", newOwnerId = "", reason = ""] = useWatch({
+  const [pickId = "", newOwnerId = ""] = useWatch({
     control: form.control,
-    name: ["pickId", "newOwnerId", "reason"],
+    name: ["pickId", "newOwnerId"],
   });
 
   const { data: allDraftPicks = [], isLoading: picksLoading } =
-    useGetAllDraftPicksList({ projectId });
+    useGetAllDraftPicksList({ projectId, enabled: isOpen });
   const { data: teams = [], isLoading: teamsLoading } = useGetTeams();
 
   const picksById = useMemo(() => {
@@ -60,10 +62,7 @@ export const useManualPickEditModal = ({
     pickId && newOwnerId && newOwnerId === currentOwnerId,
   );
 
-  const canSave =
-    Boolean(pickId && newOwnerId && reason) &&
-    !sameOwnerError &&
-    (reason === "Carry Over Trade" || reason === "Other");
+  const canSave = Boolean(pickId && newOwnerId) && !sameOwnerError;
 
   const handleClose = () => {
     form.reset(MANUAL_PICK_EDIT_DEFAULT_VALUES);

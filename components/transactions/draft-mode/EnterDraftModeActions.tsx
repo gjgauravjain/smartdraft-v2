@@ -1,12 +1,12 @@
 import { Button } from "@/components/ui/button";
 
-export const PassPickActions = ({
+export const EnterDraftModeActions = ({
   handleClose,
-  canPass,
+  canSubmit,
   isSubmitting,
 }: {
   handleClose: () => void;
-  canPass: boolean;
+  canSubmit: boolean;
   isSubmitting: boolean;
 }) => {
   return (
@@ -19,8 +19,8 @@ export const PassPickActions = ({
       >
         Cancel
       </Button>
-      <Button type="submit" disabled={!canPass} isLoading={isSubmitting}>
-        Pass picks
+      <Button type="submit" disabled={!canSubmit} isLoading={isSubmitting}>
+        Enter Draft Mode
       </Button>
     </div>
   );

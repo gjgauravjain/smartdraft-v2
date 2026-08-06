@@ -112,11 +112,14 @@ export const TRANSACTION_MENU_OPTIONS = [
   },
 ] as const;
 
-export const getTransactionMenuOptions = (user: UserDetailsType | null) =>
-  TRANSACTION_MENU_OPTIONS.filter((option) => {
-    if (option.value === TRANSACTION_MENU_OPTIONS_VALUE.MANUAL_PICK_EDIT) {
-      return hasRebuildDraftEditCapability(user);
-    }
+export const getTransactionMenuOptions = (
+  user: UserDetailsType | null | undefined,
+) => {
+  const hasDraftEdit = hasRebuildDraftEditCapability(user);
 
-    return true;
-  });
+  return TRANSACTION_MENU_OPTIONS.filter(
+    (option) =>
+      (option.value !== "manual_pick_edit" && option.value !== "pass_picks") ||
+      hasDraftEdit,
+  );
+};

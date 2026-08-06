@@ -55,12 +55,14 @@ type GetPassPickImpactParams = {
   projectId: number;
   pickId: string;
   passType: PassPickPassType;
+  enabled?: boolean;
 };
 
 export const useGetPassPickImpact = ({
   projectId,
   pickId,
   passType,
+  enabled = true,
 }: GetPassPickImpactParams) => {
   const { accessToken } = useAuth();
   const readyToFetch = Boolean(projectId && pickId && passType);
@@ -75,7 +77,7 @@ export const useGetPassPickImpact = ({
 
       return transformPassPickImpactResponse(data);
     },
-    enabled: !!accessToken && readyToFetch,
+    enabled: !!accessToken && readyToFetch && enabled,
     retry: 0,
   });
 };

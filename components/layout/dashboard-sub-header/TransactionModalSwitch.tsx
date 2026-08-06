@@ -1,3 +1,5 @@
+"use client";
+
 import { TransactionMenuValue } from "./type";
 import FatherSonBidMatchModal from "@/components/transactions/father-son/FatherSonBidMatchModal";
 import ManualPickEditModal from "@/components/transactions/manual-pick-edit/ManualPickEditModal";
@@ -12,6 +14,7 @@ type TransactionModalSwitchProps = {
   type: TransactionMenuValue;
   onClose: () => void;
 };
+
 const TransactionModalSwitch = ({
   type,
   onClose,
@@ -56,6 +59,7 @@ const TransactionModalSwitch = ({
   if (type === TRANSACTION_MENU_OPTIONS_VALUE.DRAFT_NIGHT_SELECTION) {
     return <></>;
   }
+
   if (type === TRANSACTION_MENU_OPTIONS_VALUE.MANUAL_PICK_EDIT) {
     if (!hasRebuildDraftEditCapability(user)) return null;
 

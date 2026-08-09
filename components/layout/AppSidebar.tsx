@@ -158,6 +158,7 @@ export function AppSidebar() {
   const {
     menuSections,
     orgAdminItem,
+    showOrgAdmin,
     superadminItems,
     isActiveLink,
     user,
@@ -240,29 +241,31 @@ export function AppSidebar() {
 
         <SidebarFooter className="border-t border-sidebar-border bg-sidebar px-1.5 py-2">
           <SidebarMenu className="gap-0">
-            <SidebarMenuItem>
-              <SidebarMenuButton
-                asChild
-                size="sm"
-                tooltip={orgAdminItem.label}
-                className={cn(
-                  "h-7 rounded-md transition-all",
-                  isActiveLink(orgAdminItem.url)
-                    ? "bg-primary/10 text-primary hover:bg-primary/20 dark:bg-sidebar-accent dark:text-sidebar-accent-foreground"
-                    : "text-sidebar-foreground hover:bg-sidebar-accent/50",
-                )}
-              >
-                <Link
-                  href={orgAdminItem.url}
-                  className="flex items-center gap-2"
+            {showOrgAdmin && (
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  asChild
+                  size="sm"
+                  tooltip={orgAdminItem.label}
+                  className={cn(
+                    "h-7 rounded-md transition-all",
+                    isActiveLink(orgAdminItem.url)
+                      ? "bg-primary/10 text-primary hover:bg-primary/20 dark:bg-sidebar-accent dark:text-sidebar-accent-foreground"
+                      : "text-sidebar-foreground hover:bg-sidebar-accent/50",
+                  )}
                 >
-                  <OrgAdminIcon className="h-3.5 w-3.5 shrink-0" />
-                  <span className="text-xs font-medium">
-                    {orgAdminItem.label}
-                  </span>
-                </Link>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
+                  <Link
+                    href={orgAdminItem.url}
+                    className="flex items-center gap-2"
+                  >
+                    <OrgAdminIcon className="h-3.5 w-3.5 shrink-0" />
+                    <span className="text-xs font-medium">
+                      {orgAdminItem.label}
+                    </span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            )}
 
             {superadminItems.length > 0 && (
               <>

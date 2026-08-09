@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { OrgMemberType } from "@/app/api/type/org-admin";
+import { OrgMemberType, PendingAction } from "@/app/api/type/org-admin";
 import { DotsIcon } from "@/components/common/icons";
 import { Button } from "@/components/ui/button";
 import {
@@ -19,8 +19,6 @@ import { cn } from "@/lib/utils";
 import { Shield, Unlink } from "lucide-react";
 import { OrgMemberActionsSheet } from "./OrgMemberActionsSheet";
 import { getMemberFullName, isOrgAdminMember } from "./util";
-
-type PendingAction = "make_admin" | "revoke_admin" | "remove" | null;
 
 type OrgMemberActionsProps = {
   member: OrgMemberType;
@@ -55,9 +53,11 @@ export const OrgMemberActions = ({
   const handleConfirm = () => {
     if (pendingAction === "make_admin") {
       onMakeAdmin(member);
-    } else if (pendingAction === "revoke_admin") {
+    }
+    if (pendingAction === "revoke_admin") {
       onRevokeAdmin(member);
-    } else if (pendingAction === "remove") {
+    }
+    if (pendingAction === "remove") {
       onRemove(member);
     }
 

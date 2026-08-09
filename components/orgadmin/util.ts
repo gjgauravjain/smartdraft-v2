@@ -1,6 +1,7 @@
 import dayjs from "dayjs";
 import { OrgMemberType, OrgMemberState } from "@/app/api/type/org-admin";
 import { ORGANISATION_ADMIN_ROLE } from "@/lib/org-admin";
+import { SearchableDropdownOption } from "../ui/searchable-dropdown";
 
 export type OrgAdminFilterState = {
   search: string;
@@ -88,3 +89,16 @@ export const getUpdatedRoles = (
 
   return currentRoles.filter((role) => role !== ORGANISATION_ADMIN_ROLE);
 };
+
+export const ROLE_OPTIONS: SearchableDropdownOption[] = [
+  { value: "all", label: "All roles" },
+  { value: "org_admin", label: "Org admin" },
+  { value: "member", label: "Member" },
+];
+
+export const STATE_OPTIONS: SearchableDropdownOption[] = [
+  { value: "all", label: "All states" },
+  { value: "active", label: "Active" },
+  { value: "pending", label: "Pending" },
+  { value: "inactive", label: "Inactive" },
+];

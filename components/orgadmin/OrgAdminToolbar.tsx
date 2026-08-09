@@ -5,23 +5,10 @@ import {
   SearchableDropdown,
   SearchableDropdownOption,
 } from "@/components/ui/searchable-dropdown";
-import { OrgAdminFilterState } from "./util";
+import { OrgAdminFilterState, ROLE_OPTIONS, STATE_OPTIONS } from "./util";
 
 const filterTriggerClassName =
   "h-auto w-auto max-w-none flex-row items-center rounded-md px-[11px] py-[6px] text-[11.5px] font-semibold text-muted-foreground border-border bg-card hover:bg-muted hover:text-muted-foreground shadow-none data-[state=open]:bg-muted data-[state=open]:text-muted-foreground";
-
-const roleOptions: SearchableDropdownOption[] = [
-  { value: "all", label: "All roles" },
-  { value: "org_admin", label: "Org admin" },
-  { value: "member", label: "Member" },
-];
-
-const stateOptions: SearchableDropdownOption[] = [
-  { value: "all", label: "All states" },
-  { value: "active", label: "Active" },
-  { value: "pending", label: "Pending" },
-  { value: "inactive", label: "Inactive" },
-];
 
 type OrgAdminToolbarProps = {
   filters: OrgAdminFilterState;
@@ -55,7 +42,7 @@ export const OrgAdminToolbar = ({
 
     <SearchableDropdown
       value={filters.roleFilter}
-      options={roleOptions}
+      options={ROLE_OPTIONS}
       onChange={(value) =>
         onRoleFilterChange(value as OrgAdminFilterState["roleFilter"])
       }
@@ -67,7 +54,7 @@ export const OrgAdminToolbar = ({
 
     <SearchableDropdown
       value={filters.stateFilter}
-      options={stateOptions}
+      options={STATE_OPTIONS}
       onChange={(value) =>
         onStateFilterChange(value as OrgAdminFilterState["stateFilter"])
       }

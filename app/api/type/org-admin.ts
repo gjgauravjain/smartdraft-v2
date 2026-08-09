@@ -12,3 +12,4 @@ export type OrgMemberType = {
 };
 
 export type OrgMemberState = "active" | "inactive" | "pending";
+export type PendingAction = "make_admin" | "revoke_admin" | "remove" | null;

@@ -10,8 +10,8 @@ import {
   transformFlatSpotsToGrid,
   transformGridToFlatSpots,
 } from "@/app/api/util/roster-spots";
-import { useStore } from "@/store/useStore";
-import axios from "axios";
+import { promptSaveToCsv } from "@/components/transactions/upload-csv/prompt";
+import { UploadCsvTransactionType, useStore } from "@/store/useStore";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 import { getErrorMessage } from "@/lib/api-client";
@@ -23,7 +23,7 @@ export const useEnterDraftModeModal = ({
   isOpen: boolean;
   onClose: () => void;
 }) => {
-  const { selectedProject, setUploadCsvTransactionTypeModal } = useStore();
+  const { selectedProject } = useStore();
   const projectId = Number(selectedProject?.id || "0");
 
   const { data: initialSpots = [], isLoading: spotsLoading } =
@@ -79,17 +79,6 @@ export const useEnterDraftModeModal = ({
     onClose();
   };
 
-  const commitDraftMode = async () => {
-    await enterDraftMode.mutateAsync({ projectId });
-
-    toast.success("Draft mode entered successfully");
-    setUploadCsvTransactionTypeModal({
-      transactionType: "Enter Draft Mode",
-      payload: {},
-    });
-    handleClose();
-  };
-
   const handleSubmit = async () => {
     if (!projectId || spotsLoading || !initialSpots.length) return;
 
@@ -99,15 +88,29 @@ export const useEnterDraftModeModal = ({
     ) as RosterSpotApi[];
 
     try {
+      const csvPrompts: UploadCsvTransactionType[] = [];
+
       if (changedSpots.length > 0) {
         await updateRosterSpots.mutateAsync({
           projectId,
           spots: changedSpots,
         });
         toast.success("List spots updated");
+        csvPrompts.push({
+          transactionType: "Update Roster Spots",
+          payload: currentSpots,
+        });
       }
 
-      await commitDraftMode();
+      await enterDraftMode.mutateAsync({ projectId });
+      toast.success("Draft mode entered successfully");
+      csvPrompts.push({
+        transactionType: "Enter Draft Mode",
+        payload: {},
+      });
+
+      promptSaveToCsv(...csvPrompts);
+      handleClose();
     } catch (error) {
       toast.error(getErrorMessage(error, "Failed to enter draft mode"));
     }

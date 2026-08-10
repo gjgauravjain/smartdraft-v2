@@ -11,6 +11,7 @@ import {
 import { useAuth, useStore } from "@/store/useStore";
 import { setApiAccessToken } from "@/lib/api-client";
 import { useGetUserDetails } from "@/app/api/react-query/common";
+import UploadCsvModalHost from "@/components/transactions/upload-csv/UploadCsvModalHost";
 import { Toaster } from "sonner";
 
 interface AuthManagerProps {
@@ -102,6 +103,7 @@ export function AuthManager({ children }: AuthManagerProps) {
         Get Token
       </button>
       <Toaster />
+      <UploadCsvModalHost />
       {children}
     </AuthContext.Provider>
   );

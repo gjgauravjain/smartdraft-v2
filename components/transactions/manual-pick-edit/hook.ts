@@ -8,6 +8,8 @@ import axios from "axios";
 import { useMemo } from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { toast } from "sonner";
+import { promptSaveToCsv } from "@/components/transactions/upload-csv/prompt";
+import { buildManualPickEditRequestPayload } from "@/app/api/util/manual-pick-edit";
 import { ManualPickEditFormValues } from "./type";
 import {
   buildManualPickEditPickOptions,
@@ -78,35 +80,44 @@ export const useManualPickEditModal = ({
       return;
     }
 
-    createManualPickEdit.mutate(
-      {
-        projectId,
-        pickLabel: pick.label,
-        uniquePick: pick.unique,
-        newOwnerId: values.newOwnerId,
-        viaOwnerId: values.viaOwnerId || undefined,
-        reason: values.reason as ManualPickEditReason,
+    const requestPayload = {
+      projectId,
+      pickLabel: pick.label,
+      uniquePick: pick.unique,
+      newOwnerId: values.newOwnerId,
+      viaOwnerId: values.viaOwnerId || undefined,
+      reason: values.reason as ManualPickEditReason,
+    };
+
+    createManualPickEdit.mutate(requestPayload, {
+      onSuccess: () => {
+        toast.success("Pick owner updated successfully");
+        promptSaveToCsv({
+          transactionType: "Manual Pick Edit",
+          payload: buildManualPickEditRequestPayload({
+            pickLabel: requestPayload.pickLabel,
+            uniquePick: requestPayload.uniquePick,
+            newOwnerId: requestPayload.newOwnerId,
+            viaOwnerId: requestPayload.viaOwnerId,
+            reason: requestPayload.reason,
+          }),
+        });
+        handleClose();
       },
-      {
-        onSuccess: () => {
-          toast.success("Pick owner updated successfully");
-          handleClose();
-        },
-        onError: (error) => {
-          if (axios.isAxiosError(error)) {
-            const message =
-              error.response?.data?.detail || error.response?.data?.message;
-            toast.error(
-              typeof message === "string"
-                ? message
-                : "Failed to update pick owner",
-            );
-            return;
-          }
-          toast.error("Failed to update pick owner");
-        },
+      onError: (error) => {
+        if (axios.isAxiosError(error)) {
+          const message =
+            error.response?.data?.detail || error.response?.data?.message;
+          toast.error(
+            typeof message === "string"
+              ? message
+              : "Failed to update pick owner",
+          );
+          return;
+        }
+        toast.error("Failed to update pick owner");
       },
-    );
+    });
   });
 
   return {

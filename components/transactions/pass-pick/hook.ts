@@ -11,6 +11,8 @@ import axios from "axios";
 import { useMemo } from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { toast } from "sonner";
+import { promptSaveToCsv } from "@/components/transactions/upload-csv/prompt";
+import { buildPassPickRequestPayload } from "@/app/api/util/pass-pick";
 import { PassPickFormValues } from "./type";
 import {
   buildPassPickOptions,
@@ -105,6 +107,13 @@ export const usePassPickModal = ({
       {
         onSuccess: () => {
           toast.success("Pick(s) passed successfully");
+          promptSaveToCsv({
+            transactionType: "Pass Pick",
+            payload: buildPassPickRequestPayload({
+              pickId: values.pickId,
+              passType: values.selectedPassPick,
+            }),
+          });
           handleClose();
         },
         onError: (error) => {

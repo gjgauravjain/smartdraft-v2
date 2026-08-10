@@ -273,9 +273,9 @@ export const getcsvListFiles = () => `/api/v1/csv-reader/list-files/`;
 export const getCsvPayload = (fileName: string) =>
   `/api/v1/csv-reader/${fileName}/fetch/`;
 export const csvUploadReaderApiUrl = (fileName: string) =>
-  `api/v1/csv-reader/${fileName}/update/`;
+  `/api/v1/csv-reader/${fileName}/update/`;
 export const deleteLastRowApiUrl = (fileName: string) =>
-  `api/v1/csv-reader/${fileName}/remove-last-row/`;
+  `/api/v1/csv-reader/${fileName}/remove-last-row/`;
 
 // Free agent Scenario api
 export const createFreeAgentScenarioApiUrl = (

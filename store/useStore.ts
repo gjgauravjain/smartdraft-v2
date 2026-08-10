@@ -6,7 +6,7 @@ import { useShallow } from "zustand/react/shallow";
 
 export type UploadCsvTransactionType = {
   transactionType: string;
-  payload: Record<string, any>;
+  payload: Record<string, unknown> | unknown[];
 };
 
 interface AuthState {

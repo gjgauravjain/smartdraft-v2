@@ -322,8 +322,15 @@ export const updateOrganisationApiUrl = (orgId: string) =>
   `api/v1/organisations/${orgId}/update/`;
 export const linkOrganisationApiUrl = (orgId: string, userId: string) =>
   `api/v1/organisations/${orgId}/users/${userId}/relationships/create/`;
+export const updateOrganisationUserRelationshipApiUrl = (
+  orgId: string,
+  userId: string,
+) =>
+  `api/v1/organisations/${orgId}/users/${userId}/relationships/update/`;
 export const unlinkOrganisationApiUrl = (orgId: string, userId: string) =>
   `api/v1/organisations/${orgId}/users/${userId}/relationships/delete/`;
+export const getOrganisationUsersApiUrl = (orgId: string) =>
+  `api/v1/organisations/${orgId}/users/`;
 
 //Player Database APIs
 export const getOrganisationPlayerListApiUrl = (orgId: string) =>

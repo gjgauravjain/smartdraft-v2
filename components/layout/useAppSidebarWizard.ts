@@ -2,7 +2,12 @@
 
 import { useEffect, useMemo } from "react";
 import { usePathname } from "next/navigation";
-import { getSideMenuOptions, getOrgAdminMenuItem, getSuperadminMenuOptions } from "@/lib/sidebar-config";
+import {
+  getSideMenuOptions,
+  getOrgAdminMenuItem,
+  getSuperadminMenuOptions,
+} from "@/lib/sidebar-config";
+import { isOrgAdminForOrg, resolveOrganisationId } from "@/lib/org-admin";
 import { useStore } from "@/store/useStore";
 import { useGetTeams } from "@/app/api/react-query/common";
 
@@ -53,6 +58,15 @@ export function useAppSidebarWizard() {
 
   const orgAdminItem = useMemo(() => getOrgAdminMenuItem(), []);
 
+  const showOrgAdmin = useMemo(() => {
+    const orgId = resolveOrganisationId(
+      currentOrganisation,
+      user?.organisations ?? [],
+    );
+
+    return isOrgAdminForOrg(user, orgId);
+  }, [currentOrganisation, user]);
+
   const superadminItems = useMemo(
     () => getSuperadminMenuOptions(!!user?.isSuperuser),
     [user?.isSuperuser],
@@ -72,6 +86,7 @@ export function useAppSidebarWizard() {
   return {
     menuSections,
     orgAdminItem,
+    showOrgAdmin,
     superadminItems,
     isActiveLink,
     getVisibleMenuItems,

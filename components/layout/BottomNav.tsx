@@ -9,7 +9,7 @@ const NAV_ITEMS = [
   { label: "Draft", icon: LayoutPanelLeft, href: "/draftpick" },
   { label: "Player", icon: User, href: "/player" },
   { label: "List", icon: ClipboardList, href: "/list" },
-  { label: "Account", icon: User, href: "/account" },
+  { label: "Account", icon: User, href: "/org-admin" },
 ] as const;
 
 export function BottomNav() {

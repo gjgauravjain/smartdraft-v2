@@ -1,7 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { OrgMemberType, PendingAction } from "@/app/api/type/org-admin";
+import {
+  OrgMemberType,
+  PendingAction,
+  PendingActionEnum,
+} from "@/app/api/type/org-admin";
 import { DotsIcon } from "@/components/common/icons";
 import { Button } from "@/components/ui/button";
 import {
@@ -51,13 +55,13 @@ export const OrgMemberActions = ({
   };
 
   const handleConfirm = () => {
-    if (pendingAction === "make_admin") {
+    if (pendingAction === PendingActionEnum.MAKE_ADMIN) {
       onMakeAdmin(member);
     }
-    if (pendingAction === "revoke_admin") {
+    if (pendingAction === PendingActionEnum.REVOKE_ADMIN) {
       onRevokeAdmin(member);
     }
-    if (pendingAction === "remove") {
+    if (pendingAction === PendingActionEnum.REMOVE) {
       onRemove(member);
     }
 
@@ -130,16 +134,19 @@ export const OrgMemberActions = ({
         {pendingAction ? (
           <div className="p-2">
             <p className="text-[12px] font-semibold text-foreground">
-              {pendingAction === "make_admin" && "Make org admin?"}
-              {pendingAction === "revoke_admin" && "Revoke org admin?"}
-              {pendingAction === "remove" && "Remove from organisation?"}
+              {pendingAction === PendingActionEnum.MAKE_ADMIN &&
+                "Make org admin?"}
+              {pendingAction === PendingActionEnum.REVOKE_ADMIN &&
+                "Revoke org admin?"}
+              {pendingAction === PendingActionEnum.REMOVE &&
+                "Remove from organisation?"}
             </p>
             <p className="mt-1 text-[11px] leading-relaxed text-muted-foreground">
-              {pendingAction === "make_admin" &&
+              {pendingAction === PendingActionEnum.MAKE_ADMIN &&
                 `${memberName} will be able to manage members for ${orgName}.`}
-              {pendingAction === "revoke_admin" &&
+              {pendingAction === PendingActionEnum.REVOKE_ADMIN &&
                 `${memberName} will lose org admin access for ${orgName}.`}
-              {pendingAction === "remove" &&
+              {pendingAction === PendingActionEnum.REMOVE &&
                 `${memberName} will lose access to ${orgName}. Their account and other org memberships are unaffected.`}
             </p>
             <div className="mt-3 flex justify-end gap-2">

@@ -49,6 +49,7 @@ export const UsersToolbar = ({
   const statusOptions: SearchableDropdownOption[] = [
     { value: "all", label: "All status" },
     { value: "active", label: "Active" },
+    { value: "pending", label: "Pending" },
     { value: "inactive", label: "Inactive" },
   ];
 

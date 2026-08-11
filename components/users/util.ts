@@ -6,6 +6,7 @@ import {
   UserOrganisationType,
   UserTier,
 } from "@/app/api/type/user";
+import { ORGANISATION_ADMIN_ROLE } from "@/lib/org-admin";
 
 export const createUserFormSchema = z.object({
   firstName: z.string().trim().min(1, "First name is required"),
@@ -18,6 +19,7 @@ export const createUserFormSchema = z.object({
   defaultTeamId: z.string().min(1, "Select a default team"),
   tierId: z.string().min(1, "Select a tier"),
   organisationIds: z.array(z.string()),
+  organisationAdminIds: z.array(z.string()),
 });
 
 export type CreateUserFormValues = z.infer<typeof createUserFormSchema>;
@@ -29,7 +31,12 @@ export const createUserFormDefaults: CreateUserFormValues = {
   defaultTeamId: "",
   tierId: "",
   organisationIds: [],
+  organisationAdminIds: [],
 };
+
+export type UserActiveStatus = "active" | "inactive" | "pending";
+
+export const VISIBLE_ORG_CHIP_COUNT = 2;
 
 export type TeamOption = {
   id: string;
@@ -72,12 +79,46 @@ export const getUserFullName = (user: UserListType): string =>
 export const getUserTier = (user: UserListType): UserTier =>
   user.isSuperuser ? "super_admin" : "standard";
 
-export const isUserActive = (user: UserListType): boolean =>
-  user.isActive && user.active === "active";
+export const isOrganisationAdmin = (org: UserOrganisationType): boolean =>
+  org.roles.includes(ORGANISATION_ADMIN_ROLE);
 
-export const getUserOrgShortNames = (
+export const formatOrgChipTooltip = (org: UserOrganisationType): string =>
+  isOrganisationAdmin(org)
+    ? `${org.organisationTitle} (org admin)`
+    : org.organisationTitle;
+
+export const getUserOrganisations = (
   user: UserListType,
 ): UserOrganisationType[] => user.organisations ?? [];
+
+export const getUserActiveStatus = (user: UserListType): UserActiveStatus => {
+  const orgs = getUserOrganisations(user);
+
+  if (orgs.length > 0 && orgs.every((org) => !org.invitationAccepted)) {
+    return "pending";
+  }
+
+  return user.isActive ? "active" : "inactive";
+};
+
+export const getPendingOrgCount = (user: UserListType): number => {
+  const orgs = getUserOrganisations(user);
+  if (orgs.length === 0) {
+    return 0;
+  }
+
+  const pendingCount = orgs.filter((org) => !org.invitationAccepted).length;
+
+  // Hint only when some — not all — memberships are still pending.
+  if (pendingCount === 0 || pendingCount === orgs.length) {
+    return 0;
+  }
+
+  return pendingCount;
+};
+
+export const isUserActive = (user: UserListType): boolean =>
+  getUserActiveStatus(user) === "active";
 
 export const filterUsers = (
   users: UserListType[],
@@ -106,11 +147,13 @@ export const filterUsers = (
       (tierFilter === "super_admin" && user.isSuperuser) ||
       (tierFilter === "standard" && !user.isSuperuser);
 
+    const status = getUserActiveStatus(user);
     const matchesStatus =
       !statusFilter ||
       statusFilter === "all" ||
-      (statusFilter === "active" && isUserActive(user)) ||
-      (statusFilter === "inactive" && !isUserActive(user));
+      (statusFilter === "active" && status === "active") ||
+      (statusFilter === "inactive" && status === "inactive") ||
+      (statusFilter === "pending" && status === "pending");
 
     return matchesSearch && matchesOrg && matchesTier && matchesStatus;
   });

@@ -8,7 +8,6 @@ import {
   createUserFormDefaults,
   createUserFormSchema,
   CreateUserFormValues,
-  getAvailableOrganisations,
   getLinkedOrganisations,
   normalizeOrgId,
   orgIdsMatch,
@@ -17,7 +16,6 @@ import { UserListType } from "@/app/api/type/user";
 import { filterUsers } from "./util";
 import { useGetTeams } from "@/app/api/react-query/common";
 import { useGetOrganisations } from "@/app/api/react-query/organisations";
-import { useStore } from "@/store/useStore";
 
 type UseCreateUserModalArgs = Pick<
   CreateUserModalProps,
@@ -45,20 +43,19 @@ export function useCreateUserModal({
         organisationIds: (defaultValues?.organisationIds ?? []).map(
           normalizeOrgId,
         ),
+        organisationAdminIds: (defaultValues?.organisationAdminIds ?? []).map(
+          normalizeOrgId,
+        ),
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open, defaultValues]);
 
   const organisationIds = form.watch("organisationIds");
+  const organisationAdminIds = form.watch("organisationAdminIds");
 
   const linkedOrgs = useMemo(
     () => getLinkedOrganisations(organisations, organisationIds),
-    [organisations, organisationIds],
-  );
-
-  const availableOrgsToAdd = useMemo(
-    () => getAvailableOrganisations(organisations, organisationIds),
     [organisations, organisationIds],
   );
 
@@ -86,6 +83,38 @@ export function useCreateUserModal({
         .filter((id) => !orgIdsMatch(id, normalizedId)),
       { shouldDirty: true, shouldValidate: true },
     );
+    form.setValue(
+      "organisationAdminIds",
+      organisationAdminIds
+        .map(normalizeOrgId)
+        .filter((id) => !orgIdsMatch(id, normalizedId)),
+      { shouldDirty: true, shouldValidate: true },
+    );
+  };
+
+  const setOrganisationAdmin = (
+    orgId: string | number,
+    isOrgAdmin: boolean,
+  ) => {
+    const normalizedId = normalizeOrgId(orgId);
+    const current = organisationAdminIds.map(normalizeOrgId);
+    const hasAdmin = current.some((id) => orgIdsMatch(id, normalizedId));
+
+    if (isOrgAdmin && !hasAdmin) {
+      form.setValue("organisationAdminIds", [...current, normalizedId], {
+        shouldDirty: true,
+        shouldValidate: true,
+      });
+      return;
+    }
+
+    if (!isOrgAdmin && hasAdmin) {
+      form.setValue(
+        "organisationAdminIds",
+        current.filter((id) => !orgIdsMatch(id, normalizedId)),
+        { shouldDirty: true, shouldValidate: true },
+      );
+    }
   };
 
   const handleSubmit = form.handleSubmit((values) => {
@@ -101,9 +130,10 @@ export function useCreateUserModal({
     form,
     isSubmitting,
     linkedOrgs,
-    availableOrgsToAdd,
+    organisationAdminIds,
     addOrganisation,
     removeOrganisation,
+    setOrganisationAdmin,
     handleSubmit,
   };
 }
@@ -159,11 +189,6 @@ export const useUsersList = () => {
     console.log("Navigate to user", user.id);
   };
 
-  const handleMenuClick = (e: React.MouseEvent, user: UserListType) => {
-    e.stopPropagation();
-    console.log("Menu for user", user.id);
-  };
-
   return {
     users: filteredUsers,
     isLoading,
@@ -174,7 +199,6 @@ export const useUsersList = () => {
     setTierFilter,
     setStatusFilter,
     handleRowClick,
-    handleMenuClick,
     refetch,
     createUserOpen,
     setCreateUserOpen,

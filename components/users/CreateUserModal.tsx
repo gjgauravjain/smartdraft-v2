@@ -1,6 +1,6 @@
 "use client";
 
-import { UserPlus } from "lucide-react";
+import { UserPlus, Info } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -23,14 +23,18 @@ type FormBodyProps = {
   form: ReturnType<typeof useCreateUserModal>["form"];
   teams: CreateUserModalProps["teams"];
   tiers: CreateUserModalProps["tiers"];
+  organisations: CreateUserModalProps["organisations"];
   linkedOrgs: ReturnType<typeof useCreateUserModal>["linkedOrgs"];
-  availableOrgsToAdd: ReturnType<
+  organisationAdminIds: ReturnType<
     typeof useCreateUserModal
-  >["availableOrgsToAdd"];
+  >["organisationAdminIds"];
   addOrganisation: ReturnType<typeof useCreateUserModal>["addOrganisation"];
   removeOrganisation: ReturnType<
     typeof useCreateUserModal
   >["removeOrganisation"];
+  setOrganisationAdmin: ReturnType<
+    typeof useCreateUserModal
+  >["setOrganisationAdmin"];
   isMobile: boolean;
 };
 
@@ -38,10 +42,12 @@ function FormBody({
   form,
   teams,
   tiers,
+  organisations,
   linkedOrgs,
-  availableOrgsToAdd,
+  organisationAdminIds,
   addOrganisation,
   removeOrganisation,
+  setOrganisationAdmin,
   isMobile,
 }: FormBodyProps) {
   return (
@@ -94,10 +100,24 @@ function FormBody({
 
       <LinkedOrganisationsSection
         linkedOrgs={linkedOrgs}
-        availableOrgs={availableOrgsToAdd}
+        organisations={organisations}
+        organisationAdminIds={organisationAdminIds}
         onAdd={addOrganisation}
         onRemove={removeOrganisation}
+        onToggleOrgAdmin={setOrganisationAdmin}
       />
+
+      <div className="flex items-start gap-[9px] rounded-lg border border-primary/20 bg-primary/10 px-[13px] py-[11px]">
+        <Info
+          className="mt-px h-[15px] w-[15px] shrink-0 text-primary"
+          strokeWidth={1.8}
+        />
+        <span className="text-xs leading-normal text-primary">
+          Users created here are{" "}
+          <strong className="font-bold">active immediately</strong> — they can
+          sign in with a password reset.
+        </span>
+      </div>
     </div>
   );
 }
@@ -116,9 +136,10 @@ export function CreateUserModal({
     form,
     isSubmitting,
     linkedOrgs,
-    availableOrgsToAdd,
+    organisationAdminIds,
     addOrganisation,
     removeOrganisation,
+    setOrganisationAdmin,
     handleSubmit,
   } = useCreateUserModal({ open, onOpenChange, organisations, defaultValues });
 
@@ -184,10 +205,12 @@ export function CreateUserModal({
               form={form}
               teams={teams}
               tiers={tiers}
+              organisations={organisations}
               linkedOrgs={linkedOrgs}
-              availableOrgsToAdd={availableOrgsToAdd}
+              organisationAdminIds={organisationAdminIds}
               addOrganisation={addOrganisation}
               removeOrganisation={removeOrganisation}
+              setOrganisationAdmin={setOrganisationAdmin}
               isMobile={isMobile}
             />
 

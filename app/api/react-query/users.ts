@@ -7,6 +7,7 @@ import {
   unlinkOrganisationApiUrl,
   updateUserApiUrl,
 } from "@/lib/api-constant";
+import { ORGANISATION_ADMIN_ROLE } from "@/lib/org-admin";
 import { useAuth } from "@/store/useStore";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { CreateUserType, UpdateUserType } from "../type/user";
@@ -29,6 +30,7 @@ export const useGetAllUsers = () => {
 
 const invalidateUsers = (queryClient: ReturnType<typeof useQueryClient>) => {
   queryClient.invalidateQueries({ queryKey: ["users", "all"] });
+  queryClient.invalidateQueries({ queryKey: ["orgMembers"] });
 };
 
 export const useCreateUser = () => {
@@ -44,11 +46,15 @@ export const useCreateUser = () => {
 
       if (payload.organisationIds.length > 0) {
         await Promise.all(
-          payload.organisationIds.map((orgId) =>
-            apiClient.post(linkOrganisationApiUrl(orgId, userId), {
-              roles: [payload.tierId],
-            }),
-          ),
+          payload.organisationIds.map((orgId) => {
+            const isOrgAdmin = payload.organisationAdminIds.some(
+              (adminId) => adminId.toString() === orgId.toString(),
+            );
+
+            return apiClient.post(linkOrganisationApiUrl(orgId, userId), {
+              roles: isOrgAdmin ? [ORGANISATION_ADMIN_ROLE] : [],
+            });
+          }),
         );
       }
 

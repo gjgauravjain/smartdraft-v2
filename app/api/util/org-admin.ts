@@ -14,6 +14,7 @@ export const transformOrgMembers = (data: unknown): OrgMemberType[] => {
         email: String(member.email ?? ""),
         teamId: Number(member.Teams ?? 0),
         isActive: Boolean(member.is_active),
+        isSuperuser: Boolean(member.is_superuser),
         invitationAccepted: Boolean(member.invitation_accepted),
         dateJoined: String(member.date_joined ?? ""),
         lastLogin: member.last_login ? String(member.last_login) : null,

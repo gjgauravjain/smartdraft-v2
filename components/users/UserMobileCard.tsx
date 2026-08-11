@@ -1,8 +1,9 @@
-// import { UserListType } from "../type";
 import {
   getUserFullName,
   getUserTier,
-  getUserOrgShortNames,
+  getUserOrganisations,
+  getUserActiveStatus,
+  getPendingOrgCount,
   isUserActive,
 } from "./util";
 import { UserAvatar } from "./UserAvatar";
@@ -63,9 +64,13 @@ export const UserMobileCard = ({ user, onClick }: UserMobileCardProps) => {
       </div>
 
       <div className="flex items-center gap-1.5 flex-wrap mt-[11px] pt-[11px] border-t border-border/60">
-        <UserOrgPills shortNames={getUserOrgShortNames(user)} />
+        <UserOrgPills organisations={getUserOrganisations(user)} />
         <span className="flex-1" />
-        <UserStatusBadge active={active} size="sm" />
+        <UserStatusBadge
+          status={getUserActiveStatus(user)}
+          pendingOrgCount={getPendingOrgCount(user)}
+          size="sm"
+        />
       </div>
     </button>
   );

@@ -1,4 +1,3 @@
-import { OrgMembersListType } from "../type/organisation";
 import { CreateUserType, UserListType } from "../type/user";
 
 export const transformCreateUserPayload = (payload: CreateUserType) => ({
@@ -59,29 +58,3 @@ export const countUsersByOrganisation = (
   }
   return counts;
 };
-
-export const getOrgMembersFromUsers = (
-  users: UserListType[],
-  orgId: string,
-): OrgMembersListType[] =>
-  users
-    .filter((user) =>
-      user.organisations.some(
-        (org) => org.organisationId.toString() === orgId.toString(),
-      ),
-    )
-    .map((user) => {
-      const orgRelation = user.organisations.find(
-        (org) => org.organisationId.toString() === orgId.toString(),
-      );
-      const name =
-        [user.firstName, user.lastName].filter(Boolean).join(" ") ||
-        user.username;
-
-      return {
-        id: user.id,
-        name,
-        email: user.email,
-        tier: orgRelation?.roles?.[0] ?? "Member",
-      };
-    });

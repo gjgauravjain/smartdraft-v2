@@ -40,6 +40,7 @@ export type CreateUserType = {
   defaultTeamId: string;
   tierId: string;
   organisationIds: string[];
+  organisationAdminIds: string[];
 };
 
 export type UpdateUserType = {

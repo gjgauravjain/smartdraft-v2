@@ -44,6 +44,7 @@ export const useUpdateOrgMemberRoles = () => {
     },
     onSuccess: (_, { orgId }) => {
       queryClient.invalidateQueries({ queryKey: ["orgMembers", orgId] });
+      queryClient.invalidateQueries({ queryKey: ["users", "all"] });
     },
   });
 };
@@ -65,6 +66,7 @@ export const useRemoveOrgMember = () => {
     },
     onSuccess: (_, { orgId }) => {
       queryClient.invalidateQueries({ queryKey: ["orgMembers", orgId] });
+      queryClient.invalidateQueries({ queryKey: ["users", "all"] });
     },
   });
 };

@@ -37,10 +37,3 @@ export type UpdateOrganisationType = {
   defaultTeam: string;
   sportingCode: string;
 };
-
-export type OrgMembersListType = {
-  id: number;
-  name: string;
-  email: string;
-  tier: string;
-};

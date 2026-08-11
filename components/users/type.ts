@@ -15,5 +15,5 @@ export type UsersListFilterState = {
   search: string;
   orgFilter: string;
   tierFilter: string;
-  statusFilter: "all" | "active" | "inactive";
+  statusFilter: "all" | "active" | "inactive" | "pending";
 };

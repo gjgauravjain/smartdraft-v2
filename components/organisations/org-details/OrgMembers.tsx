@@ -1,14 +1,26 @@
-import { Link2Off, Shield, UserPlus } from "lucide-react";
+import { Link2Off, UserPlus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn, getInitials } from "@/lib/utils";
-import { OrgMembersListType } from "@/app/api/type/organisation";
+import { OrgMemberType } from "@/app/api/type/org-admin";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { OrgMemberActions } from "@/components/orgadmin/OrgMemberActions";
+import { OrgMemberRoleBadge } from "@/components/orgadmin/OrgMemberRoleBadge";
+import { OrgMemberStateBadge } from "@/components/orgadmin/OrgMemberStateBadge";
+import {
+  getMemberFullName,
+  getMemberState,
+} from "@/components/orgadmin/util";
+import { UserTierBadge } from "@/components/users/UserTierBadge";
 
 type OrgMembersListProps = {
-  membersList: OrgMembersListType[];
+  membersList: OrgMemberType[];
+  orgName: string;
+  currentUserId?: number;
+  isUpdating?: boolean;
   onAddUser?: () => void;
-  onRemoveMember?: (memberId: number) => void;
-  isRemovingMember?: boolean;
+  onMakeAdmin?: (member: OrgMemberType) => void;
+  onRevokeAdmin?: (member: OrgMemberType) => void;
+  onRemoveMember?: (member: OrgMemberType) => void;
 };
 
 function EmptyMembers({ isMobile }: { isMobile: boolean }) {
@@ -28,13 +40,19 @@ function EmptyMembers({ isMobile }: { isMobile: boolean }) {
     </div>
   );
 }
+
 export function OrgMembersList({
   membersList,
+  orgName,
+  currentUserId,
+  isUpdating,
   onAddUser,
+  onMakeAdmin,
+  onRevokeAdmin,
   onRemoveMember,
-  isRemovingMember,
 }: OrgMembersListProps) {
   const isMobile = useIsMobile();
+
   if (isMobile) {
     return (
       <div>
@@ -57,49 +75,68 @@ export function OrgMembersList({
 
         <div className="overflow-hidden rounded-xl border border-border bg-card">
           {membersList.length === 0 && <EmptyMembers isMobile />}
-          {membersList.map((member, index) => (
-            <div
-              key={member.id}
-              className={cn(
-                "flex items-center gap-[11px] px-[14px] py-3",
-                index !== membersList.length - 1 &&
-                  "border-b border-table-row-border",
-              )}
-            >
-              <div className="flex h-[34px] w-[34px] shrink-0 items-center justify-center rounded-full bg-primary text-[13px] font-bold text-white">
-                {getInitials(member.name)}
-              </div>
+          {membersList.map((member, index) => {
+            const fullName = getMemberFullName(member);
+            const memberState = getMemberState(member);
 
-              <div className="min-w-0 flex-1">
-                <div className="truncate text-[13.5px] font-semibold text-foreground">
-                  {member.name}
-                </div>
-
-                <div className="truncate text-[11.5px] text-muted-foreground">
-                  {member.email}
-                </div>
-              </div>
-
-              <span className="inline-flex items-center gap-1 rounded-[5px] bg-primary px-[7px] py-[2px] text-[10px] font-bold text-white">
-                <Shield className="h-2.5 w-2.5" />
-                {member.tier}
-              </span>
-
-              <button
-                type="button"
-                disabled={isRemovingMember}
-                onClick={() => onRemoveMember?.(member.id)}
-                className="flex text-muted-foreground transition-colors hover:text-destructive disabled:opacity-50"
-                title="Remove from organisation"
+            return (
+              <div
+                key={member.userId}
+                className={cn(
+                  "flex items-center gap-[11px] px-[14px] py-3",
+                  index !== membersList.length - 1 &&
+                    "border-b border-table-row-border",
+                )}
               >
-                <Link2Off className="h-[15px] w-[15px]" />
-              </button>
-            </div>
-          ))}
+                <div className="flex h-[34px] w-[34px] shrink-0 items-center justify-center rounded-full bg-primary text-[13px] font-bold text-white">
+                  {getInitials(fullName)}
+                </div>
+
+                <div className="min-w-0 flex-1">
+                  <div className="truncate text-[13.5px] font-semibold text-foreground">
+                    {fullName}
+                  </div>
+                  <div className="truncate text-[11.5px] text-muted-foreground">
+                    {member.email}
+                  </div>
+                  <div className="mt-1.5 flex flex-wrap items-center gap-1.5">
+                    <OrgMemberRoleBadge member={member} showShield />
+                    <OrgMemberStateBadge state={memberState} />
+                    <UserTierBadge
+                      tier={member.isSuperuser ? "super_admin" : "standard"}
+                    />
+                  </div>
+                </div>
+
+                {onMakeAdmin && onRevokeAdmin && onRemoveMember ? (
+                  <OrgMemberActions
+                    member={member}
+                    orgName={orgName}
+                    isOwnRow={member.userId === currentUserId}
+                    isUpdating={!!isUpdating}
+                    onMakeAdmin={onMakeAdmin}
+                    onRevokeAdmin={onRevokeAdmin}
+                    onRemove={onRemoveMember}
+                  />
+                ) : (
+                  <button
+                    type="button"
+                    disabled={isUpdating}
+                    onClick={() => onRemoveMember?.(member)}
+                    className="flex text-muted-foreground transition-colors hover:text-destructive disabled:opacity-50"
+                    title="Remove from organisation"
+                  >
+                    <Link2Off className="h-[15px] w-[15px]" />
+                  </button>
+                )}
+              </div>
+            );
+          })}
         </div>
       </div>
     );
   }
+
   return (
     <div className="overflow-hidden rounded-xl border border-border bg-card">
       <div className="flex items-center border-b border-border px-[18px] py-[13px]">
@@ -125,6 +162,8 @@ export function OrgMembersList({
             <tr>
               <th>User</th>
               <th>Email</th>
+              <th>Role</th>
+              <th>State</th>
               <th>Tier</th>
               <th className="w-[60px]" />
             </tr>
@@ -133,47 +172,71 @@ export function OrgMembersList({
           <tbody>
             {membersList.length === 0 && (
               <tr>
-                <td colSpan={4}>
+                <td colSpan={6}>
                   <EmptyMembers isMobile={false} />
                 </td>
               </tr>
             )}
-            {membersList.map((member) => (
-              <tr key={member.id}>
-                <td>
-                  <div className="flex items-center gap-[9px]">
-                    <div className="flex h-7 w-7 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-white">
-                      {getInitials(member.name)}
+            {membersList.map((member) => {
+              const fullName = getMemberFullName(member);
+              const memberState = getMemberState(member);
+
+              return (
+                <tr key={member.userId}>
+                  <td>
+                    <div className="flex items-center gap-[9px]">
+                      <div className="flex h-7 w-7 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-white">
+                        {getInitials(fullName)}
+                      </div>
+
+                      <span className="text-[13px] font-semibold text-foreground">
+                        {fullName}
+                      </span>
                     </div>
+                  </td>
 
-                    <span className="text-[13px] font-semibold text-foreground">
-                      {member.name}
-                    </span>
-                  </div>
-                </td>
+                  <td className="text-[12px]">{member.email}</td>
 
-                <td className="text-[12px]">{member.email}</td>
+                  <td>
+                    <OrgMemberRoleBadge member={member} />
+                  </td>
 
-                <td>
-                  <span className="inline-flex items-center gap-1 rounded-md bg-primary px-[7px] py-[2px] text-[10px] font-bold text-white">
-                    <Shield className="h-2.5 w-2.5" />
-                    {member.tier}
-                  </span>
-                </td>
+                  <td>
+                    <OrgMemberStateBadge state={memberState} />
+                  </td>
 
-                <td className="text-right">
-                  <button
-                    type="button"
-                    disabled={isRemovingMember}
-                    onClick={() => onRemoveMember?.(member.id)}
-                    className="inline-flex text-muted-foreground transition-colors hover:text-destructive disabled:opacity-50"
-                    title="Remove from organisation"
-                  >
-                    <Link2Off className="h-[15px] w-[15px]" />
-                  </button>
-                </td>
-              </tr>
-            ))}
+                  <td>
+                    <UserTierBadge
+                      tier={member.isSuperuser ? "super_admin" : "standard"}
+                    />
+                  </td>
+
+                  <td className="text-right relative overflow-visible">
+                    {onMakeAdmin && onRevokeAdmin && onRemoveMember ? (
+                      <OrgMemberActions
+                        member={member}
+                        orgName={orgName}
+                        isOwnRow={member.userId === currentUserId}
+                        isUpdating={!!isUpdating}
+                        onMakeAdmin={onMakeAdmin}
+                        onRevokeAdmin={onRevokeAdmin}
+                        onRemove={onRemoveMember}
+                      />
+                    ) : (
+                      <button
+                        type="button"
+                        disabled={isUpdating}
+                        onClick={() => onRemoveMember?.(member)}
+                        className="inline-flex text-muted-foreground transition-colors hover:text-destructive disabled:opacity-50"
+                        title="Remove from organisation"
+                      >
+                        <Link2Off className="h-[15px] w-[15px]" />
+                      </button>
+                    )}
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>

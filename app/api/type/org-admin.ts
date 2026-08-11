@@ -5,6 +5,7 @@ export type OrgMemberType = {
   email: string;
   teamId: number;
   isActive: boolean;
+  isSuperuser: boolean;
   invitationAccepted: boolean;
   dateJoined: string;
   lastLogin: string | null;

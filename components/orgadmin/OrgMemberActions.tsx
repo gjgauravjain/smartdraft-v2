@@ -1,13 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import {
-  OrgMemberType,
-  PendingAction,
-  PendingActionEnum,
-} from "@/app/api/type/org-admin";
+import { OrgMemberType } from "@/app/api/type/org-admin";
+import { ConfirmDangerDialog } from "@/components/common/ConfirmDangerDialog";
 import { DotsIcon } from "@/components/common/icons";
-import { Button } from "@/components/ui/button";
 import {
   Popover,
   PopoverContent,
@@ -21,6 +17,10 @@ import {
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 import { Shield, Unlink } from "lucide-react";
+import {
+  MakeOrgAdminDialog,
+  OrgAdminRoleDialogMode,
+} from "./MakeOrgAdminDialog";
 import { OrgMemberActionsSheet } from "./OrgMemberActionsSheet";
 import { getMemberFullName, isOrgAdminMember } from "./util";
 
@@ -45,34 +45,39 @@ export const OrgMemberActions = ({
 }: OrgMemberActionsProps) => {
   const isMobile = useIsMobile();
   const [open, setOpen] = useState(false);
-  const [pendingAction, setPendingAction] = useState<PendingAction>(null);
+  const [removeOpen, setRemoveOpen] = useState(false);
+  const [roleDialogMode, setRoleDialogMode] =
+    useState<OrgAdminRoleDialogMode | null>(null);
   const isAdmin = isOrgAdminMember(member);
   const memberName = getMemberFullName(member);
 
   const closeMenu = () => {
     setOpen(false);
-    setPendingAction(null);
   };
 
-  const handleConfirm = () => {
-    if (pendingAction === PendingActionEnum.MAKE_ADMIN) {
+  const openRoleDialog = (mode: OrgAdminRoleDialogMode) => {
+    closeMenu();
+    setRoleDialogMode(mode);
+  };
+
+  const openRemoveDialog = () => {
+    closeMenu();
+    setRemoveOpen(true);
+  };
+
+  const handleRoleDialogConfirm = () => {
+    if (roleDialogMode === "make") {
       onMakeAdmin(member);
     }
-    if (pendingAction === PendingActionEnum.REVOKE_ADMIN) {
+    if (roleDialogMode === "revoke") {
       onRevokeAdmin(member);
     }
-    if (pendingAction === PendingActionEnum.REMOVE) {
-      onRemove(member);
-    }
-
-    closeMenu();
+    setRoleDialogMode(null);
   };
 
-  const handleOpenChange = (nextOpen: boolean) => {
-    setOpen(nextOpen);
-    if (!nextOpen) {
-      setPendingAction(null);
-    }
+  const handleRemoveConfirm = () => {
+    onRemove(member);
+    setRemoveOpen(false);
   };
 
   const triggerButton = (
@@ -96,6 +101,34 @@ export const OrgMemberActions = ({
     </button>
   );
 
+  const dialogs = (
+    <>
+      <MakeOrgAdminDialog
+        open={roleDialogMode !== null}
+        onOpenChange={(nextOpen) => {
+          if (!nextOpen) {
+            setRoleDialogMode(null);
+          }
+        }}
+        member={member}
+        orgName={orgName}
+        mode={roleDialogMode ?? "make"}
+        isUpdating={isUpdating}
+        onConfirm={handleRoleDialogConfirm}
+      />
+      <ConfirmDangerDialog
+        open={removeOpen}
+        onOpenChange={setRemoveOpen}
+        title="Remove from organisation"
+        subtitle={`${memberName} · ${orgName}`}
+        description={`${memberName} will lose access to ${orgName}. Their account and other org memberships are unaffected.`}
+        actionLabel="Remove from organisation"
+        isLoading={isUpdating}
+        onConfirm={handleRemoveConfirm}
+      />
+    </>
+  );
+
   if (isOwnRow) {
     return (
       <Tooltip>
@@ -117,82 +150,38 @@ export const OrgMemberActions = ({
           open={open}
           onClose={closeMenu}
           member={member}
-          orgName={orgName}
-          isUpdating={isUpdating}
-          pendingAction={pendingAction}
-          onPendingActionChange={setPendingAction}
-          onConfirm={handleConfirm}
+          onMakeAdminClick={() => openRoleDialog("make")}
+          onRevokeAdminClick={() => openRoleDialog("revoke")}
+          onRemoveClick={openRemoveDialog}
         />
+        {dialogs}
       </>
     );
   }
 
   return (
-    <Popover open={open} onOpenChange={handleOpenChange}>
-      <PopoverTrigger asChild>{triggerButton}</PopoverTrigger>
-      <PopoverContent align="end" className="w-56 p-1">
-        {pendingAction ? (
-          <div className="p-2">
-            <p className="text-[12px] font-semibold text-foreground">
-              {pendingAction === PendingActionEnum.MAKE_ADMIN &&
-                "Make org admin?"}
-              {pendingAction === PendingActionEnum.REVOKE_ADMIN &&
-                "Revoke org admin?"}
-              {pendingAction === PendingActionEnum.REMOVE &&
-                "Remove from organisation?"}
-            </p>
-            <p className="mt-1 text-[11px] leading-relaxed text-muted-foreground">
-              {pendingAction === PendingActionEnum.MAKE_ADMIN &&
-                `${memberName} will be able to manage members for ${orgName}.`}
-              {pendingAction === PendingActionEnum.REVOKE_ADMIN &&
-                `${memberName} will lose org admin access for ${orgName}.`}
-              {pendingAction === PendingActionEnum.REMOVE &&
-                `${memberName} will lose access to ${orgName}. Their account and other org memberships are unaffected.`}
-            </p>
-            <div className="mt-3 flex justify-end gap-2">
-              <Button
-                type="button"
-                variant="outline"
-                size="sm"
-                className="h-7 text-[11px]"
-                onClick={() => setPendingAction(null)}
-              >
-                Cancel
-              </Button>
-              <Button
-                type="button"
-                size="sm"
-                className="h-7 text-[11px]"
-                variant={pendingAction === "remove" ? "destructive" : "default"}
-                disabled={isUpdating}
-                onClick={handleConfirm}
-              >
-                Confirm
-              </Button>
-            </div>
-          </div>
-        ) : (
-          <>
-            <button
-              type="button"
-              className="flex w-full items-center rounded-sm px-2 py-1.5 text-left text-[12px] text-foreground hover:bg-muted"
-              onClick={() =>
-                setPendingAction(isAdmin ? "revoke_admin" : "make_admin")
-              }
-            >
-              <Shield className="mr-2 h-3 w-3" />
-              {isAdmin ? "Revoke org admin" : "Make org admin"}
-            </button>
-            <button
-              type="button"
-              className="flex w-full items-center rounded-sm px-2 py-1.5 text-left text-[12px] text-destructive hover:bg-muted"
-              onClick={() => setPendingAction("remove")}
-            >
-              <Unlink className="mr-2 h-3 w-3" /> Remove from organisation
-            </button>
-          </>
-        )}
-      </PopoverContent>
-    </Popover>
+    <>
+      <Popover open={open} onOpenChange={setOpen}>
+        <PopoverTrigger asChild>{triggerButton}</PopoverTrigger>
+        <PopoverContent align="end" className="w-56 p-1">
+          <button
+            type="button"
+            className="flex w-full items-center rounded-sm px-2 py-1.5 text-left text-[12px] text-foreground hover:bg-muted"
+            onClick={() => openRoleDialog(isAdmin ? "revoke" : "make")}
+          >
+            <Shield className="mr-2 h-3 w-3" />
+            {isAdmin ? "Revoke org admin" : "Make org admin"}
+          </button>
+          <button
+            type="button"
+            className="flex w-full items-center rounded-sm px-2 py-1.5 text-left text-[12px] text-destructive hover:bg-muted"
+            onClick={openRemoveDialog}
+          >
+            <Unlink className="mr-2 h-3 w-3" /> Remove from organisation
+          </button>
+        </PopoverContent>
+      </Popover>
+      {dialogs}
+    </>
   );
 };

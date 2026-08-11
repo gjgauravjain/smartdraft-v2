@@ -2,27 +2,24 @@ import { UserListType } from "@/app/api/type/user";
 import {
   getUserFullName,
   getUserTier,
-  getUserOrgShortNames,
+  getUserOrganisations,
+  getUserActiveStatus,
+  getPendingOrgCount,
   isUserActive,
 } from "./util";
 import { UserAvatar } from "./UserAvatar";
 import { UserTierBadge } from "./UserTierBadge";
 import { UserOrgPills } from "./UserOrgPills";
 import { UserStatusBadge } from "./UserStatusBadge";
+import { UserRowActions } from "./UserRowActions";
 import SdTable, { SdColumnDef } from "../common/SdTable";
-import { DotsIcon } from "../common/icons";
 
 type UsersTableProps = {
   users: UserListType[];
   onRowClick: (user: UserListType) => void;
-  onMenuClick: (e: React.MouseEvent, user: UserListType) => void;
 };
 
-export const UsersTable = ({
-  users,
-  onRowClick,
-  onMenuClick,
-}: UsersTableProps) => {
+export const UsersTable = ({ users, onRowClick }: UsersTableProps) => {
   const columns: SdColumnDef<UserListType>[] = [
     {
       key: "name",
@@ -67,7 +64,7 @@ export const UsersTable = ({
       label: "Organisations",
       width: "1.8fr",
       render: (user) => (
-        <UserOrgPills shortNames={getUserOrgShortNames(user)} />
+        <UserOrgPills organisations={getUserOrganisations(user)} />
       ),
     },
     {
@@ -75,22 +72,25 @@ export const UsersTable = ({
       label: "Active",
       width: "1fr",
       sortable: true,
-      sortValue: (row) => (isUserActive(row) ? 1 : 0),
-      render: (user) => <UserStatusBadge active={isUserActive(user)} />,
+      sortValue: (row) => {
+        const status = getUserActiveStatus(row);
+        if (status === "active") return 2;
+        if (status === "pending") return 1;
+        return 0;
+      },
+      render: (user) => (
+        <UserStatusBadge
+          status={getUserActiveStatus(user)}
+          pendingOrgCount={getPendingOrgCount(user)}
+        />
+      ),
     },
     {
       key: "actions",
       label: "",
       width: "40px",
       align: "right",
-      render: (user) => (
-        <button
-          onClick={(e) => onMenuClick(e, user)}
-          className="text-muted-foreground/40 hover:text-muted-foreground transition-colors inline-flex p-1 rounded cursor-pointer"
-        >
-          <DotsIcon />
-        </button>
-      ),
+      render: (user) => <UserRowActions user={user} />,
     },
   ];
 

@@ -24,7 +24,6 @@ const UsersList = () => {
     setTierFilter,
     setStatusFilter,
     handleRowClick,
-    handleMenuClick,
     refetch,
     createUserOpen,
     setCreateUserOpen,
@@ -90,11 +89,7 @@ const UsersList = () => {
             onTierFilterChange={setTierFilter}
             onStatusFilterChange={setStatusFilter}
           />
-          <UsersTable
-            users={users}
-            onRowClick={handleRowClick}
-            onMenuClick={handleMenuClick}
-          />
+          <UsersTable users={users} onRowClick={handleRowClick} />
           <CreateUserModal
             open={createUserOpen}
             onOpenChange={setCreateUserOpen}

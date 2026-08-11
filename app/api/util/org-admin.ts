@@ -8,7 +8,7 @@ export const transformOrgMembers = (data: unknown): OrgMemberType[] => {
   return data.map(
     (member: Record<string, unknown>) =>
       ({
-        userId: Number(member.user_id),
+        userId: Number(member.user_id ?? member.id),
         firstName: String(member.first_name ?? ""),
         lastName: String(member.last_name ?? ""),
         email: String(member.email ?? ""),

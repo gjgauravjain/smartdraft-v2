@@ -9,29 +9,25 @@ import {
   useRemoveOrgMember,
   useUpdateOrgMemberRoles,
 } from "@/app/api/react-query/org-admin";
-import { useGetTeams } from "@/app/api/react-query/common";
+import { useLinkUserToOrganisation } from "@/app/api/react-query/users";
 import { OrgMemberType } from "@/app/api/type/org-admin";
 import { OrganisationHeader } from "./OrgDetailHeader";
 import { OrgInfoCard } from "./OrgInfo";
 import { AddUpdateOrganisationModal } from "../AddUpdateOrganisationModal";
 import { useMemo, useState } from "react";
 import { OrgMembersList } from "./OrgMembers";
+import { AddExistingUserDialog } from "./AddExistingUserDialog";
 import { ConfirmDangerDialog } from "@/components/common/ConfirmDangerDialog";
-import { CreateUserModal } from "@/components/users/CreateUserModal";
-import type { CreateUserFormValues } from "@/components/users/util";
-import {
-  getUpdatedRoles,
-} from "@/components/orgadmin/util";
+import { getUpdatedRoles } from "@/components/orgadmin/util";
+import { ORGANISATION_ADMIN_ROLE } from "@/lib/org-admin";
 import { useStore } from "@/store/useStore";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { TIER_OPTIONS } from "@/lib/utils";
 
 export default function OrganisationDetails({ id }: { id: string }) {
   const router = useRouter();
   const { user } = useStore();
   const { data: organisations = [] } = useGetOrganisations();
-  const { data: teams = [] } = useGetTeams();
   const { data: members = [] } = useGetOrgMembers(id);
   const { mutate: deleteOrganisation, isPending: isDeleting } =
     useDeleteOrganisation();
@@ -39,34 +35,21 @@ export default function OrganisationDetails({ id }: { id: string }) {
     useUpdateOrgMemberRoles();
   const { mutate: removeMember, isPending: isRemovingMember } =
     useRemoveOrgMember();
+  const { mutate: linkUser, isPending: isLinkingUser } =
+    useLinkUserToOrganisation();
 
   const organisation = organisations.find(
     (org) => org.id.toString() === id.toString(),
   );
 
-  const teamOptions = useMemo(
-    () =>
-      teams.map((team) => ({
-        id: team.id,
-        name: team.teamNames,
-      })),
-    [teams],
+  const existingMemberIds = useMemo(
+    () => members.map((member) => member.userId),
+    [members],
   );
-
-  const createUserDefaults = useMemo((): Partial<CreateUserFormValues> => {
-    if (!organisation) {
-      return { organisationIds: [id.toString()] };
-    }
-
-    return {
-      organisationIds: [organisation.id.toString()],
-      defaultTeamId: organisation.defaultTeam.id.toString(),
-    };
-  }, [id, organisation]);
 
   const [openEditModal, setOpenEditModal] = useState(false);
   const [deactivateOpen, setDeactivateOpen] = useState(false);
-  const [createUserOpen, setCreateUserOpen] = useState(false);
+  const [addExistingOpen, setAddExistingOpen] = useState(false);
 
   const handleRoleChange = (member: OrgMemberType, makeAdmin: boolean) => {
     updateRoles(
@@ -102,6 +85,31 @@ export default function OrganisationDetails({ id }: { id: string }) {
     );
   };
 
+  const handleAddExistingUser = ({
+    userId,
+    isOrgAdmin,
+  }: {
+    userId: number;
+    isOrgAdmin: boolean;
+  }) => {
+    linkUser(
+      {
+        orgId: id,
+        userId,
+        roles: isOrgAdmin ? [ORGANISATION_ADMIN_ROLE] : [],
+      },
+      {
+        onSuccess: () => {
+          toast.success("User added to organisation");
+          setAddExistingOpen(false);
+        },
+        onError: () => {
+          toast.error("Unable to add user to organisation");
+        },
+      },
+    );
+  };
+
   return (
     <div className="h-full bg-background">
       <OrganisationHeader
@@ -123,7 +131,7 @@ export default function OrganisationDetails({ id }: { id: string }) {
             orgName={organisation?.name ?? "Organisation"}
             currentUserId={user?.id}
             isUpdating={isUpdatingRoles || isRemovingMember}
-            onAddUser={() => setCreateUserOpen(true)}
+            onAddUser={() => setAddExistingOpen(true)}
             onMakeAdmin={(member) => handleRoleChange(member, true)}
             onRevokeAdmin={(member) => handleRoleChange(member, false)}
             onRemoveMember={handleRemoveMember}
@@ -137,13 +145,14 @@ export default function OrganisationDetails({ id }: { id: string }) {
         open={openEditModal}
         initialValue={organisation}
       />
-      <CreateUserModal
-        open={createUserOpen}
-        onOpenChange={setCreateUserOpen}
-        teams={teamOptions}
-        tiers={TIER_OPTIONS}
-        organisations={organisations}
-        defaultValues={createUserDefaults}
+      <AddExistingUserDialog
+        open={addExistingOpen}
+        onOpenChange={setAddExistingOpen}
+        orgId={id}
+        orgName={organisation?.name ?? "Organisation"}
+        existingMemberIds={existingMemberIds}
+        isSubmitting={isLinkingUser}
+        onAdd={handleAddExistingUser}
       />
       <ConfirmDangerDialog
         open={deactivateOpen}

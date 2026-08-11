@@ -2,22 +2,21 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { Info, UserRoundPlus, X } from "lucide-react";
-import { UserListType } from "@/app/api/type/user";
 import { useGetAllUsers } from "@/app/api/react-query/users";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
+  DialogFooter,
+  DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Switch } from "@/components/ui/switch";
+import { useIsMobile } from "@/hooks/use-mobile";
 import { cn, getInitials } from "@/lib/utils";
-import {
-  formatOrgChipTooltip,
-  getUserFullName,
-  getUserOrganisations,
-} from "@/components/users/util";
+import { getUserFullName, getUserOrganisations } from "@/components/users/util";
+import { formatUserOrgSummary } from "./util";
 
 type AddExistingUserDialogProps = {
   open: boolean;
@@ -29,15 +28,6 @@ type AddExistingUserDialogProps = {
   onAdd: (payload: { userId: number; isOrgAdmin: boolean }) => void;
 };
 
-const formatUserOrgSummary = (user: UserListType) => {
-  const orgs = getUserOrganisations(user);
-  if (orgs.length === 0) {
-    return "No organisations";
-  }
-
-  return orgs.map(formatOrgChipTooltip).join(", ");
-};
-
 export function AddExistingUserDialog({
   open,
   onOpenChange,
@@ -47,6 +37,7 @@ export function AddExistingUserDialog({
   isSubmitting,
   onAdd,
 }: AddExistingUserDialogProps) {
+  const isMobile = useIsMobile();
   const { data: users = [], isLoading } = useGetAllUsers();
   const [search, setSearch] = useState("");
   const [selectedUserId, setSelectedUserId] = useState<number | null>(null);
@@ -104,35 +95,89 @@ export function AddExistingUserDialog({
     onAdd({ userId: selectedUserId, isOrgAdmin });
   };
 
+  const title = isMobile
+    ? "Add existing user"
+    : `Add existing user to ${orgName}`;
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
         overlayClassName="bg-[rgba(8,12,20,0.42)]"
-        className="flex max-h-[90vh] w-full max-w-[560px] flex-col gap-0 overflow-hidden rounded-[14px] border-border bg-card p-0 shadow-[0_24px_80px_rgba(0,0,0,0.28)] top-[64px] translate-y-0 data-[state=open]:slide-in-from-top-2 data-[state=closed]:slide-out-to-top-2 [&>button]:hidden"
+        className={cn(
+          "flex flex-col gap-0 overflow-hidden border-border bg-card p-0 shadow-[0_24px_80px_rgba(0,0,0,0.28)] [&>button]:hidden",
+          "max-w-[560px] max-h-[716px] rounded-[14px]",
+          "sm:top-[64px] sm:translate-y-0",
+          "sm:data-[state=open]:slide-in-from-top-2 sm:data-[state=closed]:slide-out-to-top-2",
+          "max-sm:max-w-none max-sm:w-full max-sm:h-[100dvh]",
+          "max-sm:max-h-[100dvh] max-sm:rounded-none",
+          "max-sm:m-0 max-sm:translate-x-0 max-sm:translate-y-0",
+          "max-sm:top-0 max-sm:left-0 max-sm:inset-0",
+        )}
       >
-        <div className="flex shrink-0 items-center gap-3 border-b border-border px-5 py-[17px]">
-          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-[9px] bg-primary/10 text-primary">
-            <UserRoundPlus className="h-[18px] w-[18px]" strokeWidth={1.8} />
-          </div>
-          <div className="min-w-0 flex-1">
-            <DialogTitle className="text-[15.5px] font-bold text-foreground">
-              Add existing user to {orgName}
-            </DialogTitle>
-            <DialogDescription className="mt-px text-xs text-muted-foreground">
-              Any account on the platform · access is immediate
-            </DialogDescription>
-          </div>
-          <button
-            type="button"
-            onClick={() => onOpenChange(false)}
-            className="flex h-[30px] w-[30px] shrink-0 items-center justify-center rounded-[7px] border border-border bg-card text-muted-foreground"
-            aria-label="Close"
-          >
-            <X className="h-[15px] w-[15px]" strokeWidth={1.8} />
-          </button>
-        </div>
+        {isMobile && <div className="h-[3px] bg-primary shrink-0" />}
 
-        <div className="flex min-h-0 flex-1 flex-col gap-[15px] overflow-auto p-5">
+        <DialogHeader
+          className={[
+            "border-b border-border space-y-0 shrink-0",
+            isMobile
+              ? "flex-row items-center px-4 py-3"
+              : "flex-row items-center gap-3 px-5 py-[17px]",
+          ].join(" ")}
+        >
+          {isMobile ? (
+            <>
+              <button
+                type="button"
+                onClick={() => onOpenChange(false)}
+                className="w-[46px] text-left text-[14px] font-semibold text-muted-foreground bg-transparent border-0 p-0 cursor-pointer"
+              >
+                Cancel
+              </button>
+              <DialogTitle className="flex-1 text-center text-[15.5px] font-bold text-foreground">
+                {title}
+              </DialogTitle>
+              <span className="w-[46px]" />
+            </>
+          ) : (
+            <>
+              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-[9px] bg-primary/10 text-primary">
+                <UserRoundPlus
+                  className="h-[18px] w-[18px]"
+                  strokeWidth={1.8}
+                />
+              </div>
+              <div className="min-w-0 flex-1 text-left">
+                <DialogTitle className="text-[15.5px] font-bold text-foreground">
+                  {title}
+                </DialogTitle>
+                <DialogDescription className="mt-px text-xs text-muted-foreground">
+                  Any account on the platform · access is immediate
+                </DialogDescription>
+              </div>
+              <button
+                type="button"
+                onClick={() => onOpenChange(false)}
+                className="flex h-[30px] w-[30px] shrink-0 items-center justify-center rounded-[7px] border border-border bg-card text-muted-foreground"
+                aria-label="Close"
+              >
+                <X className="h-[15px] w-[15px]" strokeWidth={1.8} />
+              </button>
+            </>
+          )}
+        </DialogHeader>
+
+        <div
+          className={cn(
+            "flex min-h-0 flex-1 flex-col gap-[15px] overflow-auto",
+            isMobile ? "p-4" : "p-5",
+          )}
+        >
+          {isMobile && (
+            <p className="text-[12px] text-muted-foreground">
+              Any account on the platform · access is immediate
+            </p>
+          )}
+
           <div>
             <label className="mb-1.5 block text-[11.5px] font-bold text-foreground">
               Find user
@@ -145,7 +190,7 @@ export function AddExistingUserDialog({
             />
           </div>
 
-          <div className="overflow-auto rounded-[9px] border border-border">
+          <div className="min-h-0 flex-1 overflow-auto rounded-[9px] border border-border">
             {isLoading ? (
               <div className="px-[13px] py-6 text-center text-[12px] text-muted-foreground">
                 Loading users…
@@ -230,26 +275,39 @@ export function AddExistingUserDialog({
           </div>
         </div>
 
-        <div className="flex shrink-0 justify-end gap-2.5 border-t border-border px-5 py-3.5">
-          <Button
-            type="button"
-            variant="outline"
-            size="sm"
-            className="h-auto rounded-[6px] px-3.5 py-2 text-[12.5px] font-semibold"
-            onClick={() => onOpenChange(false)}
-          >
-            Cancel
-          </Button>
-          <Button
-            type="button"
-            size="sm"
-            disabled={!selectedUser || isSubmitting}
-            className="h-auto rounded-[6px] px-3.5 py-2 text-[12.5px] font-semibold"
-            onClick={handleAdd}
-          >
-            {isSubmitting ? "Adding…" : "Add to organisation"}
-          </Button>
-        </div>
+        {isMobile ? (
+          <div className="px-4 pb-[26px] pt-3 border-t border-border shrink-0">
+            <button
+              type="button"
+              disabled={!selectedUser || isSubmitting}
+              onClick={handleAdd}
+              className="w-full py-[13px] bg-primary text-primary-foreground rounded-[10px] text-[14.5px] font-bold border-0 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
+            >
+              {isSubmitting ? "Adding…" : "Add to organisation"}
+            </button>
+          </div>
+        ) : (
+          <DialogFooter className="border-t border-border px-5 py-3.5 sm:justify-end">
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              className="h-auto rounded-[6px] px-3.5 py-2 text-[12.5px] font-semibold"
+              onClick={() => onOpenChange(false)}
+            >
+              Cancel
+            </Button>
+            <Button
+              type="button"
+              size="sm"
+              disabled={!selectedUser || isSubmitting}
+              className="h-auto rounded-[6px] px-3.5 py-2 text-[12.5px] font-semibold"
+              onClick={handleAdd}
+            >
+              {isSubmitting ? "Adding…" : "Add to organisation"}
+            </Button>
+          </DialogFooter>
+        )}
       </DialogContent>
     </Dialog>
   );

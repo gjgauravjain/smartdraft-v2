@@ -13,7 +13,7 @@ import {
   isOrgAdminMember,
 } from "./util";
 
-type PendingAction = "make_admin" | "revoke_admin" | "remove" | null;
+type PendingAction = "remove" | null;
 
 type OrgMemberActionsSheetProps = {
   open: boolean;
@@ -23,6 +23,8 @@ type OrgMemberActionsSheetProps = {
   isUpdating: boolean;
   pendingAction: PendingAction;
   onPendingActionChange: (action: PendingAction) => void;
+  onMakeAdminClick: () => void;
+  onRevokeAdminClick: () => void;
   onConfirm: () => void;
 };
 
@@ -34,6 +36,8 @@ export const OrgMemberActionsSheet = ({
   isUpdating,
   pendingAction,
   onPendingActionChange,
+  onMakeAdminClick,
+  onRevokeAdminClick,
   onConfirm,
 }: OrgMemberActionsSheetProps) => {
   const [mounted, setMounted] = useState(false);
@@ -107,23 +111,16 @@ export const OrgMemberActionsSheet = ({
         {pendingAction ? (
           <div className="px-1">
             <p className="text-[15px] font-bold text-foreground">
-              {pendingAction === "make_admin" && "Make org admin?"}
-              {pendingAction === "revoke_admin" && "Revoke org admin?"}
-              {pendingAction === "remove" && "Remove from organisation?"}
+              Remove from organisation?
             </p>
             <p className="mt-2 text-[12px] leading-relaxed text-muted-foreground">
-              {pendingAction === "make_admin" &&
-                `${memberName} will be able to manage members for ${orgName}.`}
-              {pendingAction === "revoke_admin" &&
-                `${memberName} will lose org admin access for ${orgName}.`}
-              {pendingAction === "remove" &&
-                `${memberName} will lose access to ${orgName}. Their account and other org memberships are unaffected.`}
+              {`${memberName} will lose access to ${orgName}. Their account and other org memberships are unaffected.`}
             </p>
             <div className="mt-4 flex flex-col gap-2.5">
               <Button
                 type="button"
                 className="w-full h-11 rounded-[10px] text-sm font-semibold"
-                variant={pendingAction === "remove" ? "destructive" : "default"}
+                variant="destructive"
                 disabled={isUpdating}
                 onClick={onConfirm}
               >
@@ -155,9 +152,13 @@ export const OrgMemberActionsSheet = ({
             <button
               type="button"
               className="flex w-full items-center gap-3 px-1 py-[15px] border-b border-table-row-border text-left"
-              onClick={() =>
-                onPendingActionChange(isAdmin ? "revoke_admin" : "make_admin")
-              }
+              onClick={() => {
+                if (isAdmin) {
+                  onRevokeAdminClick();
+                  return;
+                }
+                onMakeAdminClick();
+              }}
             >
               <Shield
                 className="h-[18px] w-[18px] text-muted-foreground"

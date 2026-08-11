@@ -1,7 +1,10 @@
 "use client";
 
 import { ArrowRight, Shield, X } from "lucide-react";
-import { OrgMemberType } from "@/app/api/type/org-admin";
+import {
+  OrgAdminRoleDialogMode,
+  OrgMemberType,
+} from "@/app/api/type/org-admin";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -11,8 +14,6 @@ import {
 } from "@/components/ui/dialog";
 import { OrgMemberAvatar } from "./OrgMemberAvatar";
 import { getMemberFullName } from "./util";
-
-export type OrgAdminRoleDialogMode = "make" | "revoke";
 
 type MakeOrgAdminDialogProps = {
   open: boolean;
@@ -88,7 +89,8 @@ export function MakeOrgAdminDialog({
                 <strong className="font-semibold text-foreground">
                   {orgName}
                 </strong>
-                . They will remain a member and keep access to this organisation.
+                . They will remain a member and keep access to this
+                organisation.
               </>
             ) : (
               <>

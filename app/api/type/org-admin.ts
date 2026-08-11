@@ -13,9 +13,9 @@ export type OrgMemberType = {
 };
 
 export type OrgMemberState = "active" | "inactive" | "pending";
-export type PendingAction = "make_admin" | "revoke_admin" | "remove" | null;
-export enum PendingActionEnum {
-  MAKE_ADMIN = "make_admin",
-  REVOKE_ADMIN = "revoke_admin",
-  REMOVE = "remove",
+
+export type OrgAdminRoleDialogMode = "make" | "revoke";
+export enum OrgAdminRoleDialogModeEnum {
+  MAKE = "make",
+  REVOKE = "revoke",
 }

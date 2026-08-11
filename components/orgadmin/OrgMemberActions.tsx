@@ -1,7 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { OrgMemberType } from "@/app/api/type/org-admin";
+import {
+  OrgAdminRoleDialogMode,
+  OrgAdminRoleDialogModeEnum,
+  OrgMemberType,
+} from "@/app/api/type/org-admin";
 import { ConfirmDangerDialog } from "@/components/common/ConfirmDangerDialog";
 import { DotsIcon } from "@/components/common/icons";
 import {
@@ -17,10 +21,7 @@ import {
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 import { Shield, Unlink } from "lucide-react";
-import {
-  MakeOrgAdminDialog,
-  OrgAdminRoleDialogMode,
-} from "./MakeOrgAdminDialog";
+import { MakeOrgAdminDialog } from "./MakeOrgAdminDialog";
 import { OrgMemberActionsSheet } from "./OrgMemberActionsSheet";
 import { getMemberFullName, isOrgAdminMember } from "./util";
 
@@ -69,7 +70,7 @@ export const OrgMemberActions = ({
     if (roleDialogMode === "make") {
       onMakeAdmin(member);
     }
-    if (roleDialogMode === "revoke") {
+    if (roleDialogMode === OrgAdminRoleDialogModeEnum.REVOKE) {
       onRevokeAdmin(member);
     }
     setRoleDialogMode(null);

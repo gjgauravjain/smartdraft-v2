@@ -17,6 +17,7 @@ export const transformOrgMembers = (data: unknown): OrgMemberType[] => {
         isSuperuser: Boolean(member.is_superuser),
         invitationAccepted: Boolean(member.invitation_accepted),
         dateJoined: String(member.date_joined ?? ""),
+        memberSince: String(member.member_since ?? ""),
         lastLogin: member.last_login ? String(member.last_login) : null,
         roles: Array.isArray(member.roles)
           ? member.roles.map((role) => String(role))

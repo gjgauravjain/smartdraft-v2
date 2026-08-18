@@ -66,7 +66,7 @@ export const OrgMemberMobileCard = ({
         <OrgMemberStateBadge state={memberState} />
         <span className="flex-1" />
         <span className="text-[10.5px] text-text4 whitespace-nowrap">
-          Joined {formatMemberJoinedDate(member.dateJoined)}
+          Member Since {formatMemberJoinedDate(member.memberSince)}
         </span>
       </div>
     </div>

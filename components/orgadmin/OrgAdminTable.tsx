@@ -43,7 +43,7 @@ export const OrgAdminTable = ({
           <th className="w-[28%]">Email</th>
           <th className="w-[14%]">Role on {orgName}</th>
           <th className="w-[13%]">State</th>
-          <th className="w-[13%]">Member Since</th>
+          <th className="w-[13%]">Joined</th>
           <th className="w-[4%]" />
         </tr>
       </thead>

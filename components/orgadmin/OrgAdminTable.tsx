@@ -89,7 +89,7 @@ export const OrgAdminTable = ({
                   <OrgMemberStateBadge state={memberState} />
                 </td>
                 <td className="text-[12px] text-muted-foreground">
-                  {formatMemberJoinedDate(member.dateJoined)}
+                  {formatMemberJoinedDate(member.memberSince)}
                 </td>
                 <td className="text-right relative overflow-visible">
                   <OrgMemberActions

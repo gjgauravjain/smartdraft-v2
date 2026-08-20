@@ -8,6 +8,7 @@ export type OrgMemberType = {
   isSuperuser: boolean;
   invitationAccepted: boolean;
   dateJoined: string;
+  memberSince: string;
   lastLogin: string | null;
   roles: string[];
 };

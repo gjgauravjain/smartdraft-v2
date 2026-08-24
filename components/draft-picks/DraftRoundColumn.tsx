@@ -147,7 +147,7 @@ export function DraftRoundColumn({
                     <img
                       src={pick.image}
                       alt={pick.currentOwnerShort}
-                      className="h-3 w-3 shrink-0 rounded-full border border-border"
+                      className="h-5 w-5 shrink-0 rounded-full border border-border"
                     />
                   ) : (
                     <span className="h-3 w-3 shrink-0 rounded-full border border-border bg-muted" />

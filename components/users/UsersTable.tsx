@@ -12,14 +12,16 @@ import { UserTierBadge } from "./UserTierBadge";
 import { UserOrgPills } from "./UserOrgPills";
 import { UserStatusBadge } from "./UserStatusBadge";
 import { UserRowActions } from "./UserRowActions";
+import { TeamOption } from "./util";
 import SdTable, { SdColumnDef } from "../common/SdTable";
 
 type UsersTableProps = {
   users: UserListType[];
+  teams: TeamOption[];
   onRowClick: (user: UserListType) => void;
 };
 
-export const UsersTable = ({ users, onRowClick }: UsersTableProps) => {
+export const UsersTable = ({ users, teams, onRowClick }: UsersTableProps) => {
   const columns: SdColumnDef<UserListType>[] = [
     {
       key: "name",
@@ -90,7 +92,7 @@ export const UsersTable = ({ users, onRowClick }: UsersTableProps) => {
       label: "",
       width: "40px",
       align: "right",
-      render: (user) => <UserRowActions user={user} />,
+      render: (user) => <UserRowActions user={user} teams={teams} />,
     },
   ];
 

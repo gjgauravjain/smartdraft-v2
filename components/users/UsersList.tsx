@@ -89,7 +89,11 @@ const UsersList = () => {
             onTierFilterChange={setTierFilter}
             onStatusFilterChange={setStatusFilter}
           />
-          <UsersTable users={users} onRowClick={handleRowClick} />
+          <UsersTable
+            users={users}
+            teams={teamOptions}
+            onRowClick={handleRowClick}
+          />
           <CreateUserModal
             open={createUserOpen}
             onOpenChange={setCreateUserOpen}

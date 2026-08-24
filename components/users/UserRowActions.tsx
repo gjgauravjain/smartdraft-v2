@@ -1,89 +1,137 @@
 "use client";
 
-import { useState } from "react";
 import { Pencil, Shield, UserX } from "lucide-react";
 import { UserListType } from "@/app/api/type/user";
+import { ConfirmDangerDialog } from "@/components/common/ConfirmDangerDialog";
 import { DotsIcon } from "@/components/common/icons";
+import { ActionMenuItem } from "@/components/users/row-actions/ActionMenuItem";
+import { ChangeTierDialog } from "@/components/users/row-actions/ChangeTierDialog";
+import { EditUserDialog } from "@/components/users/row-actions/EditUserDialog";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { cn } from "@/lib/utils";
-
-const MENU_DISABLED_TOOLTIP =
-  "Available once user updates are enabled";
+import { TeamOption } from "./util";
+import { useUserRowActions } from "./hook";
 
 type UserRowActionsProps = {
   user: UserListType;
+  teams: TeamOption[];
 };
 
-type MenuItemProps = {
-  icon: React.ReactNode;
-  label: string;
-  destructive?: boolean;
-};
-
-function DisabledMenuItem({ icon, label, destructive }: MenuItemProps) {
+export function UserRowActions({ user, teams }: UserRowActionsProps) {
+  const {
+    open,
+    setOpen,
+    editOpen,
+    setEditOpen,
+    tierOpen,
+    setTierOpen,
+    deactivateOpen,
+    setDeactivateOpen,
+    selectedTier,
+    setSelectedTier,
+    editForm,
+    isPending,
+    isCurrentUser,
+    canManageUsers,
+    wouldRemoveLastSuperAdmin,
+    handleEditUser,
+    handleChangeTier,
+    handleSaveEdit,
+    handleSaveTier,
+    handleDeactivateAccount,
+    handleConfirmDeactivate,
+    disableReason,
+    changeTierReason,
+    deactivateReason,
+  } = useUserRowActions(user);
   return (
-    <Tooltip>
-      <TooltipTrigger asChild>
-        <span className="block w-full">
+    <>
+      <Popover open={open} onOpenChange={setOpen}>
+        <PopoverTrigger asChild>
           <button
             type="button"
-            disabled
-            className={cn(
-              "flex w-full cursor-not-allowed items-center rounded-sm px-2 py-1.5 text-left text-[12px] opacity-50",
-              destructive ? "text-destructive" : "text-foreground",
-            )}
+            aria-label={`Actions for ${user.firstName} ${user.lastName}`}
+            className="inline-flex cursor-pointer rounded p-1 text-muted-foreground/40 transition-colors hover:text-muted-foreground"
+            onClick={(event) => event.stopPropagation()}
+            disabled={isPending}
           >
-            <span className="mr-2 inline-flex h-3 w-3 shrink-0 items-center justify-center">
-              {icon}
-            </span>
-            {label}
+            <DotsIcon />
           </button>
-        </span>
-      </TooltipTrigger>
-      <TooltipContent side="left">{MENU_DISABLED_TOOLTIP}</TooltipContent>
-    </Tooltip>
-  );
-}
+        </PopoverTrigger>
+        <PopoverContent align="end" className="w-48 p-1">
+          <ActionMenuItem
+            icon={<Pencil className="h-3 w-3" strokeWidth={1.8} />}
+            label="Edit user"
+            disabled={!canManageUsers || isCurrentUser || isPending}
+            disabledReason={disableReason()}
+            onClick={handleEditUser}
+          />
+          <ActionMenuItem
+            icon={<Shield className="h-3 w-3" strokeWidth={1.8} />}
+            label="Change tier"
+            disabled={
+              !canManageUsers ||
+              isCurrentUser ||
+              isPending ||
+              wouldRemoveLastSuperAdmin
+            }
+            disabledReason={changeTierReason()}
+            onClick={handleChangeTier}
+          />
+          {user.isActive && (
+            <ActionMenuItem
+              icon={<UserX className="h-3 w-3" strokeWidth={1.8} />}
+              label="Deactivate account"
+              destructive
+              disabled={
+                !canManageUsers ||
+                isCurrentUser ||
+                isPending ||
+                !user.isActive ||
+                wouldRemoveLastSuperAdmin
+              }
+              disabledReason={deactivateReason()}
+              onClick={handleDeactivateAccount}
+            />
+          )}
+        </PopoverContent>
+      </Popover>
 
-export function UserRowActions({ user }: UserRowActionsProps) {
-  const [open, setOpen] = useState(false);
+      <EditUserDialog
+        open={editOpen}
+        onOpenChange={setEditOpen}
+        user={user}
+        form={editForm}
+        teams={teams}
+        isPending={isPending}
+        onOpenTier={() => setTierOpen(true)}
+        onSave={handleSaveEdit}
+      />
 
-  return (
-    <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger asChild>
-        <button
-          type="button"
-          aria-label={`Actions for ${user.firstName} ${user.lastName}`}
-          className="inline-flex cursor-pointer rounded p-1 text-muted-foreground/40 transition-colors hover:text-muted-foreground"
-          onClick={(event) => event.stopPropagation()}
-        >
-          <DotsIcon />
-        </button>
-      </PopoverTrigger>
-      <PopoverContent align="end" className="w-48 p-1">
-        <DisabledMenuItem
-          icon={<Pencil className="h-3 w-3" strokeWidth={1.8} />}
-          label="Edit user"
-        />
-        <DisabledMenuItem
-          icon={<Shield className="h-3 w-3" strokeWidth={1.8} />}
-          label="Change tier"
-        />
-        <DisabledMenuItem
-          icon={<UserX className="h-3 w-3" strokeWidth={1.8} />}
-          label="Deactivate account"
-          destructive
-        />
-      </PopoverContent>
-    </Popover>
+      <ChangeTierDialog
+        open={tierOpen}
+        onOpenChange={setTierOpen}
+        user={user}
+        selectedTier={selectedTier}
+        isPending={isPending}
+        wouldRemoveLastSuperAdmin={wouldRemoveLastSuperAdmin}
+        onSelectTier={setSelectedTier}
+        onSave={handleSaveTier}
+      />
+
+      <ConfirmDangerDialog
+        open={deactivateOpen}
+        onOpenChange={setDeactivateOpen}
+        title="Deactivate account"
+        subtitle={`${user.firstName} ${user.lastName}`}
+        description="This will disable the account and block sign in until it is reactivated."
+        actionLabel="Deactivate"
+        onConfirm={handleConfirmDeactivate}
+        isLoading={isPending}
+      />
+    </>
   );
 }

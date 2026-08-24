@@ -45,8 +45,11 @@ export type CreateUserType = {
 
 export type UpdateUserType = {
   id: number;
-  firstName: string;
-  lastName: string;
-  email: string;
-  defaultTeamId: string;
+  firstName?: string;
+  lastName?: string;
+  email?: string;
+  defaultTeamId?: string;
+  isSuperuser?: boolean;
+  isActive?: boolean;
+  isStaff?: boolean;
 };

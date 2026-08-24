@@ -29,7 +29,7 @@ export function DraftHandSection({
         </div>
         <div className="h-px flex-1 bg-border" />
       </div>
-      <div className="flex flex-wrap gap-1.5">
+      <div className="grid grid-cols-5 gap-1.5 sm:grid-cols-6">
         {chips.map((c, idx) => {
           const isLost =
             variant === "before" && /lost/i.test(c.impact?.action ?? "");
@@ -41,7 +41,7 @@ export function DraftHandSection({
             <div
               key={`${c.pick}-${idx}`}
               className={cn(
-                "inline-flex h-7 items-center gap-1.5 rounded-full border text-[12.5px] font-bold tabular-nums",
+                "inline-flex h-7 min-w-0 items-center justify-center gap-1.5 rounded-full border text-[12.5px] font-bold tabular-nums",
                 isMobile ? "px-2.75" : "px-2.5",
                 isLost &&
                   "border-destructive/30 bg-destructive/10 text-destructive",

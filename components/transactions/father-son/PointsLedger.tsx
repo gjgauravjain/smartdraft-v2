@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { cn } from "@/lib/utils";
-import { computeLedgerRows, formatNumber } from "./util";
+import { computeLedgerRows } from "./util";
 import { FatherSonBidImpactResponse } from "@/app/api/type/transaction";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { PointsLedgerHeader } from "./PointsLedgerHeader";
@@ -30,7 +30,9 @@ export function PointsLedger({
     !!deficitVisual?.deficitImpact && (deficitVisual?.pointsDeficit ?? 0) > 0;
 
   const isSurplus = !hasDeficit && finalRemaining <= 0;
-  const appliedTotal = impact.pointsRequired - finalRemaining;
+  const appliedTotal = hasDeficit
+    ? Math.max(impact.pointsRequired - (deficitVisual?.pointsDeficit ?? 0), 0)
+    : rows.reduce((sum, row) => sum + row.pickValue, 0);
 
   return (
     <div

@@ -17,6 +17,16 @@ export function PointsLedgerDeficit({
 }) {
   const [deficitDetailOpen, setDeficitDetailOpen] = useState(false);
 
+  const deficitRows = (deficitVisual.deficitImpact?.overallPick ?? [])
+    .map((_, idx) => idx)
+    .filter(
+      (idx) => (deficitVisual.deficitImpact?.pointsSubtracted?.[idx] ?? 0) > 0,
+    );
+
+  const deficitWarning = deficitVisual.missingNextYearFirstRounder
+    ? "This club does not hold its next-year first-round pick, so this deficit would not be permitted under AFL rules."
+    : deficitVisual.deficitWarning;
+
   return (
     <div
       className={cn(
@@ -47,11 +57,12 @@ export function PointsLedgerDeficit({
         </div>
       </div>
 
-      {deficitVisual.deficitExceedsCap && (
+      {(deficitVisual.deficitExceedsCap ||
+        deficitVisual.missingNextYearFirstRounder) && (
         <div className="points-ledger-deficit-alert mx-3.25 mb-2.75 flex items-start gap-1.75 rounded-md border px-2.5 py-2">
           <AlertTriangle className="points-ledger-deficit-text mt-0.5 h-3 w-3 shrink-0" />
           <div className="points-ledger-deficit-text text-[10.5px] leading-snug">
-            {deficitVisual.deficitWarning ??
+            {deficitWarning ??
               `This deficit exceeds the allowable cap of ${formatNumber(
                 deficitVisual.allowableDeficitPoints ?? 0,
               )} pts.`}
@@ -79,56 +90,33 @@ export function PointsLedgerDeficit({
             <thead>
               <tr>
                 <th className="points-ledger-deficit-text whitespace-nowrap px-2 py-1.5 text-left text-[9px] font-extrabold tracking-[0.4px] opacity-80">
-                  RD
-                </th>
-                <th className="points-ledger-deficit-text whitespace-nowrap px-2 py-1.5 text-left text-[9px] font-extrabold tracking-[0.4px] opacity-80">
-                  PICK
-                </th>
-                <th className="points-ledger-deficit-text whitespace-nowrap px-2 py-1.5 text-right text-[9px] font-extrabold tracking-[0.4px] opacity-80">
-                  DVI
-                </th>
-                <th className="points-ledger-deficit-text whitespace-nowrap px-2 py-1.5 text-right text-[9px] font-extrabold tracking-[0.4px] opacity-80">
-                  MAX RD DVI
+                  PICK (ROUND)
                 </th>
                 <th className="points-ledger-deficit-text whitespace-nowrap px-2 py-1.5 text-right text-[9px] font-extrabold tracking-[0.4px] opacity-80">
                   PTS SUBTRACTED
                 </th>
                 <th className="points-ledger-deficit-text whitespace-nowrap px-2 py-1.5 text-left text-[9px] font-extrabold tracking-[0.4px] opacity-80">
-                  NEW PICK
+                  PROJECTED NEW PICK
                 </th>
               </tr>
             </thead>
             <tbody>
-              {deficitVisual.deficitImpact.overallPick.map((pick, idx) => {
+              {deficitRows.map((idx) => {
                 const di = deficitVisual.deficitImpact!;
-                const wasSubtracted = di.pointsSubtracted[idx] > 0;
+                const pick = di.overallPick[idx];
                 return (
                   <tr
                     key={idx}
                     className="points-ledger-deficit-divider border-t"
                   >
-                    <td className="points-ledger-deficit-text px-2 py-1.75 text-[11.5px] font-bold">
-                      R{di.draftRoundInt[idx]}
-                    </td>
                     <td className="points-ledger-deficit-text px-2 py-1.75 text-[11.5px] font-semibold">
-                      {pick}
+                      Pick {pick} (R{di.draftRoundInt[idx]})
                     </td>
-                    <td className="points-ledger-deficit-text px-2 py-1.75 text-right text-[11.5px]">
-                      {formatNumber(di.aflPointsValue[idx])}
-                    </td>
-                    <td className="points-ledger-deficit-text px-2 py-1.75 text-right text-[11.5px]">
-                      {formatNumber(di.maxDeficitPoints[idx])}
-                    </td>
-                    <td
-                      className={cn(
-                        "points-ledger-deficit-text px-2 py-1.75 text-right text-[11.5px]",
-                        wasSubtracted && "font-bold",
-                      )}
-                    >
+                    <td className="points-ledger-deficit-text px-2 py-1.75 text-right text-[11.5px] font-bold">
                       {formatNumber(di.pointsSubtracted[idx])}
                     </td>
                     <td className="points-ledger-deficit-text px-2 py-1.75 text-[11.5px] font-semibold">
-                      {wasSubtracted && di.newOverallPick[idx]
+                      {di.newOverallPick[idx]
                         ? `~ Pick ${di.newOverallPick[idx]}`
                         : "-"}
                     </td>

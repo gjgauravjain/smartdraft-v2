@@ -48,11 +48,11 @@ const FatherSonBidMatchModal = ({
     talentOrderOptions,
     playersOptions,
     setPlayerSource,
-    setTalentOrderId,
     teamsOptions,
     allDraftPicksOptions,
   } = useFatherSonBidMatchModal({
     onClose,
+    isOpen,
   });
   const isMobile = useIsMobile();
 
@@ -74,7 +74,7 @@ const FatherSonBidMatchModal = ({
         <DialogTitle className="sr-only">Father Son Bid Match</DialogTitle>
         <div
           className={cn(
-            "flex h-full max-h-220 w-full max-w-6xl flex-col overflow-hidden rounded-2xl bg-card shadow-[0_40px_90px_-24px_rgba(0,0,0,0.6)]",
+            "flex h-full max-h-220 w-full sm:max-w-6xl md:max-w-[80%] flex-col overflow-hidden rounded-2xl bg-card shadow-[0_40px_90px_-24px_rgba(0,0,0,0.6)]",
             isMobile && "rounded-t-[20px] rounded-b-none",
           )}
         >

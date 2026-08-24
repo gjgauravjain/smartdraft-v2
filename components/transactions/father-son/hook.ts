@@ -7,12 +7,26 @@ import {
 } from "@/app/api/react-query/player";
 import { useGetFatherSonBidImpact } from "@/app/api/react-query/transactions";
 import { useStore } from "@/store/useStore";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { useForm, useWatch } from "react-hook-form";
 import axios from "axios";
 import { SelectOption } from "@/components/common/fields/FormSelectField";
 import { TeamType } from "@/app/api/type/common";
-import { parseRound, playerName } from "./util";
+import { PlayerDatabaseType } from "@/app/api/type/player";
+import { parseRound } from "./util";
+
+type TalentOrderOptionSource = {
+  id: string | number;
+  name: string;
+  isDefault?: boolean;
+};
+
+type DraftPickOptionSource = {
+  currentOwner: string | number;
+  label: string;
+  value: string | number;
+  overallPick: string | number;
+};
 
 export type FatherSonBidMatchFormValues = {
   fsTeamId: string;
@@ -24,15 +38,18 @@ export type FatherSonBidMatchFormValues = {
 
 export const useFatherSonBidMatchModal = ({
   onClose,
+  isOpen,
 }: {
   onClose: () => void;
+  isOpen: boolean;
 }) => {
   const { currentOrganisation, selectedProject } = useStore();
   const { data: teams } = useGetTeams();
-  const { data: players } = useGetPlayerList({
+  const { data: players, refetch: refetchPlayers } = useGetPlayerList({
     orgId: currentOrganisation || "",
   });
-  const { data: talentOrder } = useGetTalentOrder();
+  const { data: talentOrder, refetch: refetchTalentOrders } =
+    useGetTalentOrder();
   const { data: allDraftPicks } = useGetAllDraftPicksList({
     projectId: Number(selectedProject?.id || "0"),
   });
@@ -62,9 +79,20 @@ export const useFatherSonBidMatchModal = ({
     talentOrder: talentOrderId,
   });
 
+  useEffect(() => {
+    if (!isOpen) {
+      return;
+    }
+
+    void refetchTalentOrders();
+    if (currentOrganisation) {
+      void refetchPlayers();
+    }
+  }, [isOpen, currentOrganisation, refetchPlayers, refetchTalentOrders]);
+
   const teamsById = useMemo(() => {
-    const map = new Map<string, any>();
-    (teams ?? []).forEach((t: any) => map.set(String(t.id), t));
+    const map = new Map<string, TeamType>();
+    (teams ?? []).forEach((team: TeamType) => map.set(String(team.id), team));
     return map;
   }, [teams]);
 
@@ -78,7 +106,9 @@ export const useFatherSonBidMatchModal = ({
 
   const selectedPlayer = useMemo(() => {
     const allPlayers = [...(players ?? []), ...(playersByTalentOrder ?? [])];
-    return allPlayers.find((p: any) => String(p.id) === playerId);
+    return allPlayers.find(
+      (player: PlayerDatabaseType) => String(player.id) === playerId,
+    );
   }, [players, playersByTalentOrder, playerId]);
 
   const projectId = Number(selectedProject?.id || "0");
@@ -134,7 +164,7 @@ export const useFatherSonBidMatchModal = ({
   );
   const allDraftPicksOptions: SelectOption[] = useMemo(
     () =>
-      (allDraftPicks ?? []).map((pick: any) => {
+      (allDraftPicks ?? []).map((pick: DraftPickOptionSource) => {
         const owner = teamsById.get(String(pick.currentOwner));
         const round = parseRound(pick.label);
         return {
@@ -149,7 +179,7 @@ export const useFatherSonBidMatchModal = ({
 
   const talentOrderOptions: SelectOption[] = useMemo(
     () =>
-      (talentOrder ?? []).map((order: any) => ({
+      (talentOrder ?? []).map((order: TalentOrderOptionSource) => ({
         value: String(order.id),
         label: `${order.name}${order.isDefault ? " (Default)" : ""}`,
       })),
@@ -162,11 +192,6 @@ export const useFatherSonBidMatchModal = ({
     if (source === "all") {
       form.setValue("talentOrderId", "");
     }
-  };
-
-  const setTalentOrderId = (value: string) => {
-    form.setValue("talentOrderId", value);
-    form.setValue("playerId", "");
   };
 
   return {
@@ -188,7 +213,6 @@ export const useFatherSonBidMatchModal = ({
     talentOrderOptions,
     playersOptions: activePlayers,
     setPlayerSource,
-    setTalentOrderId,
     allDraftPicksOptions,
   };
 };

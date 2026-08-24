@@ -1,4 +1,3 @@
-import { PlayerDatabaseType } from "@/app/api/type/player";
 import {
   FatherSonBidImpactResponse,
   OverallImpactItem,
@@ -13,7 +12,14 @@ export const DISPLAY_STATES = [
   { key: "board_source", letter: "E", label: "Board source" },
 ] as const;
 
-export function playerName(p: any) {
+type PlayerNameShape = {
+  preferredFirstName?: string;
+  firstName?: string;
+  preferredLastName?: string;
+  lastName?: string;
+};
+
+export function playerName(p: PlayerNameShape) {
   return `${p.preferredFirstName || p.firstName} ${p.preferredLastName || p.lastName}`;
 }
 
@@ -26,13 +32,30 @@ export function formatNumber(n: number) {
   return n.toLocaleString("en-AU");
 }
 
+const LEDGER_PICK_ACTION_PATTERNS = [
+  /pick\s*lost/i,
+  /pick\s*shuffled\s*backwards/i,
+  /matched\s*with\s*next\s*pick/i,
+];
+
+export function isLedgerPickAction(action: string) {
+  return LEDGER_PICK_ACTION_PATTERNS.some((pattern) => pattern.test(action));
+}
+
+export function getLedgerPickItems(impact: FatherSonBidImpactResponse) {
+  return impact.overallImpactDict.filter((item) =>
+    isLedgerPickAction(item.action ?? ""),
+  );
+}
+
 export function computeLedgerRows(impact: FatherSonBidImpactResponse) {
+  const pickItems = getLedgerPickItems(impact);
   let owed = impact.pointsRequired;
-  return impact.overallImpactDict.map((item) => {
+  return pickItems.map((item) => {
     const pickValue = Number(item.aflPointsValue) || 0;
     const owedBefore = owed;
     const remaining = owedBefore - pickValue;
-    owed = Math.max(remaining, 0);
+    owed = remaining;
     return {
       item,
       pickValue,

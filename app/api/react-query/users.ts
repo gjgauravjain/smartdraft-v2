@@ -68,14 +68,30 @@ export const useUpdateUser = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (payload: UpdateUserType) => {
+      const body: Record<string, string | number | boolean> = {};
+
+      if (payload.firstName !== undefined) {
+        body.first_name = payload.firstName;
+      }
+      if (payload.lastName !== undefined) {
+        body.last_name = payload.lastName;
+      }
+      if (payload.defaultTeamId !== undefined) {
+        body.team_id = Number(payload.defaultTeamId);
+      }
+      if (payload.isSuperuser !== undefined) {
+        body.is_superuser = payload.isSuperuser;
+      }
+      if (payload.isActive !== undefined) {
+        body.is_active = payload.isActive;
+      }
+      if (payload.isStaff !== undefined) {
+        body.is_staff = payload.isStaff;
+      }
+
       const { data } = await apiClient.put(
         updateUserApiUrl(payload.id.toString()),
-        {
-          first_name: payload.firstName,
-          last_name: payload.lastName,
-          email: payload.email,
-          team_id: Number(payload.defaultTeamId),
-        },
+        body,
       );
       return data;
     },

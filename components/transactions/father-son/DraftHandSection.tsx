@@ -29,7 +29,7 @@ export function DraftHandSection({
         </div>
         <div className="h-px flex-1 bg-border" />
       </div>
-      <div className="grid grid-cols-5 gap-1.5 sm:grid-cols-6">
+      <div className="grid grid-cols-5 gap-1.5 sm:grid-cols-4">
         {chips.map((c, idx) => {
           const isLost =
             variant === "before" && /lost/i.test(c.impact?.action ?? "");
@@ -67,7 +67,7 @@ export function DraftHandSection({
                 </span>
               )}
               {isHighlighted && (
-                <span className="text-[10.5px] font-semibold opacity-80">
+                <span className="text-[9.5px] font-semibold opacity-80">
                   father-son
                 </span>
               )}

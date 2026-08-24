@@ -98,7 +98,7 @@ export function FutureHandsSection({
                           : undefined
                       }
                       className={cn(
-                        "inline-flex h-6 min-w-0 items-center justify-center gap-1 rounded-full border px-2 py-2 text-[14px] font-bold tabular-nums",
+                        "inline-flex h-6 min-w-0 items-center justify-center gap-1 rounded-full border px-2 py-2 text-[11px] font-bold tabular-nums",
                         !pick && "opacity-55",
                         isDeficit
                           ? "future-hand-deficit-chip"

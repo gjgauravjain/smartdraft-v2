@@ -1,4 +1,4 @@
-import { Pencil, Shield } from "lucide-react";
+import { LockIcon, Pencil, Shield } from "lucide-react";
 import { SubmitHandler, UseFormReturn } from "react-hook-form";
 import { UserListType } from "@/app/api/type/user";
 import { Button } from "@/components/ui/button";
@@ -100,20 +100,7 @@ export function EditUserDialog({
                 </label>
                 <div className="flex w-full items-center gap-2 rounded-[7px] border border-input bg-muted px-3 py-2 text-[13px] text-muted-foreground">
                   <span className="flex-1">{user.email}</span>
-                  <svg
-                    width="13"
-                    height="13"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.8"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    aria-hidden="true"
-                  >
-                    <rect x="4" y="11" width="16" height="10" rx="2" />
-                    <path d="M8 11V7a4 4 0 0 1 8 0v4" />
-                  </svg>
+                  <LockIcon className="h-3 w-3 text-muted-foreground" />
                 </div>
                 <div className="mt-1.5 text-[11px] leading-[1.4] text-muted-foreground">
                   Owned by the sign-in provider - not editable here.

@@ -59,7 +59,11 @@ const UsersList = () => {
         <div className="p-2.5">
           <MobileSearch value={filters.search} onChange={setSearch} />
           <div className="border-b border-border h-[calc(100vh-170px)] pb-[70px] overflow-auto">
-            <UsersMobileList users={users} onRowClick={handleRowClick} />
+            <UsersMobileList
+              users={users}
+              teams={teamOptions}
+              onRowClick={handleRowClick}
+            />
           </div>
           <CreateUserModal
             open={createUserOpen}

@@ -45,7 +45,15 @@ export function EditUserDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-h-[716px] max-w-[520px] overflow-hidden rounded-[14px] border-border bg-card p-0 shadow-[0_24px_80px_rgba(0,0,0,0.28)] sm:rounded-[14px]">
+      <DialogContent
+        className={[
+          "max-h-[716px] max-w-[520px] overflow-hidden rounded-[14px] border-border bg-card p-0 shadow-[0_24px_80px_rgba(0,0,0,0.28)] sm:rounded-[14px]",
+          "max-sm:max-w-none max-sm:w-full max-sm:h-auto",
+          "max-sm:max-h-[85dvh] max-sm:rounded-t-2xl max-sm:rounded-b-none",
+          "max-sm:left-0 max-sm:right-0 max-sm:top-auto max-sm:bottom-0",
+          "max-sm:translate-x-0 max-sm:translate-y-0",
+        ].join(" ")}
+      >
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSave)}
@@ -167,7 +175,7 @@ export function EditUserDialog({
               </div>
             </div>
 
-            <DialogFooter className="border-t border-border px-5 py-3.5">
+            <DialogFooter className="border-t sm:gap-2 border-border px-5 py-3.5">
               <Button
                 type="button"
                 variant="outline"

@@ -49,10 +49,21 @@ export function ChangeTierDialog({
 }: ChangeTierDialogProps) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-[500px] overflow-hidden rounded-[14px] border-border bg-card p-0 shadow-[0_24px_80px_rgba(0,0,0,0.28)] sm:rounded-[14px]">
+      <DialogContent
+        className={[
+          "max-w-[500px] overflow-hidden rounded-[14px] border-border bg-card p-0 shadow-[0_24px_80px_rgba(0,0,0,0.28)] sm:rounded-[14px]",
+          "max-sm:max-w-none max-sm:w-full max-sm:h-auto",
+          "max-sm:max-h-[85dvh] max-sm:rounded-t-2xl max-sm:rounded-b-none",
+          "max-sm:left-0 max-sm:right-0 max-sm:top-auto max-sm:bottom-0",
+          "max-sm:translate-x-0 max-sm:translate-y-0",
+        ].join(" ")}
+      >
         <DialogHeader className="flex-row items-center gap-3 border-b border-border px-5 py-[17px]">
           <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-[9px] bg-primary/10 text-primary">
-            <Shield className="h-[18px] w-[18px]" strokeWidth={1.8} />
+            <Shield
+              className="h-[18px] w-[18px] dark:text-highlight-text"
+              strokeWidth={1.8}
+            />
           </div>
           <div className="min-w-0 flex-1 text-left">
             <DialogTitle className="text-[15.5px] font-bold text-foreground">
@@ -114,34 +125,35 @@ export function ChangeTierDialog({
           })}
         </div>
 
-        <div className="flex items-center gap-2 border-t border-border px-5 py-3.5">
-          <label className="flex items-center gap-2 text-[11.5px] text-muted-foreground">
+        <div className="flex flex-col gap-2 border-t border-border px-5 py-3.5 sm:flex-row sm:items-center">
+          <label className="flex w-full items-center gap-2 text-[11.5px] text-muted-foreground sm:w-auto">
             <span className="inline-flex h-[15px] w-[15px] items-center justify-center rounded-[4px] bg-primary text-[10px] text-primary-foreground">
               ✓
             </span>
             Keep going - open the next super admin
           </label>
-          <span className="flex-1" />
-          <Button
-            type="button"
-            variant="outline"
-            size="sm"
-            onClick={() => onOpenChange(false)}
-            className="h-auto rounded-[6px] px-3.5 py-2 text-[12.5px] font-semibold"
-          >
-            Cancel
-          </Button>
-          <Button
-            type="button"
-            size="sm"
-            onClick={onSave}
-            disabled={isPending || wouldRemoveLastSuperAdmin}
-            className="h-auto rounded-[6px] px-3.5 py-2 text-[12.5px] font-semibold"
-          >
-            {selectedTier === "super_admin"
-              ? "Promote to Super Admin"
-              : "Demote to Standard"}
-          </Button>
+          <div className="flex w-full gap-2 sm:ml-auto sm:w-auto">
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={() => onOpenChange(false)}
+              className="h-auto w-full rounded-[6px] px-3.5 py-2 text-[12.5px] font-semibold sm:w-auto"
+            >
+              Cancel
+            </Button>
+            <Button
+              type="button"
+              size="sm"
+              onClick={onSave}
+              disabled={isPending || wouldRemoveLastSuperAdmin}
+              className="h-auto w-full rounded-[6px] px-3.5 py-2 text-[12.5px] font-semibold sm:w-auto"
+            >
+              {selectedTier === "super_admin"
+                ? "Promote to Super Admin"
+                : "Demote to Standard"}
+            </Button>
+          </div>
         </div>
       </DialogContent>
     </Dialog>

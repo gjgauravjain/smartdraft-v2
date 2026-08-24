@@ -1,8 +1,10 @@
 import { UserListType } from "@/app/api/type/user";
 import { UserMobileCard } from "./UserMobileCard";
+import { TeamOption } from "./util";
 
 type UsersMobileListProps = {
   users: UserListType[];
+  teams: TeamOption[];
   onRowClick: (user: UserListType) => void;
 };
 
@@ -16,6 +18,7 @@ function EmptyState() {
 
 export const UsersMobileList = ({
   users,
+  teams,
   onRowClick,
 }: UsersMobileListProps) => {
   if (users.length === 0) {
@@ -25,7 +28,12 @@ export const UsersMobileList = ({
   return (
     <div className="flex flex-col gap-2.5">
       {users.map((user) => (
-        <UserMobileCard key={user.id} user={user} onClick={onRowClick} />
+        <UserMobileCard
+          key={user.id}
+          user={user}
+          teams={teams}
+          onClick={onRowClick}
+        />
       ))}
     </div>
   );

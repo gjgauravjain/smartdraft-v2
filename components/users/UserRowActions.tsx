@@ -14,6 +14,8 @@ import {
 } from "@/components/ui/popover";
 import { TeamOption } from "./util";
 import { useUserRowActions } from "./hook";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { VscKebabVertical } from "react-icons/vsc";
 
 type UserRowActionsProps = {
   user: UserListType;
@@ -47,6 +49,7 @@ export function UserRowActions({ user, teams }: UserRowActionsProps) {
     changeTierReason,
     deactivateReason,
   } = useUserRowActions(user);
+  const isMobile = useIsMobile();
   return (
     <>
       <Popover open={open} onOpenChange={setOpen}>
@@ -58,7 +61,7 @@ export function UserRowActions({ user, teams }: UserRowActionsProps) {
             onClick={(event) => event.stopPropagation()}
             disabled={isPending}
           >
-            <DotsIcon />
+            {isMobile ? <VscKebabVertical /> : <DotsIcon />}
           </button>
         </PopoverTrigger>
         <PopoverContent align="end" className="w-48 p-1">

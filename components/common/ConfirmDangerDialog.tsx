@@ -49,7 +49,15 @@ export function ConfirmDangerDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-115 p-0 overflow-hidden">
+      <DialogContent
+        className={[
+          "max-w-115 p-0 overflow-hidden",
+          "max-sm:max-w-none max-sm:w-full max-sm:h-auto",
+          "max-sm:max-h-[85dvh] max-sm:rounded-t-2xl max-sm:rounded-b-none",
+          "max-sm:left-0 max-sm:right-0 max-sm:top-auto max-sm:bottom-0",
+          "max-sm:translate-x-0 max-sm:translate-y-0",
+        ].join(" ")}
+      >
         <DialogTitle />
         <div className="p-5.5">
           <div className="flex items-start gap-3">

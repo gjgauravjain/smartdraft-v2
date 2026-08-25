@@ -5,6 +5,7 @@ import FatherSonBidMatchModal from "@/components/transactions/father-son/FatherS
 import ManualPickEditModal from "@/components/transactions/manual-pick-edit/ManualPickEditModal";
 import EnterDraftModeModal from "@/components/transactions/draft-mode/EnterDraftModeModal";
 import PassPickModal from "@/components/transactions/pass-pick/PassPickModal";
+import TradeModal from "@/components/transactions/transaction-trade/TradeModal";
 import { hasRebuildDraftEditCapability } from "@/lib/capabilities";
 import { useAuth } from "@/store/useStore";
 import { useEffect } from "react";
@@ -33,11 +34,8 @@ const TransactionModalSwitch = ({
   }, [type, user, onClose]);
 
   if (!type) return null;
-  if (type === TRANSACTION_MENU_OPTIONS_VALUE.COMPLETED_TRADE) {
-    return <></>;
-  }
-  if (type === TRANSACTION_MENU_OPTIONS_VALUE.MULTI_COMPLETED_TRADE) {
-    return <></>;
+  if (type === TRANSACTION_MENU_OPTIONS_VALUE.TRADE) {
+    return <TradeModal isOpen={true} onClose={onClose} />;
   }
   if (type === TRANSACTION_MENU_OPTIONS_VALUE.PRIORITY_PICK) {
     return <></>;

@@ -1,0 +1,2416 @@
+<div
+  style="
+    width: 1080px;
+    max-width: 100%;
+    max-height: 100%;
+    background: rgb(252, 252, 253);
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow:
+      rgba(0, 0, 0, 0.6) 0px 40px 90px -24px,
+      rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+  "
+>
+  <div
+    style="
+      padding: 12px 24px;
+      border-bottom: 1px solid rgb(227, 229, 234);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-shrink: 0;
+    "
+  >
+    <div
+      style="
+        flex: 1 1 0%;
+        min-width: 0px;
+        display: flex;
+        align-items: baseline;
+        gap: 10px;
+      "
+    >
+      <span
+        style="
+          font-size: 18px;
+          font-weight: 800;
+          color: rgb(42, 51, 63);
+          letter-spacing: -0.2px;
+          white-space: nowrap;
+        "
+        >New trade</span
+      ><span
+        style="
+          font-size: 10px;
+          font-weight: 800;
+          letter-spacing: 1px;
+          color: oklch(0.49 0.132 0);
+          text-transform: uppercase;
+          white-space: nowrap;
+        "
+        >Transaction · Trade</span
+      ><span
+        style="
+          font-size: 12px;
+          color: rgb(115, 123, 136);
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        "
+        >2026 National Draft · Project board</span
+      >
+    </div>
+    <div style="display: flex; align-items: center; gap: 7px; flex-shrink: 0">
+      <div
+        style="
+          width: 20px;
+          height: 20px;
+          border-radius: 50%;
+          overflow: hidden;
+          flex-shrink: 0;
+          border: 1.5px solid rgba(0, 0, 0, 0.15);
+          display: flex;
+        "
+      >
+        <div style="flex: 1 1 0%; background: rgb(125, 0, 59)"></div>
+        <div style="flex: 1 1 0%; background: rgb(255, 210, 0)"></div>
+        <div style="flex: 1 1 0%; background: rgb(0, 88, 168)"></div>
+      </div>
+      <span style="font-size: 13px; color: rgb(115, 123, 136); font-weight: 600"
+        >⇄</span
+      >
+      <div
+        style="
+          width: 20px;
+          height: 20px;
+          border-radius: 50%;
+          overflow: hidden;
+          flex-shrink: 0;
+          border: 1.5px solid rgba(0, 0, 0, 0.15);
+          display: flex;
+        "
+      >
+        <div style="flex: 1 1 0%; background: rgb(0, 43, 92)"></div>
+        <div style="flex: 1 1 0%; background: rgb(255, 255, 255)"></div>
+      </div>
+    </div>
+    <div
+      style="
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        padding: 5px 12px;
+        border-radius: 99px;
+        background: rgb(243, 226, 225);
+        border: 1px solid rgb(226, 199, 197);
+        color: rgb(154, 54, 54);
+        font-size: 12px;
+        font-weight: 800;
+        font-family: Inter, sans-serif;
+        flex-shrink: 0;
+      "
+    >
+      <span
+        style="
+          width: 8px;
+          height: 8px;
+          border-radius: 50%;
+          background: rgb(163, 58, 58);
+        "
+      ></span
+      >Invalid
+    </div>
+    <button
+      style="
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        height: 30px;
+        padding: 0px 12px;
+        border-radius: 99px;
+        background: transparent;
+        border: 1px dashed rgb(211, 215, 222);
+        color: rgb(76, 85, 99);
+        font-size: 11.5px;
+        font-weight: 700;
+        font-family: Inter, sans-serif;
+        cursor: pointer;
+        opacity: 1;
+      "
+    >
+      <span style="font-size: 13px; line-height: 1">+</span>Add club</button
+    ><button
+      title="Close"
+      style="
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        border: 1px solid rgb(227, 229, 234);
+        background: rgb(252, 252, 253);
+        color: rgb(115, 123, 136);
+        font-size: 16px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0px;
+        flex-shrink: 0;
+      "
+    >
+      ×
+    </button>
+  </div>
+  <div
+    style="
+      flex: 1 1 0%;
+      min-height: 0px;
+      overflow: auto;
+      padding: 16px 22px 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      background: rgb(244, 245, 247);
+    "
+  >
+    <div>
+      <div style="display: flex; align-items: stretch; gap: 0px">
+        <div
+          style="
+            flex: 1 1 0%;
+            min-width: 0px;
+            background: rgb(252, 252, 253);
+            border: 1px solid rgb(227, 229, 234);
+            border-radius: 11px;
+            padding: 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+          "
+        >
+          <div>
+            <div
+              style="
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                height: 38px;
+                padding: 0px 11px;
+                background: rgb(252, 252, 253);
+                border: 1px solid rgb(227, 229, 234);
+                border-radius: 8px;
+                font-size: 13px;
+                color: rgb(34, 43, 56);
+                font-family: Inter, sans-serif;
+              "
+            >
+              <div
+                style="
+                  width: 17px;
+                  height: 17px;
+                  border-radius: 50%;
+                  overflow: hidden;
+                  flex-shrink: 0;
+                  border: 1.5px solid rgba(0, 0, 0, 0.15);
+                  display: flex;
+                "
+              >
+                <div style="flex: 1 1 0%; background: rgb(125, 0, 59)"></div>
+                <div style="flex: 1 1 0%; background: rgb(255, 210, 0)"></div>
+                <div style="flex: 1 1 0%; background: rgb(0, 88, 168)"></div>
+              </div>
+              <span style="flex: 1 1 0%; font-weight: 600">Brisbane Lions</span
+              ><span style="color: rgb(115, 123, 136); font-size: 10px">▾</span>
+            </div>
+          </div>
+          <div style="flex: 1 1 0%; display: flex; flex-direction: column">
+            <div
+              style="
+                display: flex;
+                align-items: baseline;
+                gap: 6px;
+                margin-bottom: 6px;
+              "
+            >
+              <span
+                style="
+                  font-size: 10px;
+                  font-weight: 800;
+                  letter-spacing: 0.7px;
+                  color: rgb(162, 169, 180);
+                  text-transform: uppercase;
+                  font-family: Inter, sans-serif;
+                "
+                >Receives</span
+              ><span style="flex: 1 1 0%"></span
+              ><span
+                style="
+                  font-size: 10.5px;
+                  font-weight: 700;
+                  color: rgb(115, 123, 136);
+                  font-variant-numeric: tabular-nums;
+                  font-family: Inter, sans-serif;
+                "
+                >894 pts in</span
+              >
+            </div>
+            <div
+              style="
+                background: rgb(244, 245, 247);
+                border: 1px solid rgb(236, 238, 242);
+                border-radius: 9px;
+                opacity: 1;
+                flex: 1 1 0%;
+                display: flex;
+                flex-direction: column;
+              "
+            >
+              <div
+                style="
+                  display: flex;
+                  align-items: flex-start;
+                  gap: 9px;
+                  padding: 9px 11px;
+                  border-top-width: medium;
+                  border-top-style: none;
+                  border-top-color: currentcolor;
+                  flex: 1 1 0%;
+                "
+              >
+                <span
+                  style="
+                    width: 52px;
+                    font-size: 9.5px;
+                    font-weight: 800;
+                    letter-spacing: 0.5px;
+                    color: rgb(162, 169, 180);
+                    text-transform: uppercase;
+                    font-family: Inter, sans-serif;
+                    flex-shrink: 0;
+                    padding-top: 8px;
+                  "
+                  >Picks</span
+                >
+                <div
+                  style="
+                    flex: 1 1 0%;
+                    min-width: 0px;
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 6px;
+                    align-items: center;
+                  "
+                >
+                  <div
+                    style="
+                      display: inline-flex;
+                      align-items: center;
+                      gap: 6px;
+                      height: 30px;
+                      padding: 0px 6px 0px 11px;
+                      border-radius: 99px;
+                      background: rgb(252, 252, 253);
+                      border: 1px solid rgb(211, 215, 222);
+                      color: rgb(34, 43, 56);
+                      font-weight: 700;
+                      font-size: 12.5px;
+                      font-variant-numeric: tabular-nums;
+                      font-family: Inter, sans-serif;
+                      white-space: nowrap;
+                    "
+                  >
+                    <span>Pick 19</span
+                    ><span
+                      style="
+                        font-weight: 600;
+                        font-size: 10.5px;
+                        color: rgb(115, 123, 136);
+                      "
+                      >GEE · 894</span
+                    ><button
+                      title="Remove"
+                      style="
+                        width: 18px;
+                        height: 18px;
+                        border-radius: 50%;
+                        border-width: medium;
+                        border-style: none;
+                        border-color: currentcolor;
+                        border-image: none;
+                        background: rgb(244, 245, 247);
+                        color: rgb(115, 123, 136);
+                        font-size: 11px;
+                        font-weight: 700;
+                        cursor: pointer;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        padding: 0px;
+                        flex-shrink: 0;
+                      "
+                    >
+                      ×
+                    </button>
+                  </div>
+                </div>
+                <div style="flex-shrink: 0">
+                  <button
+                    style="
+                      display: inline-flex;
+                      align-items: center;
+                      gap: 5px;
+                      height: 30px;
+                      padding: 0px 12px;
+                      border-radius: 99px;
+                      background: transparent;
+                      border: 1px dashed rgb(211, 215, 222);
+                      color: rgb(76, 85, 99);
+                      font-size: 11.5px;
+                      font-weight: 700;
+                      font-family: Inter, sans-serif;
+                      cursor: pointer;
+                      opacity: 1;
+                    "
+                  >
+                    <span style="font-size: 13px; line-height: 1">+</span>Pick
+                  </button>
+                </div>
+              </div>
+              <div
+                style="
+                  display: flex;
+                  align-items: flex-start;
+                  gap: 9px;
+                  padding: 9px 11px;
+                  border-top: 1px solid rgb(236, 238, 242);
+                  flex: 0 0 auto;
+                "
+              >
+                <span
+                  style="
+                    width: 52px;
+                    font-size: 9.5px;
+                    font-weight: 800;
+                    letter-spacing: 0.5px;
+                    color: rgb(162, 169, 180);
+                    text-transform: uppercase;
+                    font-family: Inter, sans-serif;
+                    flex-shrink: 0;
+                    padding-top: 8px;
+                  "
+                  >Players</span
+                >
+                <div
+                  style="
+                    flex: 1 1 0%;
+                    min-width: 0px;
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 6px;
+                    align-items: center;
+                  "
+                >
+                  <span
+                    style="
+                      font-size: 11px;
+                      color: rgb(162, 169, 180);
+                      font-style: italic;
+                      font-family: Inter, sans-serif;
+                      line-height: 30px;
+                    "
+                    >No players yet</span
+                  >
+                </div>
+                <div style="flex-shrink: 0">
+                  <button
+                    style="
+                      display: inline-flex;
+                      align-items: center;
+                      gap: 5px;
+                      height: 30px;
+                      padding: 0px 12px;
+                      border-radius: 99px;
+                      background: transparent;
+                      border: 1px dashed rgb(211, 215, 222);
+                      color: rgb(76, 85, 99);
+                      font-size: 11.5px;
+                      font-weight: 700;
+                      font-family: Inter, sans-serif;
+                      cursor: pointer;
+                      opacity: 1;
+                    "
+                  >
+                    <span style="font-size: 13px; line-height: 1">+</span>Player
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          style="
+            display: flex;
+            align-items: center;
+            padding: 0px 10px;
+            flex-shrink: 0;
+          "
+        >
+          <span
+            style="
+              width: 30px;
+              height: 30px;
+              border-radius: 50%;
+              background: rgb(252, 252, 253);
+              border: 1px solid rgb(227, 229, 234);
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              font-size: 13px;
+              color: rgb(115, 123, 136);
+              font-weight: 600;
+            "
+            >⇄</span
+          >
+        </div>
+        <div
+          style="
+            flex: 1 1 0%;
+            min-width: 0px;
+            background: rgb(252, 252, 253);
+            border: 1px solid rgb(227, 229, 234);
+            border-radius: 11px;
+            padding: 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+          "
+        >
+          <div>
+            <div
+              style="
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                height: 38px;
+                padding: 0px 11px;
+                background: rgb(252, 252, 253);
+                border: 1px solid rgb(227, 229, 234);
+                border-radius: 8px;
+                font-size: 13px;
+                color: rgb(34, 43, 56);
+                font-family: Inter, sans-serif;
+              "
+            >
+              <div
+                style="
+                  width: 17px;
+                  height: 17px;
+                  border-radius: 50%;
+                  overflow: hidden;
+                  flex-shrink: 0;
+                  border: 1.5px solid rgba(0, 0, 0, 0.15);
+                  display: flex;
+                "
+              >
+                <div style="flex: 1 1 0%; background: rgb(0, 43, 92)"></div>
+                <div style="flex: 1 1 0%; background: rgb(255, 255, 255)"></div>
+              </div>
+              <span style="flex: 1 1 0%; font-weight: 600">Geelong Cats</span
+              ><span style="color: rgb(115, 123, 136); font-size: 10px">▾</span>
+            </div>
+          </div>
+          <div style="flex: 1 1 0%; display: flex; flex-direction: column">
+            <div
+              style="
+                display: flex;
+                align-items: baseline;
+                gap: 6px;
+                margin-bottom: 6px;
+              "
+            >
+              <span
+                style="
+                  font-size: 10px;
+                  font-weight: 800;
+                  letter-spacing: 0.7px;
+                  color: rgb(162, 169, 180);
+                  text-transform: uppercase;
+                  font-family: Inter, sans-serif;
+                "
+                >Receives</span
+              ><span style="flex: 1 1 0%"></span
+              ><span
+                style="
+                  font-size: 10.5px;
+                  font-weight: 700;
+                  color: rgb(115, 123, 136);
+                  font-variant-numeric: tabular-nums;
+                  font-family: Inter, sans-serif;
+                "
+                >894 pts in</span
+              >
+            </div>
+            <div
+              style="
+                background: rgb(244, 245, 247);
+                border: 1px solid rgb(236, 238, 242);
+                border-radius: 9px;
+                opacity: 1;
+                flex: 1 1 0%;
+                display: flex;
+                flex-direction: column;
+              "
+            >
+              <div
+                style="
+                  display: flex;
+                  align-items: flex-start;
+                  gap: 9px;
+                  padding: 9px 11px;
+                  border-top-width: medium;
+                  border-top-style: none;
+                  border-top-color: currentcolor;
+                  flex: 1 1 0%;
+                "
+              >
+                <span
+                  style="
+                    width: 52px;
+                    font-size: 9.5px;
+                    font-weight: 800;
+                    letter-spacing: 0.5px;
+                    color: rgb(162, 169, 180);
+                    text-transform: uppercase;
+                    font-family: Inter, sans-serif;
+                    flex-shrink: 0;
+                    padding-top: 8px;
+                  "
+                  >Picks</span
+                >
+                <div
+                  style="
+                    flex: 1 1 0%;
+                    min-width: 0px;
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 6px;
+                    align-items: center;
+                  "
+                >
+                  <div
+                    style="
+                      display: inline-flex;
+                      align-items: center;
+                      gap: 6px;
+                      height: 30px;
+                      padding: 0px 6px 0px 11px;
+                      border-radius: 99px;
+                      background: rgb(252, 252, 253);
+                      border: 1px solid rgb(211, 215, 222);
+                      color: rgb(34, 43, 56);
+                      font-weight: 700;
+                      font-size: 12.5px;
+                      font-variant-numeric: tabular-nums;
+                      font-family: Inter, sans-serif;
+                      white-space: nowrap;
+                    "
+                  >
+                    <span>Pick 19</span
+                    ><span
+                      style="
+                        font-weight: 600;
+                        font-size: 10.5px;
+                        color: rgb(115, 123, 136);
+                      "
+                      >BRL · 894</span
+                    ><button
+                      title="Remove"
+                      style="
+                        width: 18px;
+                        height: 18px;
+                        border-radius: 50%;
+                        border-width: medium;
+                        border-style: none;
+                        border-color: currentcolor;
+                        border-image: none;
+                        background: rgb(244, 245, 247);
+                        color: rgb(115, 123, 136);
+                        font-size: 11px;
+                        font-weight: 700;
+                        cursor: pointer;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        padding: 0px;
+                        flex-shrink: 0;
+                      "
+                    >
+                      ×
+                    </button>
+                  </div>
+                </div>
+                <div style="flex-shrink: 0">
+                  <button
+                    style="
+                      display: inline-flex;
+                      align-items: center;
+                      gap: 5px;
+                      height: 30px;
+                      padding: 0px 12px;
+                      border-radius: 99px;
+                      background: transparent;
+                      border: 1px dashed rgb(211, 215, 222);
+                      color: rgb(76, 85, 99);
+                      font-size: 11.5px;
+                      font-weight: 700;
+                      font-family: Inter, sans-serif;
+                      cursor: pointer;
+                      opacity: 1;
+                    "
+                  >
+                    <span style="font-size: 13px; line-height: 1">+</span>Pick
+                  </button>
+                </div>
+              </div>
+              <div
+                style="
+                  display: flex;
+                  align-items: flex-start;
+                  gap: 9px;
+                  padding: 9px 11px;
+                  border-top: 1px solid rgb(236, 238, 242);
+                  flex: 0 0 auto;
+                "
+              >
+                <span
+                  style="
+                    width: 52px;
+                    font-size: 9.5px;
+                    font-weight: 800;
+                    letter-spacing: 0.5px;
+                    color: rgb(162, 169, 180);
+                    text-transform: uppercase;
+                    font-family: Inter, sans-serif;
+                    flex-shrink: 0;
+                    padding-top: 8px;
+                  "
+                  >Players</span
+                >
+                <div
+                  style="
+                    flex: 1 1 0%;
+                    min-width: 0px;
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 6px;
+                    align-items: center;
+                  "
+                >
+                  <span
+                    style="
+                      font-size: 11px;
+                      color: rgb(162, 169, 180);
+                      font-style: italic;
+                      font-family: Inter, sans-serif;
+                      line-height: 30px;
+                    "
+                    >No players yet</span
+                  >
+                </div>
+                <div style="flex-shrink: 0">
+                  <button
+                    style="
+                      display: inline-flex;
+                      align-items: center;
+                      gap: 5px;
+                      height: 30px;
+                      padding: 0px 12px;
+                      border-radius: 99px;
+                      background: transparent;
+                      border: 1px dashed rgb(211, 215, 222);
+                      color: rgb(76, 85, 99);
+                      font-size: 11.5px;
+                      font-weight: 700;
+                      font-family: Inter, sans-serif;
+                      cursor: pointer;
+                      opacity: 1;
+                    "
+                  >
+                    <span style="font-size: 13px; line-height: 1">+</span>Player
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div
+        style="display: flex; align-items: center; gap: 8px; margin-bottom: 9px"
+      >
+        <div
+          style="
+            font-size: 10.5px;
+            font-weight: 800;
+            letter-spacing: 0.8px;
+            color: rgb(162, 169, 180);
+            text-transform: uppercase;
+            font-family: Inter, sans-serif;
+            white-space: nowrap;
+          "
+        >
+          Trade impact
+        </div>
+        <span
+          style="
+            font-size: 11px;
+            color: rgb(154, 54, 54);
+            font-family: Inter, sans-serif;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            min-width: 0px;
+          "
+          >Pick 19 leaves Brisbane and returns to Brisbane in the same trade —
+          blocked by the trade-back rule.</span
+        ><span
+          style="
+            flex: 1 1 0%;
+            height: 1px;
+            background: rgb(236, 238, 242);
+            min-width: 24px;
+          "
+        ></span>
+      </div>
+      <div
+        style="
+          background: rgb(252, 252, 253);
+          border: 1px solid rgb(227, 229, 234);
+          border-radius: 12px;
+          padding: 18px 20px;
+        "
+      >
+        <div style="display: flex; flex-direction: column; gap: 4px">
+          <div style="font-family: Inter, sans-serif">
+            <div style="display: flex; align-items: center; gap: 12px">
+              <div
+                style="
+                  display: flex;
+                  align-items: center;
+                  gap: 7px;
+                  flex-shrink: 0;
+                  flex-direction: row;
+                "
+              >
+                <div
+                  style="
+                    width: 22px;
+                    height: 22px;
+                    border-radius: 50%;
+                    overflow: hidden;
+                    flex-shrink: 0;
+                    border: 1.5px solid rgba(0, 0, 0, 0.15);
+                    display: flex;
+                  "
+                >
+                  <div style="flex: 1 1 0%; background: rgb(125, 0, 59)"></div>
+                  <div style="flex: 1 1 0%; background: rgb(255, 210, 0)"></div>
+                  <div style="flex: 1 1 0%; background: rgb(0, 88, 168)"></div>
+                </div>
+                <span
+                  style="
+                    font-size: 12.5px;
+                    font-weight: 700;
+                    color: rgb(34, 43, 56);
+                  "
+                  >Brisbane Lions</span
+                >
+              </div>
+              <div
+                style="
+                  flex: 1 1 0%;
+                  position: relative;
+                  height: 10px;
+                  border-radius: 99px;
+                  background: rgb(244, 245, 247);
+                  border: 1px solid rgb(227, 229, 234);
+                  overflow: hidden;
+                "
+              >
+                <span
+                  style="
+                    position: absolute;
+                    left: 50%;
+                    top: 0px;
+                    bottom: 0px;
+                    width: 1px;
+                    background: rgb(211, 215, 222);
+                  "
+                ></span>
+              </div>
+              <div
+                style="
+                  display: flex;
+                  align-items: center;
+                  gap: 7px;
+                  flex-shrink: 0;
+                  flex-direction: row-reverse;
+                "
+              >
+                <div
+                  style="
+                    width: 22px;
+                    height: 22px;
+                    border-radius: 50%;
+                    overflow: hidden;
+                    flex-shrink: 0;
+                    border: 1.5px solid rgba(0, 0, 0, 0.15);
+                    display: flex;
+                  "
+                >
+                  <div style="flex: 1 1 0%; background: rgb(0, 43, 92)"></div>
+                  <div
+                    style="flex: 1 1 0%; background: rgb(255, 255, 255)"
+                  ></div>
+                </div>
+                <span
+                  style="
+                    font-size: 12.5px;
+                    font-weight: 700;
+                    color: rgb(34, 43, 56);
+                  "
+                  >Geelong Cats</span
+                >
+              </div>
+            </div>
+            <div
+              style="
+                display: flex;
+                align-items: flex-start;
+                gap: 10px;
+                margin-top: 8px;
+              "
+            >
+              <div
+                style="
+                  font-size: 10.5px;
+                  color: rgb(115, 123, 136);
+                  font-variant-numeric: tabular-nums;
+                  text-align: left;
+                  flex-shrink: 0;
+                "
+              >
+                in <strong style="color: rgb(76, 85, 99)">894</strong><br />out
+                <strong style="color: rgb(76, 85, 99)">894</strong>
+              </div>
+              <div style="flex: 1 1 0%; text-align: center">
+                <div
+                  style="
+                    font-size: 20px;
+                    font-weight: 800;
+                    color: rgb(34, 43, 56);
+                    font-variant-numeric: tabular-nums;
+                    letter-spacing: -0.3px;
+                  "
+                >
+                  Even trade
+                </div>
+              </div>
+              <div
+                style="
+                  font-size: 10.5px;
+                  color: rgb(115, 123, 136);
+                  font-variant-numeric: tabular-nums;
+                  text-align: right;
+                  flex-shrink: 0;
+                "
+              >
+                in <strong style="color: rgb(76, 85, 99)">0</strong><br />out
+                <strong style="color: rgb(76, 85, 99)">0</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div
+        style="display: flex; align-items: center; gap: 8px; margin-bottom: 9px"
+      >
+        <div
+          style="
+            font-size: 10.5px;
+            font-weight: 800;
+            letter-spacing: 0.8px;
+            color: rgb(162, 169, 180);
+            text-transform: uppercase;
+            font-family: Inter, sans-serif;
+            white-space: nowrap;
+          "
+        >
+          Detail
+        </div>
+        <span style="font-size: 9.5px; color: rgb(162, 169, 180)"
+          >hands + rule checks</span
+        ><span
+          style="flex: 1 1 0%; height: 1px; background: rgb(236, 238, 242)"
+        ></span>
+      </div>
+      <div style="margin-top: 0px">
+        <div style="display: flex; flex-direction: column; gap: 8px">
+          <div
+            style="
+              display: grid;
+              grid-template-columns: repeat(2, 1fr);
+              gap: 8px;
+              align-items: stretch;
+            "
+          >
+            <div
+              style="
+                background: rgb(252, 252, 253);
+                border: 1px solid rgb(227, 229, 234);
+                border-radius: 10px;
+                overflow: hidden;
+                display: flex;
+                flex-direction: column;
+              "
+            >
+              <div
+                style="
+                  display: flex;
+                  align-items: center;
+                  gap: 8px;
+                  padding: 10px 13px;
+                  border-bottom: 1px solid rgb(236, 238, 242);
+                  font-family: Inter, sans-serif;
+                "
+              >
+                <div
+                  style="
+                    width: 17px;
+                    height: 17px;
+                    border-radius: 50%;
+                    overflow: hidden;
+                    flex-shrink: 0;
+                    border: 1.5px solid rgba(0, 0, 0, 0.15);
+                    display: flex;
+                  "
+                >
+                  <div style="flex: 1 1 0%; background: rgb(125, 0, 59)"></div>
+                  <div style="flex: 1 1 0%; background: rgb(255, 210, 0)"></div>
+                  <div style="flex: 1 1 0%; background: rgb(0, 88, 168)"></div>
+                </div>
+                <span
+                  style="
+                    font-size: 12.5px;
+                    font-weight: 700;
+                    color: rgb(34, 43, 56);
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                  "
+                  >Brisbane Lions</span
+                ><span style="flex: 1 1 0%"></span
+                ><span
+                  style="
+                    font-size: 13px;
+                    font-weight: 800;
+                    color: rgb(115, 123, 136);
+                    font-variant-numeric: tabular-nums;
+                  "
+                  >0</span
+                >
+              </div>
+              <div
+                style="
+                  padding: 10px 13px;
+                  display: flex;
+                  flex-direction: column;
+                  gap: 7px;
+                "
+              >
+                <div style="display: flex; align-items: flex-start; gap: 8px">
+                  <span
+                    style="
+                      width: 26px;
+                      font-size: 9.5px;
+                      font-weight: 800;
+                      letter-spacing: 0.5px;
+                      color: rgb(162, 169, 180);
+                      text-transform: uppercase;
+                      font-family: Inter, sans-serif;
+                      flex-shrink: 0;
+                      padding-top: 5px;
+                    "
+                    >In</span
+                  >
+                  <div
+                    style="
+                      flex: 1 1 0%;
+                      min-width: 0px;
+                      display: flex;
+                      flex-wrap: wrap;
+                      gap: 5px;
+                    "
+                  >
+                    <div
+                      style="
+                        position: relative;
+                        display: inline-flex;
+                        align-items: center;
+                        gap: 5px;
+                        height: 24px;
+                        padding: 0px 9px;
+                        border-radius: 99px;
+                        background: oklch(0.49 0.132 0);
+                        border: 1px solid oklch(0.49 0.132 0);
+                        color: rgb(255, 255, 255);
+                        font-weight: 700;
+                        font-size: 11px;
+                        font-variant-numeric: tabular-nums;
+                        font-family: Inter, sans-serif;
+                        white-space: nowrap;
+                        opacity: 1;
+                      "
+                    >
+                      <span
+                        style="
+                          width: 5px;
+                          height: 5px;
+                          border-radius: 50%;
+                          background: rgb(255, 255, 255);
+                        "
+                      ></span
+                      ><span
+                        style="
+                          text-decoration-line: none;
+                          text-decoration-style: initial;
+                          text-decoration-color: initial;
+                        "
+                        >Pick 19</span
+                      >
+                    </div>
+                  </div>
+                  <span
+                    style="
+                      font-size: 10.5px;
+                      color: rgb(115, 123, 136);
+                      font-variant-numeric: tabular-nums;
+                      font-family: Inter, sans-serif;
+                      flex-shrink: 0;
+                      padding-top: 5px;
+                    "
+                    ><strong style="color: rgb(76, 85, 99)">894</strong>
+                    pts</span
+                  >
+                </div>
+                <div style="display: flex; align-items: flex-start; gap: 8px">
+                  <span
+                    style="
+                      width: 26px;
+                      font-size: 9.5px;
+                      font-weight: 800;
+                      letter-spacing: 0.5px;
+                      color: rgb(162, 169, 180);
+                      text-transform: uppercase;
+                      font-family: Inter, sans-serif;
+                      flex-shrink: 0;
+                      padding-top: 5px;
+                    "
+                    >Out</span
+                  >
+                  <div
+                    style="
+                      flex: 1 1 0%;
+                      min-width: 0px;
+                      display: flex;
+                      flex-wrap: wrap;
+                      gap: 5px;
+                    "
+                  >
+                    <div
+                      style="
+                        position: relative;
+                        display: inline-flex;
+                        align-items: center;
+                        gap: 5px;
+                        height: 24px;
+                        padding: 0px 9px;
+                        border-radius: 99px;
+                        background: rgb(244, 245, 247);
+                        border: 1px solid rgb(211, 215, 222);
+                        color: rgb(76, 85, 99);
+                        font-weight: 700;
+                        font-size: 11px;
+                        font-variant-numeric: tabular-nums;
+                        font-family: Inter, sans-serif;
+                        white-space: nowrap;
+                        opacity: 1;
+                      "
+                    >
+                      <span
+                        style="
+                          text-decoration-line: none;
+                          text-decoration-style: initial;
+                          text-decoration-color: initial;
+                        "
+                        >Pick 19</span
+                      >
+                    </div>
+                  </div>
+                  <span
+                    style="
+                      font-size: 10.5px;
+                      color: rgb(115, 123, 136);
+                      font-variant-numeric: tabular-nums;
+                      font-family: Inter, sans-serif;
+                      flex-shrink: 0;
+                      padding-top: 5px;
+                    "
+                    ><strong style="color: rgb(76, 85, 99)">894</strong>
+                    pts</span
+                  >
+                </div>
+              </div>
+              <div style="padding: 0px 13px 12px">
+                <div style="display: flex; flex-direction: column; gap: 10px">
+                  <div
+                    style="
+                      background: rgb(244, 245, 247);
+                      border: 1px solid rgb(236, 238, 242);
+                      border-radius: 9px;
+                      overflow: hidden;
+                    "
+                  >
+                    <div
+                      style="
+                        display: flex;
+                        align-items: baseline;
+                        gap: 8px;
+                        padding: 7px 11px;
+                        border-bottom: 1px solid rgb(236, 238, 242);
+                        font-family: Inter, sans-serif;
+                      "
+                    >
+                      <span
+                        style="
+                          font-size: 10px;
+                          font-weight: 800;
+                          letter-spacing: 0.6px;
+                          color: rgb(34, 43, 56);
+                          text-transform: uppercase;
+                        "
+                        >2026 hand</span
+                      ><span style="flex: 1 1 0%"></span>
+                    </div>
+                    <div
+                      style="
+                        display: flex;
+                        align-items: flex-start;
+                        gap: 9px;
+                        padding: 8px 11px;
+                        border-top-width: medium;
+                        border-top-style: none;
+                        border-top-color: currentcolor;
+                      "
+                    >
+                      <span
+                        style="
+                          width: 44px;
+                          font-size: 9.5px;
+                          font-weight: 800;
+                          letter-spacing: 0.5px;
+                          color: rgb(162, 169, 180);
+                          text-transform: uppercase;
+                          font-family: Inter, sans-serif;
+                          flex-shrink: 0;
+                          padding-top: 5px;
+                        "
+                        >Before</span
+                      >
+                      <div
+                        style="
+                          flex: 1 1 0%;
+                          min-width: 0px;
+                          display: flex;
+                          flex-wrap: wrap;
+                          gap: 6px;
+                        "
+                      >
+                        <div
+                          style="
+                            position: relative;
+                            display: inline-flex;
+                            align-items: center;
+                            gap: 5px;
+                            height: 24px;
+                            padding: 0px 9px;
+                            border-radius: 99px;
+                            background: rgb(252, 252, 253);
+                            border: 1px solid rgb(211, 215, 222);
+                            color: rgb(34, 43, 56);
+                            font-weight: 700;
+                            font-size: 11px;
+                            font-variant-numeric: tabular-nums;
+                            font-family: Inter, sans-serif;
+                            white-space: nowrap;
+                            opacity: 1;
+                          "
+                        >
+                          <span
+                            style="
+                              text-decoration-line: none;
+                              text-decoration-style: initial;
+                              text-decoration-color: initial;
+                            "
+                            >Pick 19</span
+                          >
+                        </div>
+                        <div
+                          style="
+                            position: relative;
+                            display: inline-flex;
+                            align-items: center;
+                            gap: 5px;
+                            height: 24px;
+                            padding: 0px 9px;
+                            border-radius: 99px;
+                            background: rgb(252, 252, 253);
+                            border: 1px solid rgb(211, 215, 222);
+                            color: rgb(34, 43, 56);
+                            font-weight: 700;
+                            font-size: 11px;
+                            font-variant-numeric: tabular-nums;
+                            font-family: Inter, sans-serif;
+                            white-space: nowrap;
+                            opacity: 1;
+                          "
+                        >
+                          <span
+                            style="
+                              text-decoration-line: none;
+                              text-decoration-style: initial;
+                              text-decoration-color: initial;
+                            "
+                            >Pick 27</span
+                          >
+                        </div>
+                        <div
+                          style="
+                            position: relative;
+                            display: inline-flex;
+                            align-items: center;
+                            gap: 5px;
+                            height: 24px;
+                            padding: 0px 9px;
+                            border-radius: 99px;
+                            background: rgb(252, 252, 253);
+                            border: 1px solid rgb(211, 215, 222);
+                            color: rgb(34, 43, 56);
+                            font-weight: 700;
+                            font-size: 11px;
+                            font-variant-numeric: tabular-nums;
+                            font-family: Inter, sans-serif;
+                            white-space: nowrap;
+                            opacity: 1;
+                          "
+                        >
+                          <span
+                            style="
+                              text-decoration-line: none;
+                              text-decoration-style: initial;
+                              text-decoration-color: initial;
+                            "
+                            >Pick 45</span
+                          >
+                        </div>
+                        <div
+                          style="
+                            position: relative;
+                            display: inline-flex;
+                            align-items: center;
+                            gap: 5px;
+                            height: 24px;
+                            padding: 0px 9px;
+                            border-radius: 99px;
+                            background: rgb(252, 252, 253);
+                            border: 1px solid rgb(211, 215, 222);
+                            color: rgb(34, 43, 56);
+                            font-weight: 700;
+                            font-size: 11px;
+                            font-variant-numeric: tabular-nums;
+                            font-family: Inter, sans-serif;
+                            white-space: nowrap;
+                            opacity: 1;
+                          "
+                        >
+                          <span
+                            style="
+                              text-decoration-line: none;
+                              text-decoration-style: initial;
+                              text-decoration-color: initial;
+                            "
+                            >Pick 63</span
+                          >
+                        </div>
+                      </div>
+                      <span
+                        style="
+                          font-size: 10.5px;
+                          font-weight: 700;
+                          color: rgb(115, 123, 136);
+                          font-variant-numeric: tabular-nums;
+                          font-family: Inter, sans-serif;
+                          flex-shrink: 0;
+                          padding-top: 5px;
+                        "
+                        >2,287 pts</span
+                      >
+                    </div>
+                    <div
+                      style="
+                        display: flex;
+                        align-items: flex-start;
+                        gap: 9px;
+                        padding: 8px 11px;
+                        border-top: 1px solid rgb(236, 238, 242);
+                      "
+                    >
+                      <span
+                        style="
+                          width: 44px;
+                          font-size: 9.5px;
+                          font-weight: 800;
+                          letter-spacing: 0.5px;
+                          color: rgb(162, 169, 180);
+                          text-transform: uppercase;
+                          font-family: Inter, sans-serif;
+                          flex-shrink: 0;
+                          padding-top: 5px;
+                        "
+                        >After</span
+                      >
+                      <div
+                        style="
+                          flex: 1 1 0%;
+                          min-width: 0px;
+                          display: flex;
+                          flex-wrap: wrap;
+                          gap: 6px;
+                        "
+                      >
+                        <div
+                          style="
+                            position: relative;
+                            display: inline-flex;
+                            align-items: center;
+                            gap: 5px;
+                            height: 24px;
+                            padding: 0px 9px;
+                            border-radius: 99px;
+                            background: oklch(0.49 0.132 0);
+                            border: 1px solid oklch(0.49 0.132 0);
+                            color: rgb(255, 255, 255);
+                            font-weight: 700;
+                            font-size: 11px;
+                            font-variant-numeric: tabular-nums;
+                            font-family: Inter, sans-serif;
+                            white-space: nowrap;
+                            opacity: 1;
+                          "
+                        >
+                          <span
+                            style="
+                              width: 5px;
+                              height: 5px;
+                              border-radius: 50%;
+                              background: rgb(255, 255, 255);
+                            "
+                          ></span
+                          ><span
+                            style="
+                              text-decoration-line: none;
+                              text-decoration-style: initial;
+                              text-decoration-color: initial;
+                            "
+                            >Pick 19</span
+                          ><span
+                            style="
+                              font-weight: 600;
+                              opacity: 0.78;
+                              font-size: 9px;
+                            "
+                            >in</span
+                          >
+                        </div>
+                        <div
+                          style="
+                            position: relative;
+                            display: inline-flex;
+                            align-items: center;
+                            gap: 5px;
+                            height: 24px;
+                            padding: 0px 9px;
+                            border-radius: 99px;
+                            background: rgb(252, 252, 253);
+                            border: 1px solid rgb(211, 215, 222);
+                            color: rgb(34, 43, 56);
+                            font-weight: 700;
+                            font-size: 11px;
+                            font-variant-numeric: tabular-nums;
+                            font-family: Inter, sans-serif;
+                            white-space: nowrap;
+                            opacity: 1;
+                          "
+                        >
+                          <span
+                            style="
+                              text-decoration-line: none;
+                              text-decoration-style: initial;
+                              text-decoration-color: initial;
+                            "
+                            >Pick 27</span
+                          >
+                        </div>
+                        <div
+                          style="
+                            position: relative;
+                            display: inline-flex;
+                            align-items: center;
+                            gap: 5px;
+                            height: 24px;
+                            padding: 0px 9px;
+                            border-radius: 99px;
+                            background: rgb(252, 252, 253);
+                            border: 1px solid rgb(211, 215, 222);
+                            color: rgb(34, 43, 56);
+                            font-weight: 700;
+                            font-size: 11px;
+                            font-variant-numeric: tabular-nums;
+                            font-family: Inter, sans-serif;
+                            white-space: nowrap;
+                            opacity: 1;
+                          "
+                        >
+                          <span
+                            style="
+                              text-decoration-line: none;
+                              text-decoration-style: initial;
+                              text-decoration-color: initial;
+                            "
+                            >Pick 45</span
+                          >
+                        </div>
+                        <div
+                          style="
+                            position: relative;
+                            display: inline-flex;
+                            align-items: center;
+                            gap: 5px;
+                            height: 24px;
+                            padding: 0px 9px;
+                            border-radius: 99px;
+                            background: rgb(252, 252, 253);
+                            border: 1px solid rgb(211, 215, 222);
+                            color: rgb(34, 43, 56);
+                            font-weight: 700;
+                            font-size: 11px;
+                            font-variant-numeric: tabular-nums;
+                            font-family: Inter, sans-serif;
+                            white-space: nowrap;
+                            opacity: 1;
+                          "
+                        >
+                          <span
+                            style="
+                              text-decoration-line: none;
+                              text-decoration-style: initial;
+                              text-decoration-color: initial;
+                            "
+                            >Pick 63</span
+                          >
+                        </div>
+                      </div>
+                      <span
+                        style="
+                          font-size: 10.5px;
+                          font-weight: 700;
+                          color: rgb(115, 123, 136);
+                          font-variant-numeric: tabular-nums;
+                          font-family: Inter, sans-serif;
+                          flex-shrink: 0;
+                          padding-top: 5px;
+                        "
+                        >2,287 pts</span
+                      >
+                    </div>
+                  </div>
+                  <div
+                    style="
+                      background: rgb(244, 245, 247);
+                      border: 1px solid rgb(236, 238, 242);
+                      border-radius: 9px;
+                      overflow: hidden;
+                    "
+                  >
+                    <div
+                      style="
+                        display: flex;
+                        align-items: baseline;
+                        gap: 8px;
+                        padding: 7px 11px;
+                        border-bottom: 1px solid rgb(236, 238, 242);
+                        font-family: Inter, sans-serif;
+                      "
+                    >
+                      <span
+                        style="
+                          font-size: 10px;
+                          font-weight: 800;
+                          letter-spacing: 0.6px;
+                          color: rgb(34, 43, 56);
+                          text-transform: uppercase;
+                        "
+                        >2027 hand</span
+                      ><span style="flex: 1 1 0%"></span>
+                    </div>
+                    <div
+                      style="
+                        display: flex;
+                        align-items: flex-start;
+                        gap: 9px;
+                        padding: 8px 11px;
+                        border-top-width: medium;
+                        border-top-style: none;
+                        border-top-color: currentcolor;
+                      "
+                    >
+                      <span
+                        style="
+                          width: 44px;
+                          font-size: 9.5px;
+                          font-weight: 800;
+                          letter-spacing: 0.5px;
+                          color: rgb(162, 169, 180);
+                          text-transform: uppercase;
+                          font-family: Inter, sans-serif;
+                          flex-shrink: 0;
+                          padding-top: 5px;
+                        "
+                        >Before</span
+                      >
+                      <div
+                        style="
+                          flex: 1 1 0%;
+                          min-width: 0px;
+                          display: flex;
+                          flex-wrap: wrap;
+                          gap: 6px;
+                        "
+                      >
+                        <div
+                          style="
+                            position: relative;
+                            display: inline-flex;
+                            align-items: center;
+                            gap: 5px;
+                            height: 24px;
+                            padding: 0px 9px;
+                            border-radius: 99px;
+                            background: rgb(252, 252, 253);
+                            border: 1px solid rgb(211, 215, 222);
+                            color: rgb(34, 43, 56);
+                            font-weight: 700;
+                            font-size: 11px;
+                            font-variant-numeric: tabular-nums;
+                            font-family: Inter, sans-serif;
+                            white-space: nowrap;
+                            opacity: 1;
+                          "
+                        >
+                          <span
+                            style="
+                              text-decoration-line: none;
+                              text-decoration-style: initial;
+                              text-decoration-color: initial;
+                            "
+                            >2027 R1</span
+                          >
+                        </div>
+                        <div
+                          style="
+                            position: relative;
+                            display: inline-flex;
+                            align-items: center;
+                            gap: 5px;
+                            height: 24px;
+                            padding: 0px 9px;
+                            border-radius: 99px;
+                            background: rgb(252, 252, 253);
+                            border: 1px solid rgb(211, 215, 222);
+                            color: rgb(34, 43, 56);
+                            font-weight: 700;
+                            font-size: 11px;
+                            font-variant-numeric: tabular-nums;
+                            font-family: Inter, sans-serif;
+                            white-space: nowrap;
+                            opacity: 1;
+                          "
+                        >
+                          <span
+                            style="
+                              text-decoration-line: none;
+                              text-decoration-style: initial;
+                              text-decoration-color: initial;
+                            "
+                            >2027 R2</span
+                          >
+                        </div>
+                        <div
+                          style="
+                            position: relative;
+                            display: inline-flex;
+                            align-items: center;
+                            gap: 5px;
+                            height: 24px;
+                            padding: 0px 9px;
+                            border-radius: 99px;
+                            background: rgb(252, 252, 253);
+                            border: 1px solid rgb(211, 215, 222);
+                            color: rgb(34, 43, 56);
+                            font-weight: 700;
+                            font-size: 11px;
+                            font-variant-numeric: tabular-nums;
+                            font-family: Inter, sans-serif;
+                            white-space: nowrap;
+                            opacity: 1;
+                          "
+                        >
+                          <span
+                            style="
+                              text-decoration-line: none;
+                              text-decoration-style: initial;
+                              text-decoration-color: initial;
+                            "
+                            >2027 R3</span
+                          >
+                        </div>
+                        <div
+                          style="
+                            position: relative;
+                            display: inline-flex;
+                            align-items: center;
+                            gap: 5px;
+                            height: 24px;
+                            padding: 0px 9px;
+                            border-radius: 99px;
+                            background: rgb(252, 252, 253);
+                            border: 1px solid rgb(211, 215, 222);
+                            color: rgb(34, 43, 56);
+                            font-weight: 700;
+                            font-size: 11px;
+                            font-variant-numeric: tabular-nums;
+                            font-family: Inter, sans-serif;
+                            white-space: nowrap;
+                            opacity: 1;
+                          "
+                        >
+                          <span
+                            style="
+                              text-decoration-line: none;
+                              text-decoration-style: initial;
+                              text-decoration-color: initial;
+                            "
+                            >2027 R4</span
+                          >
+                        </div>
+                      </div>
+                      <span
+                        style="
+                          font-size: 10.5px;
+                          font-weight: 700;
+                          color: rgb(115, 123, 136);
+                          font-variant-numeric: tabular-nums;
+                          font-family: Inter, sans-serif;
+                          flex-shrink: 0;
+                          padding-top: 5px;
+                        "
+                        >2,145 pts</span
+                      >
+                    </div>
+                    <div
+                      style="
+                        display: flex;
+                        align-items: flex-start;
+                        gap: 9px;
+                        padding: 8px 11px;
+                        border-top: 1px solid rgb(236, 238, 242);
+                      "
+                    >
+                      <span
+                        style="
+                          width: 44px;
+                          font-size: 9.5px;
+                          font-weight: 800;
+                          letter-spacing: 0.5px;
+                          color: rgb(162, 169, 180);
+                          text-transform: uppercase;
+                          font-family: Inter, sans-serif;
+                          flex-shrink: 0;
+                          padding-top: 5px;
+                        "
+                        >After</span
+                      >
+                      <div
+                        style="
+                          flex: 1 1 0%;
+                          min-width: 0px;
+                          display: flex;
+                          flex-wrap: wrap;
+                          gap: 6px;
+                        "
+                      >
+                        <div
+                          style="
+                            position: relative;
+                            display: inline-flex;
+                            align-items: center;
+                            gap: 5px;
+                            height: 24px;
+                            padding: 0px 9px;
+                            border-radius: 99px;
+                            background: rgb(252, 252, 253);
+                            border: 1px solid rgb(211, 215, 222);
+                            color: rgb(34, 43, 56);
+                            font-weight: 700;
+                            font-size: 11px;
+                            font-variant-numeric: tabular-nums;
+                            font-family: Inter, sans-serif;
+                            white-space: nowrap;
+                            opacity: 1;
+                          "
+                        >
+                          <span
+                            style="
+                              text-decoration-line: none;
+                              text-decoration-style: initial;
+                              text-decoration-color: initial;
+                            "
+                            >2027 R1</span
+                          >
+                        </div>
+                        <div
+                          style="
+                            position: relative;
+                            display: inline-flex;
+                            align-items: center;
+                            gap: 5px;
+                            height: 24px;
+                            padding: 0px 9px;
+                            border-radius: 99px;
+                            background: rgb(252, 252, 253);
+                            border: 1px solid rgb(211, 215, 222);
+                            color: rgb(34, 43, 56);
+                            font-weight: 700;
+                            font-size: 11px;
+                            font-variant-numeric: tabular-nums;
+                            font-family: Inter, sans-serif;
+                            white-space: nowrap;
+                            opacity: 1;
+                          "
+                        >
+                          <span
+                            style="
+                              text-decoration-line: none;
+                              text-decoration-style: initial;
+                              text-decoration-color: initial;
+                            "
+                            >2027 R2</span
+                          >
+                        </div>
+                        <div
+                          style="
+                            position: relative;
+                            display: inline-flex;
+                            align-items: center;
+                            gap: 5px;
+                            height: 24px;
+                            padding: 0px 9px;
+                            border-radius: 99px;
+                            background: rgb(252, 252, 253);
+                            border: 1px solid rgb(211, 215, 222);
+                            color: rgb(34, 43, 56);
+                            font-weight: 700;
+                            font-size: 11px;
+                            font-variant-numeric: tabular-nums;
+                            font-family: Inter, sans-serif;
+                            white-space: nowrap;
+                            opacity: 1;
+                          "
+                        >
+                          <span
+                            style="
+                              text-decoration-line: none;
+                              text-decoration-style: initial;
+                              text-decoration-color: initial;
+                            "
+                            >2027 R3</span
+                          >
+                        </div>
+                        <div
+                          style="
+                            position: relative;
+                            display: inline-flex;
+                            align-items: center;
+                            gap: 5px;
+                            height: 24px;
+                            padding: 0px 9px;
+                            border-radius: 99px;
+                            background: rgb(252, 252, 253);
+                            border: 1px solid rgb(211, 215, 222);
+                            color: rgb(34, 43, 56);
+                            font-weight: 700;
+                            font-size: 11px;
+                            font-variant-numeric: tabular-nums;
+                            font-family: Inter, sans-serif;
+                            white-space: nowrap;
+                            opacity: 1;
+                          "
+                        >
+                          <span
+                            style="
+                              text-decoration-line: none;
+                              text-decoration-style: initial;
+                              text-decoration-color: initial;
+                            "
+                            >2027 R4</span
+                          >
+                        </div>
+                      </div>
+                      <span
+                        style="
+                          font-size: 10.5px;
+                          font-weight: 700;
+                          color: rgb(115, 123, 136);
+                          font-variant-numeric: tabular-nums;
+                          font-family: Inter, sans-serif;
+                          flex-shrink: 0;
+                          padding-top: 5px;
+                        "
+                        >2,145 pts</span
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <button
+                style="
+                  margin-top: auto;
+                  width: 100%;
+                  padding: 7px 13px;
+                  background: rgb(244, 245, 247);
+                  border-width: 1px medium medium;
+                  border-style: solid none none;
+                  border-color: rgb(236, 238, 242) currentcolor currentcolor;
+                  border-image: none;
+                  color: rgb(76, 85, 99);
+                  font-size: 10.5px;
+                  font-weight: 700;
+                  font-family: Inter, sans-serif;
+                  cursor: pointer;
+                  display: flex;
+                  align-items: center;
+                  gap: 5px;
+                "
+              >
+                ▾ Hide hand before / after
+              </button>
+            </div>
+            <div
+              style="
+                background: rgb(252, 252, 253);
+                border: 1px solid rgb(227, 229, 234);
+                border-radius: 10px;
+                overflow: hidden;
+                display: flex;
+                flex-direction: column;
+              "
+            >
+              <div
+                style="
+                  display: flex;
+                  align-items: center;
+                  gap: 8px;
+                  padding: 10px 13px;
+                  border-bottom: 1px solid rgb(236, 238, 242);
+                  font-family: Inter, sans-serif;
+                "
+              >
+                <div
+                  style="
+                    width: 17px;
+                    height: 17px;
+                    border-radius: 50%;
+                    overflow: hidden;
+                    flex-shrink: 0;
+                    border: 1.5px solid rgba(0, 0, 0, 0.15);
+                    display: flex;
+                  "
+                >
+                  <div style="flex: 1 1 0%; background: rgb(0, 43, 92)"></div>
+                  <div
+                    style="flex: 1 1 0%; background: rgb(255, 255, 255)"
+                  ></div>
+                </div>
+                <span
+                  style="
+                    font-size: 12.5px;
+                    font-weight: 700;
+                    color: rgb(34, 43, 56);
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                  "
+                  >Geelong Cats</span
+                ><span style="flex: 1 1 0%"></span
+                ><span
+                  style="
+                    font-size: 13px;
+                    font-weight: 800;
+                    color: rgb(115, 123, 136);
+                    font-variant-numeric: tabular-nums;
+                  "
+                  >0</span
+                >
+              </div>
+              <div
+                style="
+                  padding: 10px 13px;
+                  display: flex;
+                  flex-direction: column;
+                  gap: 7px;
+                "
+              >
+                <div style="display: flex; align-items: flex-start; gap: 8px">
+                  <span
+                    style="
+                      width: 26px;
+                      font-size: 9.5px;
+                      font-weight: 800;
+                      letter-spacing: 0.5px;
+                      color: rgb(162, 169, 180);
+                      text-transform: uppercase;
+                      font-family: Inter, sans-serif;
+                      flex-shrink: 0;
+                      padding-top: 5px;
+                    "
+                    >In</span
+                  >
+                  <div
+                    style="
+                      flex: 1 1 0%;
+                      min-width: 0px;
+                      display: flex;
+                      flex-wrap: wrap;
+                      gap: 5px;
+                    "
+                  >
+                    <span
+                      style="
+                        font-size: 11px;
+                        color: rgb(162, 169, 180);
+                        font-style: italic;
+                        font-family: Inter, sans-serif;
+                        line-height: 24px;
+                      "
+                      >Nothing</span
+                    >
+                  </div>
+                  <span
+                    style="
+                      font-size: 10.5px;
+                      color: rgb(115, 123, 136);
+                      font-variant-numeric: tabular-nums;
+                      font-family: Inter, sans-serif;
+                      flex-shrink: 0;
+                      padding-top: 5px;
+                    "
+                    ><strong style="color: rgb(76, 85, 99)">0</strong> pts</span
+                  >
+                </div>
+                <div style="display: flex; align-items: flex-start; gap: 8px">
+                  <span
+                    style="
+                      width: 26px;
+                      font-size: 9.5px;
+                      font-weight: 800;
+                      letter-spacing: 0.5px;
+                      color: rgb(162, 169, 180);
+                      text-transform: uppercase;
+                      font-family: Inter, sans-serif;
+                      flex-shrink: 0;
+                      padding-top: 5px;
+                    "
+                    >Out</span
+                  >
+                  <div
+                    style="
+                      flex: 1 1 0%;
+                      min-width: 0px;
+                      display: flex;
+                      flex-wrap: wrap;
+                      gap: 5px;
+                    "
+                  >
+                    <span
+                      style="
+                        font-size: 11px;
+                        color: rgb(162, 169, 180);
+                        font-style: italic;
+                        font-family: Inter, sans-serif;
+                        line-height: 24px;
+                      "
+                      >Nothing</span
+                    >
+                  </div>
+                  <span
+                    style="
+                      font-size: 10.5px;
+                      color: rgb(115, 123, 136);
+                      font-variant-numeric: tabular-nums;
+                      font-family: Inter, sans-serif;
+                      flex-shrink: 0;
+                      padding-top: 5px;
+                    "
+                    ><strong style="color: rgb(76, 85, 99)">0</strong> pts</span
+                  >
+                </div>
+              </div>
+              <button
+                style="
+                  margin-top: auto;
+                  width: 100%;
+                  padding: 7px 13px;
+                  background: rgb(244, 245, 247);
+                  border-width: 1px medium medium;
+                  border-style: solid none none;
+                  border-color: rgb(236, 238, 242) currentcolor currentcolor;
+                  border-image: none;
+                  color: rgb(76, 85, 99);
+                  font-size: 10.5px;
+                  font-weight: 700;
+                  font-family: Inter, sans-serif;
+                  cursor: pointer;
+                  display: flex;
+                  align-items: center;
+                  gap: 5px;
+                "
+              >
+                ▸ Hand before / after
+              </button>
+            </div>
+          </div>
+          <div
+            style="
+              background: rgb(252, 252, 253);
+              border: 1px solid rgb(227, 229, 234);
+              border-radius: 10px;
+              overflow: hidden;
+            "
+          >
+            <button
+              style="
+                width: 100%;
+                display: flex;
+                align-items: center;
+                gap: 9px;
+                padding: 10px 13px;
+                background: transparent;
+                border-width: medium;
+                border-style: none;
+                border-color: currentcolor;
+                border-image: none;
+                cursor: pointer;
+                font-family: Inter, sans-serif;
+                text-align: left;
+              "
+            >
+              <span style="font-size: 10px; color: rgb(115, 123, 136)">▾</span
+              ><span
+                style="
+                  font-size: 12.5px;
+                  font-weight: 700;
+                  color: rgb(34, 43, 56);
+                "
+                >Rule checks</span
+              ><span
+                style="
+                  font-size: 10.5px;
+                  color: rgb(154, 54, 54);
+                  font-weight: 700;
+                "
+                >1 failed</span
+              ><span style="flex: 1 1 0%"></span>
+            </button>
+            <div
+              style="
+                border-top: 1px solid rgb(236, 238, 242);
+                display: flex;
+                flex-direction: column;
+              "
+            >
+              <div
+                style="
+                  display: flex;
+                  align-items: flex-start;
+                  gap: 9px;
+                  padding: 10px 13px;
+                  border-top-width: medium;
+                  border-top-style: none;
+                  border-top-color: currentcolor;
+                  font-family: Inter, sans-serif;
+                "
+              >
+                <span
+                  style="
+                    width: 8px;
+                    height: 8px;
+                    border-radius: 50%;
+                    background: rgb(163, 58, 58);
+                    margin-top: 4px;
+                    flex-shrink: 0;
+                  "
+                ></span>
+                <div style="flex: 1 1 0%; min-width: 0px">
+                  <div
+                    style="
+                      font-size: 12px;
+                      font-weight: 700;
+                      color: rgb(154, 54, 54);
+                    "
+                  >
+                    Trade-back rule
+                    <span
+                      style="
+                        font-weight: 600;
+                        font-size: 10.5px;
+                        color: rgb(154, 54, 54);
+                        margin-left: 4px;
+                      "
+                      >Fail</span
+                    >
+                  </div>
+                  <div
+                    style="
+                      font-size: 11.5px;
+                      color: rgb(154, 54, 54);
+                      line-height: 1.45;
+                      margin-top: 2px;
+                    "
+                  >
+                    Pick 19 is traded out of Brisbane and straight back to
+                    Brisbane. A pick cannot return to its sending club within
+                    one trade.
+                  </div>
+                  <div
+                    style="
+                      display: flex;
+                      gap: 6px;
+                      flex-wrap: wrap;
+                      margin-top: 7px;
+                    "
+                  >
+                    <div
+                      style="
+                        position: relative;
+                        display: inline-flex;
+                        align-items: center;
+                        gap: 5px;
+                        height: 24px;
+                        padding: 0px 9px;
+                        border-radius: 99px;
+                        background: rgb(243, 226, 225);
+                        border: 1px solid rgb(226, 199, 197);
+                        color: rgb(154, 54, 54);
+                        font-weight: 700;
+                        font-size: 11px;
+                        font-variant-numeric: tabular-nums;
+                        font-family: Inter, sans-serif;
+                        white-space: nowrap;
+                        opacity: 1;
+                      "
+                    >
+                      <span
+                        style="
+                          text-decoration-line: none;
+                          text-decoration-style: initial;
+                          text-decoration-color: initial;
+                        "
+                        >Pick 19</span
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                style="
+                  display: flex;
+                  align-items: flex-start;
+                  gap: 9px;
+                  padding: 10px 13px;
+                  border-top: 1px solid rgb(236, 238, 242);
+                  font-family: Inter, sans-serif;
+                "
+              >
+                <span
+                  style="
+                    width: 8px;
+                    height: 8px;
+                    border-radius: 50%;
+                    background: rgb(63, 125, 85);
+                    margin-top: 4px;
+                    flex-shrink: 0;
+                  "
+                ></span>
+                <div style="flex: 1 1 0%; min-width: 0px">
+                  <div
+                    style="
+                      font-size: 12px;
+                      font-weight: 700;
+                      color: rgb(34, 43, 56);
+                    "
+                  >
+                    Pick exists
+                    <span
+                      style="
+                        font-weight: 600;
+                        font-size: 10.5px;
+                        color: rgb(162, 169, 180);
+                        margin-left: 4px;
+                      "
+                      >Pass</span
+                    >
+                  </div>
+                  <div
+                    style="
+                      font-size: 11.5px;
+                      color: rgb(115, 123, 136);
+                      line-height: 1.45;
+                      margin-top: 2px;
+                    "
+                  >
+                    Every traded pick is held by its sending club.
+                  </div>
+                </div>
+              </div>
+              <div
+                style="
+                  display: flex;
+                  align-items: flex-start;
+                  gap: 9px;
+                  padding: 10px 13px;
+                  border-top: 1px solid rgb(236, 238, 242);
+                  font-family: Inter, sans-serif;
+                "
+              >
+                <span
+                  style="
+                    width: 8px;
+                    height: 8px;
+                    border-radius: 50%;
+                    background: rgb(63, 125, 85);
+                    margin-top: 4px;
+                    flex-shrink: 0;
+                  "
+                ></span>
+                <div style="flex: 1 1 0%; min-width: 0px">
+                  <div
+                    style="
+                      font-size: 12px;
+                      font-weight: 700;
+                      color: rgb(34, 43, 56);
+                    "
+                  >
+                    Picks match
+                    <span
+                      style="
+                        font-weight: 600;
+                        font-size: 10.5px;
+                        color: rgb(162, 169, 180);
+                        margin-left: 4px;
+                      "
+                      >Pass</span
+                    >
+                  </div>
+                  <div
+                    style="
+                      font-size: 11.5px;
+                      color: rgb(115, 123, 136);
+                      line-height: 1.45;
+                      margin-top: 2px;
+                    "
+                  >
+                    Assets received and given align across all clubs.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    style="
+      padding: 14px 24px;
+      border-top: 1px solid rgb(227, 229, 234);
+      background: rgb(244, 245, 247);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-shrink: 0;
+    "
+  >
+    <div style="flex: 1 1 0%; font-size: 11.5px; color: rgb(154, 54, 54)">
+      Blocked by the trade-back rule — see checks.
+    </div>
+    <button
+      style="
+        padding: 9px 18px;
+        background: rgb(252, 252, 253);
+        color: rgb(76, 85, 99);
+        border: 1px solid rgb(227, 229, 234);
+        border-radius: 7px;
+        font-weight: 700;
+        font-size: 13px;
+        cursor: pointer;
+      "
+    >
+      Cancel</button
+    ><button
+      disabled=""
+      style="
+        padding: 9px 24px;
+        border-radius: 7px;
+        font-weight: 800;
+        font-size: 13px;
+        letter-spacing: 0.2px;
+        border-width: medium;
+        border-style: none;
+        border-color: currentcolor;
+        border-image: none;
+        cursor: not-allowed;
+        background: rgb(244, 245, 247);
+        color: rgb(162, 169, 180);
+        box-shadow: none;
+        opacity: 0.7;
+        outline: rgb(227, 229, 234) solid 1px;
+      "
+    >
+      Confirm trade
+    </button>
+  </div>
+</div>

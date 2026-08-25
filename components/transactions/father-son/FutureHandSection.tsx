@@ -7,6 +7,7 @@ export function FutureHandsSection({
 }: {
   impact: FatherSonBidImpactResponse;
 }) {
+  const rounds = Array.from({ length: 10 }, (_, idx) => idx + 1);
   const byYear = new Map<string, typeof impact.initialDraftHand>();
   impact.initialDraftHand
     .filter((p) => p.yearType === "Next")
@@ -22,22 +23,30 @@ export function FutureHandsSection({
   );
   const deficitImpact = deficitVisual?.deficitImpact;
 
-  const deficitRowFor = (year: string, draftRoundInt: number | string) => {
-    if (!deficitImpact) return null;
-    const idx = deficitImpact.overallPick.findIndex(
-      (_, i) =>
-        deficitImpact.year[i] === year &&
-        Number(deficitImpact.draftRoundInt[i]) === Number(draftRoundInt) &&
-        deficitImpact.pointsSubtracted[i] > 0,
-    );
-    if (idx === -1) return null;
-    return {
-      pointsSubtracted: deficitImpact.pointsSubtracted[idx],
-      newOverallPick: deficitImpact.newOverallPick[idx],
-    };
-  };
+  const movedRoundMap = new Map<
+    string,
+    {
+      pointsSubtracted: number;
+      newOverallPick: number;
+    }
+  >();
 
-  // For the footer note: find the single pick that absorbed the deficit.
+  if (deficitImpact) {
+    deficitImpact.overallPick.forEach((_, idx) => {
+      if ((deficitImpact.pointsSubtracted[idx] ?? 0) <= 0) {
+        return;
+      }
+      const key = `${deficitImpact.year[idx]}-${deficitImpact.draftRoundInt[idx]}`;
+      movedRoundMap.set(key, {
+        pointsSubtracted: deficitImpact.pointsSubtracted[idx],
+        newOverallPick: deficitImpact.newOverallPick[idx],
+      });
+    });
+  }
+
+  const deficitRowFor = (year: string, draftRoundInt: number | string) =>
+    movedRoundMap.get(`${year}-${Number(draftRoundInt)}`) ?? null;
+
   const absorbingPick = deficitImpact
     ? (() => {
         const idx = deficitImpact.pointsSubtracted.findIndex((p) => p > 0);
@@ -60,44 +69,57 @@ export function FutureHandsSection({
         <div className="h-px flex-1 bg-border" />
       </div>
       <div className="flex flex-col gap-2">
-        {years.map((year) => (
-          <div key={year} className="flex flex-wrap items-center gap-1.5">
-            <span className="w-8.5 shrink-0 text-[10px] font-extrabold tabular-nums text-muted-foreground">
-              {year}
-            </span>
-            {byYear
-              .get(year)!
-              .sort((a, b) => Number(a.draftRoundInt) - Number(b.draftRoundInt))
-              .map((p, idx) => {
-                const deficitRow = deficitRowFor(year, p.draftRoundInt);
-                const isDeficit = !!deficitRow;
+        {years.map((year) => {
+          const picksByRound = new Map<
+            number,
+            (typeof impact.initialDraftHand)[number]
+          >();
+          byYear
+            .get(year)!
+            .forEach((p) => picksByRound.set(Number(p.draftRoundInt), p));
 
-                return (
-                  <div
-                    key={idx}
-                    title={
-                      isDeficit
-                        ? `deficit −${formatNumber(deficitRow!.pointsSubtracted)} applied`
-                        : undefined
-                    }
-                    className={cn(
-                      "inline-flex h-6 items-center gap-1 rounded-full border px-2 text-[11px] font-bold tabular-nums",
-                      isDeficit
-                        ? "future-hand-deficit-chip"
-                        : "border-border bg-card text-foreground",
-                    )}
-                  >
-                    F{p.draftRoundInt}
-                    <span className={cn("text-[9px] font-semibold opacity-78")}>
-                      {isDeficit
-                        ? `→ ~${deficitRow!.newOverallPick}`
-                        : `(Pick ${p.overallPick})`}
-                    </span>
-                  </div>
-                );
-              })}
-          </div>
-        ))}
+          return (
+            <div key={year} className="space-y-1.5">
+              <div className="text-[10px] font-extrabold tabular-nums text-muted-foreground">
+                {year}
+              </div>
+              <div className="grid grid-cols-2 gap-1.5 sm:grid-cols-3 lg:grid-cols-4">
+                {rounds.map((roundNo) => {
+                  const pick = picksByRound.get(roundNo);
+                  const deficitRow = deficitRowFor(year, roundNo);
+                  const isDeficit = !!deficitRow;
+
+                  return (
+                    <div
+                      key={`${year}-${roundNo}`}
+                      title={
+                        isDeficit
+                          ? `deficit −${formatNumber(deficitRow.pointsSubtracted)} applied`
+                          : undefined
+                      }
+                      className={cn(
+                        "inline-flex h-6 min-w-0 items-center justify-center gap-1 rounded-full border px-2 py-2 text-[11px] font-bold tabular-nums",
+                        !pick && "opacity-55",
+                        isDeficit
+                          ? "future-hand-deficit-chip"
+                          : "border-border bg-card text-foreground",
+                      )}
+                    >
+                      F{roundNo}
+                      <span className="truncate text-[9px] font-semibold opacity-78">
+                        {isDeficit
+                          ? `→ ~${deficitRow.newOverallPick}`
+                          : pick
+                            ? `(Pick ${pick.overallPick})`
+                            : "(No pick)"}
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          );
+        })}
       </div>
 
       {absorbingPick && (

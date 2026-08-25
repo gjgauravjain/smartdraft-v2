@@ -84,7 +84,7 @@ function YearRow({
           <span className="font-medium text-foreground">Pts</span> {totalPts}
         </span>
         <span>
-          <span className="font-medium text-foreground">Useable</span>{" "}
+          <span className="font-medium text-foreground">Usable</span>{" "}
           {usablePts}
         </span>
       </div>
@@ -117,12 +117,14 @@ export function FlagTooltipContent({
           </p>
         </div>
         <div className="shrink-0 rounded-md border border-border bg-muted/40 px-2 py-1 text-right">
-          <p className="text-[10px] text-muted-foreground">List spots</p>
-          <p className="text-xs font-semibold text-foreground">
-            {data.currentYearPickRemaining}
-            <span className="font-normal text-muted-foreground">
-              {" "}
-              / {data.currentYearRosterSpots}
+          <p className="text-[10px] text-muted-foreground">
+            List spots:{" "}
+            <span className="text-xs font-semibold text-foreground">
+              {data.currentYearPickRemaining}
+              <span className="font-normal text-muted-foreground">
+                {" "}
+                / {data.currentYearRosterSpots}
+              </span>
             </span>
           </p>
         </div>

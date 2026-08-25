@@ -14,7 +14,8 @@ export const getInitials = (name: string) =>
     .toUpperCase()
     .slice(0, 2);
 
-export const formatDate = (date: string) => dayjs(date).format("DD/MM/YYYY");
+export const formatDate = (date: string, format = "DD/MM/YYYY") =>
+  dayjs(date).format(format);
 
 export const TIER_OPTIONS = [
   {

@@ -1,4 +1,8 @@
-import { useCreateUser, useGetAllUsers } from "@/app/api/react-query/users";
+import {
+  useCreateUser,
+  useGetAllUsers,
+  useUpdateUser,
+} from "@/app/api/react-query/users";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -16,6 +20,14 @@ import { UserListType } from "@/app/api/type/user";
 import { filterUsers } from "./util";
 import { useGetTeams } from "@/app/api/react-query/common";
 import { useGetOrganisations } from "@/app/api/react-query/organisations";
+import {
+  editUserFormSchema,
+  EditUserFormValues,
+  getEditUserFormDefaults,
+} from "./row-actions/editUserForm";
+import { TierValue } from "./row-actions/types";
+import { useAuth } from "@/store/useStore";
+import { getErrorMessage } from "@/lib/api-client";
 
 type UseCreateUserModalArgs = Pick<
   CreateUserModalProps,
@@ -204,5 +216,183 @@ export const useUsersList = () => {
     setCreateUserOpen,
     teamOptions,
     organisations,
+  };
+};
+
+export const useUserRowActions = (user: UserListType) => {
+  const [open, setOpen] = useState(false);
+  const [editOpen, setEditOpen] = useState(false);
+  const [tierOpen, setTierOpen] = useState(false);
+  const [deactivateOpen, setDeactivateOpen] = useState(false);
+  const [selectedTier, setSelectedTier] = useState<TierValue>(
+    user.isSuperuser ? "super_admin" : "standard",
+  );
+
+  const editForm = useForm<EditUserFormValues>({
+    resolver: zodResolver(editUserFormSchema),
+    defaultValues: getEditUserFormDefaults(user),
+  });
+
+  const { user: currentUser } = useAuth();
+  const { mutate: updateUser, isPending } = useUpdateUser();
+  const { data: allUsers = [] } = useGetAllUsers();
+
+  const isCurrentUser = currentUser?.id === user.id;
+  const canManageUsers = Boolean(currentUser?.isSuperuser);
+  const activeSuperAdminCount = allUsers.filter(
+    (item) => item.isSuperuser && item.isActive,
+  ).length;
+  const wouldRemoveLastSuperAdmin =
+    user.isSuperuser && user.isActive && activeSuperAdminCount <= 1;
+
+  const handleUpdate = (
+    updates: {
+      firstName?: string;
+      lastName?: string;
+      defaultTeamId?: string;
+      isSuperuser?: boolean;
+      isActive?: boolean;
+    },
+    successMessage: string,
+    options?: {
+      closeEdit?: boolean;
+      closeTier?: boolean;
+    },
+  ) => {
+    const closeEdit = options?.closeEdit ?? true;
+    const closeTier = options?.closeTier ?? true;
+
+    updateUser(
+      {
+        id: user.id,
+        firstName: updates.firstName,
+        lastName: updates.lastName,
+        defaultTeamId: updates.defaultTeamId ?? String(user.teamId),
+        isSuperuser: updates.isSuperuser,
+        isActive: updates.isActive,
+      },
+      {
+        onSuccess: () => {
+          toast.success(successMessage);
+          setOpen(false);
+          setDeactivateOpen(false);
+          if (closeEdit) {
+            setEditOpen(false);
+          }
+          if (closeTier) {
+            setTierOpen(false);
+          }
+        },
+        onError: (error) => {
+          toast.error(getErrorMessage(error, "Unable to update user."));
+        },
+      },
+    );
+  };
+
+  const handleEditUser = () => {
+    editForm.reset(getEditUserFormDefaults(user));
+    setEditOpen(true);
+  };
+
+  const handleChangeTier = () => {
+    setSelectedTier(user.isSuperuser ? "super_admin" : "standard");
+    setTierOpen(true);
+  };
+
+  const handleSaveEdit = (values: EditUserFormValues) => {
+    handleUpdate(
+      {
+        firstName: values.firstName.trim() || user.firstName,
+        lastName: values.lastName.trim() || user.lastName,
+        defaultTeamId: values.defaultTeamId,
+        isActive: values.isActive,
+      },
+      "User updated successfully",
+    );
+  };
+
+  const handleSaveTier = () => {
+    const nextTier = selectedTier === "super_admin";
+
+    if (nextTier === user.isSuperuser) {
+      setTierOpen(false);
+      return;
+    }
+
+    handleUpdate(
+      { isSuperuser: nextTier },
+      nextTier ? "User promoted successfully" : "User demoted successfully",
+      { closeEdit: false },
+    );
+  };
+
+  const handleDeactivateAccount = () => {
+    setOpen(false);
+    setDeactivateOpen(true);
+  };
+
+  const handleConfirmDeactivate = () => {
+    handleUpdate({ isActive: false }, "User deactivated successfully");
+  };
+
+  const disableReason = () => {
+    if (!canManageUsers) {
+      return "You do not have permission to manage users";
+    }
+    if (isCurrentUser) {
+      return "You cannot update your own account from this menu";
+    }
+    return undefined;
+  };
+
+  const changeTierReason = () => {
+    if (!canManageUsers || isCurrentUser) {
+      return disableReason();
+    }
+    if (wouldRemoveLastSuperAdmin) {
+      return "You cannot demote the last active super admin";
+    }
+    return undefined;
+  };
+
+  const deactivateReason = () => {
+    if (!canManageUsers || isCurrentUser) {
+      return disableReason();
+    }
+    if (!user.isActive) {
+      return "This account is already inactive";
+    }
+    if (wouldRemoveLastSuperAdmin) {
+      return "You cannot deactivate the last active super admin";
+    }
+    return undefined;
+  };
+
+  return {
+    open,
+    setOpen,
+    editOpen,
+    setEditOpen,
+    tierOpen,
+    setTierOpen,
+    deactivateOpen,
+    setDeactivateOpen,
+    selectedTier,
+    setSelectedTier,
+    editForm,
+    isPending,
+    isCurrentUser,
+    canManageUsers,
+    wouldRemoveLastSuperAdmin,
+    handleEditUser,
+    handleChangeTier,
+    handleSaveEdit,
+    handleSaveTier,
+    handleDeactivateAccount,
+    handleConfirmDeactivate,
+    disableReason,
+    changeTierReason,
+    deactivateReason,
   };
 };

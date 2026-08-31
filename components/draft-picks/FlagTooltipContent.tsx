@@ -2,8 +2,6 @@
 
 import { FlagTooltipType, YearPickDict } from "@/app/api/type/flags";
 import { cn } from "@/lib/utils";
-import { Separator } from "@/components/ui/separator";
-import Image from "next/image";
 
 function normalizePicks(
   picks: YearPickDict[],
@@ -86,7 +84,7 @@ function YearRow({
           <span className="font-medium text-foreground">Pts</span> {totalPts}
         </span>
         <span>
-          <span className="font-medium text-foreground">Useable</span>{" "}
+          <span className="font-medium text-foreground">Usable</span>{" "}
           {usablePts}
         </span>
       </div>
@@ -105,42 +103,34 @@ export function FlagTooltipContent({
 
   return (
     <div className="w-[min(90vw,520px)] p-3">
-      <div className="flex items-center justify-between gap-4">
-        <div>
-          <div className="flex items-center gap-2">
-            <img
-              src={teamLogo}
-              className="rounded-full"
-              alt={data.teamName}
-              width={20}
-              height={20}
-            />
-            <p className="text-sm font-semibold text-foreground">
-              {data.teamName}
-            </p>
-          </div>
-
-          {data.picksUsed > 0 && (
-            <p className="mt-0.5 text-[10px] text-muted-foreground">
-              {data.picksUsed} pick{data.picksUsed === 1 ? "" : "s"} used
-            </p>
-          )}
+      <div className="flex items-center justify-between gap-2">
+        <div className="flex min-w-0 items-center gap-2">
+          <img
+            src={teamLogo}
+            className="rounded-full"
+            alt={data.teamName}
+            width={20}
+            height={20}
+          />
+          <p className="truncate text-sm font-semibold text-foreground">
+            {data.teamName}
+          </p>
         </div>
-        <div className="rounded-md border border-border bg-muted/40 px-2.5 py-1.5 text-right">
-          <p className="text-[10px] text-muted-foreground">List spots</p>
-          <p className="text-xs font-semibold text-foreground">
-            {data.currentYearPickRemaining}
-            <span className="font-normal text-muted-foreground">
-              {" "}
-              / {data.currentYearRosterSpots}
+        <div className="shrink-0 rounded-md border border-border bg-muted/40 px-2 py-1 text-right">
+          <p className="text-[10px] text-muted-foreground">
+            List spots:{" "}
+            <span className="text-xs font-semibold text-foreground">
+              {data.currentYearPickRemaining}
+              <span className="font-normal text-muted-foreground">
+                {" "}
+                / {data.currentYearRosterSpots}
+              </span>
             </span>
           </p>
         </div>
       </div>
 
-      <Separator className="my-3" />
-
-      <div className="space-y-3">
+      <div className="mt-2.5 space-y-3">
         <YearRow
           year={data.currentYear}
           picks={data.currentYearPickDict}

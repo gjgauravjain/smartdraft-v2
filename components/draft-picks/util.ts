@@ -67,7 +67,7 @@ export const isPlayerName = (value?: string) => {
 };
 
 export const NAME_COL_WIDTH = 170;
-export const COL_WIDTH = 86;
+export const COL_WIDTH = 160;
 
 // Decay curve fitted to match the value tooltips in the reference design
 // (3000 pts at pick 1, decaying ~3.7% per pick).

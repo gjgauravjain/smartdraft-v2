@@ -15,6 +15,7 @@ import DraftAssetsMobileList from "./draft-assets/DraftAssetMobileList";
 import ApplyCompensation from "./ApplyCompensation";
 import { DraftPicksSkeleton } from "./DraftPicksSkeleton";
 import AppSelectionSettings from "../layout/AppSelectionSettings";
+import { cn } from "@/lib/utils";
 
 const DraftPicks = () => {
   const {
@@ -103,7 +104,12 @@ const DraftPicks = () => {
     );
   };
   return (
-    <div className="w-full border-b ">
+    <div
+      className={cn(
+        "w-full border-b",
+        isMobile && "flex min-h-0 flex-1 flex-col overflow-hidden",
+      )}
+    >
       <DraftPicksToolbar
         teams={teams}
         selectedTeamId={selectedTeam}
@@ -165,7 +171,7 @@ const DraftPicks = () => {
       {loading ? (
         <DraftPicksSkeleton isMobile={isMobile} />
       ) : (
-        <>
+        <div className={cn(isMobile && "min-h-0 flex-1 overflow-hidden")}>
           {activeTab === "current" && (
             <CurrentYearDraftPick
               data={draftData?.draftCurrentYear}
@@ -190,7 +196,7 @@ const DraftPicks = () => {
           {activeTab === "order" && renderOrderEntry()}
           {activeTab === "fulllist" && renderFullListEntry()}
           {activeTab === "draftAssets" && renderDraftAssets()}
-        </>
+        </div>
       )}
     </div>
   );

@@ -16,10 +16,15 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
   const { isSideBarOpen, setIsSideBarOpen, isMobile } = useDashboardLayout();
   return (
     <SidebarProvider open={isSideBarOpen} onOpenChange={setIsSideBarOpen}>
-      <div className="flex min-h-screen w-full">
+      <div
+        className={cn(
+          "flex w-full",
+          isMobile ? "h-dvh max-h-dvh overflow-hidden" : "min-h-screen",
+        )}
+      >
         <AppSidebar />
 
-        <SidebarInset className="flex flex-col flex-1 min-w-0">
+        <SidebarInset className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden">
           {!isMobile && (
             <div className="sticky top-0 z-40">
               <div className="flex items-center gap-2 border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
@@ -28,7 +33,14 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
             </div>
           )}
 
-          <main className={cn("flex-1 overflow-auto")}>{children}</main>
+          <main
+            className={cn(
+              "min-h-0 flex-1 overflow-auto",
+              isMobile && "flex flex-col",
+            )}
+          >
+            {children}
+          </main>
           {isMobile && <BottomNav />}
         </SidebarInset>
       </div>

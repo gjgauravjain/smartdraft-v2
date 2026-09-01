@@ -63,7 +63,7 @@ export function DraftPicksToolbar({
       <MobileDraftPicksHeader
         title="Draft Picks"
         subtitle={`2026 · ${isAll ? "All clubs" : "Selected club"}`}
-        notificationCount={3}
+        notificationCount={0}
         onSearch={onSearch}
         onNotifications={() => {}}
       />

@@ -11,6 +11,7 @@ import {
 } from "./util";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { MobileTabs } from "../common/MobileTabs";
+import { cn } from "@/lib/utils";
 
 interface CurrentYearDraftPickProps {
   data?: DraftYearType;
@@ -66,7 +67,7 @@ const CurrentYearDraftPick = ({
     }
     if (activeTab === "talent") {
       return (
-        <div>
+        <div className="h-full min-h-0">
           <TalentOrder
             players={players || []}
             isCollapsed={isTalentOrderCollapsed}
@@ -75,24 +76,19 @@ const CurrentYearDraftPick = ({
       );
     }
     return (
-      <div className="flex gap-4">
-        <div
-          className="flex-1 min-w-0 transition-[padding] duration-200"
-          style={{ paddingRight: isMobile ? 0 : reservedRight }}
-        >
-          <DraftYearPickBoard
-            data={data}
-            selectedTeamId={selectedTeamId}
-            showAll={showAll}
-            userTeamId={user?.teamId}
-            hoveredTeamId={hoveredTeamId}
-          />
-        </div>
+      <div className="flex h-full min-h-0 min-w-0 flex-1 flex-col">
+        <DraftYearPickBoard
+          data={data}
+          selectedTeamId={selectedTeamId}
+          showAll={showAll}
+          userTeamId={user?.teamId}
+          hoveredTeamId={hoveredTeamId}
+        />
       </div>
     );
   };
   return (
-    <div>
+    <div className={cn(isMobile && "flex h-full min-h-0 flex-col")}>
       {isMobile && (
         <MobileTabs
           tabs={TALENT_ORDER_TABS}

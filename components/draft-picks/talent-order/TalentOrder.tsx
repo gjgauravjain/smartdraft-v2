@@ -37,12 +37,12 @@ const TalentOrder: React.FC<TalentOrderProps> = ({
 
   if (isMobile) {
     return (
-      <div className="flex h-[calc(100vh-300px)] min-h-0 flex-col overflow-hidden">
+      <div className="flex h-full min-h-0 flex-col overflow-hidden">
         <FilterTalentOrder filter={filter} setFilter={setFilter} />
         <span className="text-[10.5px] px-2.5 py-1 text-muted-foreground">
           {remainingCount} of {totalCount} remaining
         </span>
-        <FilterPlayerList playerList={playerList} className="pb-50" />
+        <FilterPlayerList playerList={playerList} />
       </div>
     );
   }

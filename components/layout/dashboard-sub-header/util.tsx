@@ -12,6 +12,7 @@ import {
   Globe,
   ClipboardList,
   Pencil,
+  ArrowUpDown,
   SkipForward,
   LogIn,
 } from "lucide-react";
@@ -34,6 +35,7 @@ export const TRANSACTION_MENU_OPTIONS_VALUE = {
   NGA_BID_MATCH: "nga_bid_match",
   DRAFT_NIGHT_SELECTION: "draft_night_selection",
   MANUAL_PICK_EDIT: "manual_pick_edit",
+  MOVE_PICK: "move_pick",
   PASS_PICKS: "pass_picks",
   DELETE_UNUSABLE_PICKS: "delete_unusable_picks",
 } as const;
@@ -99,6 +101,12 @@ export const TRANSACTION_MENU_OPTIONS = [
     icon: <Pencil />,
   },
   {
+    id: "transaction_move_pick",
+    value: TRANSACTION_MENU_OPTIONS_VALUE.MOVE_PICK,
+    label: "Move Pick",
+    icon: <ArrowUpDown />,
+  },
+  {
     id: "transaction_12",
     value: TRANSACTION_MENU_OPTIONS_VALUE.PASS_PICKS,
     label: "Pass Picks",
@@ -112,14 +120,19 @@ export const TRANSACTION_MENU_OPTIONS = [
   },
 ] as const;
 
+const DRAFT_EDIT_MENU_VALUES = new Set<string>([
+  TRANSACTION_MENU_OPTIONS_VALUE.MANUAL_PICK_EDIT,
+  TRANSACTION_MENU_OPTIONS_VALUE.MOVE_PICK,
+  TRANSACTION_MENU_OPTIONS_VALUE.PASS_PICKS,
+]);
+
 export const getTransactionMenuOptions = (
   user: UserDetailsType | null | undefined,
 ) => {
   const hasDraftEdit = hasRebuildDraftEditCapability(user);
 
-  return TRANSACTION_MENU_OPTIONS.filter(
-    (option) =>
-      (option.value !== "manual_pick_edit" && option.value !== "pass_picks") ||
-      hasDraftEdit,
-  );
+  return TRANSACTION_MENU_OPTIONS.filter((option) => {
+    if (!DRAFT_EDIT_MENU_VALUES.has(option.value)) return true;
+    return hasDraftEdit;
+  });
 };

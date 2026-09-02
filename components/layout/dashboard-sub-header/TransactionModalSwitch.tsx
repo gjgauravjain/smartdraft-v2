@@ -3,6 +3,7 @@
 import { TransactionMenuValue } from "./type";
 import FatherSonBidMatchModal from "@/components/transactions/father-son/FatherSonBidMatchModal";
 import ManualPickEditModal from "@/components/transactions/manual-pick-edit/ManualPickEditModal";
+import MovePickModal from "@/components/transactions/move-pick-edit/MovePickModal";
 import EnterDraftModeModal from "@/components/transactions/draft-mode/EnterDraftModeModal";
 import PassPickModal from "@/components/transactions/pass-pick/PassPickModal";
 import { hasRebuildDraftEditCapability } from "@/lib/capabilities";
@@ -23,10 +24,11 @@ const TransactionModalSwitch = ({
   const { user } = useAuth();
 
   useEffect(() => {
-    if (
-      type === TRANSACTION_MENU_OPTIONS_VALUE.MANUAL_PICK_EDIT &&
-      !hasRebuildDraftEditCapability(user)
-    ) {
+    const requiresDraftEdit =
+      type === TRANSACTION_MENU_OPTIONS_VALUE.MANUAL_PICK_EDIT ||
+      type === TRANSACTION_MENU_OPTIONS_VALUE.MOVE_PICK;
+
+    if (requiresDraftEdit && !hasRebuildDraftEditCapability(user)) {
       toast.error("You do not have permission to edit draft picks.");
       onClose();
     }
@@ -65,6 +67,11 @@ const TransactionModalSwitch = ({
     if (!hasRebuildDraftEditCapability(user)) return null;
 
     return <ManualPickEditModal isOpen={true} onClose={onClose} />;
+  }
+  if (type === TRANSACTION_MENU_OPTIONS_VALUE.MOVE_PICK) {
+    if (!hasRebuildDraftEditCapability(user)) return null;
+
+    return <MovePickModal isOpen={true} onClose={onClose} />;
   }
   if (type === TRANSACTION_MENU_OPTIONS_VALUE.PASS_PICKS) {
     return <PassPickModal isOpen={true} onClose={onClose} />;

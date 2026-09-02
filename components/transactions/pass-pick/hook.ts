@@ -7,7 +7,6 @@ import { useGetTeams } from "@/app/api/react-query/common";
 import { PassPickPassType } from "@/app/api/type/pass-pick";
 import { useStore } from "@/store/useStore";
 import { zodResolver } from "@hookform/resolvers/zod";
-import axios from "axios";
 import { useMemo } from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { toast } from "sonner";
@@ -19,17 +18,7 @@ import {
   PASS_PICK_DEFAULT_VALUES,
   passPickFormSchema,
 } from "./util";
-
-const getErrorMessage = (error: unknown, fallback: string) => {
-  if (axios.isAxiosError(error)) {
-    const message =
-      error.response?.data?.detail || error.response?.data?.message;
-    if (typeof message === "string") return message;
-  }
-
-  if (error instanceof Error && error.message) return error.message;
-  return fallback;
-};
+import { getErrorMessage } from "@/lib/api-client";
 
 export const usePassPickModal = ({
   isOpen,
@@ -78,10 +67,7 @@ export const usePassPickModal = ({
   const createPassPick = useCreatePassPick();
 
   const impactErrorMessage = impactQuery.error
-    ? getErrorMessage(
-        impactQuery.error,
-        "Failed to load pass impact preview",
-      )
+    ? getErrorMessage(impactQuery.error, "Failed to load pass impact preview")
     : null;
 
   const canPass =

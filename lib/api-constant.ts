@@ -44,8 +44,8 @@ export const createManualPickEditApi = (projectId: string) =>
   `api/v1/transactions/manual-pick-edit/${projectId}/`;
 export const createDraftNightSelectionApi = (projectId: string) =>
   `/api/v1/transactions/draft-night-selection/${projectId}/`;
-export const createManualMovePickEditApi = (projectId: string) =>
-  `manual_pick_move/${projectId}`;
+export const createMovePickApi = (projectId: string) =>
+  `api/v1/transactions/manual-pick-move/${projectId}/`;
 export const createManualInsertPickEditApi = (projectId: string) =>
   `Manual-pick-insert/${projectId}`;
 export const createNgaBidApi = (projectId: string) =>

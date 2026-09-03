@@ -253,6 +253,13 @@ export const fetchMultiTeamTradeImpact = (projectId: string) =>
 export const createMultiTradeTeam = (projectId: string) =>
   `api/v1/transactions/multi-team-trade/${projectId}/`;
 
+export const fetchTradeImpactApiUrl = (projectId: string) =>
+  `api/v1/transactions/trade-impact/${projectId}/`;
+export const createTradeApiUrl = (projectId: string) =>
+  `api/v1/transactions/trade/${projectId}/`;
+export const getOrganisationPlayersLookupApiUrl = (orgId: string, q: string) =>
+  `api/v1/organisations/${orgId}/players/lookup/?q=${encodeURIComponent(q)}`;
+
 export const fetchScenarioMultiTeamTradeImpact = (
   projectId: string,
   scenarioId: string,

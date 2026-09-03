@@ -1,5 +1,8 @@
 "use client";
 
+import { TeamType } from "@/app/api/type/common";
+import { PlayerDatabaseType } from "@/app/api/type/player";
+import RequiredLabel from "@/components/common/fields/RequiredLabel";
 import { SelectOption } from "@/components/common/fields/FormSelectField";
 import {
   DropdownMenu,
@@ -12,73 +15,102 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { cn } from "@/lib/utils";
-import { UseFormReturn } from "react-hook-form";
-import { FatherSonBidMatchFormValues } from "./hook";
-import RequiredLabel from "@/components/common/fields/RequiredLabel";
-import { PlayerDatabaseType } from "@/app/api/type/player";
-import { PlayerBoardSelect } from "./PlayerBoardSelect";
-import { useMemo, useState } from "react";
-import { ChevronDown, User } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { cn } from "@/lib/utils";
+import { ChevronDown, User } from "lucide-react";
+import { useMemo, useState } from "react";
+import { PlayerBoardSelect } from "./PlayerBoardSelect";
+import { playerName } from "./util";
+
+export type PlayerSource = "all" | "talentOrder";
 
 type PlayerSelectProps = {
-  playerSource: "all" | "talentOrder";
-  setPlayerSource: (source: "all" | "talentOrder") => void;
+  playerSource: PlayerSource;
+  setPlayerSource: (source: PlayerSource) => void;
   talentOrderOptions: SelectOption[];
   talentOrderId: string;
+  onTalentOrderChange: (value: string) => void;
   playersOptions: PlayerDatabaseType[];
-  form: UseFormReturn<
-    FatherSonBidMatchFormValues,
-    any,
-    FatherSonBidMatchFormValues
-  >;
+  value?: string;
+  onSelect: (playerId: string) => void;
+  variant?: "popover" | "inline";
+  showLabel?: boolean;
+  disabledIds?: Set<string>;
+  teamsById?: Map<string, TeamType>;
 };
-
-function getDisplayName(player: PlayerDatabaseType) {
-  const first = player.preferredFirstName || player.firstName;
-  const last = player.preferredLastName || player.lastName;
-  return `${first} ${last}`.trim();
-}
 
 const PlayerSelect = ({
   playerSource,
-  form,
-  talentOrderId,
   setPlayerSource,
   talentOrderOptions,
+  talentOrderId,
+  onTalentOrderChange,
   playersOptions,
+  value,
+  onSelect,
+  variant = "popover",
+  showLabel = true,
+  disabledIds,
+  teamsById,
 }: PlayerSelectProps) => {
   const [boardOpen, setBoardOpen] = useState(false);
   const isMobile = useIsMobile();
+  const isInline = variant === "inline";
 
   const selectedTalentOrder = talentOrderOptions.find(
-    (o) => o.value === talentOrderId,
+    (option) => option.value === talentOrderId,
   );
+  const selectedPlayer = playersOptions.find((player) => player.id === value);
 
-  const selectedPlayerId = form.watch("playerId");
-  const selectedPlayer = playersOptions.find((p) => p.id === selectedPlayerId);
-
-  const handleSelectTalentOrder = (value: string) => {
-    form.setValue("talentOrderId", value, { shouldValidate: true });
-    setPlayerSource("talentOrder");
-  };
-
-  const boardPlayers: any[] = useMemo(
-    () => playersOptions.map((p, idx) => ({ ...p, rank: idx + 1 })),
+  const boardPlayers = useMemo(
+    () => playersOptions.map((player, index) => ({ ...player, rank: index + 1 })),
     [playersOptions],
   );
 
   const handleBoardSelect = (playerId: string) => {
-    form.setValue("playerId", playerId, { shouldValidate: true });
+    onSelect(playerId);
     setBoardOpen(false);
   };
 
+  const board = (
+    <PlayerBoardSelect
+      key={playerSource}
+      players={boardPlayers}
+      boardTotal={isInline ? undefined : boardPlayers.length}
+      value={value}
+      onSelect={handleBoardSelect}
+      disabledIds={disabledIds}
+      hideRank={playerSource === "all"}
+      teamsById={teamsById}
+      countText={
+        isInline
+          ? (filteredCount) => `${filteredCount} available`
+          : undefined
+      }
+      placeholder={
+        playerSource === "all" ? "Search all players…" : "Search your board…"
+      }
+      showSwitchFooter={playerSource === "talentOrder"}
+      onSwitchToAll={() => {
+        setPlayerSource("all");
+        setBoardOpen(false);
+      }}
+      className={
+        isInline
+          ? "flex min-h-0 flex-1 flex-col shadow-[0_18px_44px_-12px_rgba(20,28,42,0.28)]"
+          : undefined
+      }
+      listClassName={isInline ? "max-h-none flex-1" : undefined}
+    />
+  );
+
   return (
-    <div>
-      <div className="mb-1.5 text-[11px] font-bold text-foreground">
-        <RequiredLabel>Player</RequiredLabel>
-      </div>
+    <div className={cn(isInline && "flex min-h-0 flex-1 flex-col")}>
+      {showLabel ? (
+        <div className="mb-1.5 text-[11px] font-bold text-foreground">
+          <RequiredLabel>Player</RequiredLabel>
+        </div>
+      ) : null}
 
       <div className="mb-1.5 inline-flex max-w-full items-center gap-0.5 rounded-lg border border-border bg-muted p-0.75">
         <button
@@ -117,7 +149,7 @@ const PlayerSelect = ({
               <span className="text-[8.5px] opacity-70">▾</span>
             </button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="start" className="w-56">
+          <DropdownMenuContent align="start" className="z-[70] w-56">
             {talentOrderOptions.length === 0 && (
               <div className="px-2 py-1.5 text-xs text-muted-foreground">
                 No talent order available
@@ -126,7 +158,7 @@ const PlayerSelect = ({
             {talentOrderOptions.map((option) => (
               <DropdownMenuItem
                 key={option.value}
-                onSelect={() => handleSelectTalentOrder(option.value)}
+                onSelect={() => onTalentOrderChange(option.value)}
                 className={cn(
                   "text-[12.5px]",
                   option.value === talentOrderId && "font-bold text-primary",
@@ -139,43 +171,37 @@ const PlayerSelect = ({
         </DropdownMenu>
       </div>
 
-      <Popover open={boardOpen} onOpenChange={setBoardOpen}>
-        <PopoverTrigger asChild>
-          <button
-            type="button"
-            className={cn(
-              "flex h-9 w-full items-center gap-2 rounded-lg border border-border bg-background px-3 text-left text-[13px] transition-colors hover:border-foreground/20",
-              !selectedPlayer && "text-text4",
-            )}
+      {isInline ? (
+        board
+      ) : (
+        <Popover open={boardOpen} onOpenChange={setBoardOpen}>
+          <PopoverTrigger asChild>
+            <button
+              type="button"
+              className={cn(
+                "flex h-9 w-full items-center gap-2 rounded-lg border border-border bg-background px-3 text-left text-[13px] transition-colors hover:border-foreground/20",
+                !selectedPlayer && "text-text4",
+              )}
+            >
+              <User className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
+              <span className="min-w-0 flex-1 truncate">
+                {selectedPlayer
+                  ? playerName(selectedPlayer)
+                  : "Select player"}
+              </span>
+              <ChevronDown className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
+            </button>
+          </PopoverTrigger>
+          <PopoverContent
+            align="start"
+            sideOffset={4}
+            portalled={!isMobile}
+            className="w-95 max-w-[calc(100vw-24px)] p-0"
           >
-            <User className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
-            <span className="min-w-0 flex-1 truncate">
-              {selectedPlayer
-                ? getDisplayName(selectedPlayer)
-                : "Select player"}
-            </span>
-            <ChevronDown className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
-          </button>
-        </PopoverTrigger>
-        <PopoverContent
-          align="start"
-          sideOffset={4}
-          portalled={!isMobile}
-          className="w-95 max-w-[calc(100vw-24px)] p-0"
-        >
-          <PlayerBoardSelect
-            players={boardPlayers}
-            boardTotal={boardPlayers.length}
-            value={selectedPlayerId}
-            onSelect={handleBoardSelect}
-            showSwitchFooter={playerSource === "talentOrder"}
-            onSwitchToAll={() => {
-              setPlayerSource("all");
-              setBoardOpen(false);
-            }}
-          />
-        </PopoverContent>
-      </Popover>
+            {board}
+          </PopoverContent>
+        </Popover>
+      )}
     </div>
   );
 };

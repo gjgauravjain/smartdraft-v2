@@ -3,7 +3,6 @@ import { ProjectType } from "@/app/api/type/projects";
 import { hasRebuildDraftEditCapability } from "@/lib/capabilities";
 import {
   ArrowLeftRight,
-  Users,
   ListOrdered,
   UserPlus,
   BadgeCheck,
@@ -25,6 +24,7 @@ export const isPastSeason = (project: ProjectType): boolean => {
 };
 
 export const TRANSACTION_MENU_OPTIONS_VALUE = {
+  TRADE: "trade",
   COMPLETED_TRADE: "completed_trade",
   MULTI_COMPLETED_TRADE: "multi_completed_trade",
   PRIORITY_PICK: "priority_pick",
@@ -41,16 +41,10 @@ export const TRANSACTION_MENU_OPTIONS_VALUE = {
 } as const;
 export const TRANSACTION_MENU_OPTIONS = [
   {
-    id: "transaction_1",
-    value: TRANSACTION_MENU_OPTIONS_VALUE.COMPLETED_TRADE,
-    label: "Completed Trade",
+    id: "transaction_trade",
+    value: TRANSACTION_MENU_OPTIONS_VALUE.TRADE,
+    label: "Trade",
     icon: <ArrowLeftRight />,
-  },
-  {
-    id: "transaction_completed_trade",
-    value: TRANSACTION_MENU_OPTIONS_VALUE.MULTI_COMPLETED_TRADE,
-    label: "Multi Team Trade",
-    icon: <Users />,
   },
   {
     id: "transaction_2",

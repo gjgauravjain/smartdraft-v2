@@ -1,6 +1,7 @@
 "use client";
 
 import { TransactionMenuValue } from "./type";
+import TradeModal from "@/components/transactions/multi-team-trade/TradeModal";
 import FatherSonBidMatchModal from "@/components/transactions/father-son/FatherSonBidMatchModal";
 import ManualPickEditModal from "@/components/transactions/manual-pick-edit/ManualPickEditModal";
 import MovePickModal from "@/components/transactions/move-pick-edit/MovePickModal";
@@ -35,11 +36,8 @@ const TransactionModalSwitch = ({
   }, [type, user, onClose]);
 
   if (!type) return null;
-  if (type === TRANSACTION_MENU_OPTIONS_VALUE.COMPLETED_TRADE) {
-    return <></>;
-  }
-  if (type === TRANSACTION_MENU_OPTIONS_VALUE.MULTI_COMPLETED_TRADE) {
-    return <></>;
+  if (type === TRANSACTION_MENU_OPTIONS_VALUE.TRADE) {
+    return <TradeModal isOpen={true} onClose={onClose} />;
   }
   if (type === TRANSACTION_MENU_OPTIONS_VALUE.PRIORITY_PICK) {
     return <></>;

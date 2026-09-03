@@ -171,7 +171,7 @@ const TradeModal = ({ isOpen, onClose }: TradeModalProps) => {
         <Sheet open={isOpen} onOpenChange={onOpenChange}>
           <SheetContent
             side="bottom"
-            className="flex h-[92dvh] flex-col gap-0 border-border bg-card p-0 [&>button]:hidden"
+            className="flex h-[92dvh] rounded-t-[16px] flex-col gap-0 border-border bg-card p-0 [&>button]:hidden"
           >
             <SheetTitle className="sr-only">New trade</SheetTitle>
             {header}

@@ -55,18 +55,37 @@ export const TradeHeader = ({
     )}
 
     {selectedClubs.length >= 2 ? (
-      <div className="flex shrink-0 items-center gap-[7px]">
-        {selectedClubs.map((club, index) => (
-          <Fragment key={club.id}>
-            {index > 0 ? (
-              <span className="text-[13px] font-semibold text-muted-foreground">
-                ⇄
-              </span>
-            ) : null}
-            <TradeClubFlag team={club} className="h-5 w-5" />
-          </Fragment>
-        ))}
-      </div>
+      isMobile ? (
+        <div className="flex shrink-0 items-center">
+          {selectedClubs.map((club, index) => (
+            <span
+              key={club.id}
+              className={cn(
+                "flex rounded-full ring-2 ring-card",
+                index > 0 && "-ml-1.5",
+              )}
+            >
+              <TradeClubFlag
+                team={club}
+                className="h-[18px] w-[18px] border-[1.5px]"
+              />
+            </span>
+          ))}
+        </div>
+      ) : (
+        <div className="flex shrink-0 items-center gap-[7px]">
+          {selectedClubs.map((club, index) => (
+            <Fragment key={club.id}>
+              {index > 0 ? (
+                <span className="text-[13px] font-semibold text-muted-foreground">
+                  ⇄
+                </span>
+              ) : null}
+              <TradeClubFlag team={club} className="h-5 w-5" />
+            </Fragment>
+          ))}
+        </div>
+      )
     ) : null}
 
     {showValidity && validity ? (

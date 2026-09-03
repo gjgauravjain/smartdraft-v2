@@ -27,7 +27,7 @@ export const TradeImpactBars = ({
             </div>
             <div className="h-2 flex-1 overflow-hidden rounded-full bg-muted">
               <div
-                className="h-full rounded-full bg-highlight-text"
+                className="h-full rounded-full bg-primary"
                 style={{ width: `${fill}%` }}
               />
             </div>

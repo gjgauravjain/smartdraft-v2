@@ -52,6 +52,7 @@ export const TradeClubLane = ({
       label={`Pick ${pick.overallPick}`}
       meta={`${clubShortName(teamsById.get(pick.currentOwner), "Club")} · ${formatPoints(pick.points)}`}
       onRemove={() => onRemovePick(pick.unique)}
+      compact={isMobile}
     />
   ));
 
@@ -62,6 +63,7 @@ export const TradeClubLane = ({
       label={player.playerName}
       meta={clubShortName(teamsById.get(player.fromTeamId))}
       onRemove={() => onRemovePlayer(player.playerId)}
+      compact={isMobile}
     />
   ));
 

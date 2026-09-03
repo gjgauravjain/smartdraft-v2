@@ -38,7 +38,7 @@ export const HandYearRow = ({
               className={cn(
                 "inline-flex h-6 max-w-full min-w-0 items-center gap-1.5 rounded-full px-[9px] text-[11px] font-bold tabular-nums",
                 incoming
-                  ? "border border-highlight-text bg-highlight-text text-white"
+                  ? "border border-primary bg-primary text-white"
                   : "border border-border bg-card text-foreground",
               )}
             >

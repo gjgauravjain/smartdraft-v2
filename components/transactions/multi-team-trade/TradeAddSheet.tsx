@@ -10,11 +10,18 @@ import {
   DialogDescription,
   DialogTitle,
 } from "@/components/ui/dialog";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetTitle,
+} from "@/components/ui/sheet";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 import { Search, X } from "lucide-react";
-import { ReactNode, useEffect, useMemo, useState } from "react";
+import { ElementType, ReactNode, useEffect, useMemo, useState } from "react";
 import PlayerSelect, { PlayerSource } from "../father-son/PlayerSelect";
 import { TradeClubFlag } from "./TradeClubFlag";
 import { GroupedTradePicks, TradeLane } from "./type";
@@ -86,6 +93,7 @@ export const TradeAddSheet = ({
   onAddPlayer: (player: PlayerDatabaseType) => void;
   onTabChange: (tab: TradeAddTab) => void;
 }) => {
+  const isMobile = useIsMobile();
   const receiving = teamsById.get(lane.teamId);
   const [pickSearch, setPickSearch] = useState("");
   const [clubFilter, setClubFilter] = useState(ALL_CLUBS_FILTER);
@@ -143,52 +151,55 @@ export const TradeAddSheet = ({
       .filter((group) => group.picks.length > 0);
   }, [clubFilter, groupedPicks, pickSearch, selectedClubIds]);
 
-  return (
-    <Dialog
-      open={open}
-      onOpenChange={(nextOpen) => {
-        if (!nextOpen) onClose();
-      }}
-    >
-      <DialogContent
-        overlayClassName="z-[60] bg-black/45"
-        className="z-[60] flex h-[min(640px,86vh)] w-[420px] max-w-[calc(100vw-2rem)] flex-col gap-0 overflow-hidden rounded-[14px] border-border bg-card p-0 shadow-[0_30px_70px_-20px_rgba(0,0,0,0.55)] [&>button]:hidden"
-        onOpenAutoFocus={(event) => event.preventDefault()}
-        onCloseAutoFocus={(event) => event.preventDefault()}
-        onPointerDownOutside={(event) => {
-          const target = event.target as HTMLElement;
-          if (target.closest('[role="menu"]')) {
-            event.preventDefault();
-          }
-        }}
-      >
-        <div className="flex items-center gap-2.5 border-b border-border px-[18px] py-3.5">
-          <div className="min-w-0 flex-1">
-            <DialogTitle className="mb-0.5 text-[9.5px] font-extrabold uppercase tracking-[0.9px] text-highlight-text">
-              Add to trade
-            </DialogTitle>
-            <DialogDescription className="sr-only">
-              Choose picks or players for {receiving?.teamNames ?? "this club"}{" "}
-              to receive.
-            </DialogDescription>
-            <div className="flex items-center gap-1.5 text-[14.5px] font-extrabold text-foreground">
-              <TradeClubFlag team={receiving} />
-              <span className="truncate">
-                {receiving?.teamNames ?? "Club"} receives…
-              </span>
-            </div>
-          </div>
-          <button
-            type="button"
-            onClick={onClose}
-            className="flex h-[30px] w-[30px] shrink-0 items-center justify-center rounded-full border border-border text-muted-foreground hover:bg-secondary"
-            aria-label="Close"
-          >
-            <X className="h-3.5 w-3.5" />
-          </button>
-        </div>
+  const onOpenChange = (nextOpen: boolean) => {
+    if (!nextOpen) onClose();
+  };
 
-        <Tabs
+  const contentProps = {
+    onOpenAutoFocus: (event: Event) => event.preventDefault(),
+    onCloseAutoFocus: (event: Event) => event.preventDefault(),
+    onPointerDownOutside: (event: { target: EventTarget | null; preventDefault: () => void }) => {
+      const target = event.target as HTMLElement;
+      if (target.closest('[role="menu"]')) {
+        event.preventDefault();
+      }
+    },
+  };
+
+  const body = (Title: ElementType, Description: ElementType) => (
+    <>
+      {isMobile ? (
+        <div className="flex justify-center pb-1 pt-2">
+          <span className="h-1 w-10 rounded-full bg-border" />
+        </div>
+      ) : null}
+      <div className="flex items-center gap-2.5 border-b border-border px-[18px] py-3.5">
+        <div className="min-w-0 flex-1">
+          <Title className="mb-0.5 text-[9.5px] font-extrabold uppercase tracking-[0.9px] text-highlight-text">
+            Add to trade
+          </Title>
+          <Description className="sr-only">
+            Choose picks or players for {receiving?.teamNames ?? "this club"} to
+            receive.
+          </Description>
+          <div className="flex items-center gap-1.5 text-[14.5px] font-extrabold text-foreground">
+            <TradeClubFlag team={receiving} />
+            <span className="truncate">
+              {receiving?.teamNames ?? "Club"} receives…
+            </span>
+          </div>
+        </div>
+        <button
+          type="button"
+          onClick={onClose}
+          className="flex h-[30px] w-[30px] shrink-0 items-center justify-center rounded-full border border-border text-muted-foreground hover:bg-secondary"
+          aria-label="Close"
+        >
+          <X className="h-3.5 w-3.5" />
+        </button>
+      </div>
+
+      <Tabs
           value={tab}
           onValueChange={(value) => onTabChange(value as TradeAddTab)}
           className="flex min-h-0 flex-1 flex-col"
@@ -339,6 +350,32 @@ export const TradeAddSheet = ({
             </p>
           </TabsContent>
         </Tabs>
+    </>
+  );
+
+  if (isMobile) {
+    return (
+      <Sheet open={open} onOpenChange={onOpenChange}>
+        <SheetContent
+          side="bottom"
+          overlayClassName="z-[60] bg-black/45"
+          className="z-[60] flex h-[88dvh] flex-col gap-0 overflow-hidden rounded-t-[20px] border-border bg-card p-0 [&>button]:hidden"
+          {...contentProps}
+        >
+          {body(SheetTitle, SheetDescription)}
+        </SheetContent>
+      </Sheet>
+    );
+  }
+
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent
+        overlayClassName="z-[60] bg-black/45"
+        className="z-[60] flex h-[min(640px,86vh)] w-[420px] max-w-[calc(100vw-2rem)] flex-col gap-0 overflow-hidden rounded-[14px] border-border bg-card p-0 shadow-[0_30px_70px_-20px_rgba(0,0,0,0.55)] [&>button]:hidden"
+        {...contentProps}
+      >
+        {body(DialogTitle, DialogDescription)}
       </DialogContent>
     </Dialog>
   );

@@ -40,13 +40,13 @@ export const TradeImpactBeam = ({
           <span className="absolute inset-y-0 left-1/2 w-px bg-border" />
           {left.netResult > 0 ? (
             <span
-              className="absolute inset-y-0 right-1/2 rounded-full bg-highlight-text"
+              className="absolute inset-y-0 right-1/2 rounded-full bg-primary"
               style={{ width: `${leftFill}%` }}
             />
           ) : null}
           {right.netResult > 0 ? (
             <span
-              className="absolute inset-y-0 left-1/2 rounded-full bg-highlight-text"
+              className="absolute inset-y-0 left-1/2 rounded-full bg-primary"
               style={{ width: `${rightFill}%` }}
             />
           ) : null}

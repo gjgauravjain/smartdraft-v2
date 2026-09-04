@@ -74,3 +74,9 @@ export type RankingListType = {
   eligibilityType?: string;
   isDefault?: boolean;
 };
+
+export type PlayerLookupType = {
+  playerId: string;
+  name: string;
+  teamId: string | null;
+};

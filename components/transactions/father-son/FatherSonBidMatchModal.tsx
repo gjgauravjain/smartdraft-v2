@@ -147,12 +147,23 @@ const FatherSonBidMatchModal = ({
                   options={teamsOptions}
                 />
                 <PlayerSelect
-                  form={form}
                   playerSource={playerSource}
                   setPlayerSource={setPlayerSource}
                   talentOrderOptions={talentOrderOptions}
                   talentOrderId={talentOrderId}
+                  onTalentOrderChange={(value) => {
+                    form.setValue("talentOrderId", value, {
+                      shouldValidate: true,
+                    });
+                    setPlayerSource("talentOrder");
+                  }}
                   playersOptions={playersOptions}
+                  value={form.watch("playerId")}
+                  onSelect={(playerId) =>
+                    form.setValue("playerId", playerId, {
+                      shouldValidate: true,
+                    })
+                  }
                 />
                 <FormSelectField
                   label="Bid pick"

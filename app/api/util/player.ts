@@ -1,4 +1,8 @@
-import { PlayerDatabaseType, RankingListType } from "../type/player";
+import {
+  PlayerDatabaseType,
+  PlayerLookupType,
+  RankingListType,
+} from "../type/player";
 
 export const transformPlayerDetail = (data: any): PlayerDatabaseType => {
   return {
@@ -78,4 +82,21 @@ export const transformRankingList = (data: any): RankingListType[] => {
         isDefault: item.is_default,
       }) as RankingListType,
   );
+};
+
+export const transformPlayerLookup = (data: any): PlayerLookupType[] => {
+  const list = Array.isArray(data)
+    ? data
+    : Array.isArray(data?.data)
+      ? data.data
+      : [];
+
+  return list.map((item: any) => ({
+    playerId: String(item?.player_id ?? ""),
+    name: item?.name ?? "",
+    teamId:
+      item?.team_id === null || item?.team_id === undefined
+        ? null
+        : String(item.team_id),
+  }));
 };

@@ -67,6 +67,23 @@
   --color-table-row-border: var(--table-row-border);
   --color-table-row-hover: var(--table-row-hover);
   --color-table-row-text: var(--table-row-text);
+
+  /* Deficit/Warning tokens (used for bid deficits, warnings, etc.) */
+  --color-deficit-bg: var(--deficit-bg);
+  --color-deficit-surface: var(--deficit-surface);
+  --color-deficit-border: var(--deficit-border);
+  --color-deficit-border-subtle: var(--deficit-border-subtle);
+  --color-deficit-text: var(--deficit-text);
+  --color-deficit-text-strong: var(--deficit-text-strong);
+  --color-deficit-text-muted: var(--deficit-text-muted);
+  --color-deficit-text-accent: var(--deficit-text-accent);
+  --color-deficit-pill: var(--deficit-pill);
+  --color-warning-bg: var(--warning-bg);
+  --color-warning-text: var(--warning-text);
+  --color-warning-border: var(--warning-border);
+
+  /* Father-Son pick accent */
+  --color-fs-pick: var(--fs-pick);
 }
 
 :root {
@@ -154,12 +171,22 @@
   --table-row-hover: #f4f5f7; /* surfaceMuted — tr:hover */
   --table-row-text: #4c5563; /* text2 */
 
-  /* Father-Son points ledger deficit (light) */
-  --ledger-deficit-bg: rgb(246, 238, 221);
-  --ledger-deficit-border: rgb(230, 211, 168);
-  --ledger-deficit-text: rgb(138, 94, 18);
-  --ledger-deficit-alert-bg: rgba(154, 54, 54, 0.06);
-  --ledger-deficit-alert-border: rgba(154, 54, 54, 0.25);
+  /* Deficit/Warning colors (light) - Used for bid deficits, warnings, etc. */
+  --deficit-bg: rgb(251, 245, 232); /* #fbf5e8 - main background */
+  --deficit-surface: rgb(246, 238, 221); /* #f6eedd - alternate surface */
+  --deficit-border: rgb(230, 211, 168); /* #e6d3a8 - main border */
+  --deficit-border-subtle: rgb(235, 221, 188); /* #ebddbc - subtle border */
+  --deficit-text: rgb(138, 94, 18); /* #8a5e12 - primary text */
+  --deficit-text-strong: rgb(94, 67, 16); /* #5e4310 - strong emphasis */
+  --deficit-text-muted: rgb(122, 106, 72); /* #7a6a48 - muted text */
+  --deficit-text-accent: rgb(154, 122, 62); /* #9a7a3e - accent text */
+  --deficit-pill: rgb(243, 227, 190); /* #f3e3be - pill/badge background */
+  --warning-bg: rgb(248, 236, 235); /* #f8eceb - warning background */
+  --warning-text: rgb(154, 54, 54); /* #9a3636 - warning text */
+  --warning-border: rgba(154, 54, 54, 0.25); /* warning border */
+
+  /* Father-Son pick accent */
+  --fs-pick: rgb(140, 47, 68); /* #8c2f44 - father-son pick accent */
 
   /* Sub-heading accent text */
   --sub-heading: oklch(49% 0.132 360); /* accentText light = maroon */
@@ -256,12 +283,22 @@
   --table-row-hover: #202938; /* surface3 — tr:hover */
   --table-row-text: #a9b4c2; /* text2 */
 
-  /* Father-Son points ledger deficit (dark) */
-  --ledger-deficit-bg: rgba(210, 165, 92, 0.15);
-  --ledger-deficit-border: rgba(210, 165, 92, 0.36);
-  --ledger-deficit-text: rgb(232, 201, 135);
-  --ledger-deficit-alert-bg: rgba(154, 54, 54, 0.06);
-  --ledger-deficit-alert-border: rgba(154, 54, 54, 0.25);
+  /* Deficit/Warning colors (dark) - Used for bid deficits, warnings, etc. */
+  --deficit-bg: rgba(210, 165, 92, 0.15); /* main background */
+  --deficit-surface: rgba(210, 165, 92, 0.12); /* alternate surface */
+  --deficit-border: rgba(210, 165, 92, 0.36); /* main border */
+  --deficit-border-subtle: rgba(210, 165, 92, 0.28); /* subtle border */
+  --deficit-text: rgb(232, 201, 135); /* primary text */
+  --deficit-text-strong: rgb(232, 201, 135); /* strong emphasis (same in dark) */
+  --deficit-text-muted: rgb(180, 160, 115); /* muted text */
+  --deficit-text-accent: rgb(205, 180, 120); /* accent text */
+  --deficit-pill: rgba(210, 165, 92, 0.25); /* pill/badge background */
+  --warning-bg: rgba(154, 54, 54, 0.15); /* warning background */
+  --warning-text: rgb(232, 135, 135); /* warning text */
+  --warning-border: rgba(154, 54, 54, 0.35); /* warning border */
+
+  /* Father-Son pick accent */
+  --fs-pick: rgb(232, 135, 135); /* father-son pick accent (lighter in dark) */
 
   /* Sub-heading — dark promotes to dimmed Lions gold for legibility */
   --sub-heading: oklch(81% 0.113 80); /* accentText dark ≈ #E8B968 */
@@ -328,32 +365,14 @@
     background-color: transparent;
   }
 
-  .points-ledger-deficit-card {
-    background-color: var(--ledger-deficit-bg);
-    border-color: var(--ledger-deficit-border);
-  }
-
-  .points-ledger-deficit-text {
-    color: var(--ledger-deficit-text);
-  }
-
-  .points-ledger-deficit-divider {
-    border-color: var(--ledger-deficit-border);
-  }
-
-  .points-ledger-deficit-alert {
-    background-color: var(--ledger-deficit-alert-bg);
-    border-color: var(--ledger-deficit-alert-border);
-  }
-
   .future-hand-deficit-chip {
-    background-color: var(--ledger-deficit-bg);
-    border-color: var(--ledger-deficit-border);
-    color: var(--ledger-deficit-text);
+    background-color: var(--deficit-bg);
+    border-color: var(--deficit-border);
+    color: var(--deficit-text);
   }
 
   .future-hand-deficit-note {
-    color: var(--ledger-deficit-text);
+    color: var(--deficit-text);
   }
 }
 

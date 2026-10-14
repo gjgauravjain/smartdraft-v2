@@ -9,14 +9,14 @@ import {
 import { X } from "lucide-react";
 import { useFatherSonBidMatchModal } from "./hook";
 import { cn } from "@/lib/utils";
-import { buildAfterChips, buildBeforeChips, playerName } from "./util";
+import { playerName } from "./util";
 import { SummaryCard } from "./SummaryCard";
 import { StatsGrid } from "./StatsGrid";
 import { PointsLedger } from "./PointsLedger";
 import { CompensationCard } from "./CompensationCard";
 import { EmptyState } from "./EmptyState";
-import { FutureHandsSection } from "./FutureHandSection";
-import { DraftHandSection } from "./DraftHandSection";
+import { DeficitCard } from "./DeficitCard";
+import { PickHandTables } from "./PickHandTables";
 import { FormSelectField } from "@/components/common/fields/FormSelectField";
 import { Form } from "@/components/ui/form";
 import PlayerSelect from "./PlayerSelect";
@@ -56,6 +56,14 @@ const FatherSonBidMatchModal = ({
   });
   const isMobile = useIsMobile();
 
+  const clubName = fsTeam?.teamNames ?? "Club";
+  const currentYear = new Date().getFullYear();
+
+  const deficitVisual = displayedImpact?.overallImpactVisual?.find(
+    (v) => v.summary === "Points Deficit" && v.deficitImpact,
+  );
+  const hasDeficit = !!deficitVisual;
+
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
       <DialogContent
@@ -74,7 +82,7 @@ const FatherSonBidMatchModal = ({
         <DialogTitle className="sr-only">Father Son Bid Match</DialogTitle>
         <div
           className={cn(
-            "flex h-full max-h-220 w-full sm:max-w-6xl md:max-w-[80%] flex-col overflow-hidden rounded-2xl bg-card shadow-[0_40px_90px_-24px_rgba(0,0,0,0.6)]",
+            "flex h-full max-h-220 w-full sm:max-w-6xl md:max-w-[90%] flex-col overflow-hidden rounded-2xl bg-card shadow-[0_40px_90px_-24px_rgba(0,0,0,0.6)]",
             isMobile && "rounded-t-[20px] rounded-b-none",
           )}
         >
@@ -129,7 +137,7 @@ const FatherSonBidMatchModal = ({
 
           <div
             className={cn(
-              "grid min-h-0 flex-1 grid-cols-[0.8fr_1.2fr]",
+              "grid min-h-0 flex-1 grid-cols-[1fr_1fr]",
               isMobile && "flex flex-col overflow-auto",
             )}
           >
@@ -137,7 +145,7 @@ const FatherSonBidMatchModal = ({
               <div
                 className={cn(
                   "flex flex-col gap-2 overflow-auto border-r border-border bg-secondary/40 p-5",
-                  isMobile && "overflow-visible border-r-0 border-b",
+                  isMobile && "overflow-visible border-r-0 border-b order-1",
                 )}
               >
                 <FormSelectField
@@ -173,32 +181,22 @@ const FatherSonBidMatchModal = ({
                   options={allDraftPicksOptions}
                 />
 
-                <div className="my-1 h-px bg-border" />
-
-                {displayedImpact && (
+                {displayedImpact && !isMobile && (
                   <>
-                    {isMobile && <SummaryCard impact={displayedImpact} />}
-                    <div className={cn(isMobile && "border p-3 rounded-2xl")}>
-                      <DraftHandSection
-                        title="Draft hand · Current"
-                        chips={buildBeforeChips(displayedImpact)}
-                        variant="before"
-                      />
-                      <DraftHandSection
-                        title="Draft hand · After match"
-                        chips={buildAfterChips(displayedImpact)}
-                        variant="after"
-                      />
-                      <FutureHandsSection impact={displayedImpact} />
-                    </div>
+                    <div className="my-1 h-px bg-border" />
+                    <PickHandTables
+                      impact={displayedImpact}
+                      clubName={clubName}
+                    />
                   </>
                 )}
               </div>
             </Form>
+
             <div
               className={cn(
                 "flex flex-col gap-4 overflow-auto p-5",
-                isMobile && "overflow-visible",
+                isMobile && "overflow-visible border-b border-border order-2",
               )}
             >
               {!displayedImpact && !readyToFetch && (
@@ -214,19 +212,37 @@ const FatherSonBidMatchModal = ({
               )}
               {displayedImpact && (
                 <>
-                  {!isMobile && <SummaryCard impact={displayedImpact} />}
-                  {!isMobile && <StatsGrid impact={displayedImpact} />}
+                  <SummaryCard impact={displayedImpact} />
+                  <StatsGrid impact={displayedImpact} />
 
-                  <PointsLedger impact={displayedImpact} />
+                  <PointsLedger impact={displayedImpact} clubName={clubName} />
+
+                  {hasDeficit && deficitVisual && (
+                    <DeficitCard
+                      deficitVisual={deficitVisual}
+                      clubName={clubName}
+                      currentYear={currentYear}
+                    />
+                  )}
+
                   <CompensationCard impact={displayedImpact} />
                 </>
               )}
             </div>
+            {displayedImpact && isMobile && (
+              <div className="border-t border-border bg-card p-5 order-3">
+                <PickHandTables impact={displayedImpact} clubName={clubName} />
+              </div>
+            )}
           </div>
 
           <ActionButton
             handleClose={handleClose}
             displayedImpact={displayedImpact}
+            projectId={Number(selectedProject?.id || 0)}
+            fsTeamId={form.watch("fsTeamId")}
+            playerId={form.watch("playerId")}
+            pickId={form.watch("pickId")}
           />
         </div>
       </DialogContent>

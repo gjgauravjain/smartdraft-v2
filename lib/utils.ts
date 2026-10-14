@@ -27,3 +27,10 @@ export const TIER_OPTIONS = [
     label: "Super Admin",
   },
 ];
+
+export const getFinishingPositionSuffix = (position: number) => {
+  if (position === 1) return "st";
+  if (position === 2) return "nd";
+  if (position === 3) return "rd";
+  return "th";
+};

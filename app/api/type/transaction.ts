@@ -19,6 +19,9 @@ export interface DraftHandPick {
   year: string | number;
   draftRoundInt: string | number;
   yearType: "Current" | "Next";
+  pickPoints?: number;
+  originalOwner?: number;
+  matchRole?: string | null;
 }
 
 export interface CompensationPick {
@@ -81,4 +84,10 @@ export interface FatherSonBidImpactResponse {
   compensationPicks2026: CompensationPick[];
   canProceed: boolean;
   displayState: string;
+  handPoints?: {
+    before: Record<string, number>;
+    after: Record<string, number>;
+  };
+  maxPicksToMatch?: number;
+  committedDeficitPoints?: number;
 }

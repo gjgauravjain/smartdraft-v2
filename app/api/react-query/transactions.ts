@@ -1,4 +1,5 @@
 import {
+  createFatherSonBidApi,
   createManualPickEditApi,
   createMovePickApi,
   createPassPickApiUrl,
@@ -61,6 +62,44 @@ export const useGetFatherSonBidImpact = ({
 
     enabled: !!accessToken && readyToFetch,
     retry: 0,
+  });
+};
+
+type SubmitFatherSonBidParams = {
+  projectId: number;
+  fsTeamId: string;
+  playerId: string;
+  pickId: string;
+};
+
+export const useSubmitFatherSonBid = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({
+      projectId,
+      fsTeamId,
+      playerId,
+      pickId,
+    }: SubmitFatherSonBidParams) => {
+      const { data } = await apiClient.post(
+        createFatherSonBidApi(String(projectId)),
+        {
+          fs_team: fsTeamId,
+          pickid: pickId,
+          playerid: playerId,
+        },
+      );
+      return data;
+    },
+    onSuccess: (_, variables) => {
+      void queryClient.invalidateQueries({
+        queryKey: ["draft-picks", variables.projectId],
+      });
+      void queryClient.invalidateQueries({
+        queryKey: ["all-draft-picks", variables.projectId],
+      });
+    },
   });
 };
 

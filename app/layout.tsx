@@ -21,6 +21,13 @@ export const metadata: Metadata = {
   title: "Smart Draft",
   description:
     "Smart Draft is a tool for creating and managing smart drafts for your league.",
+  icons: {
+    icon: [
+      { url: "/brand/favicon.ico" },
+      { url: "/brand/favicon.svg", type: "image/svg+xml" },
+    ],
+    apple: [{ url: "/brand/apple-touch-icon.png", sizes: "180x180" }],
+  },
 };
 
 export default function RootLayout({

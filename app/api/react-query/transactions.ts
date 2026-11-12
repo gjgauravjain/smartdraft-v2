@@ -2,16 +2,22 @@ import {
   createFatherSonBidApi,
   createFreeAgentCompensationApi,
   createFreeAgentScenarioApiUrl,
+  createManualInsertPickEditApi,
   createManualPickEditApi,
   createMovePickApi,
   createPassPickApiUrl,
+  createPriorityPickApi,
+  createPriorityPickScenarioApiUrl,
   createTradeApiUrl,
   fetchTradeImpactApiUrl,
   freeAgentImpactCompensationApi,
   getFAPickTypeApiUrl,
   getFreeAgentScenarioImpactApiUrl,
+  getPriorityPickTypeApiUrl,
   getTransactionsSum,
   passPickImpactApiUrl,
+  priorityPickScenarioImpactApiUrl,
+  transactionPriorityPick,
 } from "@/lib/api-constant";
 import apiClient from "@/lib/api-client";
 import { useAuth } from "@/store/useStore";
@@ -22,6 +28,7 @@ import {
   buildPassPickRequestPayload,
   transformPassPickImpactResponse,
 } from "../util/pass-pick";
+import { InsertPickPosition } from "../type/insert-pick";
 import { ManualPickEditReason } from "../type/manual-pick-edit";
 import { MovePickPosition } from "../type/move-pick";
 import { PassPickPassType } from "../type/pass-pick";
@@ -30,6 +37,7 @@ import {
   TradeImpactResponse,
   TradeRequestPayload,
 } from "../type/trade";
+import { buildInsertPickRequestPayload } from "../util/insert-pick";
 import { buildManualPickEditRequestPayload } from "../util/manual-pick-edit";
 import { buildMovePickRequestPayload } from "../util/move-pick";
 import { transformFatherSonBidImpactResponse } from "../util/transaction";
@@ -40,10 +48,20 @@ import {
   FreeAgentCompensationScope,
 } from "../type/free-agent-compensation";
 import {
-  previewErrorFromUnknown,
+  previewErrorFromUnknown as previewFreeAgentErrorFromUnknown,
   transformFreeAgentCompensationImpact,
   transformFreeAgentPickTypes,
 } from "../util/free-agent-compensation";
+import {
+  PriorityPickPreviewResult,
+  PriorityPickRequest,
+  PriorityPickScope,
+} from "../type/priority-pick";
+import {
+  previewErrorFromUnknown as previewPriorityPickErrorFromUnknown,
+  transformPriorityPickImpact,
+  transformPriorityPickTypes,
+} from "../util/priority-pick";
 
 type GetFatherSonBidImpactParams = {
   projectId: number;
@@ -248,6 +266,40 @@ export const useCreateMovePick = () => {
   });
 };
 
+export const useCreateInsertPick = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({
+      projectId,
+      teamId,
+      alignedPick,
+      position,
+      reason,
+    }: {
+      projectId: number;
+      teamId: string;
+      alignedPick: string;
+      position: InsertPickPosition;
+      reason: string;
+    }) => {
+      const { data } = await apiClient.post(
+        createManualInsertPickEditApi(String(projectId)),
+        buildInsertPickRequestPayload({
+          teamId,
+          alignedPick,
+          position,
+          reason,
+        }),
+      );
+      return data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["draftpicks"] });
+    },
+  });
+};
+
 type GetTradeImpactParams = {
   projectId: number;
   payload: TradeRequestPayload | null;
@@ -260,67 +312,42 @@ export const useGetTradeImpact = ({
   enabled = true,
 }: GetTradeImpactParams) => {
   const { accessToken } = useAuth();
-  const requestSeq = useRef(0);
-  const [data, setData] = useState<TradeImpactResponse | null>(null);
-  const [error, setError] = useState<unknown>(null);
-  const [isFetching, setIsFetching] = useState(false);
 
   const readyToFetch = Boolean(
     accessToken && enabled && projectId && payload?.teams.length,
   );
   const payloadKey = payload ? JSON.stringify(payload) : "";
 
-  useEffect(() => {
-    const seq = ++requestSeq.current;
-
-    if (!readyToFetch || !payload) {
-      setData(null);
-      setError(null);
-      setIsFetching(false);
-      return;
-    }
-
-    const controller = new AbortController();
-    setData(null);
-    setError(null);
-    setIsFetching(true);
-
-    const run = async () => {
+  const query = useQuery({
+    queryKey: ["trade-impact", projectId, payloadKey],
+    queryFn: async ({ signal }) => {
       try {
         const { data: response } = await apiClient.post(
           fetchTradeImpactApiUrl(String(projectId)),
           payload,
-          { signal: controller.signal },
+          { signal },
         );
-        if (seq !== requestSeq.current) return;
-        setData(transformTradeImpactResponse(response));
-      } catch (err) {
-        if (seq !== requestSeq.current) return;
-        if (axios.isAxiosError(err) && err.code === "ERR_CANCELED") {
-          return;
+        return transformTradeImpactResponse(response);
+      } catch (error) {
+        if (axios.isAxiosError(error) && error.code === "ERR_CANCELED") {
+          return null;
         }
-        if (axios.isAxiosError(err) && err.response?.status === 400) {
-          setData(transformTradeImpactResponse(err.response.data));
-          setError(null);
-          return;
+        if (axios.isAxiosError(error) && error.response?.status === 400) {
+          return transformTradeImpactResponse(error.response.data);
         }
-        setData(null);
-        setError(err);
-      } finally {
-        if (seq === requestSeq.current) {
-          setIsFetching(false);
-        }
+        throw error;
       }
-    };
+    },
+    enabled: readyToFetch && !!payload,
+    retry: 0,
+    refetchOnWindowFocus: false,
+  });
 
-    void run();
-
-    return () => {
-      controller.abort();
-    };
-  }, [payloadKey, projectId, readyToFetch]);
-
-  return { data, error, isFetching };
+  return {
+    data: query.data ?? null,
+    error: query.error,
+    isFetching: query.isFetching,
+  };
 };
 
 export const useCreateTrade = () => {
@@ -372,6 +399,7 @@ const freeAgentImpactUrl = ({
       transactionNo,
     );
   }
+
   return freeAgentImpactCompensationApi(String(projectId));
 };
 
@@ -387,7 +415,40 @@ const freeAgentSaveUrl = ({
       transactionNo,
     );
   }
+
   return createFreeAgentCompensationApi(String(projectId));
+};
+
+const priorityPickImpactUrl = ({
+  projectId,
+  scenarioId,
+  transactionNo,
+}: PriorityPickScope) => {
+  if (scenarioId && transactionNo) {
+    return priorityPickScenarioImpactApiUrl(
+      String(projectId),
+      scenarioId,
+      transactionNo,
+    );
+  }
+
+  return transactionPriorityPick(String(projectId));
+};
+
+const priorityPickSaveUrl = ({
+  projectId,
+  scenarioId,
+  transactionNo,
+}: PriorityPickScope) => {
+  if (scenarioId && transactionNo) {
+    return createPriorityPickScenarioApiUrl(
+      String(projectId),
+      scenarioId,
+      transactionNo,
+    );
+  }
+
+  return createPriorityPickApi(String(projectId));
 };
 
 export const useGetFreeAgentPickTypes = () => {
@@ -398,6 +459,21 @@ export const useGetFreeAgentPickTypes = () => {
     queryFn: async () => {
       const { data } = await apiClient.get(getFAPickTypeApiUrl());
       return transformFreeAgentPickTypes(data);
+    },
+    enabled: !!accessToken,
+    staleTime: 5 * 60 * 1000,
+    retry: 0,
+  });
+};
+
+export const useGetPriorityPickTypes = () => {
+  const { accessToken } = useAuth();
+
+  return useQuery({
+    queryKey: ["priority-pick-types"],
+    queryFn: async () => {
+      const { data } = await apiClient.get(getPriorityPickTypeApiUrl());
+      return transformPriorityPickTypes(data);
     },
     enabled: !!accessToken,
     staleTime: 5 * 60 * 1000,
@@ -422,7 +498,9 @@ export const useGetFreeAgentCompensationImpact = ({
     queryKey: ["free-agent-compensation-impact", url, payloadKey],
     queryFn: async (): Promise<FreeAgentCompensationPreviewResult> => {
       if (!payload) {
-        return previewErrorFromUnknown(new Error("Missing compensation payload"));
+        return previewFreeAgentErrorFromUnknown(
+          new Error("Missing compensation payload"),
+        );
       }
       try {
         const { data } = await apiClient.post(url, payload);
@@ -431,7 +509,7 @@ export const useGetFreeAgentCompensationImpact = ({
           impact: transformFreeAgentCompensationImpact(data),
         };
       } catch (error) {
-        return previewErrorFromUnknown(error);
+        return previewFreeAgentErrorFromUnknown(error);
       }
     },
     enabled: !!accessToken && enabled && !!payload,
@@ -441,6 +519,50 @@ export const useGetFreeAgentCompensationImpact = ({
 
   return {
     preview: payload && enabled ? (query.data ?? null) : null,
+    isFetching: Boolean(payload) && enabled && query.isFetching,
+  };
+};
+
+export const useGetPriorityPickImpact = ({
+  scope,
+  payload,
+  enabled = true,
+}: {
+  scope: PriorityPickScope;
+  payload: PriorityPickRequest | null;
+  enabled?: boolean;
+}) => {
+  const { accessToken } = useAuth();
+  const url = priorityPickImpactUrl(scope);
+  const payloadKey = payload ? JSON.stringify(payload) : "";
+
+  const query = useQuery({
+    queryKey: ["priority-pick-impact", url, payloadKey],
+    queryFn: async (): Promise<PriorityPickPreviewResult> => {
+      if (!payload) {
+        return previewPriorityPickErrorFromUnknown(
+          new Error("Missing priority pick payload"),
+        );
+      }
+      try {
+        const { data } = await apiClient.post(url, payload);
+        return {
+          kind: "success",
+          impact: transformPriorityPickImpact(data),
+        };
+      } catch (error) {
+        return previewPriorityPickErrorFromUnknown(error);
+      }
+    },
+    enabled: !!accessToken && enabled && !!payload,
+    retry: 0,
+    refetchOnWindowFocus: false,
+  });
+
+  const preview = payload && enabled ? (query.data ?? null) : null;
+
+  return {
+    preview,
     isFetching: Boolean(payload) && enabled && query.isFetching,
   };
 };
@@ -465,6 +587,28 @@ export const useCreateFreeAgentCompensation = () => {
       queryClient.invalidateQueries({
         queryKey: ["free-agent-compensation-impact"],
       });
+    },
+  });
+};
+
+export const useCreatePriorityPick = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({
+      scope,
+      payload,
+    }: {
+      scope: PriorityPickScope;
+      payload: PriorityPickRequest;
+    }) => {
+      const { data } = await apiClient.post(priorityPickSaveUrl(scope), payload);
+      return data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["draftpicks"] });
+      queryClient.invalidateQueries({ queryKey: ["scenario-picks-list"] });
+      queryClient.invalidateQueries({ queryKey: ["priority-pick-impact"] });
     },
   });
 };

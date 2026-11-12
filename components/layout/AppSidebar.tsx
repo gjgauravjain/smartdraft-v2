@@ -27,6 +27,7 @@ import {
 import { cn } from "@/lib/utils";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { OrganisationType } from "@/app/api/type/common";
+import { BrandMark, BrandWordmark } from "@/components/brand/BrandLogo";
 
 function AppSidebarEdgeHandle() {
   const { state, toggleSidebar } = useSidebar();
@@ -96,13 +97,11 @@ function AppSidebarHeader({
       <div className="flex bg-tertiary items-center gap-2 px-0 py-2 relative">
         {showCollapsed ? (
           <div className="flex w-full items-center justify-center">
-            <div className="w-6 h-6 rounded-md bg-white/10 flex items-center justify-center text-white text-[10px] font-bold tracking-wider">
-              SD
-            </div>
+            <BrandMark />
           </div>
         ) : (
           <div className="flex w-full items-center justify-between gap-2 px-4">
-            <p className="text-base font-bold text-white">Smart Draft</p>
+            <BrandWordmark tone="white" />
             <AppSidebarHeaderToggle />
           </div>
         )}

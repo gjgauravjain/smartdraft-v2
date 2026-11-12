@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { FiGithub, FiTwitter, FiLinkedin } from 'react-icons/fi';
+import { BrandWordmark } from '@/components/brand/BrandLogo';
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
@@ -11,9 +12,7 @@ export function Footer() {
       <div className="container px-4 py-8 md:py-12">
         <div className="grid gap-8 md:grid-cols-4">
           <div className="space-y-4">
-            <div className="text-2xl font-bold ">
-              Smart Draft
-            </div>
+            <BrandWordmark tone="adaptive" />
             <p className="text-sm text-muted-foreground">
               Smart Draft Analysis Platform
             </p>

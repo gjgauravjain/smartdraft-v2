@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactNode } from "react";
+import { HTMLAttributes, HTMLInputTypeAttribute, ReactNode } from "react";
 import { Control, FieldValues, FieldPath } from "react-hook-form";
 import {
   FormControl,
@@ -22,6 +22,10 @@ interface FormTextFieldProps<T extends FieldValues> {
   className?: string;
   required?: boolean;
   italiseLabel?: boolean;
+  type?: HTMLInputTypeAttribute;
+  min?: number | string;
+  step?: number | string;
+  inputMode?: HTMLAttributes<HTMLInputElement>["inputMode"];
 }
 
 export function FormTextField<T extends FieldValues>({
@@ -33,6 +37,10 @@ export function FormTextField<T extends FieldValues>({
   className,
   required,
   italiseLabel,
+  type = "text",
+  min,
+  step,
+  inputMode,
 }: FormTextFieldProps<T>) {
   return (
     <FormField
@@ -54,8 +62,12 @@ export function FormTextField<T extends FieldValues>({
             <Input
               placeholder={placeholder}
               disabled={disabled}
+              type={type}
+              min={min}
+              step={step}
+              inputMode={inputMode}
               className={cn(
-                "bg-background border-border text-foreground text-[13px] h-9",
+                "bg-background border-border text-foreground text-[13px] h-9 aria-invalid:border-destructive",
                 italiseLabel && "placeholder:italic",
               )}
               {...field}

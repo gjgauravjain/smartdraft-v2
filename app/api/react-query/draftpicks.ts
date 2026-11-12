@@ -1,5 +1,9 @@
 import apiClient from "@/lib/api-client";
-import { getAllPicks, getDashboardApiUrl } from "@/lib/api-constant";
+import {
+  fecthScenarioPickListApiUrl,
+  getAllPicks,
+  getDashboardApiUrl,
+} from "@/lib/api-constant";
 import { useAuth } from "@/store/useStore";
 import { useQuery } from "@tanstack/react-query";
 import {
@@ -54,6 +58,38 @@ export const useGetAllDraftPicksList = ({
       return transformAllPicks(data);
     },
     enabled: !!accessToken && !!projectId && enabled,
+    staleTime: 5 * 60 * 1000,
+    retry: 0,
+  });
+};
+
+export const useGetScenarioPicksList = ({
+  projectId,
+  scenarioId,
+  transactionNo,
+  enabled = true,
+}: {
+  projectId: number;
+  scenarioId?: string;
+  transactionNo?: string;
+  enabled?: boolean;
+}) => {
+  const { accessToken } = useAuth();
+  const ready = Boolean(projectId && scenarioId && transactionNo);
+
+  return useQuery({
+    queryKey: ["scenario-picks-list", projectId, scenarioId, transactionNo],
+    queryFn: async () => {
+      const { data } = await apiClient.get(
+        fecthScenarioPickListApiUrl(
+          String(projectId),
+          scenarioId ?? "",
+          transactionNo ?? "",
+        ),
+      );
+      return transformAllPicks(data);
+    },
+    enabled: !!accessToken && ready && enabled,
     staleTime: 5 * 60 * 1000,
     retry: 0,
   });

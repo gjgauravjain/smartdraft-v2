@@ -4,10 +4,15 @@ import {
   createManualPickEditApi,
   createMovePickApi,
   createPassPickApiUrl,
+  createPriorityPickApi,
+  createPriorityPickScenarioApiUrl,
   createTradeApiUrl,
   fetchTradeImpactApiUrl,
+  getPriorityPickTypeApiUrl,
   getTransactionsSum,
   passPickImpactApiUrl,
+  priorityPickScenarioImpactApiUrl,
+  transactionPriorityPick,
 } from "@/lib/api-constant";
 import apiClient from "@/lib/api-client";
 import { useAuth } from "@/store/useStore";
@@ -32,6 +37,16 @@ import { buildManualPickEditRequestPayload } from "../util/manual-pick-edit";
 import { buildMovePickRequestPayload } from "../util/move-pick";
 import { transformFatherSonBidImpactResponse } from "../util/transaction";
 import { transformTradeImpactResponse } from "../util/trade";
+import {
+  PriorityPickPreviewResult,
+  PriorityPickRequest,
+  PriorityPickScope,
+} from "../type/priority-pick";
+import {
+  previewErrorFromUnknown,
+  transformPriorityPickImpact,
+  transformPriorityPickTypes,
+} from "../util/priority-pick";
 
 type GetFatherSonBidImpactParams = {
   projectId: number;
@@ -378,6 +393,112 @@ export const useCreateTrade = () => {
     onSuccess: (result) => {
       if (result.kind !== "success") return;
       queryClient.invalidateQueries({ queryKey: ["draftpicks"] });
+    },
+  });
+};
+
+const priorityPickImpactUrl = ({
+  projectId,
+  scenarioId,
+  transactionNo,
+}: PriorityPickScope) => {
+  if (scenarioId && transactionNo) {
+    return priorityPickScenarioImpactApiUrl(
+      String(projectId),
+      scenarioId,
+      transactionNo,
+    );
+  }
+  return transactionPriorityPick(String(projectId));
+};
+
+const priorityPickSaveUrl = ({
+  projectId,
+  scenarioId,
+  transactionNo,
+}: PriorityPickScope) => {
+  if (scenarioId && transactionNo) {
+    return createPriorityPickScenarioApiUrl(
+      String(projectId),
+      scenarioId,
+      transactionNo,
+    );
+  }
+  return createPriorityPickApi(String(projectId));
+};
+
+export const useGetPriorityPickTypes = () => {
+  const { accessToken } = useAuth();
+
+  return useQuery({
+    queryKey: ["priority-pick-types"],
+    queryFn: async () => {
+      const { data } = await apiClient.get(getPriorityPickTypeApiUrl());
+      return transformPriorityPickTypes(data);
+    },
+    enabled: !!accessToken,
+    staleTime: 5 * 60 * 1000,
+    retry: 0,
+  });
+};
+
+export const useGetPriorityPickImpact = ({
+  scope,
+  payload,
+  enabled = true,
+}: {
+  scope: PriorityPickScope;
+  payload: PriorityPickRequest | null;
+  enabled?: boolean;
+}) => {
+  const { accessToken } = useAuth();
+  const url = priorityPickImpactUrl(scope);
+  const payloadKey = payload ? JSON.stringify(payload) : "";
+
+  const query = useQuery({
+    queryKey: ["priority-pick-impact", url, payloadKey],
+    queryFn: async (): Promise<PriorityPickPreviewResult> => {
+      if (!payload) {
+        return previewErrorFromUnknown(new Error("Missing priority pick payload"));
+      }
+      try {
+        const { data } = await apiClient.post(url, payload);
+        return { kind: "success", impact: transformPriorityPickImpact(data) };
+      } catch (error) {
+        return previewErrorFromUnknown(error);
+      }
+    },
+    enabled: !!accessToken && enabled && !!payload,
+    retry: 0,
+    refetchOnWindowFocus: false,
+  });
+
+  const preview = payload && enabled ? (query.data ?? null) : null;
+
+  return {
+    preview,
+    isFetching: Boolean(payload) && enabled && query.isFetching,
+  };
+};
+
+export const useCreatePriorityPick = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({
+      scope,
+      payload,
+    }: {
+      scope: PriorityPickScope;
+      payload: PriorityPickRequest;
+    }) => {
+      const { data } = await apiClient.post(priorityPickSaveUrl(scope), payload);
+      return data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["draftpicks"] });
+      queryClient.invalidateQueries({ queryKey: ["scenario-picks-list"] });
+      queryClient.invalidateQueries({ queryKey: ["priority-pick-impact"] });
     },
   });
 };

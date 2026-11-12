@@ -12,6 +12,7 @@ import {
   ClipboardList,
   Pencil,
   ArrowUpDown,
+  SquarePlus,
   SkipForward,
   LogIn,
 } from "lucide-react";
@@ -36,6 +37,7 @@ export const TRANSACTION_MENU_OPTIONS_VALUE = {
   DRAFT_NIGHT_SELECTION: "draft_night_selection",
   MANUAL_PICK_EDIT: "manual_pick_edit",
   MOVE_PICK: "move_pick",
+  INSERT_PICK: "insert_pick",
   PASS_PICKS: "pass_picks",
   DELETE_UNUSABLE_PICKS: "delete_unusable_picks",
 } as const;
@@ -101,6 +103,12 @@ export const TRANSACTION_MENU_OPTIONS = [
     icon: <ArrowUpDown />,
   },
   {
+    id: "transaction_insert_pick",
+    value: TRANSACTION_MENU_OPTIONS_VALUE.INSERT_PICK,
+    label: "Insert Pick",
+    icon: <SquarePlus />,
+  },
+  {
     id: "transaction_12",
     value: TRANSACTION_MENU_OPTIONS_VALUE.PASS_PICKS,
     label: "Pass Picks",
@@ -117,6 +125,7 @@ export const TRANSACTION_MENU_OPTIONS = [
 const DRAFT_EDIT_MENU_VALUES = new Set<string>([
   TRANSACTION_MENU_OPTIONS_VALUE.MANUAL_PICK_EDIT,
   TRANSACTION_MENU_OPTIONS_VALUE.MOVE_PICK,
+  TRANSACTION_MENU_OPTIONS_VALUE.INSERT_PICK,
   TRANSACTION_MENU_OPTIONS_VALUE.PASS_PICKS,
 ]);
 

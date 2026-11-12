@@ -1,10 +1,15 @@
 import {
   createFatherSonBidApi,
+  createFreeAgentCompensationApi,
+  createFreeAgentScenarioApiUrl,
   createManualPickEditApi,
   createMovePickApi,
   createPassPickApiUrl,
   createTradeApiUrl,
   fetchTradeImpactApiUrl,
+  freeAgentImpactCompensationApi,
+  getFAPickTypeApiUrl,
+  getFreeAgentScenarioImpactApiUrl,
   getTransactionsSum,
   passPickImpactApiUrl,
 } from "@/lib/api-constant";
@@ -29,6 +34,16 @@ import { buildManualPickEditRequestPayload } from "../util/manual-pick-edit";
 import { buildMovePickRequestPayload } from "../util/move-pick";
 import { transformFatherSonBidImpactResponse } from "../util/transaction";
 import { transformTradeImpactResponse } from "../util/trade";
+import {
+  FreeAgentCompensationPreviewResult,
+  FreeAgentCompensationRequest,
+  FreeAgentCompensationScope,
+} from "../type/free-agent-compensation";
+import {
+  previewErrorFromUnknown,
+  transformFreeAgentCompensationImpact,
+  transformFreeAgentPickTypes,
+} from "../util/free-agent-compensation";
 
 type GetFatherSonBidImpactParams = {
   projectId: number;
@@ -341,6 +356,115 @@ export const useCreateTrade = () => {
     onSuccess: (result) => {
       if (result.kind !== "success") return;
       queryClient.invalidateQueries({ queryKey: ["draftpicks"] });
+    },
+  });
+};
+
+const freeAgentImpactUrl = ({
+  projectId,
+  scenarioId,
+  transactionNo,
+}: FreeAgentCompensationScope) => {
+  if (scenarioId && transactionNo) {
+    return getFreeAgentScenarioImpactApiUrl(
+      String(projectId),
+      scenarioId,
+      transactionNo,
+    );
+  }
+  return freeAgentImpactCompensationApi(String(projectId));
+};
+
+const freeAgentSaveUrl = ({
+  projectId,
+  scenarioId,
+  transactionNo,
+}: FreeAgentCompensationScope) => {
+  if (scenarioId && transactionNo) {
+    return createFreeAgentScenarioApiUrl(
+      String(projectId),
+      scenarioId,
+      transactionNo,
+    );
+  }
+  return createFreeAgentCompensationApi(String(projectId));
+};
+
+export const useGetFreeAgentPickTypes = () => {
+  const { accessToken } = useAuth();
+
+  return useQuery({
+    queryKey: ["free-agent-pick-types"],
+    queryFn: async () => {
+      const { data } = await apiClient.get(getFAPickTypeApiUrl());
+      return transformFreeAgentPickTypes(data);
+    },
+    enabled: !!accessToken,
+    staleTime: 5 * 60 * 1000,
+    retry: 0,
+  });
+};
+
+export const useGetFreeAgentCompensationImpact = ({
+  scope,
+  payload,
+  enabled = true,
+}: {
+  scope: FreeAgentCompensationScope;
+  payload: FreeAgentCompensationRequest | null;
+  enabled?: boolean;
+}) => {
+  const { accessToken } = useAuth();
+  const url = freeAgentImpactUrl(scope);
+  const payloadKey = payload ? JSON.stringify(payload) : "";
+
+  const query = useQuery({
+    queryKey: ["free-agent-compensation-impact", url, payloadKey],
+    queryFn: async (): Promise<FreeAgentCompensationPreviewResult> => {
+      if (!payload) {
+        return previewErrorFromUnknown(new Error("Missing compensation payload"));
+      }
+      try {
+        const { data } = await apiClient.post(url, payload);
+        return {
+          kind: "success",
+          impact: transformFreeAgentCompensationImpact(data),
+        };
+      } catch (error) {
+        return previewErrorFromUnknown(error);
+      }
+    },
+    enabled: !!accessToken && enabled && !!payload,
+    retry: 0,
+    refetchOnWindowFocus: false,
+  });
+
+  return {
+    preview: payload && enabled ? (query.data ?? null) : null,
+    isFetching: Boolean(payload) && enabled && query.isFetching,
+  };
+};
+
+export const useCreateFreeAgentCompensation = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({
+      scope,
+      payload,
+    }: {
+      scope: FreeAgentCompensationScope;
+      payload: FreeAgentCompensationRequest;
+    }) => {
+      const { data } = await apiClient.post(freeAgentSaveUrl(scope), payload);
+      return data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["draftpicks"] });
+      queryClient.invalidateQueries({ queryKey: ["scenario-picks-list"] });
+      queryClient.invalidateQueries({
+        queryKey: ["free-agent-compensation-impact"],
+      });
     },
   });
 };

@@ -6,6 +6,7 @@ import FatherSonBidMatchModal from "@/components/transactions/father-son/FatherS
 import ManualPickEditModal from "@/components/transactions/manual-pick-edit/ManualPickEditModal";
 import MovePickModal from "@/components/transactions/move-pick-edit/MovePickModal";
 import EnterDraftModeModal from "@/components/transactions/draft-mode/EnterDraftModeModal";
+import FreeAgentCompensationModal from "@/components/transactions/free-agent-compensation/FreeAgentCompensationModal";
 import PassPickModal from "@/components/transactions/pass-pick/PassPickModal";
 import { hasRebuildDraftEditCapability } from "@/lib/capabilities";
 import { useAuth } from "@/store/useStore";
@@ -43,7 +44,7 @@ const TransactionModalSwitch = ({
     return <></>;
   }
   if (type === TRANSACTION_MENU_OPTIONS_VALUE.FREE_AGENT_COMPENSATION) {
-    return <></>;
+    return <FreeAgentCompensationModal isOpen={true} onClose={onClose} />;
   }
   if (type === TRANSACTION_MENU_OPTIONS_VALUE.APPLY_COMPENSATION) {
     return <></>;

@@ -7,6 +7,7 @@ import ManualPickEditModal from "@/components/transactions/manual-pick-edit/Manu
 import MovePickModal from "@/components/transactions/move-pick-edit/MovePickModal";
 import EnterDraftModeModal from "@/components/transactions/draft-mode/EnterDraftModeModal";
 import PassPickModal from "@/components/transactions/pass-pick/PassPickModal";
+import PriorityPickModal from "@/components/transactions/priority-pick/PriorityPickModal";
 import { hasRebuildDraftEditCapability } from "@/lib/capabilities";
 import { useAuth } from "@/store/useStore";
 import { useEffect } from "react";
@@ -40,7 +41,7 @@ const TransactionModalSwitch = ({
     return <TradeModal isOpen={true} onClose={onClose} />;
   }
   if (type === TRANSACTION_MENU_OPTIONS_VALUE.PRIORITY_PICK) {
-    return <></>;
+    return <PriorityPickModal isOpen={true} onClose={onClose} />;
   }
   if (type === TRANSACTION_MENU_OPTIONS_VALUE.FREE_AGENT_COMPENSATION) {
     return <></>;

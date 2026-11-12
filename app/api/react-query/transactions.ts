@@ -1,5 +1,6 @@
 import {
   createFatherSonBidApi,
+  createManualInsertPickEditApi,
   createManualPickEditApi,
   createMovePickApi,
   createPassPickApiUrl,
@@ -17,6 +18,7 @@ import {
   buildPassPickRequestPayload,
   transformPassPickImpactResponse,
 } from "../util/pass-pick";
+import { InsertPickPosition } from "../type/insert-pick";
 import { ManualPickEditReason } from "../type/manual-pick-edit";
 import { MovePickPosition } from "../type/move-pick";
 import { PassPickPassType } from "../type/pass-pick";
@@ -25,6 +27,7 @@ import {
   TradeImpactResponse,
   TradeRequestPayload,
 } from "../type/trade";
+import { buildInsertPickRequestPayload } from "../util/insert-pick";
 import { buildManualPickEditRequestPayload } from "../util/manual-pick-edit";
 import { buildMovePickRequestPayload } from "../util/move-pick";
 import { transformFatherSonBidImpactResponse } from "../util/transaction";
@@ -221,6 +224,40 @@ export const useCreateMovePick = () => {
         buildMovePickRequestPayload({
           pick,
           destinationPick,
+          position,
+          reason,
+        }),
+      );
+      return data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["draftpicks"] });
+    },
+  });
+};
+
+export const useCreateInsertPick = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({
+      projectId,
+      teamId,
+      alignedPick,
+      position,
+      reason,
+    }: {
+      projectId: number;
+      teamId: string;
+      alignedPick: string;
+      position: InsertPickPosition;
+      reason: string;
+    }) => {
+      const { data } = await apiClient.post(
+        createManualInsertPickEditApi(String(projectId)),
+        buildInsertPickRequestPayload({
+          teamId,
+          alignedPick,
           position,
           reason,
         }),

@@ -47,7 +47,7 @@ export const createDraftNightSelectionApi = (projectId: string) =>
 export const createMovePickApi = (projectId: string) =>
   `api/v1/transactions/manual-pick-move/${projectId}/`;
 export const createManualInsertPickEditApi = (projectId: string) =>
-  `Manual-pick-insert/${projectId}`;
+  `api/v1/transactions/manual-pick-insert/${projectId}/`;
 export const createNgaBidApi = (projectId: string) =>
   `/api/v1/transactions/nga-bid/${projectId}/`;
 export const createFatherSonBidApi = (projectId: string) =>

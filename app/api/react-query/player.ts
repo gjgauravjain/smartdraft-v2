@@ -43,26 +43,28 @@ export const useGetTalentOrder = () => {
 
 export const useGetPlayersLookup = ({
   orgId,
-  q,
+  q = "",
   enabled = true,
+  loadAll = false,
 }: {
   orgId: string;
-  q: string;
+  q?: string;
   enabled?: boolean;
+  loadAll?: boolean;
 }) => {
   const { accessToken } = useAuth();
   const search = q.trim();
 
   return useQuery({
-    queryKey: ["player-lookup", orgId, search],
+    queryKey: ["player-lookup", orgId, loadAll ? "all" : search],
     queryFn: async () => {
       const { data } = await apiClient.get(
-        getOrganisationPlayersLookupApiUrl(orgId, search),
+        getOrganisationPlayersLookupApiUrl(orgId, loadAll ? "" : search),
       );
       return transformPlayerLookup(data);
     },
-    enabled: !!accessToken && !!orgId && !!search && enabled,
-    staleTime: 30 * 1000,
+    enabled: !!accessToken && !!orgId && enabled && (loadAll || !!search),
+    staleTime: loadAll ? 5 * 60 * 1000 : 30 * 1000,
     retry: 0,
   });
 };

@@ -67,7 +67,7 @@ export function FormTextField<T extends FieldValues>({
               step={step}
               inputMode={inputMode}
               className={cn(
-                "bg-background border-border text-foreground text-[13px] h-9 aria-invalid:border-destructive",
+                "h-9 border-border bg-background text-[13px] text-foreground aria-invalid:border-destructive",
                 italiseLabel && "placeholder:italic",
               )}
               {...field}

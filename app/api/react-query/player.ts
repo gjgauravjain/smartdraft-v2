@@ -2,12 +2,14 @@ import apiClient from "@/lib/api-client";
 import {
   fetchRankingListApiUrl,
   fetchRankingListDataApiUrl,
+  getOrganisationDraftPoolApiUrl,
   getOrganisationPlayerListApiUrl,
   getOrganisationPlayersLookupApiUrl,
 } from "@/lib/api-constant";
 import { useAuth } from "@/store/useStore";
 import { useQuery } from "@tanstack/react-query";
 import {
+  transformDraftPool,
   transformPlayerList,
   transformPlayerLookup,
   transformRankingList,
@@ -65,6 +67,42 @@ export const useGetPlayersLookup = ({
     },
     enabled: !!accessToken && !!orgId && enabled && (loadAll || !!search),
     staleTime: loadAll ? 5 * 60 * 1000 : 30 * 1000,
+    retry: 0,
+  });
+};
+
+export const useGetDraftPool = ({
+  orgId,
+  draftYear,
+  projectId,
+  q = "",
+  enabled = true,
+}: {
+  orgId: string;
+  draftYear: number | null;
+  projectId: number;
+  q?: string;
+  enabled?: boolean;
+}) => {
+  const { accessToken } = useAuth();
+  const search = q.trim().length >= 2 ? q.trim() : "";
+  const ready = Boolean(orgId && draftYear && projectId);
+
+  return useQuery({
+    queryKey: ["draft-pool", orgId, draftYear, projectId, search],
+    queryFn: async () => {
+      const { data } = await apiClient.get(
+        getOrganisationDraftPoolApiUrl(
+          orgId,
+          draftYear ?? 0,
+          projectId,
+          search,
+        ),
+      );
+      return transformDraftPool(data);
+    },
+    enabled: !!accessToken && ready && enabled,
+    staleTime: 30 * 1000,
     retry: 0,
   });
 };

@@ -1,5 +1,6 @@
 'use client';
 
+import { LoginLoadingState } from '@/components/login/login-loading-state';
 import { useAuth0 } from '@auth0/auth0-react';
 import { useRouter } from 'next/navigation';
 import { useEffect, ReactNode } from 'react';
@@ -29,18 +30,8 @@ export function PublicRoute({
     }
   }, [isLoading, isAuthenticated, router, redirectTo]);
 
-  // Show loading state
   if (isLoading) {
-    return (
-      fallback || (
-        <div className="flex items-center justify-center min-h-screen">
-          <div className="text-center">
-            <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]" />
-            <p className="mt-4 text-gray-600">Loading...</p>
-          </div>
-        </div>
-      )
-    );
+    return fallback || <LoginLoadingState />;
   }
 
   // If authenticated, show nothing (will redirect)

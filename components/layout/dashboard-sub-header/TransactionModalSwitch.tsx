@@ -9,6 +9,7 @@ import MovePickModal from "@/components/transactions/move-pick-edit/MovePickModa
 import EnterDraftModeModal from "@/components/transactions/draft-mode/EnterDraftModeModal";
 import FreeAgentCompensationModal from "@/components/transactions/free-agent-compensation/FreeAgentCompensationModal";
 import PassPickModal from "@/components/transactions/pass-pick/PassPickModal";
+import DraftNightSelectionModal from "@/components/transactions/draft-night-selection/DraftNightSelectionModal";
 import PriorityPickModal from "@/components/transactions/priority-pick/PriorityPickModal";
 import { hasRebuildDraftEditCapability } from "@/lib/capabilities";
 import { useAuth } from "@/store/useStore";
@@ -62,7 +63,7 @@ const TransactionModalSwitch = ({
     return <></>;
   }
   if (type === TRANSACTION_MENU_OPTIONS_VALUE.DRAFT_NIGHT_SELECTION) {
-    return <></>;
+    return <DraftNightSelectionModal isOpen={true} onClose={onClose} />;
   }
 
   if (type === TRANSACTION_MENU_OPTIONS_VALUE.MANUAL_PICK_EDIT) {

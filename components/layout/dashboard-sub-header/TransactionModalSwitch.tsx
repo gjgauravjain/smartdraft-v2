@@ -8,6 +8,7 @@ import ManualPickEditModal from "@/components/transactions/manual-pick-edit/Manu
 import MovePickModal from "@/components/transactions/move-pick-edit/MovePickModal";
 import EnterDraftModeModal from "@/components/transactions/draft-mode/EnterDraftModeModal";
 import FreeAgentCompensationModal from "@/components/transactions/free-agent-compensation/FreeAgentCompensationModal";
+import ApplyCompensationModal from "@/components/transactions/apply-compensation/ApplyCompensationModal";
 import PassPickModal from "@/components/transactions/pass-pick/PassPickModal";
 import PriorityPickModal from "@/components/transactions/priority-pick/PriorityPickModal";
 import { hasRebuildDraftEditCapability } from "@/lib/capabilities";
@@ -50,7 +51,7 @@ const TransactionModalSwitch = ({
     return <FreeAgentCompensationModal isOpen={true} onClose={onClose} />;
   }
   if (type === TRANSACTION_MENU_OPTIONS_VALUE.APPLY_COMPENSATION) {
-    return <></>;
+    return <ApplyCompensationModal isOpen={true} onClose={onClose} />;
   }
   if (type === TRANSACTION_MENU_OPTIONS_VALUE.ACADEMY_BID_MATCH) {
     return <></>;

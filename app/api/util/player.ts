@@ -1,4 +1,5 @@
 import {
+  DraftPoolPlayer,
   PlayerDatabaseType,
   PlayerLookupType,
   RankingListType,
@@ -83,6 +84,51 @@ export const transformRankingList = (data: any): RankingListType[] => {
       }) as RankingListType,
   );
 };
+
+const draftPoolList = (data: unknown): unknown[] => {
+  if (Array.isArray(data)) return data;
+  if (!data || typeof data !== "object") return [];
+  const record = data as { data?: unknown; results?: unknown };
+  if (Array.isArray(record.data)) return record.data;
+  if (Array.isArray(record.results)) return record.results;
+  return [];
+};
+
+const draftPoolRank = (value: unknown) => {
+  if (typeof value !== "number" || !Number.isFinite(value)) return null;
+  return value;
+};
+
+const draftPoolPosition = (value: unknown) => {
+  if (typeof value !== "string") return null;
+  const position = value.trim();
+  if (!position) return null;
+  return value;
+};
+
+export const transformDraftPool = (data: unknown): DraftPoolPlayer[] =>
+  draftPoolList(data).flatMap((item) => {
+    if (!item || typeof item !== "object") return [];
+    const row = item as {
+      id?: unknown;
+      display_name?: unknown;
+      position?: unknown;
+      rank?: unknown;
+    };
+    const id = typeof row.id === "number" ? row.id : Number(row.id);
+    if (!Number.isInteger(id)) return [];
+    if (typeof row.display_name !== "string" || !row.display_name.trim()) {
+      return [];
+    }
+    return [
+      {
+        id,
+        displayName: row.display_name,
+        position: draftPoolPosition(row.position),
+        rank: draftPoolRank(row.rank),
+      },
+    ];
+  });
 
 export const transformPlayerLookup = (data: any): PlayerLookupType[] => {
   const list = Array.isArray(data)

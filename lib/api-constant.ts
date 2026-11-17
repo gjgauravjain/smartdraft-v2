@@ -264,6 +264,23 @@ export const getOrganisationPlayersLookupApiUrl = (orgId: string, q = "") => {
   return `${base}?q=${encodeURIComponent(search)}`;
 };
 
+export const getOrganisationDraftPoolApiUrl = (
+  orgId: string,
+  draftYear: number,
+  projectId: number,
+  q = "",
+) => {
+  const params = [
+    `draft_year=${encodeURIComponent(String(draftYear))}`,
+    `project_id=${encodeURIComponent(String(projectId))}`,
+  ];
+  const search = q.trim();
+  if (search.length >= 2) {
+    params.push(`q=${encodeURIComponent(search)}`);
+  }
+  return `api/v1/organisations/${orgId}/players/draft-pool/?${params.join("&")}`;
+};
+
 export const fetchScenarioMultiTeamTradeImpact = (
   projectId: string,
   scenarioId: string,

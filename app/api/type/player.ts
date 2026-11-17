@@ -80,3 +80,10 @@ export type PlayerLookupType = {
   name: string;
   teamId: string | null;
 };
+
+export type DraftPoolPlayer = {
+  id: number;
+  displayName: string;
+  position: string | null;
+  rank: number | null;
+};

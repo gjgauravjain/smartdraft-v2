@@ -1,4 +1,5 @@
 import {
+  createDraftNightSelectionApi,
   createFatherSonBidApi,
   createFreeAgentCompensationApi,
   createFreeAgentScenarioApiUrl,
@@ -23,11 +24,11 @@ import apiClient from "@/lib/api-client";
 import { useAuth } from "@/store/useStore";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
-import { useEffect, useRef, useState } from "react";
 import {
   buildPassPickRequestPayload,
   transformPassPickImpactResponse,
 } from "../util/pass-pick";
+import { DraftNightSelectionRequest } from "../type/draft-night-selection";
 import { InsertPickPosition } from "../type/insert-pick";
 import { ManualPickEditReason } from "../type/manual-pick-edit";
 import { MovePickPosition } from "../type/move-pick";
@@ -591,6 +592,30 @@ export const useCreateFreeAgentCompensation = () => {
   });
 };
 
+export const useCreateDraftNightSelection = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({
+      projectId,
+      payload,
+    }: {
+      projectId: number;
+      payload: DraftNightSelectionRequest;
+    }) => {
+      const { data } = await apiClient.post(
+        createDraftNightSelectionApi(String(projectId)),
+        payload,
+      );
+      return data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["draftpicks"] });
+      queryClient.invalidateQueries({ queryKey: ["draft-pool"] });
+    },
+  });
+};
+
 export const useCreatePriorityPick = () => {
   const queryClient = useQueryClient();
 
@@ -602,7 +627,10 @@ export const useCreatePriorityPick = () => {
       scope: PriorityPickScope;
       payload: PriorityPickRequest;
     }) => {
-      const { data } = await apiClient.post(priorityPickSaveUrl(scope), payload);
+      const { data } = await apiClient.post(
+        priorityPickSaveUrl(scope),
+        payload,
+      );
       return data;
     },
     onSuccess: () => {

@@ -1,5 +1,6 @@
 'use client';
 
+import { buildLoginUrl } from '@/components/login/util';
 import { useAuth0 } from '@auth0/auth0-react';
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
@@ -11,24 +12,25 @@ import { useRouter } from 'next/navigation';
  * @returns Object with authentication state and redirect function
  */
 export function useProtectedRoute(redirectTo?: string) {
-  const { isAuthenticated, isLoading, loginWithRedirect } = useAuth0();
+  const { isAuthenticated, isLoading } = useAuth0();
   const router = useRouter();
 
   useEffect(() => {
-    if (!isLoading && !isAuthenticated) {
-      loginWithRedirect({
-        appState: { returnTo: redirectTo || window.location.pathname },
-      });
+    if (isLoading || isAuthenticated) {
+      return;
     }
-  }, [isLoading, isAuthenticated, loginWithRedirect, redirectTo]);
+
+    const returnTo = redirectTo || window.location.pathname;
+    router.replace(buildLoginUrl(returnTo));
+  }, [isLoading, isAuthenticated, router, redirectTo]);
 
   return {
     isAuthenticated,
     isLoading,
-    redirectToLogin: () =>
-      loginWithRedirect({
-        appState: { returnTo: redirectTo || window.location.pathname },
-      }),
+    redirectToLogin: () => {
+      const returnTo = redirectTo || window.location.pathname;
+      router.replace(buildLoginUrl(returnTo));
+    },
   };
 }
 

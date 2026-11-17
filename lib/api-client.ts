@@ -77,7 +77,7 @@ if (typeof window !== "undefined") {
           localStorage.removeItem("authUser");
           document.getElementById("getToken")?.click();
         } catch {}
-        window.location.href = "/login";
+        window.location.href = "/";
       }
       return Promise.reject(error);
     },

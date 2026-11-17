@@ -13,7 +13,9 @@ import {
   createPassPickApiUrl,
   createPriorityPickApi,
   createPriorityPickScenarioApiUrl,
+  createScenarioTradeApiUrl,
   createTradeApiUrl,
+  fetchScenarioTradeImpactApiUrl,
   fetchTradeImpactApiUrl,
   freeAgentImpactCompensationApi,
   getFAPickTypeApiUrl,
@@ -311,12 +313,46 @@ type GetTradeImpactParams = {
   projectId: number;
   payload: TradeRequestPayload | null;
   enabled?: boolean;
+  scenarioId?: string;
+  transactionNo?: string;
+};
+
+const tradeImpactUrl = (
+  projectId: number,
+  scenarioId?: string,
+  transactionNo?: string,
+) => {
+  if (scenarioId && transactionNo) {
+    return fetchScenarioTradeImpactApiUrl(
+      String(projectId),
+      scenarioId,
+      transactionNo,
+    );
+  }
+  return fetchTradeImpactApiUrl(String(projectId));
+};
+
+const tradeSaveUrl = (
+  projectId: number,
+  scenarioId?: string,
+  transactionNo?: string,
+) => {
+  if (scenarioId && transactionNo) {
+    return createScenarioTradeApiUrl(
+      String(projectId),
+      scenarioId,
+      transactionNo,
+    );
+  }
+  return createTradeApiUrl(String(projectId));
 };
 
 export const useGetTradeImpact = ({
   projectId,
   payload,
   enabled = true,
+  scenarioId,
+  transactionNo,
 }: GetTradeImpactParams) => {
   const { accessToken } = useAuth();
 
@@ -326,11 +362,17 @@ export const useGetTradeImpact = ({
   const payloadKey = payload ? JSON.stringify(payload) : "";
 
   const query = useQuery({
-    queryKey: ["trade-impact", projectId, payloadKey],
+    queryKey: [
+      "trade-impact",
+      projectId,
+      scenarioId ?? "",
+      transactionNo ?? "",
+      payloadKey,
+    ],
     queryFn: async ({ signal }) => {
       try {
         const { data: response } = await apiClient.post(
-          fetchTradeImpactApiUrl(String(projectId)),
+          tradeImpactUrl(projectId, scenarioId, transactionNo),
           payload,
           { signal },
         );
@@ -364,13 +406,17 @@ export const useCreateTrade = () => {
     mutationFn: async ({
       projectId,
       payload,
+      scenarioId,
+      transactionNo,
     }: {
       projectId: number;
       payload: TradeRequestPayload;
+      scenarioId?: string;
+      transactionNo?: string;
     }): Promise<TradeCommitResult> => {
       try {
         const { data } = await apiClient.post(
-          createTradeApiUrl(String(projectId)),
+          tradeSaveUrl(projectId, scenarioId, transactionNo),
           payload,
         );
         return {
@@ -390,6 +436,8 @@ export const useCreateTrade = () => {
     onSuccess: (result) => {
       if (result.kind !== "success") return;
       queryClient.invalidateQueries({ queryKey: ["draftpicks"] });
+      queryClient.invalidateQueries({ queryKey: ["scenario-picks-list"] });
+      queryClient.invalidateQueries({ queryKey: ["trade-impact"] });
     },
   });
 };

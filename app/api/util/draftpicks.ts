@@ -484,5 +484,6 @@ export const transformAllPicks = (data?: any): DraftPicksDataType[] => {
     currentOwner: item.current_owner,
     year: item.year,
     display: item.display,
+    points: typeof item.points === "number" ? item.points : null,
   }));
 };

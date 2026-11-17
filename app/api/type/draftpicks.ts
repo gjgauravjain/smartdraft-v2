@@ -366,4 +366,5 @@ export type DraftPicksDataType = {
   currentOwner: number;
   year: number;
   display: string;
+  points: number | null;
 };

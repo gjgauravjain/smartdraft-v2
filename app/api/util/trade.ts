@@ -6,6 +6,7 @@ import {
   TradeImpactResponse,
   TradeImpactTeam,
   TradeRequestPayload,
+  TradeTradedOutPick,
   TradeValidity,
   TradeValidityCheck,
   TradeValidityChecks,
@@ -30,10 +31,18 @@ const toNullableNumber = (value: unknown) => {
   return Number.isFinite(parsed) ? parsed : null;
 };
 
+const displayText = (item: any, fallback = "") => {
+  if (typeof item?.display === "string" && item.display.trim()) {
+    return item.display;
+  }
+  return fallback;
+};
+
 const transformHandPick = (item: any): TradeHandPick => ({
   pick: toNumber(item?.pick),
   pickStatus: item?.pick_status ?? "",
   pickName: item?.pick_name ?? "",
+  display: displayText(item, item?.pick_name ?? ""),
   round: toNumber(item?.round),
   incoming: Boolean(item?.incoming),
 });
@@ -47,7 +56,18 @@ const transformHandYear = (item: any): TradeHandYear => ({
 const transformAssetPick = (item: any): TradeAssetPick => ({
   unique: item?.unique ?? "",
   pickName: item?.pick_name ?? "",
+  display: displayText(item, item?.pick_name ?? ""),
   overallPick: toNumber(item?.overall_pick),
+});
+
+const transformTradedOut = (item: any): TradeTradedOutPick => ({
+  display: displayText(item, item?.pick_name ?? ""),
+  year:
+    item?.year === null || item?.year === undefined ? null : toNumber(item.year),
+  round:
+    item?.round === null || item?.round === undefined
+      ? null
+      : toNumber(item.round),
 });
 
 const transformAssetPlayer = (item: any): TradeAssetPlayer => ({
@@ -94,6 +114,9 @@ const transformImpactTeam = (item: any): TradeImpactTeam => ({
   handAfter: Array.isArray(item?.hand_after)
     ? item.hand_after.map(transformHandYear)
     : [],
+  tradedOut: Array.isArray(item?.traded_out)
+    ? item.traded_out.map(transformTradedOut)
+    : [],
 });
 
 const toValidity = (value: unknown): TradeValidity => {
@@ -135,12 +158,12 @@ export const buildTradeRequestPayload = (
         unique: pick.unique,
         label: pick.label,
       })),
-      players_in: team.playersIn
-        .filter((player) => String(player.fromTeamId).length > 0)
-        .map((player) => ({
-          player_id: player.playerId,
-          player_name: player.playerName,
-          from_team_id: Number(player.fromTeamId),
-        })),
+      players_in: team.playersIn.map((player) => ({
+        player_id: player.playerId,
+        player_name: player.playerName,
+        from_team_id: String(player.fromTeamId).length
+          ? Number(player.fromTeamId)
+          : null,
+      })),
     })),
 });

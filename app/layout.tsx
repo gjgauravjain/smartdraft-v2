@@ -19,8 +19,10 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Smart Draft",
-  description:
-    "Smart Draft is a tool for creating and managing smart drafts for your league.",
+  robots: {
+    index: false,
+    follow: false,
+  },
   icons: {
     icon: [
       { url: "/brand/favicon.ico" },

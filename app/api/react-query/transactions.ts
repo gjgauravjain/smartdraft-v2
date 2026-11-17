@@ -1,4 +1,8 @@
 import {
+  applyCompensationApi,
+  applyCompensationImpactApi,
+  applyCompensationScenarioApi,
+  applyCompensationScenarioImpactApi,
   createDraftNightSelectionApi,
   createFatherSonBidApi,
   createFreeAgentCompensationApi,
@@ -28,6 +32,8 @@ import {
   buildPassPickRequestPayload,
   transformPassPickImpactResponse,
 } from "../util/pass-pick";
+import { ApplyCompensationScope } from "../type/apply-compensation";
+import { transformApplyCompensationImpact } from "../util/apply-compensation";
 import { DraftNightSelectionRequest } from "../type/draft-night-selection";
 import { InsertPickPosition } from "../type/insert-pick";
 import { ManualPickEditReason } from "../type/manual-pick-edit";
@@ -637,6 +643,82 @@ export const useCreatePriorityPick = () => {
       queryClient.invalidateQueries({ queryKey: ["draftpicks"] });
       queryClient.invalidateQueries({ queryKey: ["scenario-picks-list"] });
       queryClient.invalidateQueries({ queryKey: ["priority-pick-impact"] });
+    },
+  });
+};
+
+const applyCompensationImpactUrl = ({
+  projectId,
+  scenarioId,
+  transactionNo,
+}: ApplyCompensationScope) => {
+  if (scenarioId && transactionNo) {
+    return applyCompensationScenarioImpactApi(
+      String(projectId),
+      scenarioId,
+      transactionNo,
+    );
+  }
+
+  return applyCompensationImpactApi(String(projectId));
+};
+
+const applyCompensationSaveUrl = ({
+  projectId,
+  scenarioId,
+  transactionNo,
+}: ApplyCompensationScope) => {
+  if (scenarioId && transactionNo) {
+    return applyCompensationScenarioApi(
+      String(projectId),
+      scenarioId,
+      transactionNo,
+    );
+  }
+
+  return applyCompensationApi(String(projectId));
+};
+
+export const useGetApplyCompensationImpact = ({
+  scope,
+  enabled = true,
+}: {
+  scope: ApplyCompensationScope;
+  enabled?: boolean;
+}) => {
+  const { accessToken } = useAuth();
+  const url = applyCompensationImpactUrl(scope);
+  const ready = scope.projectId > 0;
+
+  return useQuery({
+    queryKey: ["apply-compensation-impact", url],
+    queryFn: async () => {
+      const { data } = await apiClient.post(url, {});
+      return transformApplyCompensationImpact(data);
+    },
+    enabled: !!accessToken && enabled && ready,
+    retry: 0,
+    staleTime: 0,
+    refetchOnWindowFocus: false,
+  });
+};
+
+export const useApplyCompensation = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (scope: ApplyCompensationScope) => {
+      const { data } = await apiClient.post(
+        applyCompensationSaveUrl(scope),
+        {},
+      );
+      return data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["draftpicks"] });
+      queryClient.invalidateQueries({
+        queryKey: ["apply-compensation-impact"],
+      });
     },
   });
 };

@@ -257,6 +257,17 @@ export const fetchTradeImpactApiUrl = (projectId: string) =>
   `api/v1/transactions/trade-impact/${projectId}/`;
 export const createTradeApiUrl = (projectId: string) =>
   `api/v1/transactions/trade/${projectId}/`;
+export const fetchScenarioTradeImpactApiUrl = (
+  projectId: string,
+  scenarioId: string,
+  transactionNo: string,
+) =>
+  `api/v1/scenarios/trade-impact/${projectId}/${scenarioId}/${transactionNo}/`;
+export const createScenarioTradeApiUrl = (
+  projectId: string,
+  scenarioId: string,
+  transactionNo: string,
+) => `api/v1/scenarios/trade/${projectId}/${scenarioId}/${transactionNo}/`;
 export const getOrganisationPlayersLookupApiUrl = (orgId: string, q = "") => {
   const base = `api/v1/organisations/${orgId}/players/lookup/`;
   const search = q.trim();

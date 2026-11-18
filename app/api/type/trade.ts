@@ -9,7 +9,7 @@ export type TradeRequestPick = {
 export type TradeRequestPlayer = {
   player_id: string;
   player_name: string;
-  from_team_id: number;
+  from_team_id: number | null;
 };
 
 export type TradeRequestTeam = {
@@ -26,6 +26,7 @@ export type TradeHandPick = {
   pick: number;
   pickStatus: string;
   pickName: string;
+  display: string;
   round: number;
   incoming: boolean;
 };
@@ -39,7 +40,14 @@ export type TradeHandYear = {
 export type TradeAssetPick = {
   unique: string;
   pickName: string;
+  display: string;
   overallPick: number;
+};
+
+export type TradeTradedOutPick = {
+  display: string;
+  year: number | null;
+  round: number | null;
 };
 
 export type TradeAssetPlayer = {
@@ -60,6 +68,7 @@ export type TradeImpactTeam = {
   playersOut: TradeAssetPlayer[];
   handBefore: TradeHandYear[];
   handAfter: TradeHandYear[];
+  tradedOut: TradeTradedOutPick[];
 };
 
 export type TradeValidityCheck = {

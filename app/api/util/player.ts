@@ -2,6 +2,7 @@ import {
   DraftPoolPlayer,
   PlayerDatabaseType,
   PlayerLookupType,
+  ProjectPlayer,
   RankingListType,
 } from "../type/player";
 
@@ -129,6 +130,54 @@ export const transformDraftPool = (data: unknown): DraftPoolPlayer[] =>
       },
     ];
   });
+
+type ProjectPlayerApi = {
+  id: number;
+  FirstName: string;
+  LastName: string;
+  Full_Name: string;
+  Height: string;
+  Weight: string;
+  club: string;
+  State: string;
+  Position_1: string;
+  Position_2: string;
+  Rank: string;
+  Tier: string;
+  Notes: string;
+  projectId: number;
+  Selected: boolean;
+  Drafted_Team: number;
+  Drafted_Team_Name: string;
+};
+
+const transformProjectPlayer = (item: ProjectPlayerApi): ProjectPlayer => ({
+  id: item.id,
+  firstName: item.FirstName,
+  lastName: item.LastName,
+  fullName: item.Full_Name,
+  height: item.Height,
+  weight: item.Weight,
+  club: item.club,
+  state: item.State,
+  position1: item.Position_1,
+  position2: item.Position_2,
+  rank: item.Rank,
+  tier: item.Tier,
+  notes: item.Notes,
+  projectId: item.projectId,
+  selected: item.Selected,
+  draftedTeam: item.Drafted_Team,
+  draftedTeamName: item.Drafted_Team_Name,
+});
+
+export const transformProjectPlayers = (
+  data: ProjectPlayerApi[],
+): ProjectPlayer[] =>
+  data
+    .filter((item) => !item.Selected)
+    .map(transformProjectPlayer)
+    .sort((left, right) => left.fullName.localeCompare(right.fullName));
 
 export const transformPlayerLookup = (data: any): PlayerLookupType[] => {
   const list = Array.isArray(data)

@@ -22,6 +22,8 @@ export interface DraftHandPick {
   pickPoints?: number;
   originalOwner?: number;
   matchRole?: string | null;
+  display?: string | null;
+  deficitNewPick?: boolean;
 }
 
 export interface CompensationPick {
@@ -63,6 +65,7 @@ export type ImpactVisualType = {
   missingNextYearFirstRounder?: boolean;
 
   deficitImpact?: DeficitImpactType;
+  display?: string | null;
 };
 
 export interface FatherSonBidImpactResponse {
@@ -90,4 +93,10 @@ export interface FatherSonBidImpactResponse {
   };
   maxPicksToMatch?: number;
   committedDeficitPoints?: number;
+  pointsBasis?: string | null;
+  blockReason?: string | null;
+  matchNote?: string | null;
+  deficitPickNote?: string | null;
 }
+
+export type BidMatchKind = "fatherSon" | "academy" | "nga";

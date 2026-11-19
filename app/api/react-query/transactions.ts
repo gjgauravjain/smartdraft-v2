@@ -4,6 +4,7 @@ import {
   applyCompensationScenarioApi,
   applyCompensationScenarioImpactApi,
   createDraftNightSelectionApi,
+  createAcademyBidApi,
   createFatherSonBidApi,
   createFreeAgentCompensationApi,
   createFreeAgentScenarioApiUrl,
@@ -13,6 +14,9 @@ import {
   createPassPickApiUrl,
   createPriorityPickApi,
   createPriorityPickScenarioApiUrl,
+  createNgaBidApi,
+  createScenarioAcademyBidApiUrl,
+  createScenarioFatherSonApiUrl,
   createScenarioTradeApiUrl,
   createTradeApiUrl,
   fetchScenarioTradeImpactApiUrl,
@@ -21,9 +25,13 @@ import {
   getFAPickTypeApiUrl,
   getFreeAgentScenarioImpactApiUrl,
   getPriorityPickTypeApiUrl,
+  getAcademyTransactions,
+  getNgaTransactionSumApiUrl,
+  getScenarioAcademyBidImpactApiUrl,
   getTransactionsSum,
   passPickImpactApiUrl,
   priorityPickScenarioImpactApiUrl,
+  senarioFatherSonImpactApiUrl,
   transactionPriorityPick,
 } from "@/lib/api-constant";
 import apiClient from "@/lib/api-client";
@@ -49,6 +57,7 @@ import {
 import { buildInsertPickRequestPayload } from "../util/insert-pick";
 import { buildManualPickEditRequestPayload } from "../util/manual-pick-edit";
 import { buildMovePickRequestPayload } from "../util/move-pick";
+import { BidMatchKind } from "../type/transaction";
 import { transformFatherSonBidImpactResponse } from "../util/transaction";
 import { transformTradeImpactResponse } from "../util/trade";
 import {
@@ -72,74 +81,163 @@ import {
   transformPriorityPickTypes,
 } from "../util/priority-pick";
 
-type GetFatherSonBidImpactParams = {
-  projectId: number;
-  fsTeamId: string;
-  playerId: string;
-  pickId: string;
+const bidTeamKey = (bidType: BidMatchKind) => {
+  if (bidType === "academy") return "academy_team";
+  if (bidType === "nga") return "teamid";
+  return "fs_team";
 };
 
-export const useGetFatherSonBidImpact = ({
+const bidUsesScenario = (
+  bidType: BidMatchKind,
+  scenarioId?: string,
+  transactionNo?: string,
+) => bidType !== "nga" && Boolean(scenarioId && transactionNo);
+
+const bidImpactUrl = ({
+  bidType,
   projectId,
-  fsTeamId,
+  scenarioId,
+  transactionNo,
+}: {
+  bidType: BidMatchKind;
+  projectId: number;
+  scenarioId?: string;
+  transactionNo?: string;
+}) => {
+  if (bidUsesScenario(bidType, scenarioId, transactionNo)) {
+    if (bidType === "academy") {
+      return getScenarioAcademyBidImpactApiUrl(
+        String(projectId),
+        scenarioId ?? "",
+        transactionNo ?? "",
+      );
+    }
+    return senarioFatherSonImpactApiUrl(
+      String(projectId),
+      scenarioId ?? "",
+      transactionNo ?? "",
+    );
+  }
+  if (bidType === "academy") return getAcademyTransactions(projectId);
+  if (bidType === "nga") return getNgaTransactionSumApiUrl(String(projectId));
+  return getTransactionsSum(projectId);
+};
+
+const bidSaveUrl = ({
+  bidType,
+  projectId,
+  scenarioId,
+  transactionNo,
+}: {
+  bidType: BidMatchKind;
+  projectId: number;
+  scenarioId?: string;
+  transactionNo?: string;
+}) => {
+  if (bidUsesScenario(bidType, scenarioId, transactionNo)) {
+    if (bidType === "academy") {
+      return createScenarioAcademyBidApiUrl(
+        String(projectId),
+        scenarioId ?? "",
+        transactionNo ?? "",
+      );
+    }
+    return createScenarioFatherSonApiUrl(
+      String(projectId),
+      scenarioId ?? "",
+      transactionNo ?? "",
+    );
+  }
+  if (bidType === "academy") return createAcademyBidApi(String(projectId));
+  if (bidType === "nga") return createNgaBidApi(String(projectId));
+  return createFatherSonBidApi(String(projectId));
+};
+
+const bidRequestBody = ({
+  bidType,
+  teamId,
   playerId,
   pickId,
-}: GetFatherSonBidImpactParams) => {
-  const { accessToken } = useAuth();
+}: {
+  bidType: BidMatchKind;
+  teamId: string;
+  playerId: string;
+  pickId: string;
+}) => ({
+  [bidTeamKey(bidType)]: teamId,
+  pickid: pickId,
+  playerid: playerId,
+});
 
-  const readyToFetch = Boolean(projectId && fsTeamId && playerId && pickId);
+type BidMatchRequest = {
+  bidType: BidMatchKind;
+  projectId: number;
+  teamId: string;
+  playerId: string;
+  pickId: string;
+  scenarioId?: string;
+  transactionNo?: string;
+};
+
+export const useGetBidMatchImpact = ({
+  bidType,
+  projectId,
+  teamId,
+  playerId,
+  pickId,
+  scenarioId,
+  transactionNo,
+  enabled = true,
+}: BidMatchRequest & { enabled?: boolean }) => {
+  const { accessToken } = useAuth();
+  const ready = Boolean(projectId && teamId && playerId && pickId);
 
   return useQuery({
-    queryKey: ["father-son-bid-impact", projectId, fsTeamId, playerId, pickId],
-
+    queryKey: [
+      "bid-match-impact",
+      bidType,
+      projectId,
+      scenarioId ?? "",
+      transactionNo ?? "",
+      teamId,
+      playerId,
+      pickId,
+    ],
     queryFn: async () => {
-      const { data } = await apiClient.post(getTransactionsSum(projectId), {
-        fs_team: fsTeamId,
-        pickid: pickId,
-        playerid: playerId,
-      });
-
+      const { data } = await apiClient.post(
+        bidImpactUrl({ bidType, projectId, scenarioId, transactionNo }),
+        bidRequestBody({ bidType, teamId, playerId, pickId }),
+      );
       return transformFatherSonBidImpactResponse(data);
     },
-
-    enabled: !!accessToken && readyToFetch,
+    enabled: !!accessToken && ready && enabled,
     retry: 0,
   });
 };
 
-type SubmitFatherSonBidParams = {
-  projectId: number;
-  fsTeamId: string;
-  playerId: string;
-  pickId: string;
-};
-
-export const useSubmitFatherSonBid = () => {
+export const useSubmitBidMatch = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: async ({
+      bidType,
       projectId,
-      fsTeamId,
+      teamId,
       playerId,
       pickId,
-    }: SubmitFatherSonBidParams) => {
+      scenarioId,
+      transactionNo,
+    }: BidMatchRequest) => {
       const { data } = await apiClient.post(
-        createFatherSonBidApi(String(projectId)),
-        {
-          fs_team: fsTeamId,
-          pickid: pickId,
-          playerid: playerId,
-        },
+        bidSaveUrl({ bidType, projectId, scenarioId, transactionNo }),
+        bidRequestBody({ bidType, teamId, playerId, pickId }),
       );
       return data;
     },
-    onSuccess: (_, variables) => {
+    onSuccess: () => {
+      void queryClient.invalidateQueries({ queryKey: ["draftpicks"] });
       void queryClient.invalidateQueries({
-        queryKey: ["draft-picks", variables.projectId],
-      });
-      void queryClient.invalidateQueries({
-        queryKey: ["all-draft-picks", variables.projectId],
+        queryKey: ["scenario-picks-list"],
       });
     },
   });

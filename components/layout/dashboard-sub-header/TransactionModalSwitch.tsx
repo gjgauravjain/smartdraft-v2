@@ -2,7 +2,7 @@
 
 import { TransactionMenuValue } from "./type";
 import TradeTeamModal from "@/components/transactions/trade-team/TradeTeamModal";
-import FatherSonBidMatchModal from "@/components/transactions/father-son/FatherSonBidMatchModal";
+import BidMatchModal from "@/components/transactions/bid-match/BidMatchModal";
 import InsertPickModal from "@/components/transactions/insert-pick/InsertPickModal";
 import ManualPickEditModal from "@/components/transactions/manual-pick-edit/ManualPickEditModal";
 import MovePickModal from "@/components/transactions/move-pick-edit/MovePickModal";
@@ -55,13 +55,15 @@ const TransactionModalSwitch = ({
     return <ApplyCompensationModal isOpen={true} onClose={onClose} />;
   }
   if (type === TRANSACTION_MENU_OPTIONS_VALUE.ACADEMY_BID_MATCH) {
-    return <></>;
+    return <BidMatchModal isOpen={true} onClose={onClose} bidType="academy" />;
   }
   if (type === TRANSACTION_MENU_OPTIONS_VALUE.FATHER_SON_BID_MATCH) {
-    return <FatherSonBidMatchModal isOpen={true} onClose={onClose} />;
+    return (
+      <BidMatchModal isOpen={true} onClose={onClose} bidType="fatherSon" />
+    );
   }
   if (type === TRANSACTION_MENU_OPTIONS_VALUE.NGA_BID_MATCH) {
-    return <></>;
+    return <BidMatchModal isOpen={true} onClose={onClose} bidType="nga" />;
   }
   if (type === TRANSACTION_MENU_OPTIONS_VALUE.DRAFT_NIGHT_SELECTION) {
     return <DraftNightSelectionModal isOpen={true} onClose={onClose} />;

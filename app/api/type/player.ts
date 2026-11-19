@@ -81,6 +81,26 @@ export type PlayerLookupType = {
   teamId: string | null;
 };
 
+export type ProjectPlayer = {
+  id: number;
+  firstName: string;
+  lastName: string;
+  fullName: string;
+  height: string;
+  weight: string;
+  club: string;
+  state: string;
+  position1: string;
+  position2: string;
+  rank: string;
+  tier: string;
+  notes: string;
+  projectId: number;
+  selected: boolean;
+  draftedTeam: number;
+  draftedTeamName: string;
+};
+
 export type DraftPoolPlayer = {
   id: number;
   displayName: string;

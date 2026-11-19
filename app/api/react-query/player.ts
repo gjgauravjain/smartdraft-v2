@@ -5,6 +5,7 @@ import {
   getOrganisationDraftPoolApiUrl,
   getOrganisationPlayerListApiUrl,
   getOrganisationPlayersLookupApiUrl,
+  getPlayer,
 } from "@/lib/api-constant";
 import { useAuth } from "@/store/useStore";
 import { useQuery } from "@tanstack/react-query";
@@ -12,6 +13,7 @@ import {
   transformDraftPool,
   transformPlayerList,
   transformPlayerLookup,
+  transformProjectPlayers,
   transformRankingList,
 } from "../util/player";
 
@@ -27,6 +29,27 @@ export const useGetPlayerList = ({ orgId }: { orgId: string }) => {
       return transformPlayerList(data);
     },
     enabled: !!accessToken && !!orgId,
+  });
+};
+
+export const useGetProjectPlayers = ({
+  projectId,
+  enabled = true,
+}: {
+  projectId: number;
+  enabled?: boolean;
+}) => {
+  const { accessToken } = useAuth();
+
+  return useQuery({
+    queryKey: ["project-players", projectId],
+    queryFn: async () => {
+      const { data } = await apiClient.get(getPlayer(String(projectId)));
+      return transformProjectPlayers(data);
+    },
+    enabled: !!accessToken && !!projectId && enabled,
+    staleTime: 5 * 60 * 1000,
+    retry: 0,
   });
 };
 

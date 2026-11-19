@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactNode, useMemo, useState } from "react";
+import { ReactNode, useEffect, useRef, useState } from "react";
 import { Control, FieldValues, FieldPath } from "react-hook-form";
 import { Search } from "lucide-react";
 import {
@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import RequiredLabel from "./RequiredLabel";
+import { visibleSelectOptions } from "./util";
 
 export interface SelectOption {
   label: string;
@@ -60,7 +61,7 @@ function OptionIcon({ icon }: { icon: string | ReactNode }) {
   );
 }
 
-function OptionContent({ option }: { option: SelectOption }) {
+const OptionContent = ({ option }: { option: SelectOption }) => {
   if (!option.icon) {
     return <span>{option.label}</span>;
   }
@@ -71,9 +72,9 @@ function OptionContent({ option }: { option: SelectOption }) {
       <span>{option.label}</span>
     </span>
   );
-}
+};
 
-export function FormSelectField<T extends FieldValues>({
+export const FormSelectField = <T extends FieldValues>({
   control,
   name,
   label,
@@ -86,80 +87,91 @@ export function FormSelectField<T extends FieldValues>({
   required,
   isSearchable = false,
   searchPlaceholder = "Search...",
-}: FormSelectFieldProps<T>) {
+}: FormSelectFieldProps<T>) => {
   const [search, setSearch] = useState("");
+  const searchInputRef = useRef<HTMLInputElement>(null);
 
-  const filteredOptions = useMemo(() => {
-    if (!isSearchable) return options;
-    const normalized = search.trim().toLowerCase();
-    if (!normalized) return options;
-    return options.filter((opt) =>
-      opt.label.toLowerCase().includes(normalized),
-    );
-  }, [options, search, isSearchable]);
+  useEffect(() => {
+    if (!search) return;
+    searchInputRef.current?.focus();
+  }, [search]);
 
   return (
     <FormField
       control={control}
       name={name}
-      render={({ field }) => (
-        <FormItem className={className}>
-          {label && (
-            <FormLabel className="text-[11.5px] font-bold text-foreground uppercase tracking-wide [&_*]:normal-case [&_*]:tracking-normal">
-              <RequiredLabel showRequired={required}>{label}</RequiredLabel>
-            </FormLabel>
-          )}
+      render={({ field }) => {
+        const selectedValue =
+          typeof field.value === "string" ? field.value : "";
+        const filteredOptions = visibleSelectOptions(
+          options,
+          search,
+          selectedValue,
+          isSearchable,
+        );
 
-          <Select
-            onValueChange={field.onChange}
-            value={field.value || undefined}
-            disabled={disabled}
-            onOpenChange={(open) => {
-              if (!open) setSearch("");
-            }}
-          >
-            <FormControl>
-              <SelectTrigger className="bg-background border-border text-foreground text-[13px] h-9 w-full">
-                <SelectValue placeholder={placeholder} />
-              </SelectTrigger>
-            </FormControl>
-            <SelectContent className="h-auto max-h-72">
-              {isSearchable && (
-                <div className="sticky -top-2.5 z-10 -mx-1 -mt-1 mb-1 bg-popover px-2 pt-2 pb-1.5 border-b border-border">
-                  <div className="relative">
-                    <Search className="pointer-events-none absolute left-2 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted-foreground" />
-                    <Input
-                      value={search}
-                      onChange={(e) => setSearch(e.target.value)}
-                      onKeyDown={(e) => e.stopPropagation()}
-                      placeholder={searchPlaceholder}
-                      className="h-8 pl-7 text-xs"
-                      autoFocus
-                    />
+        return (
+          <FormItem className={className}>
+            {label && (
+              <FormLabel className="text-[11.5px] font-bold text-foreground uppercase tracking-wide **:normal-case **:tracking-normal">
+                <RequiredLabel showRequired={required}>{label}</RequiredLabel>
+              </FormLabel>
+            )}
+
+            <Select
+              onValueChange={field.onChange}
+              value={field.value || undefined}
+              disabled={disabled}
+              onOpenChange={(open) => {
+                if (!open) setSearch("");
+              }}
+            >
+              <FormControl>
+                <SelectTrigger className="bg-background border-border text-foreground text-[13px] h-9 w-full">
+                  <SelectValue placeholder={placeholder} />
+                </SelectTrigger>
+              </FormControl>
+              <SelectContent className="h-auto max-h-72">
+                {isSearchable && (
+                  <div className="sticky -top-2.5 z-10 -mx-1 -mt-1 mb-1 bg-popover px-2 pt-2 pb-1.5 border-b border-border">
+                    <div className="relative">
+                      <Search className="pointer-events-none absolute left-2 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted-foreground" />
+                      <Input
+                        ref={searchInputRef}
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
+                        onKeyDown={(e) => e.stopPropagation()}
+                        onKeyDownCapture={(e) => e.stopPropagation()}
+                        onPointerDown={(e) => e.stopPropagation()}
+                        placeholder={searchPlaceholder}
+                        className="h-8 pl-7 text-xs"
+                        autoFocus
+                      />
+                    </div>
                   </div>
-                </div>
-              )}
-              {filteredOptions.length ? (
-                filteredOptions.map((opt) => (
-                  <SelectItem key={opt.value} value={opt.value}>
-                    <OptionContent option={opt} />
-                  </SelectItem>
-                ))
-              ) : (
-                <div className="px-2 py-4 text-center text-xs text-muted-foreground">
-                  {search ? "No matches found." : emptyMessage}
-                </div>
-              )}
-            </SelectContent>
-          </Select>
-          {description && (
-            <FormDescription className="text-[11px] leading-[1.4]">
-              {description}
-            </FormDescription>
-          )}
-          <FormMessage className="text-xs" />
-        </FormItem>
-      )}
+                )}
+                {filteredOptions.length ? (
+                  filteredOptions.map((opt) => (
+                    <SelectItem key={opt.value} value={opt.value}>
+                      <OptionContent option={opt} />
+                    </SelectItem>
+                  ))
+                ) : (
+                  <div className="px-2 py-4 text-center text-xs text-muted-foreground">
+                    {search ? "No matches found." : emptyMessage}
+                  </div>
+                )}
+              </SelectContent>
+            </Select>
+            {description && (
+              <FormDescription className="text-[11px] leading-[1.4]">
+                {description}
+              </FormDescription>
+            )}
+            <FormMessage className="text-xs" />
+          </FormItem>
+        );
+      }}
     />
   );
-}
+};

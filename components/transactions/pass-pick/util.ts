@@ -2,8 +2,12 @@ import { DraftPicksDataType } from "@/app/api/type/draftpicks";
 import { PassPickPassType } from "@/app/api/type/pass-pick";
 import { RadioOption } from "@/components/common/fields/FormRadioGroup";
 import { SelectOption } from "@/components/common/fields/FormSelectField";
-import { parseRound } from "../father-son/util";
 import { z } from "zod";
+
+const parseRound = (label: string) => {
+  const match = label?.match(/RD(\d+)/i);
+  return match ? Number(match[1]) : null;
+};
 
 export const PASS_PICK_DEFAULT_VALUES = {
   pickId: "",

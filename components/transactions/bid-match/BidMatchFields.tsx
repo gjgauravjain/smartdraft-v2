@@ -14,7 +14,7 @@ export const BidMatchFields = ({
   picksLoading,
 }: BidMatchFieldsProps) => {
   return (
-    <div className="grid gap-3 grid-cols-3">
+    <div className="grid gap-1 md:gap-3 grid-cols-1 md:grid-cols-3">
       <FormSelectField
         control={control}
         name="teamId"
